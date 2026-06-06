@@ -339,17 +339,6 @@ export default function DiagramRenderer({ code, className = '' }) {
     render()
   }, [code])
 
-  if (status === 'rendering') {
-    return (
-      <div className={`flex items-center justify-center min-h-[320px] ${className}`}>
-        <div className="text-center">
-          <RefreshCw className="w-5 h-5 mx-auto mb-3 animate-spin" style={{ color: 'var(--brand)' }} />
-          <p className="text-sm text-gray-400 font-mono">Rendering diagram…</p>
-        </div>
-      </div>
-    )
-  }
-
   if (status === 'error') {
     return (
       <div className={`flex items-center justify-center min-h-[320px] ${className}`}>
@@ -370,16 +359,26 @@ export default function DiagramRenderer({ code, className = '' }) {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className={`
-        mermaid-container w-full overflow-auto
-        flex items-start justify-center
-        p-6 bg-gray-50 rounded-b-xl
-        ${className}
-        ${status === 'done' ? 'animate-fade-in' : 'min-h-[320px]'}
-      `}
-      style={{ maxHeight: '580px', overflowY: 'auto' }}
-    />
+    <div className="w-full">
+      {status === 'rendering' && (
+        <div className={`flex items-center justify-center min-h-[320px] ${className}`}>
+          <div className="text-center">
+            <RefreshCw className="w-5 h-5 mx-auto mb-3 animate-spin" style={{ color: 'var(--brand)' }} />
+            <p className="text-sm text-gray-400 font-mono">Rendering diagram…</p>
+          </div>
+        </div>
+      )}
+      <div
+        ref={containerRef}
+        className={`
+          mermaid-container w-full overflow-auto
+          flex items-start justify-center
+          p-6 bg-gray-50 rounded-b-xl
+          ${className}
+          ${status === 'done' ? 'block animate-fade-in' : 'hidden'}
+        `}
+        style={{ maxHeight: '580px', overflowY: 'auto' }}
+      />
+    </div>
   )
 }
