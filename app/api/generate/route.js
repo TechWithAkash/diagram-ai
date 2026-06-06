@@ -195,11 +195,42 @@ function fixMermaidCode(code) {
   // Remove backtick fences
   fixed = fixed.replace(/^```[a-z]*\n?/gm, '').replace(/^```\s*$/gm, '').trim()
 
+  // Fix missing diagram headers (e.g. sequenceDiagram, erDiagram, stateDiagram-v2)
+  const lower = fixed.toLowerCase()
+  const hasHeader = lower.startsWith('flowchart') ||
+                    lower.startsWith('graph') ||
+                    lower.startsWith('sequencediagram') ||
+                    lower.startsWith('erdiagram') ||
+                    lower.startsWith('statediagram')
+
+  if (!hasHeader) {
+    if (fixed.includes('participant') || fixed.includes('->>')) {
+      fixed = 'sequenceDiagram\n' + fixed
+    } else if (fixed.includes('||--') || fixed.includes('}|--') || fixed.includes('o{')) {
+      fixed = 'erDiagram\n' + fixed
+    } else if (fixed.includes('[*]')) {
+      fixed = 'stateDiagram-v2\n' + fixed
+    } else {
+      fixed = 'flowchart TD\n' + fixed
+    }
+  }
+
   // Fix single-quoted labels → double-quoted
   fixed = fixed.replace(/\['([^']+)'\]/g, '["$1"]')
   fixed = fixed.replace(/\('([^']+)'\)/g, '("$1")')
   fixed = fixed.replace(/\{'([^']+)'\}/g, '{"$1"}')
   fixed = fixed.replace(/\|'([^']+)'\|/g, '|"$1"|')
+
+  // Fix arrows with trailing > on their labels: e.g. A -->|"label"|> B -> A -->|"label"| B
+  fixed = fixed.replace(/(==>|-->|-\.->|->)\s*\|([^|]+)\|\s*>/g, '$1|$2|')
+
+  // Clean unclosed HTML brackets or generic parameters inside double quotes: e.g. ["List<Integer>"] -> ["List[Integer]"]
+  fixed = fixed.replace(/"([^"]+)"/g, (match, content) => {
+    if (content.includes('<') || content.includes('>')) {
+      return `"${content.replace(/</g, '[').replace(/>/g, ']')}"`
+    }
+    return match
+  })
 
   // Fix parentheses inside subgraph label strings — Mermaid can't parse them
   // e.g. subgraph MS_SUB["Mobile Station (MS)"] → subgraph MS_SUB["Mobile Station - MS"]
