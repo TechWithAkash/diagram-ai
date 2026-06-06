@@ -17,6 +17,12 @@ Built with **Next.js 14**, **Groq AI (Llama 3.1/3.3)**, **OpenRouter (as an auto
 
 ---
 
+## 📺 Application Demo
+
+https://github.com/user-attachments/assets/79ef7a57-297c-4fb4-98ea-5a7d0205e09c
+
+---
+
 ## 🌟 Key Features
 
 - ⚡ **Ultra-Fast Generation:** Generates diagrams in under 2 seconds using Groq's high-speed inference engine.
