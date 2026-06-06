@@ -15,6 +15,8 @@ An industry-grade, AI-powered technical diagram generator designed for engineeri
 
 Built with **Next.js 14**, **Groq AI (Llama 3.1/3.3)**, **OpenRouter (as an automatic fallback)**, and **Mermaid.js** for client-side SVG rendering.
 
+🔗 **Live Deployment:** [diagram-ai-gamma.vercel.app](https://diagram-ai-gamma.vercel.app/)
+
 ---
 
 ## 📺 Application Demo
