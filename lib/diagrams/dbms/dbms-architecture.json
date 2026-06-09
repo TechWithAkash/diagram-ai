@@ -1,0 +1,88 @@
+{
+  "id": "dbms-architecture",
+  "type": "block-diagram",
+  "title": "DBMS Engine Architecture",
+  "category": "Database",
+  "aliases": ["dbms architecture", "database architecture", "dbms engine", "database system structure", "dbms server structure"],
+  "examTip": "DBMS architecture is divided into the Query Processor (interprets, compiles, and optimizes DDL/DML queries) and the Storage Manager (acts as the interface to disk storage, handling buffer, transactions, integrity, and files). Main storage contains data files, indices, and data dictionary.",
+  "viewBox": { "width": 800, "height": 600 },
+  "complexity": "Advanced",
+  "subject_category": "Database",
+  "blocks": [
+    {
+      "id": "users",
+      "label": "1. Users & Interfaces",
+      "x": 30, "y": 30, "width": 740, "height": 70,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "children": [
+        { "id": "admin", "label": "Database Admin (DDL)", "x": 50, "y": 55, "width": 180, "height": 35, "color": "#DBEAFE", "borderColor": "#3B82F6" },
+        { "id": "coder", "label": "App Programmers (DML)", "x": 310, "y": 55, "width": 180, "height": 35, "color": "#DBEAFE", "borderColor": "#3B82F6" },
+        { "id": "user-query", "label": "End Users (Queries)", "x": 570, "y": 55, "width": 180, "height": 35, "color": "#DBEAFE", "borderColor": "#3B82F6" }
+      ]
+    },
+    {
+      "id": "query-processor",
+      "label": "2. Query Processor",
+      "x": 30, "y": 130, "width": 740, "height": 170,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "children": [
+        { "id": "ddl-interp", "label": "DDL Interpreter", "x": 50, "y": 165, "width": 140, "height": 45, "color": "#FEF9C3", "borderColor": "#F59E0B" },
+        { "id": "dml-comp", "label": "DML Compiler", "x": 220, "y": 165, "width": 140, "height": 45, "color": "#FEF9C3", "borderColor": "#F59E0B" },
+        { "id": "optimizer", "label": "Query Optimizer", "x": 390, "y": 165, "width": 140, "height": 45, "color": "#FEF9C3", "borderColor": "#F59E0B" },
+        { "id": "eval-engine", "label": "Query Evaluation Engine", "x": 560, "y": 165, "width": 190, "height": 110, "color": "#FDE68A", "borderColor": "#D97706" }
+      ]
+    },
+    {
+      "id": "storage-manager",
+      "label": "3. Storage Manager",
+      "x": 30, "y": 320, "width": 740, "height": 130,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "children": [
+        { "id": "auth-int", "label": "Auth & Integrity Mgr", "x": 50, "y": 355, "width": 150, "height": 70, "color": "#DCFCE7", "borderColor": "#22C55E" },
+        { "id": "tx-mgr", "label": "Transaction Mgr", "x": 230, "y": 355, "width": 150, "height": 70, "color": "#DCFCE7", "borderColor": "#22C55E" },
+        { "id": "file-mgr", "label": "File Manager", "x": 410, "y": 355, "width": 150, "height": 70, "color": "#DCFCE7", "borderColor": "#22C55E" },
+        { "id": "buffer-mgr", "label": "Buffer Manager", "x": 590, "y": 355, "width": 150, "height": 70, "color": "#DCFCE7", "borderColor": "#22C55E" }
+      ]
+    },
+    {
+      "id": "disk-storage",
+      "label": "4. Disk Storage",
+      "x": 30, "y": 470, "width": 740, "height": 100,
+      "color": "#FFF1F2", "borderColor": "#E11D48",
+      "children": [
+        { "id": "data-files", "label": "Data Files", "x": 50, "y": 505, "width": 210, "height": 45, "color": "#FFE4E6", "borderColor": "#F43F5E" },
+        { "id": "data-dict", "label": "Data Dictionary (Metadata)", "x": 290, "y": 505, "width": 220, "height": 45, "color": "#FFE4E6", "borderColor": "#F43F5E" },
+        { "id": "indices", "label": "Indices", "x": 540, "y": 505, "width": 210, "height": 45, "color": "#FFE4E6", "borderColor": "#F43F5E" }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "admin", "to": "ddl-interp", "type": "unidirectional" },
+    { "from": "coder", "to": "dml-comp", "type": "unidirectional" },
+    { "from": "user-query", "to": "optimizer", "type": "unidirectional" },
+    
+    { "from": "dml-comp", "to": "optimizer", "type": "unidirectional" },
+    { "from": "optimizer", "to": "eval-engine", "type": "unidirectional" },
+    
+    { "from": "ddl-interp", "to": "data-dict", "type": "unidirectional" },
+    
+    { "from": "eval-engine", "to": "auth-int", "type": "unidirectional" },
+    { "from": "eval-engine", "to": "buffer-mgr", "type": "bidirectional" },
+    
+    { "from": "buffer-mgr", "to": "data-files", "type": "bidirectional" },
+    { "from": "buffer-mgr", "to": "indices", "type": "bidirectional" }
+  ],
+  "theory": "The architecture of a Database Management System (DBMS) specifies the functional organization of its modules, which are designed to support efficient storage, transaction processing, and query compilation. Based on standard textbooks like Silberschatz/Korth/Sudarshan, the engine is structured into two main components: the Query Processor and the Storage Manager, which run on top of Disk Storage.\n\n1. Users & Interfaces: Different classes of users interact with the database engine differently. Database Administrators (DBAs) use Data Definition Language (DDL) commands. Application Programmers write programs using hosting languages. Casual End Users query the system using Data Manipulation Language (DML) queries.\n\n2. Query Processor: Translates high-level declarative queries into optimized low-level execution instructions. The DDL Interpreter translates DDL schema definitions and stores metadata in the Data Dictionary. The DML Compiler parses, compiles, and translates queries into physical execution plans. The Query Optimizer analyzes multiple alternative execution plans and selects the most cost-efficient plan based on database statistics. The Query Evaluation Engine executes the chosen execution plan and returns the results to the client.\n\n3. Storage Manager: Acts as an interface between physical disk storage and user applications. The Authorization & Integrity Manager ensures security policies and integrity constraints are met. The Transaction Manager guarantees the ACID properties (Atomicity, Consistency, Isolation, Durability) and orchestrates concurrency control and logs. The File Manager allocates blocks on disk and structures file records. The Buffer Manager decides what data blocks from disk should be cached in main memory for speed.\n\n4. Disk Storage: Contains files on persistent drives. The Data Files store user data records. The Data Dictionary (or system catalog) stores metadata regarding table schemas, users, and constraints. Indices provide fast lookup paths for specific records.",
+  "keyPoints": [
+    "Divided into two core processing layers: Query Processor and Storage Manager",
+    "Query Processor handles user compilation (DDL/DML), plan selection (Optimizer), and execution",
+    "Storage Manager coordinates file space, transaction safety (ACID), buffer caching, and security checks",
+    "Disk storage persists the database files, indices, and the central metadata catalog (Data Dictionary)",
+    "The Buffer Manager fetches blocks from disk storage to main memory cache to reduce physical reads"
+  ],
+  "useCases": [
+    "Enterprise relational database engines: PostgreSQL, MySQL, Oracle, Microsoft SQL Server",
+    "High-concurrency e-commerce backends requiring transaction safety and query optimization",
+    "Large-scale analytical database systems where query compilation and cache optimization are critical"
+  ]
+}

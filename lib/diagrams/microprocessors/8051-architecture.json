@@ -1,0 +1,194 @@
+{
+  "id": "8051-architecture",
+  "type": "block-diagram",
+  "title": "Intel 8051 Microcontroller Architecture",
+  "category": "Electronics",
+  "aliases": ["8051", "intel 8051", "8051 microcontroller", "8051 architecture", "8051 block diagram", "mcs-51", "8051 internal architecture", "8051 microcontroller architecture"],
+  "examTip": "8051 is a microCONTROLLER (not just a processor) — it has CPU, RAM (128B), ROM (4KB), 4 I/O ports, 2 timers, UART all on a single chip. Harvard architecture: separate program (ROM) and data (RAM) address spaces.",
+  "viewBox": { "width": 780, "height": 560 },
+  "complexity": "Advanced",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "shell",
+      "label": "Intel 8051 Microcontroller — Single Chip",
+      "x": 20, "y": 20, "width": 740, "height": 440,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED",
+      "children": [
+        {
+          "id": "cpu-block",
+          "label": "CPU (Central Processing Unit)",
+          "x": 40, "y": 58, "width": 320, "height": 190,
+          "color": "#EDE9FE",
+          "borderColor": "#7C3AED",
+          "children": [
+            {
+              "id": "alu8",
+              "label": "8-bit ALU",
+              "x": 55, "y": 90, "width": 130, "height": 50,
+              "color": "#C4B5FD",
+              "borderColor": "#6D28D9",
+              "sublabels": ["ADD SUB AND OR"]
+            },
+            {
+              "id": "acc",
+              "label": "Accumulator (A)",
+              "x": 200, "y": 90, "width": 145, "height": 50,
+              "color": "#DDD6FE",
+              "borderColor": "#7C3AED",
+              "sublabels": ["8-bit, primary reg"]
+            },
+            {
+              "id": "breg",
+              "label": "B Register",
+              "x": 55, "y": 153, "width": 130, "height": 40,
+              "color": "#EDE9FE",
+              "borderColor": "#8B5CF6",
+              "sublabels": ["MUL / DIV ops"]
+            },
+            {
+              "id": "psw",
+              "label": "PSW (Program Status Word)",
+              "x": 200, "y": 153, "width": 145, "height": 40,
+              "color": "#EDE9FE",
+              "borderColor": "#8B5CF6",
+              "sublabels": ["CY AC F0 RS1 RS0 OV P"]
+            },
+            {
+              "id": "sp51",
+              "label": "Stack Pointer (SP)",
+              "x": 55, "y": 205, "width": 130, "height": 30,
+              "color": "#EDE9FE", "borderColor": "#8B5CF6"
+            },
+            {
+              "id": "pc51",
+              "label": "Program Counter (PC)",
+              "x": 200, "y": 205, "width": 145, "height": 30,
+              "color": "#EDE9FE", "borderColor": "#8B5CF6",
+              "sublabels": ["16-bit"]
+            }
+          ]
+        },
+        {
+          "id": "memory",
+          "label": "Memory",
+          "x": 380, "y": 58, "width": 360, "height": 190,
+          "color": "#DCFCE7",
+          "borderColor": "#16A34A",
+          "children": [
+            {
+              "id": "rom4k",
+              "label": "Internal ROM (4 KB)",
+              "x": 395, "y": 90, "width": 155, "height": 50,
+              "color": "#BBF7D0",
+              "borderColor": "#16A34A",
+              "sublabels": ["Program Memory (code)", "Expandable to 64KB external"]
+            },
+            {
+              "id": "ram128",
+              "label": "Internal RAM (128 B)",
+              "x": 565, "y": 90, "width": 155, "height": 50,
+              "color": "#BBF7D0",
+              "borderColor": "#16A34A",
+              "sublabels": ["Data Memory", "SFR: 80H–FFH"]
+            },
+            {
+              "id": "sfr",
+              "label": "SFR — Special Function Registers",
+              "x": 395, "y": 153, "width": 325, "height": 75,
+              "color": "#DCFCE7",
+              "borderColor": "#22C55E",
+              "sublabels": ["P0 P1 P2 P3 (I/O Port Registers)", "TCON TMOD TH0 TL0 TH1 TL1 (Timer Registers)", "SCON SBUF (Serial Port)   IE IP (Interrupt)"]
+            }
+          ]
+        },
+        {
+          "id": "io-ports",
+          "label": "I/O Ports",
+          "x": 40, "y": 268, "width": 220, "height": 160,
+          "color": "#FFF7ED",
+          "borderColor": "#EA580C",
+          "children": [
+            {
+              "id": "p0", "label": "Port 0 (P0)",
+              "x": 55, "y": 295, "width": 90, "height": 35,
+              "color": "#FED7AA", "borderColor": "#F97316",
+              "sublabels": ["AD0-AD7 / I/O"]
+            },
+            {
+              "id": "p1", "label": "Port 1 (P1)",
+              "x": 155, "y": 295, "width": 90, "height": 35,
+              "color": "#FED7AA", "borderColor": "#F97316",
+              "sublabels": ["8-bit I/O"]
+            },
+            {
+              "id": "p2", "label": "Port 2 (P2)",
+              "x": 55, "y": 342, "width": 90, "height": 35,
+              "color": "#FED7AA", "borderColor": "#F97316",
+              "sublabels": ["A8-A15"]
+            },
+            {
+              "id": "p3", "label": "Port 3 (P3)",
+              "x": 155, "y": 342, "width": 90, "height": 35,
+              "color": "#FED7AA", "borderColor": "#F97316",
+              "sublabels": ["Alt functions"]
+            }
+          ]
+        },
+        {
+          "id": "timers",
+          "label": "Timers / Counters",
+          "x": 275, "y": 268, "width": 215, "height": 75,
+          "color": "#ECFDF5",
+          "borderColor": "#10B981",
+          "children": [
+            { "id": "t0", "label": "Timer 0 (T0)", "x": 285, "y": 295, "width": 90, "height": 35, "color": "#A7F3D0", "borderColor": "#10B981" },
+            { "id": "t1", "label": "Timer 1 (T1)", "x": 385, "y": 295, "width": 90, "height": 35, "color": "#A7F3D0", "borderColor": "#10B981" }
+          ]
+        },
+        {
+          "id": "serial",
+          "label": "Serial Port (UART)",
+          "x": 275, "y": 355, "width": 215, "height": 65,
+          "color": "#ECFDF5",
+          "borderColor": "#10B981",
+          "sublabels": ["Full-duplex serial comm", "TXD (P3.1)  RXD (P3.0)"]
+        },
+        {
+          "id": "interrupt51",
+          "label": "Interrupt System",
+          "x": 505, "y": 268, "width": 235, "height": 75,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706",
+          "sublabels": ["INT0 INT1 (External)", "T0 T1 (Timer)  Serial (5 sources)", "Priority: IE register"]
+        },
+        {
+          "id": "osc",
+          "label": "Oscillator & Clock",
+          "x": 505, "y": 355, "width": 235, "height": 65,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706",
+          "sublabels": ["Crystal: XTAL1, XTAL2", "Typical: 11.0592 MHz / 12 MHz"]
+        }
+      ]
+    }
+  ],
+  "buses": [
+    { "id": "abus51", "label": "Address Bus — 16-bit (A0–A15) via P0 + P2 → 64 KB External Memory", "orientation": "horizontal", "y": 492, "color": "#16A34A" },
+    { "id": "dbus51", "label": "Data Bus — 8-bit (D0–D7) via P0 (multiplexed with lower address)", "orientation": "horizontal", "y": 520, "color": "#7C3AED" }
+  ],
+  "theory": "The Intel 8051 is an 8-bit microcontroller introduced in 1980 as part of the MCS-51 family. Unlike a microprocessor (which needs external support chips), the 8051 integrates CPU, memory, I/O ports, timers, and serial communication on a single chip — making it a true microcontroller ideal for embedded applications.\n\nCPU: The 8-bit CPU includes an ALU, Accumulator (A — primary register), B Register (used in multiplication and division), Program Status Word (PSW — 8 flags: CY, AC, F0, RS1, RS0, OV, -, P), 8-bit Stack Pointer, and 16-bit Program Counter.\n\nMemory — Harvard Architecture: The 8051 uses Harvard architecture with separate address spaces for program and data memory. Internal ROM (4 KB) stores the program code and is expandable to 64 KB using external ROM. Internal RAM (128 bytes at 00H–7FH) stores variables and the stack. Special Function Registers (SFRs at 80H–FFH) control all on-chip peripherals.\n\nI/O Ports: Four 8-bit bidirectional I/O ports (P0, P1, P2, P3). P0 is also the multiplexed address/data bus (AD0–AD7). P2 provides the upper address byte (A8–A15). P3 has alternate functions: serial RXD/TXD, external interrupts INT0/INT1, and timer inputs T0/T1.\n\nTimers: Two 16-bit Timer/Counter modules (Timer 0 and Timer 1) programmable in 4 modes (Mode 0: 13-bit, Mode 1: 16-bit, Mode 2: 8-bit auto-reload, Mode 3: split timer).\n\nSerial Port: Full-duplex UART with programmable baud rate (using Timer 1). Supports 4 serial communication modes.\n\nInterrupt System: 5 interrupt sources with two priority levels: INT0, INT1 (external), Timer 0, Timer 1 (internal), and Serial Port.",
+  "keyPoints": [
+    "8051 is a microcontroller: CPU + 4KB ROM + 128B RAM + 4 I/O Ports + 2 Timers + UART on one chip",
+    "Harvard architecture: separate program (ROM) and data (RAM) address spaces",
+    "Four I/O ports: P0 (also AD0-AD7), P1 (pure I/O), P2 (also A8-A15), P3 (alternate functions)",
+    "Two 16-bit Timer/Counter modules; full-duplex serial UART port",
+    "5 interrupt sources: INT0, INT1 (external), Timer0, Timer1, Serial — with 2 priority levels"
+  ],
+  "useCases": [
+    "Home appliances: microwave ovens, washing machines, air conditioners",
+    "Industrial automation: motor control, sensor data acquisition, relay control",
+    "Robotics, toy controllers, traffic light systems, and vending machines"
+  ]
+}

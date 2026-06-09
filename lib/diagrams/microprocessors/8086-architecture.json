@@ -1,0 +1,123 @@
+{
+  "id": "8086-architecture",
+  "type": "8086-custom",
+  "title": "Intel 8086 Microprocessor Architecture",
+  "category": "Electronics",
+  "aliases": ["8086", "intel 8086", "8086 microprocessor", "8086 architecture", "8086 block diagram", "8086 internal architecture", "8086 microprocessor architecture", "8086 internal", "8086 arch"],
+  "examTip": "BIU handles bus operations (fetch + address generation). EU handles execution. They work in parallel — BIU pre-fetches next instruction while EU executes current one. 20-bit address = Segment × 16 + Offset → 1MB memory space.",
+  "viewBox": { "width": 900, "height": 500 },
+  "complexity": "Advanced",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "biu",
+      "label": "Bus Interface Unit (BIU)",
+      "x": 30, "y": 40, "width": 340, "height": 400,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "children": [
+        {
+          "id": "seg-regs",
+          "label": "Segment Registers",
+          "x": 50, "y": 85, "width": 290, "height": 95,
+          "color": "#DBEAFE",
+          "borderColor": "#3B82F6",
+          "sublabels": ["CS — Code Segment", "DS — Data Segment", "SS — Stack Segment", "ES — Extra Segment"]
+        },
+        {
+          "id": "ip",
+          "label": "Instruction Pointer (IP)",
+          "x": 50, "y": 195, "width": 290, "height": 45,
+          "color": "#DBEAFE",
+          "borderColor": "#3B82F6",
+          "sublabels": ["16-bit offset into Code Segment"]
+        },
+        {
+          "id": "adder",
+          "label": "16-bit Adder",
+          "x": 50, "y": 255, "width": 290, "height": 45,
+          "color": "#BFDBFE",
+          "borderColor": "#2563EB",
+          "sublabels": ["Seg × 16 + Offset = 20-bit Physical Addr"]
+        },
+        {
+          "id": "queue",
+          "label": "6-Byte Instruction Queue",
+          "x": 50, "y": 315, "width": 290, "height": 60,
+          "color": "#DBEAFE",
+          "borderColor": "#3B82F6",
+          "sublabels": ["Pre-fetched instruction bytes (FIFO)", "Refilled whenever bus is free"]
+        }
+      ]
+    },
+    {
+      "id": "eu",
+      "label": "Execution Unit (EU)",
+      "x": 410, "y": 40, "width": 340, "height": 400,
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "children": [
+        {
+          "id": "gen-regs",
+          "label": "General Purpose Registers",
+          "x": 430, "y": 85, "width": 300, "height": 110,
+          "color": "#FED7AA",
+          "borderColor": "#F97316",
+          "sublabels": ["AX (Accumulator)   BX (Base)", "CX (Counter)       DX (Data)", "SP (Stack Pointer) BP (Base Pointer)", "SI (Source Index)  DI (Dest Index)"]
+        },
+        {
+          "id": "alu",
+          "label": "Arithmetic & Logic Unit (ALU)",
+          "x": 430, "y": 210, "width": 300, "height": 55,
+          "color": "#FDBA74",
+          "borderColor": "#EA580C",
+          "sublabels": ["16-bit operations: ADD SUB MUL DIV AND OR XOR"]
+        },
+        {
+          "id": "flags",
+          "label": "Flag Register (16-bit)",
+          "x": 430, "y": 280, "width": 300, "height": 50,
+          "color": "#FED7AA",
+          "borderColor": "#F97316",
+          "sublabels": ["CF  PF  AF  ZF  SF  TF  IF  DF  OF"]
+        },
+        {
+          "id": "temp-regs",
+          "label": "Temporary Registers",
+          "x": 430, "y": 345, "width": 300, "height": 40,
+          "color": "#FFF7ED",
+          "borderColor": "#FB923C",
+          "sublabels": ["Internal use only (not programmer-accessible)"]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "queue",
+      "to": "eu",
+      "label": "16-bit Internal Bus",
+      "type": "bidirectional",
+      "style": "dashed",
+      "x1": 340, "y1": 345, "x2": 410, "y2": 345
+    }
+  ],
+  "buses": [
+    { "id": "addr-bus", "label": "20-bit Address Bus  (A0 – A19)  →  1 MB Memory Space", "orientation": "horizontal", "y": 478, "color": "#16A34A" },
+    { "id": "data-bus", "label": "16-bit Data Bus  (D0 – D15)", "orientation": "horizontal", "y": 506, "color": "#DC2626" },
+    { "id": "ctrl-bus", "label": "Control Bus  (RD, WR, IO/M, ALE, READY, RESET, INTR, INTA, CLK)", "orientation": "horizontal", "y": 534, "color": "#7C3AED" }
+  ],
+  "theory": "The Intel 8086 is a 16-bit microprocessor introduced in 1978, the foundation of the modern x86 architecture. It operates at 5–10 MHz and features a 20-bit address bus providing 1 MB of addressable memory (2²⁰ = 1,048,576 bytes). Internally, the 8086 architecture is divided into two independent, pipelined functional units: the Bus Interface Unit (BIU) and the Execution Unit (EU).\n\nBus Interface Unit (BIU): The BIU manages all communication between the processor and external memory/I/O. It contains four 16-bit segment registers — Code Segment (CS), Data Segment (DS), Stack Segment (SS), and Extra Segment (ES) — which divide the 1 MB address space into 64 KB segments. Physical addresses are computed by the 16-bit Adder using the formula: Physical Address = (Segment Register × 16) + Offset. The Instruction Pointer (IP) holds the 16-bit offset of the next instruction within the code segment. The 6-byte Instruction Queue (FIFO) pre-fetches up to 6 bytes of instruction code from memory whenever the external bus is idle, enabling instruction pipelining.\n\nExecution Unit (EU): The EU decodes and executes instructions fed by the BIU queue without accessing the bus directly. It contains eight 16-bit General Purpose Registers: AX (Accumulator — used in I/O, multiply, divide), BX (Base — used in memory addressing), CX (Counter — used in loops and shifts), DX (Data — used in I/O and 32-bit operations), and four pointer/index registers: SP (Stack Pointer), BP (Base Pointer), SI (Source Index), DI (Destination Index). The AX, BX, CX, DX registers can each be accessed as two independent 8-bit halves (AH/AL, BH/BL, CH/CL, DH/DL). The 16-bit ALU performs all arithmetic and logic operations. The Flag Register contains 9 active flags: CF (Carry), PF (Parity), AF (Auxiliary Carry), ZF (Zero), SF (Sign), TF (Trap), IF (Interrupt Enable), DF (Direction), OF (Overflow).\n\nPipelining: While the EU executes the current instruction, the BIU simultaneously pre-fetches the next instruction bytes into the queue, achieving instruction-level parallelism and improving throughput significantly.",
+  "keyPoints": [
+    "8086 is a 16-bit processor with 20-bit address bus → addresses 1 MB (2^20) of memory",
+    "Physical Address = Segment Register × 16 + Offset (the 16-bit Adder in BIU computes this)",
+    "6-byte instruction queue in BIU enables pipelining — BIU fetches while EU executes",
+    "General Purpose Registers: AX, BX, CX, DX (each split into 8-bit H and L halves), SP, BP, SI, DI",
+    "9 active flags in flag register: CF, PF, AF, ZF, SF, TF, IF, DF, OF"
+  ],
+  "useCases": [
+    "Foundation of x86 PC architecture — all modern Intel/AMD processors are backward compatible",
+    "Embedded systems and industrial controllers using legacy x86 code",
+    "Educational reference for understanding segmented memory, pipelining, and register-based architecture"
+  ]
+}

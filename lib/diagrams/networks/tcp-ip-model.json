@@ -1,0 +1,30 @@
+{
+  "id": "tcp-ip-model",
+  "type": "layered-stack",
+  "title": "TCP/IP Model — 4 Layers",
+  "category": "Networks",
+  "aliases": ["tcp/ip", "tcp ip model", "internet model", "tcp/ip layers", "4 layer model", "internet protocol suite", "dod model", "arpanet model"],
+  "examTip": "TCP/IP has 4 layers (vs OSI's 7). Application = OSI layers 5+6+7. Transport = OSI layer 4. Internet = OSI layer 3. Network Access = OSI layers 1+2. TCP/IP is the actual protocol used on the Internet; OSI is the theoretical reference model.",
+  "viewBox": { "width": 780, "height": 420 },
+  "complexity": "Beginner",
+  "subject_category": "Networks",
+  "layers": [
+    { "number": 4, "name": "Application Layer",     "protocols": "HTTP  HTTPS  FTP  SMTP  DNS  SSH  Telnet  SNMP  POP3  IMAP", "color": "#DC2626", "pdu": "Data",    "osiEquivalent": "OSI Layers 5, 6, 7" },
+    { "number": 3, "name": "Transport Layer",        "protocols": "TCP (reliable, connection-oriented)   UDP (fast, connectionless)", "color": "#16A34A", "pdu": "Segment", "osiEquivalent": "OSI Layer 4" },
+    { "number": 2, "name": "Internet Layer",         "protocols": "IP (v4/v6)  ICMP  ARP  IGMP  OSPF  BGP", "color": "#0284C7", "pdu": "Packet",  "osiEquivalent": "OSI Layer 3" },
+    { "number": 1, "name": "Network Access Layer",   "protocols": "Ethernet (802.3)  Wi-Fi (802.11)  PPP  Frame Relay  ATM  MAC", "color": "#7C3AED", "pdu": "Frame / Bits", "osiEquivalent": "OSI Layers 1, 2" }
+  ],
+  "theory": "The TCP/IP Model (also called the Internet Model or DoD Model) is the practical network model developed by DARPA in the 1970s that forms the foundation of the modern Internet. Unlike the OSI model's 7 layers, TCP/IP uses 4 layers, and it defines the protocols actually implemented on computers worldwide.\n\nLayer 4 — Application Layer: Combines the functions of OSI layers 5 (Session), 6 (Presentation), and 7 (Application). Provides application-level protocols for end-user services: HTTP/HTTPS for web browsing, FTP for file transfer, SMTP/POP3/IMAP for email, DNS for domain resolution, SSH for secure remote access.\n\nLayer 3 — Transport Layer: Equivalent to OSI Layer 4. Provides end-to-end communication between host processes identified by port numbers. TCP (Transmission Control Protocol) provides reliable, ordered, error-checked delivery via the three-way handshake, flow control (sliding window), and congestion control. UDP (User Datagram Protocol) provides fast, connectionless, unreliable delivery for applications like DNS, video streaming, and VoIP.\n\nLayer 2 — Internet Layer: Equivalent to OSI Layer 3. Handles logical addressing and routing. IP (Internet Protocol) assigns unique IP addresses to hosts and routes packets across networks. IPv4 uses 32-bit addresses (4.3 billion); IPv6 uses 128-bit addresses. ICMP handles error messages (used by ping, traceroute). ARP maps IP addresses to MAC addresses.\n\nLayer 1 — Network Access Layer: Combines OSI Layers 1 (Physical) and 2 (Data Link). Handles transmission of data frames over the physical network medium — Ethernet, Wi-Fi, fiber optic cable. Handles MAC addressing, framing, and error detection at the hardware level.\n\nKey Difference from OSI: TCP/IP is descriptive (describes existing protocols); OSI is prescriptive (a theoretical standard). TCP/IP is the model that actually runs the Internet.",
+  "keyPoints": [
+    "TCP/IP has 4 layers: Application, Transport, Internet, Network Access (vs OSI's 7 layers)",
+    "Application layer combines OSI Session + Presentation + Application layers",
+    "TCP = reliable, connection-oriented (handshake); UDP = fast, connectionless (no handshake)",
+    "Internet layer (IP) provides logical addressing; Network Access provides physical addressing (MAC)",
+    "TCP/IP is the actual protocol suite used on the Internet; OSI is the theoretical reference model"
+  ],
+  "useCases": [
+    "The entire Internet — all web browsing, email, streaming, and cloud services run on TCP/IP",
+    "Corporate LANs and WANs — TCP/IP is the universal standard for modern networking",
+    "IoT devices — embedded devices use TCP/IP (especially UDP) for lightweight communication"
+  ]
+}

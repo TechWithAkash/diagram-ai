@@ -1,0 +1,68 @@
+{
+  "id": "agile-scrum",
+  "type": "sequential-flow",
+  "title": "Agile Scrum Methodology",
+  "category": "Software",
+  "aliases": ["agile", "scrum", "agile scrum", "agile methodology", "scrum framework", "agile development", "sprint", "agile sdlc"],
+  "examTip": "Scrum roles: Product Owner (defines backlog), Scrum Master (facilitates, removes impediments), Development Team (self-organizing, 5-9 members). Sprint = fixed 2-4 week iteration. Ceremonies: Sprint Planning → Daily Standup → Sprint Review → Sprint Retrospective.",
+  "viewBox": { "width": 700, "height": 680 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "phases": [
+    {
+      "id": "vision",
+      "name": "Product Vision & Roadmap",
+      "description": "Product Owner defines vision; stakeholders prioritize features for long-term roadmap",
+      "color": "#EDE9FE", "borderColor": "#7C3AED", "textColor": "#4C1D95"
+    },
+    {
+      "id": "backlog",
+      "name": "Product Backlog",
+      "description": "Prioritized list of all features (User Stories) in the form: As a [user], I want [feature] so that [benefit]",
+      "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F"
+    },
+    {
+      "id": "sprintplan",
+      "name": "Sprint Planning",
+      "description": "Team selects top items from Product Backlog for the Sprint Backlog; estimates effort (story points)",
+      "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B"
+    },
+    {
+      "id": "sprint",
+      "name": "SPRINT (2–4 Weeks)",
+      "description": "Daily Standup (15 min): What did I do? What will I do? Any blockers? Continuous development and testing.",
+      "color": "#FDE68A", "borderColor": "#D97706", "textColor": "#713F12"
+    },
+    {
+      "id": "review",
+      "name": "Sprint Review (Demo)",
+      "description": "Team demonstrates completed, shippable product increment to stakeholders and Product Owner",
+      "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337"
+    },
+    {
+      "id": "retro",
+      "name": "Sprint Retrospective",
+      "description": "Team reflects: What went well? What to improve? Action items for next Sprint. Process improvement.",
+      "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87"
+    },
+    {
+      "id": "release",
+      "name": "Potentially Shippable Product",
+      "description": "Each Sprint produces a working, tested product increment. Repeat from Sprint Planning.",
+      "color": "#DCFCE7", "borderColor": "#16A34A", "textColor": "#14532D"
+    }
+  ],
+  "theory": "Agile Scrum is the most widely adopted agile software development framework, created by Ken Schwaber and Jeff Sutherland. It divides development into short, fixed-length iterations called Sprints (typically 2–4 weeks), each producing a potentially shippable product increment.\n\nScrum Roles: Product Owner — owns the Product Backlog, prioritizes features based on business value, single point of contact for stakeholders. Scrum Master — a servant leader who facilitates Scrum ceremonies, removes impediments, coaches the team on Scrum practices. Development Team — self-organizing, cross-functional team of 5–9 members who commit to delivering sprint goals.\n\nScrum Artifacts: Product Backlog — ordered list of all features, bug fixes, and improvements expressed as User Stories. Sprint Backlog — subset of Product Backlog items selected for the current sprint, plus the sprint plan. Product Increment — sum of all completed Product Backlog items at end of sprint.\n\nScrum Ceremonies: Sprint Planning (beginning of sprint) — team selects backlog items and creates sprint goal. Daily Scrum/Standup (every day, 15 minutes) — each member answers: What did I do yesterday? What will I do today? Are there any blockers? Sprint Review (end of sprint) — team demos working software to stakeholders. Sprint Retrospective — team reflects on process and identifies improvements.\n\nDefinition of Done (DoD): Shared understanding of what criteria must be met for a backlog item to be considered 'done' — e.g., coded + unit tested + code reviewed + integrated + documented.\n\nAdvantages: Rapid delivery of working software, high adaptability to change, continuous stakeholder feedback, improved team collaboration and morale. Disadvantages: Difficult to predict final cost/schedule, requires experienced and collaborative teams, scope creep risk if backlog management is poor.",
+  "keyPoints": [
+    "Three roles: Product Owner (what to build), Scrum Master (facilitator), Development Team (how to build)",
+    "Sprint = fixed 2-4 week iteration producing potentially shippable product increment",
+    "Four ceremonies: Sprint Planning → Daily Standup → Sprint Review → Sprint Retrospective",
+    "Product Backlog = prioritized wish list; Sprint Backlog = committed items for current sprint",
+    "Key advantage over Waterfall: delivers working software in weeks, adapts to changing requirements"
+  ],
+  "useCases": [
+    "Software product companies: Spotify, Atlassian, Google use Scrum for product development",
+    "Mobile app development — rapid iteration based on user feedback from app store reviews",
+    "E-commerce platforms — continuous feature releases and A/B testing in 2-week sprints"
+  ]
+}

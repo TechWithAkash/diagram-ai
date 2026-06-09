@@ -1,0 +1,80 @@
+{
+  "id": "waterfall-model",
+  "type": "sequential-flow",
+  "title": "Waterfall Model — Software Development Life Cycle",
+  "category": "Software",
+  "aliases": ["waterfall", "waterfall model", "waterfall sdlc", "waterfall methodology", "waterfall software development", "classic waterfall", "linear sequential model", "royce model"],
+  "examTip": "Waterfall is linear-sequential — each phase must complete before next begins. No going back (no iteration). Customer sees product only at the end. Best for projects with well-defined, stable requirements.",
+  "viewBox": { "width": 680, "height": 620 },
+  "complexity": "Beginner",
+  "subject_category": "Software",
+  "phases": [
+    {
+      "id": "req",
+      "name": "1. Requirements Analysis",
+      "description": "Gather all system requirements from stakeholders → produce SRS document",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["Software Requirements Specification (SRS)", "Feasibility Report"]
+    },
+    {
+      "id": "design",
+      "name": "2. System Design",
+      "description": "Translate requirements into system architecture: HLD + LLD",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["High-Level Design (HLD)", "Low-Level Design (LLD)", "DB Schema"]
+    },
+    {
+      "id": "impl",
+      "name": "3. Implementation (Coding)",
+      "description": "Developers write source code based on LLD; unit testing done per module",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "outputs": ["Source Code", "Unit Test Results"]
+    },
+    {
+      "id": "test",
+      "name": "4. Testing & Integration",
+      "description": "All modules integrated and tested: integration, system, UAT, performance",
+      "color": "#FFE4E6",
+      "borderColor": "#E11D48",
+      "textColor": "#881337",
+      "outputs": ["Test Reports", "Bug Reports", "UAT Sign-off"]
+    },
+    {
+      "id": "deploy",
+      "name": "5. Deployment",
+      "description": "Tested software released to production; user training, installation, configuration",
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87",
+      "outputs": ["Production Release", "User Manuals", "Training Material"]
+    },
+    {
+      "id": "maintain",
+      "name": "6. Maintenance",
+      "description": "Post-deployment: bug fixes, patches, updates, performance improvements",
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "textColor": "#7C2D12",
+      "outputs": ["Patch Releases", "Updated Documentation"]
+    }
+  ],
+  "theory": "The Waterfall Model is the oldest and most structured Software Development Life Cycle (SDLC) model, first formalized by Dr. Winston W. Royce in 1970. It follows a strictly linear-sequential approach where each phase must be fully completed and formally reviewed before the next phase begins — like water cascading down a waterfall, it flows only in one direction.\n\nPhase 1 — Requirements Analysis: All functional and non-functional requirements are gathered from stakeholders through interviews, workshops, and document analysis. The output is a Software Requirements Specification (SRS) document — the complete baseline that all subsequent phases depend on.\n\nPhase 2 — System Design: Requirements are transformed into a system architecture. High-Level Design (HLD) defines the overall system structure, modules, and their interactions. Low-Level Design (LLD) specifies detailed module-level design, algorithms, data structures, and database schemas.\n\nPhase 3 — Implementation: Developers write source code in the chosen programming language, strictly following the LLD. Each module is independently unit-tested. This is the longest phase.\n\nPhase 4 — Testing & Integration: All developed modules are integrated and tested as a complete system. Testing types include integration testing (module interactions), system testing (end-to-end), user acceptance testing (UAT), and performance testing. Bugs are reported and fixed.\n\nPhase 5 — Deployment: The approved software is deployed to the production environment, which includes installation, configuration, data migration, and user training.\n\nPhase 6 — Maintenance: Ongoing support including corrective maintenance (bug fixes), adaptive maintenance (OS/hardware changes), perfective maintenance (feature enhancements), and preventive maintenance (refactoring).\n\nAdvantages: Simple and easy to understand; clearly defined phases; works well for small, well-defined projects; easy to manage due to rigidity.\nDisadvantages: Inflexible to changing requirements; customer sees product only at end; high risk for long projects; not suitable for complex or Object-Oriented projects; testing occurs very late.",
+  "keyPoints": [
+    "Linear-sequential model: each phase completes before next begins — no iteration or going back",
+    "6 phases: Requirements → Design → Implementation → Testing → Deployment → Maintenance",
+    "Output of each phase is input to next: SRS → HLD/LLD → Code → Test Report → Production",
+    "Disadvantage: Customer sees final product only at the end; late testing increases risk and cost",
+    "Best suited for: short projects with fixed, well-understood, stable requirements"
+  ],
+  "useCases": [
+    "Government and defense projects with strict contractual requirements and fixed scope",
+    "Small embedded system projects where requirements are fully known upfront",
+    "Legacy system maintenance where changes are minimal and well-defined"
+  ]
+}

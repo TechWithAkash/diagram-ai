@@ -1,0 +1,86 @@
+{
+  "id": "von-neumann",
+  "type": "block-diagram",
+  "title": "Von Neumann Computer Architecture",
+  "category": "Electronics",
+  "aliases": ["von neumann", "von neumann architecture", "von neumann machine", "stored program computer", "classical computer architecture", "basic computer architecture", "ias machine"],
+  "examTip": "Von Neumann architecture has 5 components: CPU (CU + ALU), Memory Unit, Input Unit, Output Unit, connected by a single shared Bus. KEY concept: stored program — instructions and data share the same memory and bus (von Neumann bottleneck). Harvard architecture separates program and data memory.",
+  "viewBox": { "width": 780, "height": 520 },
+  "complexity": "Beginner",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "input",
+      "label": "Input Unit",
+      "x": 20, "y": 60, "width": 140, "height": 300,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "sublabels": ["Keyboard", "Mouse", "Scanner", "Microphone", "Camera", "Network"]
+    },
+    {
+      "id": "cpu",
+      "label": "Central Processing Unit (CPU)",
+      "x": 200, "y": 30, "width": 340, "height": 360,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "children": [
+        {
+          "id": "cu",
+          "label": "Control Unit (CU)",
+          "x": 215, "y": 65, "width": 145, "height": 130,
+          "color": "#FED7AA", "borderColor": "#F97316",
+          "sublabels": ["Fetch", "Decode", "Execute", "Control signals", "MAR, MDR, PC, IR"]
+        },
+        {
+          "id": "alu2",
+          "label": "Arithmetic & Logic Unit (ALU)",
+          "x": 370, "y": 65, "width": 155, "height": 130,
+          "color": "#FED7AA", "borderColor": "#F97316",
+          "sublabels": ["ADD SUB MUL DIV", "AND OR NOT XOR", "Compare, Shift"]
+        },
+        {
+          "id": "regs2",
+          "label": "CPU Registers",
+          "x": 215, "y": 215, "width": 310, "height": 75,
+          "color": "#FDBA74", "borderColor": "#EA580C",
+          "sublabels": ["MAR (Memory Address)  MDR (Memory Data)", "PC (Program Counter)  IR (Instruction Register)", "Accumulator  General Purpose Registers"]
+        },
+        {
+          "id": "flags2",
+          "label": "Status / Flag Register",
+          "x": 215, "y": 305, "width": 310, "height": 40,
+          "color": "#FFF7ED", "borderColor": "#FB923C",
+          "sublabels": ["Zero  Carry  Sign  Overflow  Parity"]
+        }
+      ]
+    },
+    {
+      "id": "memory2",
+      "label": "Memory Unit",
+      "x": 200, "y": 415, "width": 340, "height": 75,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["RAM: Instructions + Data (stored together)", "Addressable cells: each has unique address"]
+    },
+    {
+      "id": "output",
+      "label": "Output Unit",
+      "x": 575, "y": 60, "width": 145, "height": 300,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": ["Monitor", "Printer", "Speakers", "Network", "Projector", "Storage"]
+    }
+  ],
+  "buses": [
+    { "id": "sysbus", "label": "System Bus: Address Bus + Data Bus + Control Bus  (Von Neumann Bottleneck: shared by instructions and data)", "orientation": "horizontal", "y": 475, "color": "#DC2626" }
+  ],
+  "theory": "The Von Neumann Architecture, proposed by mathematician John von Neumann in 1945 based on the EDVAC computer design, is the foundational design used by virtually all modern general-purpose computers. Its defining characteristic is the stored-program concept — both program instructions and data are stored together in the same memory, connected to the CPU via a single shared bus.\n\nFive Core Components:\n\n1. CPU (Central Processing Unit): Consists of the Control Unit (CU) — which fetches instructions from memory (using MAR and MDR registers), decodes them, and generates control signals to coordinate all components — and the ALU (Arithmetic & Logic Unit) which executes arithmetic and logical operations. Registers include PC (Program Counter pointing to next instruction), IR (Instruction Register holding current opcode), MAR (Memory Address Register), MDR (Memory Data Register), and the Accumulator.\n\n2. Memory Unit: A single unified memory that stores both program instructions and data values. Memory is organized as addressable cells (bytes or words). This shared memory is accessed via the Address Bus (specifies location) and Data Bus (carries data).\n\n3. Input Unit: Devices that transfer data into the computer (keyboard, mouse, scanner, network interface).\n\n4. Output Unit: Devices that present processed results to the user (monitor, printer, speakers).\n\n5. Buses: Three buses connect all components — Address Bus (unidirectional, CPU→Memory), Data Bus (bidirectional), Control Bus (read/write/interrupt signals).\n\nVon Neumann Bottleneck: Since instructions and data share the same bus and memory, the CPU cannot simultaneously fetch an instruction and read/write data — limiting performance. Harvard Architecture solves this by using separate memories and buses for instructions and data (used in 8051 microcontrollers and modern cache designs).",
+  "keyPoints": [
+    "Stored-program concept: instructions and data stored together in same memory — shared bus",
+    "5 components: Input → CPU (CU + ALU + Registers) + Memory → Output, connected by system bus",
+    "Von Neumann Bottleneck: shared bus for data and instructions limits CPU performance",
+    "Harvard Architecture difference: separate memories/buses for program code and data (8051, DSPs)",
+    "Instruction cycle: Fetch (PC→MAR→MDR→IR) → Decode (CU interprets IR) → Execute (ALU operates)"
+  ],
+  "useCases": [
+    "All general-purpose computers: desktops, laptops, servers — all use Von Neumann architecture",
+    "Smartphones and tablets — ARM processors follow Von Neumann with Harvard-style cache hierarchy",
+    "Historical foundation: ENIAC, EDVAC, EDSAC — all early computers based on this design"
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "id": "8257-dma",
+  "type": "block-diagram",
+  "title": "Intel 8257 DMA Controller",
+  "category": "Electronics",
+  "aliases": ["8257", "intel 8257", "8257 dma", "8257 block diagram", "dma controller", "8257 dmac"],
+  "examTip": "8257 is a 4-channel DMA controller. Each channel has a 16-bit Address Register and a 16-bit Terminal Count (TC) Register (14 bits for count, 2 bits for read/write/verify code). Priority Resolver executes Fixed (CH0 > CH1 > CH2 > CH3) or Rotating priority. Signals: HRQ (Hold Request to CPU), HLDA (Hold Acknowledge from CPU), AEN (Address Enable).",
+  "viewBox": { "width": 850, "height": 500 },
+  "complexity": "Advanced",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "data-buf",
+      "label": "Data Bus Buffer",
+      "x": 30, "y": 40, "width": 150, "height": 80,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["8-bit bidirectional buffer"]
+    },
+    {
+      "id": "rw-logic",
+      "label": "Read/Write Logic",
+      "x": 30, "y": 150, "width": 150, "height": 110,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Inputs: CS̄, IOR̄, IOW̄, A0-A3", "Reads/writes internal registers"]
+    },
+    {
+      "id": "ctrl-logic",
+      "label": "Control Logic",
+      "x": 30, "y": 280, "width": 150, "height": 150,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["HRQ (Hold Req to CPU)", "HLDA (Hold Ack from CPU)", "AEN (Address Enable)", "ADSTB, MEMR̄, MEMW̄, TC"]
+    },
+    {
+      "id": "priority",
+      "label": "Priority Resolver",
+      "x": 280, "y": 40, "width": 180, "height": 90,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Resolves DREQ0 – DREQ3", "Fixed or Rotating priority"]
+    },
+    {
+      "id": "mode-status",
+      "label": "Mode Set & Status Register",
+      "x": 280, "y": 230, "width": 180, "height": 95,
+      "color": "#F5F3FF", "borderColor": "#7C3AED",
+      "sublabels": ["Configures operating modes", "Tracks TC status for channels"]
+    },
+    {
+      "id": "ch0",
+      "label": "DMA Channel 0",
+      "x": 560, "y": 40, "width": 250, "height": 85,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["• Address Register (16-bit)", "• Terminal Count Register (16-bit)", "• DREQ0 (Request) / DACK0 (Ack)"]
+    },
+    {
+      "id": "ch1",
+      "label": "DMA Channel 1",
+      "x": 560, "y": 135, "width": 250, "height": 85,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["• Address Register (16-bit)", "• Terminal Count Register (16-bit)", "• DREQ1 (Request) / DACK1 (Ack)"]
+    },
+    {
+      "id": "ch2",
+      "label": "DMA Channel 2",
+      "x": 560, "y": 230, "width": 250, "height": 85,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["• Address Register (16-bit)", "• Terminal Count Register (16-bit)", "• DREQ2 (Request) / DACK2 (Ack)"]
+    },
+    {
+      "id": "ch3",
+      "label": "DMA Channel 3",
+      "x": 560, "y": 325, "width": 250, "height": 85,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["• Address Register (16-bit)", "• Terminal Count Register (16-bit)", "• DREQ3 (Request) / DACK3 (Ack)"]
+    }
+  ],
+  "connections": [
+    { "from": "ch0", "to": "priority", "type": "unidirectional" },
+    { "from": "ch1", "to": "priority", "type": "unidirectional" },
+    { "from": "ch2", "to": "priority", "type": "unidirectional" },
+    { "from": "ch3", "to": "priority", "type": "unidirectional" },
+    { "from": "priority", "to": "ctrl-logic", "type": "unidirectional" },
+    { "from": "data-buf", "to": "mode-status", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "rw-logic", "to": "mode-status", "type": "unidirectional" }
+  ],
+  "buses": [
+    { "id": "sys-data", "label": "D0 – D7 (Data Bus)", "orientation": "horizontal", "y": 465, "color": "#2563EB" }
+  ],
+  "theory": "The Intel 8257 is a Programmable Direct Memory Access (DMA) controller. It is a 40-pin DIP chip designed to transfer data between external I/O peripherals and memory at high speeds with minimal CPU intervention, which greatly increases system performance by taking over the system bus during transfers.\n\nKey Components:\n1. DMA Channels (CH0 – CH3): Four independent channels. Each channel has: \n   - DMA Address Register (16-bit): holds the memory address to access. It automatically increments or decrements after each transfer.\n   - Terminal Count (TC) Register (16-bit): bits 0-13 specify the byte count to transfer. Bits 14-15 specify the DMA action (Verify, Write, or Read).\n2. Priority Resolver: Determines which channel gets bus priority if multiple DREQ signals arrive at once. Modes are Fixed Priority (CH0 > CH1 > CH2 > CH3) and Rotating Priority (highest priority rotates to the channel that just finished).\n3. Mode Set & Status Registers: Configuration registers. Enables/disables individual channels, sets priority modes, and monitors when a channel hits its Terminal Count (TC).\n4. Read/Write and Control Logic: In Slave Mode (when CPU controls system bus), it reads status or writes parameters to the 8257. In Master Mode (when 8257 controls system bus), it generates MEMR, MEMW, IOR, IOW control signals.\n5. Control signals:\n   - HRQ (Hold Request): sent to CPU to request control of system bus.\n   - HLDA (Hold Acknowledge): active-high response from CPU releasing the bus.\n   - AEN (Address Enable): disables external system buffers to isolate the CPU from the bus.\n   - ADSTB (Address Strobe): latches the upper address bits (A8-A15) from the data bus.",
+  "keyPoints": [
+    "Four independent DMA channels (CH0 – CH3), each with starting Address and TC registers",
+    "Priority Resolver selects channels using Fixed (CH0–CH3) or Rotating priority rules",
+    "Generates HRQ (Hold Request) to host CPU; receives HLDA (Hold Acknowledge) to gain bus control",
+    "Isolates the CPU from system buses during DMA operation using the AEN (Address Enable) line",
+    "Terminal Count (TC) signal indicates completion of all programmed byte transfers for a channel"
+  ],
+  "useCases": [
+    "High-speed disk controllers (e.g. floppy drives) transferring sectors directly to RAM",
+    "CRT terminal controllers and screen refresh buffers retrieving characters from system memory",
+    "High-speed communication ports transferring large packets without overloading the CPU"
+  ]
+}

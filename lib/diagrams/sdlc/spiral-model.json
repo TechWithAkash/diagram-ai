@@ -1,0 +1,58 @@
+{
+  "id": "spiral-model",
+  "type": "graph",
+  "title": "Boehm's Spiral Model",
+  "category": "Software",
+  "aliases": ["spiral", "spiral model", "boehm spiral", "risk driven model", "spiral sdlc", "spiral methodology"],
+  "examTip": "Spiral Model is risk-driven. Each loop (iteration) represents a phase. Radius represents cost; angle represents progress. The 4 quadrants (clockwise) are: 1. Determine Objectives, 2. Identify and Resolve Risks (Prototyping), 3. Develop & Test, 4. Plan Next Phase.",
+  "viewBox": { "width": 800, "height": 600 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "nodes": [
+    { "id": "start", "label": "Start", "x": 350, "y": 300, "r": 25, "color": "#E9D5FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    
+    { "id": "obj1", "label": "1. Identify\nObjectives\n(Iter 1)", "x": 260, "y": 240, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk1", "label": "2. Analyze\nRisks\n(Iter 1)", "x": 440, "y": 240, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto1", "label": "3. Build\nPrototype 1\n(Iter 1)", "x": 440, "y": 360, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan1", "label": "4. Plan\nNext Phase\n(Iter 1)", "x": 260, "y": 360, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+
+    { "id": "obj2", "label": "1. Gather\nFeedback\n(Iter 2)", "x": 180, "y": 160, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk2", "label": "2. Identify\nNew Risks\n(Iter 2)", "x": 520, "y": 160, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto2", "label": "3. Design &\nTest Proto 2\n(Iter 2)", "x": 520, "y": 440, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan2", "label": "4. Review\nwith Client\n(Iter 2)", "x": 180, "y": 440, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+
+    { "id": "obj3", "label": "1. Solidify\nReqs\n(Iter 3)", "x": 100, "y": 80, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk3", "label": "2. Final Risk\nAssessment\n(Iter 3)", "x": 600, "y": 80, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto3", "label": "3. Build\nFinal Product\n(Iter 3)", "x": 600, "y": 520, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan3", "label": "4. Deploy &\nMaintain\n(Iter 3)", "x": 100, "y": 520, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" }
+  ],
+  "edges": [
+    { "from": "start", "to": "obj1", "label": "Loop 1 Start" },
+    { "from": "obj1", "to": "risk1" },
+    { "from": "risk1", "to": "proto1", "label": "Prototype" },
+    { "from": "proto1", "to": "plan1" },
+    
+    { "from": "plan1", "to": "obj2", "label": "Loop 2 Start" },
+    { "from": "obj2", "to": "risk2" },
+    { "from": "risk2", "to": "proto2", "label": "Refine" },
+    { "from": "proto2", "to": "plan2" },
+    
+    { "from": "plan2", "to": "obj3", "label": "Loop 3 Start" },
+    { "from": "obj3", "to": "risk3" },
+    { "from": "risk3", "to": "proto3", "label": "Finalize" },
+    { "from": "proto3", "to": "plan3", "label": "Release" }
+  ],
+  "theory": "Boehm's Spiral Model is a evolutionary software development process model that combines the iterative nature of prototyping with the controlled and systematic aspects of the linear-sequential (Waterfall) model. It was proposed by Barry Boehm in 1986. The main feature of the Spiral Model is its focus on risk analysis and mitigation at every stage.\n\nThe process is represented as a spiral containing several loops. The radius of the spiral at any point represents the cumulative cost incurred on the project, and the angular dimension represents the progress made in the current iteration.\n\nEach loop of the spiral is divided into four quadrants:\n1. Objectives Definition (Planning): Establish goals, identify alternative strategies, and define constraints for the iteration.\n2. Risk Analysis and Resolution (Risk Management): Identify potential risks (e.g., performance issues, cost overruns, technical hurdles) and formulate mitigation strategies, usually by building and testing prototypes.\n3. Engineering & Development (Engineering): Design, write code, and perform testing of the software increment for that iteration.\n4. Evaluation & Planning (Planning): The client reviews the output of the iteration, provides feedback, and planning begins for the next iteration.\n\nAdvantages: Excellent risk management; highly suitable for large, critical projects; early prototypes provide user feedback.\nDisadvantages: High cost; requires highly skilled risk analysis experts; not suitable for small projects.",
+  "keyPoints": [
+    "Risk-driven evolutionary model combining iterative prototyping with structured Waterfall controls",
+    "4 quadrants: Objective Formulation → Risk Analysis & Prototyping → Development & Testing → Next-Phase Planning",
+    "Spiral radius represents cumulative cost; angle represents progress in the current phase",
+    "Each cycle or loop produces a more refined prototype or software increment",
+    "Ideal for large-scale, high-risk, or complex projects with evolving requirements"
+  ],
+  "useCases": [
+    "Large-scale commercial products (e.g., operating systems, databases) with high reliability requirements",
+    "Defense and aerospace control software where failures are unacceptable and risk is extremely high",
+    "Pioneering technology projects where the core requirements are highly experimental"
+  ]
+}

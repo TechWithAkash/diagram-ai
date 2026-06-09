@@ -1,0 +1,41 @@
+{
+  "id": "three-schema-architecture",
+  "type": "layered-stack",
+  "title": "DBMS Three-Schema Architecture",
+  "category": "Database",
+  "aliases": ["three schema", "3 schema", "dbms architecture", "three level architecture", "dbms three schema", "ansi sparc model", "external conceptual internal schema", "dbms three level"],
+  "examTip": "Three schemas: External (user views), Conceptual (logical structure), Internal (physical storage). Data Independence: Logical (changing conceptual doesn't affect external) and Physical (changing internal doesn't affect conceptual).",
+  "viewBox": { "width": 780, "height": 420 },
+  "complexity": "Intermediate",
+  "subject_category": "Database",
+  "layers": [
+    {
+      "number": 3, "name": "External Level (View Level)",
+      "protocols": "User View 1 (Student Portal)  |  User View 2 (Admin Panel)  |  User View 3 (Reports)",
+      "color": "#2563EB", "pdu": "External Schema", "device": "End Users & Applications"
+    },
+    {
+      "number": 2, "name": "Conceptual Level (Logical Level)",
+      "protocols": "Entities: STUDENT, COURSE, ENROLLMENT, FACULTY  |  Relationships: enrolls-in, teaches  |  Constraints, Keys, Data Types",
+      "color": "#059669", "pdu": "Conceptual Schema", "device": "DBA — Database Administrator"
+    },
+    {
+      "number": 1, "name": "Internal Level (Physical Level)",
+      "protocols": "Storage structures: B+ Trees, Hash Tables, Heap Files  |  Indexes, Partitions, File organization",
+      "color": "#7C3AED", "pdu": "Internal Schema", "device": "Storage — HDD / SSD"
+    }
+  ],
+  "theory": "The Three-Schema Architecture (ANSI/SPARC Model, 1975) defines three levels of abstraction in a DBMS to achieve data independence — the ability to change one level without affecting other levels.\n\nExternal Level (View Level): The highest level of abstraction. Each user or user group sees only the portion of the database relevant to them, through customized views (External Schemas or Subschemas). For example, a student might see only their own grades and courses, while an admin sees all student records. Multiple external schemas can exist for the same database.\n\nConceptual Level (Logical Level): Describes what data is stored and the relationships among data items for the entire database, independent of physical storage. The Conceptual Schema defines all entities, attributes, relationships, integrity constraints, and security rules. This level is managed by the Database Administrator (DBA).\n\nInternal Level (Physical Level): Describes how data is physically stored on storage media. The Internal Schema defines physical storage structures (B+ trees, hash tables, heap files), indexes, file organizations, and storage record formats. This level is closest to the hardware.\n\nData Independence: Logical Data Independence — the ability to change the conceptual schema without changing external schemas (e.g., adding a new attribute to a table doesn't break existing user views). Physical Data Independence — changing the internal schema (e.g., switching from a heap file to a B+ tree index) doesn't affect the conceptual schema.\n\nDBMS Mappings: External/Conceptual Mapping transforms data between external and conceptual levels. Conceptual/Internal Mapping transforms between logical and physical representations.",
+  "keyPoints": [
+    "Three levels: External (user views) → Conceptual (logical structure) → Internal (physical storage)",
+    "Logical Data Independence: change conceptual schema without affecting external schemas",
+    "Physical Data Independence: change internal schema without affecting conceptual schema",
+    "Conceptual schema defines entities, relationships, and constraints — managed by DBA",
+    "ANSI/SPARC model (1975) — foundation of all modern RDBMS design"
+  ],
+  "useCases": [
+    "RDBMS like Oracle, MySQL, PostgreSQL — implementing views for role-based data access",
+    "Enterprise databases — hiding internal table structure from application developers",
+    "Data warehouses — providing subject-area views (star schema) over normalized conceptual model"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "v-model",
+  "type": "sequential-flow",
+  "title": "V-Model — Verification & Validation SDLC",
+  "category": "Software",
+  "aliases": ["v model", "v-model", "verification and validation model", "v model sdlc", "v shaped model", "v&v model"],
+  "examTip": "V-Model: left side = Development phases (going down), right side = Testing phases (going up). Each development phase has a corresponding testing phase directly opposite. Requirement ↔ Acceptance Test; System Design ↔ System Test; Architecture ↔ Integration Test; Module Design ↔ Unit Test.",
+  "viewBox": { "width": 720, "height": 560 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "layout": "v-shape",
+  "phases": [
+    {
+      "id": "req",
+      "name": "Requirements Analysis",
+      "description": "User needs gathered → System Requirements Specification",
+      "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F",
+      "side": "left", "level": 0,
+      "testPhase": "Acceptance Testing (UAT)"
+    },
+    {
+      "id": "sysdesign",
+      "name": "System Design",
+      "description": "Overall system architecture → HLD document",
+      "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B",
+      "side": "left", "level": 1,
+      "testPhase": "System Testing"
+    },
+    {
+      "id": "archdesign",
+      "name": "Architecture Design",
+      "description": "Module breakdown, interfaces, data flow → LLD document",
+      "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12",
+      "side": "left", "level": 2,
+      "testPhase": "Integration Testing"
+    },
+    {
+      "id": "moddesign",
+      "name": "Module Design",
+      "description": "Detailed internal design of each module — algorithms, data structures",
+      "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337",
+      "side": "left", "level": 3,
+      "testPhase": "Unit Testing"
+    },
+    {
+      "id": "coding",
+      "name": "CODING",
+      "description": "Actual implementation — source code written by developers",
+      "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87",
+      "side": "center", "level": 4
+    },
+    {
+      "id": "unittest",
+      "name": "Unit Testing",
+      "description": "Test individual modules against Module Design",
+      "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337",
+      "side": "right", "level": 3,
+      "verifies": "Module Design"
+    },
+    {
+      "id": "inttest",
+      "name": "Integration Testing",
+      "description": "Test combined modules against Architecture Design",
+      "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12",
+      "side": "right", "level": 2,
+      "verifies": "Architecture Design"
+    },
+    {
+      "id": "sysTest",
+      "name": "System Testing",
+      "description": "Test complete system against System Design specs",
+      "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B",
+      "side": "right", "level": 1,
+      "verifies": "System Design"
+    },
+    {
+      "id": "uat",
+      "name": "Acceptance Testing (UAT)",
+      "description": "Customer validates system against original requirements",
+      "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F",
+      "side": "right", "level": 0,
+      "verifies": "Requirements"
+    }
+  ],
+  "theory": "The V-Model (Verification and Validation Model) is a sequential SDLC model that extends the Waterfall model by explicitly linking each development phase to a corresponding testing phase. The model gets its name from the V-shape formed when the development phases (left arm) and testing phases (right arm) are drawn with coding at the bottom.\n\nLeft Arm — Development (going down): Requirements Analysis produces the SRS. System Design defines the overall architecture. Architecture Design breaks down the system into modules. Module Design specifies internal logic of each module.\n\nBottom — Coding: Actual implementation of all modules.\n\nRight Arm — Testing (going up): Unit Testing verifies each individual module against Module Design specs. Integration Testing verifies combined modules against Architecture Design. System Testing verifies the complete integrated system against System Design. Acceptance Testing (UAT) validates the system against original user requirements.\n\nKey Principle — Correspondence: Every development phase has a directly corresponding test phase. Test plans and test cases are created during the corresponding development phase (not after coding), ensuring early detection of requirement gaps.\n\nVerification vs Validation: Verification asks 'Are we building the product right?' (checking against specifications at each phase). Validation asks 'Are we building the right product?' (checking against user needs — done in UAT).\n\nAdvantages: Testing activities start early (test planning during requirements), highly structured, clear deliverables at each phase, defects found early are cheaper to fix.\n\nDisadvantages: Like Waterfall, inflexible to changing requirements; no working prototype until late; not suitable for iterative or agile projects.",
+  "keyPoints": [
+    "V-Model links each development phase to a corresponding testing phase via horizontal arrows",
+    "Left side (down): Requirements → System Design → Architecture Design → Module Design → Coding",
+    "Right side (up): Unit Test → Integration Test → System Test → Acceptance Test (UAT)",
+    "Test cases written during the development phase, not after coding — enables early defect detection",
+    "Verification = building product right (against specs); Validation = building right product (against user needs)"
+  ],
+  "useCases": [
+    "Safety-critical systems: avionics, medical devices, automotive — where testing rigor is mandatory",
+    "Government and defense projects with strict documentation requirements",
+    "Embedded systems development with well-defined hardware/software interfaces"
+  ]
+}

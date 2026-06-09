@@ -1,0 +1,96 @@
+{
+  "id": "compiler-phases",
+  "type": "sequential-flow",
+  "title": "Compiler Design — Phases of Compilation",
+  "category": "Software",
+  "aliases": ["compiler phases", "compiler design", "phases of compiler", "compilation phases", "compiler", "compiler stages", "lexical analysis syntax analysis", "compiler front end back end"],
+  "examTip": "6 phases: Lexical Analysis → Syntax Analysis → Semantic Analysis → Intermediate Code Gen → Code Optimization → Code Generation. First 3 = Front End (analysis). Last 3 = Back End (synthesis). Symbol Table and Error Handler span all phases.",
+  "viewBox": { "width": 680, "height": 660 },
+  "complexity": "Advanced",
+  "subject_category": "Software",
+  "phases": [
+    {
+      "id": "lexical",
+      "name": "1. Lexical Analysis (Scanner)",
+      "description": "Reads source code → converts to Tokens (keywords, identifiers, operators, literals). Removes whitespace and comments.",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "input": "Source Code (character stream)",
+      "output": "Token Stream",
+      "tool": "Lex / Flex"
+    },
+    {
+      "id": "syntax",
+      "name": "2. Syntax Analysis (Parser)",
+      "description": "Checks grammatical structure using grammar rules (BNF/EBNF). Builds a Parse Tree (Concrete Syntax Tree) or AST.",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "input": "Token Stream",
+      "output": "Abstract Syntax Tree (AST)",
+      "tool": "Yacc / Bison"
+    },
+    {
+      "id": "semantic",
+      "name": "3. Semantic Analysis",
+      "description": "Type checking, scope resolution, checking undeclared variables, type compatibility. Annotates AST with type information.",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "input": "Annotated AST",
+      "output": "Annotated AST + Symbol Table updated",
+      "tool": "Type Checker"
+    },
+    {
+      "id": "irgen",
+      "name": "4. Intermediate Code Generation",
+      "description": "Generates machine-independent intermediate representation: Three-Address Code (TAC), Quadruples, or SSA form.",
+      "color": "#FFE4E6",
+      "borderColor": "#E11D48",
+      "textColor": "#881337",
+      "input": "Annotated AST",
+      "output": "Three-Address Code (TAC) / IR",
+      "tool": "IR Generator"
+    },
+    {
+      "id": "optimize",
+      "name": "5. Code Optimization",
+      "description": "Improves IR for faster execution or smaller code: constant folding, dead code elimination, loop unrolling, common subexpression elimination.",
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87",
+      "input": "Unoptimized IR",
+      "output": "Optimized IR",
+      "tool": "Optimizer"
+    },
+    {
+      "id": "codegen",
+      "name": "6. Code Generation (Target Code)",
+      "description": "Translates optimized IR into target machine code or assembly. Handles register allocation, instruction selection, and instruction scheduling.",
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "textColor": "#7C2D12",
+      "input": "Optimized IR",
+      "output": "Assembly / Machine Code",
+      "tool": "Code Generator"
+    }
+  ],
+  "sideComponents": [
+    { "label": "Symbol Table", "description": "Stores identifiers, types, scope, memory location — accessed by ALL phases" },
+    { "label": "Error Handler", "description": "Reports and recovers from errors at every phase (lexical, syntax, semantic, etc.)" }
+  ],
+  "theory": "A compiler is a program that translates source code written in a high-level programming language into machine code or an intermediate representation. The compilation process is divided into 6 systematic phases, broadly grouped into the Front End (analysis of source program) and Back End (synthesis of target program).\n\nFront End (Analysis Phase):\n\nPhase 1 — Lexical Analysis (Scanner): The lexer reads the source program character by character and groups characters into meaningful sequences called lexemes. Each lexeme is mapped to a token (e.g., keyword, identifier, operator, literal). Whitespace and comments are discarded. Tool: Lex/Flex.\n\nPhase 2 — Syntax Analysis (Parser): The parser takes the token stream and verifies the syntactic structure against the language grammar (expressed in BNF or EBNF). It builds an Abstract Syntax Tree (AST) that represents the hierarchical structure of the program. Errors: syntax errors (missing semicolon, unmatched brackets). Tools: Yacc/Bison.\n\nPhase 3 — Semantic Analysis: Checks for semantic correctness — type checking (cannot assign string to int), undeclared variables, scope rules, function signature matching. The AST is annotated with type information and the Symbol Table is updated.\n\nBack End (Synthesis Phase):\n\nPhase 4 — Intermediate Code Generation: Generates a machine-independent intermediate representation (IR), typically Three-Address Code (TAC) of the form a = b op c. This allows the back end to be retargeted to different architectures.\n\nPhase 5 — Code Optimization: Improves the IR without changing program semantics. Techniques: constant folding (3+4 → 7), dead code elimination, loop invariant code motion, common subexpression elimination, inlining.\n\nPhase 6 — Code Generation: Converts optimized IR to target machine code or assembly. Key tasks: register allocation (Belady's algorithm), instruction selection (choosing efficient opcodes), and instruction scheduling.\n\nSymbol Table & Error Handler span all 6 phases as global data structures.",
+  "keyPoints": [
+    "6 phases: Lexical → Syntax → Semantic → IR Generation → Optimization → Code Generation",
+    "Front End (Analysis): Phases 1-3 deal with source language; Back End (Synthesis): Phases 4-6 deal with target machine",
+    "Symbol Table stores identifier info (name, type, scope, address) and is accessed by all phases",
+    "Intermediate Code (Three-Address Code) makes compiler machine-independent and retargetable",
+    "Lexical errors: illegal characters; Syntax errors: grammar violations; Semantic errors: type mismatches"
+  ],
+  "useCases": [
+    "GCC, Clang, LLVM — production compilers for C, C++, Rust using all 6 phases",
+    "JVM — Java compiler produces bytecode (IR) which JIT compiles to machine code at runtime",
+    "Database query compilers — SQL is parsed, semantically analyzed, optimized, and executed"
+  ]
+}

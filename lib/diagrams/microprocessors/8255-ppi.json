@@ -1,0 +1,95 @@
+{
+  "id": "8255-ppi",
+  "type": "block-diagram",
+  "title": "Intel 8255 Programmable Peripheral Interface (PPI)",
+  "category": "Electronics",
+  "aliases": ["8255", "intel 8255", "8255 ppi", "8255 block diagram", "programmable peripheral interface", "8255 interface"],
+  "examTip": "8255 has three 8-bit ports: A, B, and C. Port C is split into Upper (PC4-PC7) and Lower (PC0-PC3). Group A Control configures Port A and Port C Upper. Group B Control configures Port B and Port C Lower. Address pins A1, A0 select Port A (00), Port B (01), Port C (10), or Control Register (11).",
+  "viewBox": { "width": 850, "height": 500 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "data-buffer",
+      "label": "Data Bus Buffer",
+      "x": 30, "y": 40, "width": 150, "height": 100,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["8-bit bi-directional", "buffer to system bus"]
+    },
+    {
+      "id": "rw-logic",
+      "label": "Read/Write Control Logic",
+      "x": 30, "y": 210, "width": 150, "height": 220,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Inputs:", "• CS̄ (Chip Select)", "• RD̄ (Read)", "• WR̄ (Write)", "• A1, A0 (Port Address)", "• RESET"]
+    },
+    {
+      "id": "group-a-ctrl",
+      "label": "Group A Control",
+      "x": 260, "y": 40, "width": 160, "height": 100,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Controls:", "• Port A", "• Port C Upper (PC7-PC4)"]
+    },
+    {
+      "id": "group-b-ctrl",
+      "label": "Group B Control",
+      "x": 260, "y": 300, "width": 160, "height": 100,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Controls:", "• Port B", "• Port C Lower (PC3-PC0)"]
+    },
+    {
+      "id": "port-a",
+      "label": "Port A (8-bit)",
+      "x": 520, "y": 40, "width": 160, "height": 70,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["PA0 – PA7", "Input or Output"]
+    },
+    {
+      "id": "port-c-upper",
+      "label": "Port C Upper (4-bit)",
+      "x": 520, "y": 140, "width": 160, "height": 70,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["PC4 – PC7", "Handshake / Status"]
+    },
+    {
+      "id": "port-c-lower",
+      "label": "Port C Lower (4-bit)",
+      "x": 520, "y": 250, "width": 160, "height": 70,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["PC0 – PC3", "Handshake / Status"]
+    },
+    {
+      "id": "port-b",
+      "label": "Port B (8-bit)",
+      "x": 520, "y": 360, "width": 160, "height": 70,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["PB0 – PB7", "Input or Output"]
+    }
+  ],
+  "connections": [
+    { "from": "data-buffer", "to": "group-a-ctrl", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "group-b-ctrl", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "rw-logic", "to": "group-a-ctrl", "label": "Control", "type": "unidirectional" },
+    { "from": "rw-logic", "to": "group-b-ctrl", "label": "Control", "type": "unidirectional" },
+    { "from": "group-a-ctrl", "to": "port-a", "type": "unidirectional" },
+    { "from": "group-a-ctrl", "to": "port-c-upper", "type": "unidirectional" },
+    { "from": "group-b-ctrl", "to": "port-b", "type": "unidirectional" },
+    { "from": "group-b-ctrl", "to": "port-c-lower", "type": "unidirectional" }
+  ],
+  "buses": [
+    { "id": "sys-data", "label": "D0 – D7 (System Data Bus)", "orientation": "horizontal", "y": 480, "color": "#2563EB" }
+  ],
+  "theory": "The Intel 8255 is a general-purpose Programmable Peripheral Interface (PPI) chip designed to facilitate interfacing parallel I/O devices to a microprocessor. It has 24 I/O pins, which can be individually programmed in different modes of operation.\n\nStructure and Ports:\n- Port A: 8-bit input/output port with latching and buffering.\n- Port B: 8-bit input/output port with latching and buffering.\n- Port C: 8-bit port which can be split into two 4-bit ports: Port C Upper (PC4-PC7) and Port C Lower (PC0-PC3). It is primarily used for status handshaking signals for Ports A and B.\n\nControl Groups:\nThe 24 lines are divided into two groups of 12 lines each:\n- Group A Control: Configures Port A and the upper 4 bits of Port C.\n- Group B Control: Configures Port B and the lower 4 bits of Port C.\n\nRead/Write Control Logic:\nManages the data transfer. It has control pins:\n- CS̄ (Chip Select): Activates the 8255 when low.\n- RD̄ (Read): Enables CPU to read data/status from 8255.\n- WR̄ (Write): Enables CPU to write data/control words to 8255.\n- A1, A0: Address inputs that select Port A (00), Port B (01), Port C (10), or the Control Register (11) to write the Control Word.\n- RESET: A high on this pin clears the control register and sets all ports to input mode.\n\nModes of Operation:\n- Mode 0 (Basic I/O): Standard read/write with no handshaking.\n- Mode 1 (Strobed I/O): Handshake signals are used via Port C to transfer data.\n- Mode 2 (Strobed Bidirectional I/O): Port A is bidirectional using Port C lines for handshaking. Port B can be in Mode 0 or 1.",
+  "keyPoints": [
+    "24 I/O pins divided into three 8-bit ports: A, B, and C (split into Upper & Lower)",
+    "Group A Control manages Port A & Port C Upper; Group B Control manages Port B & Port C Lower",
+    "A1, A0 select internal registers: Port A (00), Port B (01), Port C (10), Control Reg (11)",
+    "Three major modes: Mode 0 (Basic I/O), Mode 1 (Strobed I/O), and Mode 2 (Bidirectional)",
+    "Bit Set/Reset (BSR) Mode allows individual bits of Port C to be set or cleared"
+  ],
+  "useCases": [
+    "Interfacing LED arrays, 7-segment displays, and keyboards to microprocessors",
+    "Handshake communication with parallel printers or slow peripheral hardware",
+    "Industrial control lines and sensor data collection in legacy embedded controllers"
+  ]
+}

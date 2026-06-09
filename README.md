@@ -1,4 +1,4 @@
-# DiagramAI 🧠
+# DiagramAI 🧠09090909090
 
 <p align="center">
   <img src="https://img.shields.io/github/stars/TechWithAkash/diagram-ai?style=for-the-badge&color=6C63FF&logo=github" alt="Stars" />
@@ -57,6 +57,7 @@ graph TD
 ```
 
 ### Supported Diagram Formats
+
 - **Flowcharts (`flowchart TD`)** — Algorithms, workflows, control circuits (MCC/SPCC)
 - **Sequence Diagrams (`sequenceDiagram`)** — Message-passing flows, API lifecycles, auth handshakes
 - **Entity Relationship Diagrams (`erDiagram`)** — Databases, relational schemas, keys
@@ -69,38 +70,44 @@ graph TD
 
 Traditional diagram generators rely on server-side image generation APIs (e.g., DALL-E) costing **$0.02 to $0.04 per request**. By outsourcing rendering to the client via **Mermaid.js** and using **Groq** text inference, DiagramAI is extremely cheap to scale.
 
-| Monthly Generations | Server-Side Image Cost | DiagramAI Cost (Groq Llama 3.1 8B) | Savings |
-|---------------------|------------------------|------------------------------------|---------|
-| **1,000**           | ~$30.00                | **~$0.10**                         | 99.6%   |
-| **10,000**          | ~$300.00               | **~$1.00**                         | 99.6%   |
-| **100,000**         | ~$3,000.00             | **~$10.00**                        | 99.6%   |
+| Monthly Generations | Server-Side Image Cost                | DiagramAI Cost (Groq Llama 3.1 8B) | Savings |
+| ------------------- | ------------------------------------- | ---------------------------------- | ------- |
+| **1,000**     | ~$30.00                | **~$0.10**  | 99.6%                              |         |
+| **10,000**    | ~$300.00               | **~$1.00**  | 99.6%                              |         |
+| **100,000**   | ~$3,000.00             | **~$10.00** | 99.6%                              |         |
 
 ---
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
+
 - Node.js 18.x or later
 - npm or yarn
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/TechWithAkash/diagram-ai.git
 cd diagram-ai
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Setup Environment Variables
+
 Create a `.env.local` file in the root directory:
+
 ```bash
 cp .env.example .env.local
 ```
 
 Populate the following variables inside `.env.local`:
+
 ```env
 # Groq Keys (Primary Engine)
 GROQ_API_KEY=your_groq_api_key_here
@@ -114,18 +121,24 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here
 NEXT_PUBLIC_APP_NAME=DiagramAI
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
+
 > [!NOTE]
 > You can acquire a free Groq API key from [Groq Console](https://console.groq.com) and an OpenRouter key from [OpenRouter Console](https://openrouter.ai).
 
 ### 4. Run Locally
+
 Start the development server:
+
 ```bash
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
 ### 5. Production Build
+
 To create an optimized production build:
+
 ```bash
 npm run build
 npm run start
@@ -177,4 +190,5 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 - **Author:** [Akash Vishwakarma](https://github.com/TechWithAkash)
 
 ---
+
 <p align="center">Made with ❤️ for engineering developers and students</p>

@@ -1,0 +1,124 @@
+{
+  "id": "gsm-architecture",
+  "type": "block-diagram",
+  "title": "GSM Network Architecture",
+  "category": "Networks",
+  "aliases": ["gsm", "gsm architecture", "gsm network", "global system for mobile", "gsm system", "mobile network architecture", "gsm block diagram", "bss nss"],
+  "examTip": "GSM has 3 subsystems: MS (Mobile Station), BSS (Base Station Subsystem = BTS + BSC), NSS (Network Switching Subsystem = MSC + HLR + VLR + AuC + EIR). Um interface between MS-BTS. A interface between BSC-MSC.",
+  "viewBox": { "width": 900, "height": 520 },
+  "complexity": "Advanced",
+  "subject_category": "Networks",
+  "blocks": [
+    {
+      "id": "ms-block",
+      "label": "Mobile Station (MS)",
+      "x": 20, "y": 30, "width": 170, "height": 380,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "children": [
+        {
+          "id": "me", "label": "Mobile Equipment (ME)",
+          "x": 35, "y": 70, "width": 140, "height": 75,
+          "color": "#DBEAFE", "borderColor": "#3B82F6",
+          "sublabels": ["Handset hardware", "Unique IMEI number"]
+        },
+        {
+          "id": "sim", "label": "SIM Card",
+          "x": 35, "y": 185, "width": 140, "height": 75,
+          "color": "#DBEAFE", "borderColor": "#3B82F6",
+          "sublabels": ["IMSI, Auth Key (Ki)", "Phone book, SMS"]
+        }
+      ]
+    },
+    {
+      "id": "bss",
+      "label": "Base Station Subsystem (BSS)",
+      "x": 220, "y": 30, "width": 200, "height": 380,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "children": [
+        {
+          "id": "bts", "label": "Base Transceiver Station (BTS)",
+          "x": 235, "y": 70, "width": 170, "height": 80,
+          "color": "#DCFCE7", "borderColor": "#22C55E",
+          "sublabels": ["Radio transceivers", "Antenna tower", "Covers one cell"]
+        },
+        {
+          "id": "bsc", "label": "Base Station Controller (BSC)",
+          "x": 235, "y": 190, "width": 170, "height": 80,
+          "color": "#DCFCE7", "borderColor": "#22C55E",
+          "sublabels": ["Manages multiple BTS", "Handover decisions", "Radio resource mgmt"]
+        }
+      ]
+    },
+    {
+      "id": "nss",
+      "label": "Network Switching Subsystem (NSS)",
+      "x": 450, "y": 30, "width": 430, "height": 380,
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "children": [
+        {
+          "id": "msc", "label": "Mobile Switching Center (MSC)",
+          "x": 470, "y": 70, "width": 160, "height": 80,
+          "color": "#FED7AA", "borderColor": "#F97316",
+          "sublabels": ["Core switching node", "Call routing & control", "Interfaces to PSTN"]
+        },
+        {
+          "id": "hlr", "label": "Home Location Register (HLR)",
+          "x": 720, "y": 70, "width": 140, "height": 80,
+          "color": "#FEF3C7", "borderColor": "#D97706",
+          "sublabels": ["Permanent subscriber DB", "IMSI, services, location"]
+        },
+        {
+          "id": "vlr", "label": "Visitor Location Register (VLR)",
+          "x": 470, "y": 190, "width": 160, "height": 80,
+          "color": "#FEF3C7", "borderColor": "#D97706",
+          "sublabels": ["Temp DB for roamers", "Copies from HLR"]
+        },
+        {
+          "id": "auc", "label": "Authentication Center (AuC)",
+          "x": 720, "y": 190, "width": 140, "height": 80,
+          "color": "#FEF3C7", "borderColor": "#D97706",
+          "sublabels": ["Authentication & ciphering", "Ki, RAND, SRES, Kc"]
+        },
+        {
+          "id": "eir", "label": "Equipment Identity Register (EIR)",
+          "x": 470, "y": 310, "width": 160, "height": 80,
+          "color": "#FEF3C7", "borderColor": "#D97706",
+          "sublabels": ["IMEI database", "White/Grey/Black list"]
+        },
+        {
+          "id": "gmsc", "label": "Gateway MSC (GMSC)",
+          "x": 720, "y": 310, "width": 140, "height": 80,
+          "color": "#FED7AA", "borderColor": "#F97316",
+          "sublabels": ["Entry/exit to PSTN", "Routes incoming calls"]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "me", "to": "bts", "label": "Um Interface", "x1": 175, "y1": 107, "x2": 235, "y2": 110, "style": "dashed" },
+    { "from": "bts", "to": "bsc", "label": "Abis Interface", "x1": 320, "y1": 150, "x2": 320, "y2": 190, "style": "solid" },
+    { "from": "bsc", "to": "msc", "label": "A Interface", "x1": 405, "y1": 230, "x2": 470, "y2": 110, "style": "solid" },
+    { "from": "msc", "to": "hlr", "label": "MAP protocol", "x1": 630, "y1": 90, "x2": 720, "y2": 90, "style": "solid" },
+    { "from": "msc", "to": "vlr", "label": "internal", "x1": 550, "y1": 150, "x2": 550, "y2": 190, "style": "solid" },
+    { "from": "msc", "to": "gmsc", "label": "to PSTN", "x1": 630, "y1": 130, "x2": 720, "y2": 350, "style": "solid" }
+  ],
+  "buses": [
+    { "id": "pstn", "label": "PSTN / ISDN — Public Switched Telephone Network  (External Calls)", "orientation": "horizontal", "y": 446, "color": "#6B7280" }
+  ],
+  "theory": "GSM (Global System for Mobile Communications), standardized by ETSI in 1982, is the most widely deployed 2G digital cellular standard. Its architecture is divided into three main subsystems: Mobile Station (MS), Base Station Subsystem (BSS), and Network Switching Subsystem (NSS).\n\nMobile Station (MS): Consists of the Mobile Equipment (ME) — the physical handset with a unique IMEI number — and the SIM (Subscriber Identity Module) card containing the IMSI (International Mobile Subscriber Identity), authentication key Ki, phone book, and SMS storage. The Um interface (radio interface) connects MS to BTS using TDMA (Time Division Multiple Access).\n\nBase Station Subsystem (BSS): Contains BTS (Base Transceiver Station) which handles the radio interface — each BTS covers one cell with multiple radio transceivers. The BSC (Base Station Controller) manages multiple BTSs, controls radio resource management, handles handover decisions between cells, and communicates with the MSC via the A interface.\n\nNetwork Switching Subsystem (NSS): The core of the GSM network. MSC (Mobile Switching Center) is the central switch that routes calls, manages location updating, and connects to PSTN. HLR (Home Location Register) is a permanent database storing all subscriber info. VLR (Visitor Location Register) is a temporary database for subscribers currently in the MSC's area (copies data from HLR). AuC (Authentication Center) generates authentication triplets (RAND, SRES, Kc) to verify subscribers. EIR (Equipment Identity Register) maintains IMEI database to block stolen phones. GMSC (Gateway MSC) connects the GSM network to the PSTN for incoming calls.",
+  "keyPoints": [
+    "GSM architecture: MS (Mobile Station) + BSS (BTS + BSC) + NSS (MSC + HLR + VLR + AuC + EIR + GMSC)",
+    "Interfaces: Um (MS-BTS, radio), Abis (BTS-BSC), A (BSC-MSC), MAP (MSC-HLR via SS7)",
+    "HLR = permanent subscriber DB; VLR = temporary DB for roaming subscribers",
+    "AuC performs authentication using triplet: RAND (random challenge), SRES (signed response), Kc (cipher key)",
+    "EIR maintains IMEI whitelist/greylist/blacklist to block stolen or non-compliant handsets"
+  ],
+  "useCases": [
+    "2G cellular voice calls and SMS — the global standard used by billions worldwide",
+    "Mobile banking and M-Pesa transactions in developing countries on GSM network",
+    "IoT and M2M communication using GSM modems for remote monitoring"
+  ]
+}

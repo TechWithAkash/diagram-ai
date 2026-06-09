@@ -1,0 +1,33 @@
+{
+  "id": "memory-hierarchy",
+  "type": "layered-stack",
+  "title": "Memory Hierarchy in Computer Systems",
+  "category": "OS",
+  "aliases": ["memory hierarchy", "memory hierarchy diagram", "cache memory hierarchy", "memory levels", "storage hierarchy", "memory pyramid", "memory organization"],
+  "examTip": "Memory hierarchy: Registers → L1 Cache → L2 Cache → L3 Cache → RAM → SSD/HDD → Cloud/Tape. Going down: larger capacity, slower speed, lower cost per bit. Locality of Reference: Temporal (recently used data reused) and Spatial (nearby data also needed).",
+  "viewBox": { "width": 780, "height": 500 },
+  "complexity": "Intermediate",
+  "subject_category": "OS",
+  "layers": [
+    { "number": 1, "name": "CPU Registers",       "protocols": "Size: 32–512 bytes  |  Speed: 0-1 ns  |  Cost: $$$$$  |  Location: Inside CPU", "color": "#DC2626", "pdu": "Words", "device": "Flip-flops" },
+    { "number": 2, "name": "L1 Cache",             "protocols": "Size: 32–64 KB  |  Speed: 1–4 ns  |  Cost: $$$$  |  Location: On-chip (per core)", "color": "#EA580C", "pdu": "Cache Lines", "device": "SRAM" },
+    { "number": 3, "name": "L2 Cache",             "protocols": "Size: 256 KB–1 MB  |  Speed: 4–12 ns  |  Cost: $$$  |  Location: On-chip or near-chip", "color": "#CA8A04", "pdu": "Cache Lines", "device": "SRAM" },
+    { "number": 4, "name": "L3 Cache (LLC)",       "protocols": "Size: 4–64 MB  |  Speed: 12–40 ns  |  Cost: $$  |  Location: On-chip (shared)", "color": "#65A30D", "pdu": "Cache Lines", "device": "SRAM" },
+    { "number": 5, "name": "Main Memory (RAM)",    "protocols": "Size: 4–512 GB  |  Speed: 50–100 ns  |  Cost: $  |  Volatile: Yes", "color": "#0284C7", "pdu": "Pages (4 KB)", "device": "DRAM / DDR5" },
+    { "number": 6, "name": "Secondary Storage",    "protocols": "Size: 256 GB–20 TB  |  Speed: 0.1–10 ms  |  Cost: ¢  |  Volatile: No", "color": "#7C3AED", "pdu": "Blocks / Sectors", "device": "SSD / NVMe / HDD" },
+    { "number": 7, "name": "Tertiary / Offline",   "protocols": "Size: TB–PB  |  Speed: seconds to minutes  |  Cost: fractions of ¢  |  Permanent", "color": "#374151", "pdu": "Files", "device": "Tape / Cloud / Optical" }
+  ],
+  "theory": "The Memory Hierarchy is a structured organization of storage systems in a computer, arranged by speed, cost, and capacity. The fundamental trade-off is: faster memory costs more per bit and has smaller capacity. The hierarchy exploits the principle of Locality of Reference to provide the illusion of large, fast, cheap memory.\n\nLocality of Reference: Temporal Locality — recently accessed data will likely be accessed again soon (loop variables). Spatial Locality — data near recently accessed locations will likely be accessed soon (array traversal).\n\nCPU Registers: The fastest storage, directly accessed by the CPU in 0–1 clock cycles. Holds the operands for currently executing instructions. Typically 32 to 64 registers of 64-bit width.\n\nL1 Cache: Small (32–64 KB), extremely fast (1–4 ns), per-core cache. Instructions and data are split into separate L1-I and L1-D caches. Uses SRAM (Static RAM) which is faster but more expensive than DRAM.\n\nL2 Cache: Larger (256 KB–1 MB), slightly slower (4–12 ns). May be unified or split. Still SRAM, still on-chip.\n\nL3 Cache (Last Level Cache — LLC): Largest on-chip cache (4–64 MB), shared among all cores. Acts as last resort before going to main memory.\n\nMain Memory (RAM): DRAM (Dynamic RAM) technology. Volatile (loses data when power removed). Much larger capacity than cache. Virtual memory system manages RAM allocation.\n\nSecondary Storage: Non-volatile persistent storage. SSDs use NAND flash memory; HDDs use magnetic spinning disks. Data organized in blocks and sectors.\n\nTertiary Storage: Magnetic tape for long-term archival; cloud storage for remote backup. Extremely high capacity at minimal cost, but very high access latency.",
+  "keyPoints": [
+    "7 levels: Registers → L1 → L2 → L3 → RAM → Secondary Storage → Tertiary Storage",
+    "Going down: larger capacity, slower speed, lower cost per bit",
+    "Temporal locality: recently used data reused; Spatial locality: nearby data also used",
+    "Cache hit: data found in cache (fast); Cache miss: must fetch from lower level (slow)",
+    "RAM is volatile (DRAM); Secondary/Tertiary storage is non-volatile (persists without power)"
+  ],
+  "useCases": [
+    "CPU cache design — L1/L2/L3 cache sizing decisions in Intel, AMD, ARM processors",
+    "OS virtual memory management — page replacement algorithms (LRU, FIFO, Optimal)",
+    "Database buffer pool management — keeping hot data in RAM to avoid disk I/O"
+  ]
+}

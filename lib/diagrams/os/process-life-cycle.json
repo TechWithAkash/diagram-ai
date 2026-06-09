@@ -1,0 +1,39 @@
+{
+  "id": "process-life-cycle",
+  "type": "state-machine",
+  "title": "Process Life Cycle — 5-State Model",
+  "category": "OS",
+  "aliases": ["process life cycle", "process states", "process state diagram", "process state model", "cpu scheduling states", "process lifecycle", "5 state process model", "process management"],
+  "examTip": "Five states: New → Ready → Running → Waiting → Terminated. Only ONE process can be in Running state at a time per CPU. The Dispatcher moves process from Ready to Running. Time-quantum expiry sends Running → Ready (preemption).",
+  "viewBox": { "width": 720, "height": 440 },
+  "complexity": "Intermediate",
+  "subject_category": "OS",
+  "states": [
+    { "id": "new",        "label": "New",        "x": 360, "y": 40,  "r": 38, "color": "#DCFCE7", "borderColor": "#16A34A", "textColor": "#14532D", "description": "Process being created" },
+    { "id": "ready",      "label": "Ready",      "x": 140, "y": 210, "r": 42, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F", "description": "Waiting for CPU" },
+    { "id": "running",    "label": "Running",    "x": 360, "y": 210, "r": 42, "color": "#FDE68A", "borderColor": "#D97706", "textColor": "#713F12", "description": "Executing on CPU" },
+    { "id": "waiting",    "label": "Waiting",    "x": 580, "y": 210, "r": 42, "color": "#FEE2E2", "borderColor": "#DC2626", "textColor": "#7F1D1D", "description": "Waiting for I/O" },
+    { "id": "terminated", "label": "Terminated", "x": 360, "y": 380, "r": 38, "color": "#F3F4F6", "borderColor": "#6B7280", "textColor": "#374151", "description": "Process complete" }
+  ],
+  "transitions": [
+    { "from": "new",     "to": "ready",     "label": "Admitted\n(Process loaded\ninto memory)",  "curve": "straight" },
+    { "from": "ready",   "to": "running",   "label": "Dispatcher\nSchedules CPU",               "curve": "top" },
+    { "from": "running", "to": "ready",     "label": "Interrupt /\nTime Quantum\nExpired",       "curve": "bottom" },
+    { "from": "running", "to": "waiting",   "label": "I/O Request\nor Event Wait",               "curve": "straight" },
+    { "from": "waiting", "to": "ready",     "label": "I/O Complete\nor Event Occurs",             "curve": "straight" },
+    { "from": "running", "to": "terminated","label": "Exit / Process\nCompletes",                 "curve": "straight" }
+  ],
+  "theory": "The Process Life Cycle (also called Process State Model) defines all the states a process can be in during its lifetime in an operating system, and the valid transitions between those states.\n\nNew State: A process enters the New state when it is first created by the OS (via fork() system call in Unix/Linux or CreateProcess() in Windows). The OS allocates a Process Control Block (PCB) and assigns a Process ID (PID).\n\nReady State: The process is loaded into main memory and is waiting in the Ready Queue for CPU time. All conditions for execution are met except CPU availability. Multiple processes can be in the Ready state simultaneously.\n\nRunning State: The process is actively executing on the CPU. On a single-core processor, only ONE process can be in Running state at any given time. The CPU executes instructions from this process.\n\nWaiting (Blocked) State: The process cannot proceed until an external event occurs — typically an I/O operation (disk read/write, keyboard input, network packet) or a synchronization event (mutex, semaphore). The process relinquishes the CPU voluntarily and moves to the I/O Wait Queue.\n\nTerminated State: The process has finished execution or has been killed. The OS deallocates all resources, closes file handles, removes the PCB, and informs the parent process.\n\nKey Transitions: Admitted (New→Ready) occurs when memory is allocated. The Dispatcher (part of the CPU Scheduler) performs the Ready→Running transition through a context switch. Time Quantum Expiry (Running→Ready) is preemption in time-sharing systems like Round Robin scheduling. I/O Request (Running→Waiting) is a voluntary relinquishment of the CPU.\n\nContext Switching: When transitioning between states, the OS saves the process state (registers, PC, stack pointer) into its PCB and restores the state of the next process to run.",
+  "keyPoints": [
+    "Five states: New, Ready, Running, Waiting (Blocked), Terminated",
+    "Only ONE process can be in Running state per CPU at any time",
+    "The Dispatcher performs the Ready→Running transition via a context switch",
+    "I/O request: Running→Waiting (voluntary); Time quantum expiry: Running→Ready (preemption)",
+    "Process Control Block (PCB) stores all process information: PID, state, PC, registers, memory map"
+  ],
+  "useCases": [
+    "CPU scheduling algorithms: FCFS, SJF, Round Robin, Priority Scheduling all manage state transitions",
+    "Multiprogramming OS: keeping CPU busy by switching between Ready processes during I/O waits",
+    "Real-time OS: tracking process states with strict timing constraints for embedded systems"
+  ]
+}

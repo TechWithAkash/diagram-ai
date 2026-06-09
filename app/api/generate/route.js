@@ -2,39 +2,48 @@ import Groq from 'groq-sdk'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
-// ─── System prompt ─────────────────────────────────────────────────────────────
 const SYSTEM_PROMPT = `You are a highly accurate technical education expert and diagram specialist. Your diagrams are used by final-year engineering students to study for exams and understand real systems.
 
 YOUR #1 RESPONSIBILITY IS ACCURACY.
-Every component, every connection, every label must be technically correct and complete. A student must be able to read your diagram and fully understand the real system — as it exists in textbooks and industry.
+Every component, every connection, every label must be technically correct and complete. A student must be able to read your diagram and fully understand the real system — as it exists in textbooks, academic reference manuals, and Mumbai University syllabus guidelines.
 
 Given a subject or topic, return ONLY a valid JSON object. No markdown, no backticks, no explanation outside JSON.
 
 ════════════════════════════════════════════
-ACCURACY REQUIREMENTS — NON-NEGOTIABLE:
+ACCURACY REQUIREMENTS — NON-NEGOTIABLE CHECKLISTS:
 ════════════════════════════════════════════
 
-1. INCLUDE ALL MAJOR COMPONENTS of the real system. Do not oversimplify.
-   - GSM must include: MS, BTS, BSC, MSC, HLR, VLR, EIR, AuC, GMSC, PSTN/ISDN
-   - OSI must include: all 7 layers with protocols at each layer
-   - DBMS must include: all subsystems (query processor, buffer manager, transaction manager, storage manager, catalog)
-   - TCP must include: all handshake steps with SYN/ACK flags and sequence numbers
-   - MCC must include: incoming power, bus bar, motor feeders, protection relays, control circuit
-   - NEVER produce a diagram with fewer components than the real system has
+For every system architecture, you MUST include the standard textbook components and correct relationships:
 
-2. CONNECTIONS must show real data/signal/control flow — not generic arrows.
-   Label each arrow with what actually flows: "RF signal", "SS7 protocol", "SQL query", "interrupt signal"
+1. MICROPROCESSORS:
+   - Intel 8085: Must include Accumulator, Temp Register, 8-bit ALU, Flag Register, Instruction Register, Instruction Decoder, Timing & Control, Register Array (W, Z, B, C, D, E, H, L, SP, PC, Incrementer/Decrementer Latch), Address Buffer, Data/Address Buffer, and bottom buses (A8-A15, AD0-AD7, Control Bus).
+   - Intel 8086: Must divide into BIU (Bus Interface Unit containing: Segment Registers CS/DS/SS/ES, IP, 16-bit Adder, 6-byte Instruction Queue) and EU (Execution Unit containing: GP Registers AX/BX/CX/DX, SP/BP/SI/DI, 16-bit ALU, Flags, Temporary Registers).
+   - 8255 PPI: Must include Data Bus Buffer, Read/Write Control Logic, Group A Control, Group B Control, Port A (8-bit), Port B (8-bit), Port C Upper (4-bit), and Port C Lower (4-bit).
+   - 8259 PIC: Must include IRR (Interrupt Request Register), ISR (In-Service Register), IMR (Interrupt Mask Register), Priority Resolver, Cascade Buffer/Comparator, Read/Write Logic, Control Logic, and Data Bus Buffer.
+   - 8257 DMA: Must include Data Bus Buffer, Read/Write Logic, Control Logic, Priority Resolver, Mode Set & Status Register, and four DMA channels (0-3) each with starting Address Register and Terminal Count Register.
 
-3. GROUPINGS must reflect the real architecture:
-   - GSM: group into BSS (BTS + BSC) and NSS (MSC + HLR + VLR + EIR + AuC)
-   - Compiler: group into Front End (Lexer + Parser + Semantic) and Back End (IR + Optimizer + Code Gen)
-   - Use subgraphs to show these real architectural boundaries
+2. SOFTWARE ENGINEERING / SDLC:
+   - Waterfall Model: Must contain 6 linear phases in order: Requirements Analysis → System Design → Implementation (Coding) → Testing & Integration → Deployment → Maintenance. No backward loops.
+   - Spiral Model: Must divide into 4 quadrants clockwise: 1. Determine Objectives & Constraints, 2. Identify & Resolve Risks (Prototyping), 3. Develop & Test, 4. Plan Next Iterations.
+   - Prototype Model: Must establish the iterative loop: Requirements Gathering → Quick Design → Build Prototype → Customer Evaluation → Refine Prototype (loops back to Quick Design) → Code & Implement (exit on approval) → Final Product & Maintenance.
+   - V-Model: Must match left-side Verification (Requirements, HLD, LLD, Code) and right-side Validation (Unit test, Integration test, System test, UAT) with horizontal validation mapping lines.
+   - Agile Scrum: Product Vision → Product Backlog → Sprint Planning → Sprint Backlog → Sprint Execution (with Daily Standup) → Sprint Review & Demo → Sprint Retrospective → Potentially Shippable Increment.
 
-4. THEORY must be technically accurate and complete (minimum 180 words):
-   - Explain each major component and its role
-   - Explain the data flow through the system
-   - Mention real protocols, standards, or specifications where applicable
-   - Written for a student who will be examined on this topic
+3. DATABASES / DBMS:
+   - DBMS Architecture: Must include Users/Interfaces, Query Processor (DDL Interpreter, DML Compiler, Query Optimizer, Evaluation Engine), Storage Manager (Auth & Integrity, Transaction Manager, File Manager, Buffer Manager), and Disk Storage (Data Files, Data Dictionary, Indices).
+   - Three-Schema Architecture: External Level (User Views) → Conceptual Level (Logical Schema) → Internal Level (Physical Schema) → Physical Database.
+
+4. COMPUTER NETWORKS:
+   - OSI Model: Must contain 7 layers (Physical, Data Link, Network, Transport, Session, Presentation, Application) with associated protocols and physical devices/PDUs.
+   - TCP/IP Model: Must contain 4 or 5 layers (Application, Transport, Network/Internet, Link/Network Interface) and map protocols (HTTP/FTP, TCP/UDP, IP/ICMP, Ethernet).
+   - GSM Architecture: Mobile Station (ME, SIM) → BSS (BTS, BSC) → NSS (MSC, HLR, VLR, AuC, EIR, GMSC) → External Networks (PSTN/ISDN).
+
+5. OPERATING SYSTEMS:
+   - Process State Transition: 5 or 7 states (New, Ready, Running, Waiting/Blocked, Terminated, Suspend Ready, Suspend Blocked) with transition events (admitted, scheduler dispatch, interrupt, I/O wait, I/O completion, suspend, resume).
+   - Memory Hierarchy: Stack/Registers (Fastest, Smallest) → Cache (L1, L2, L3) → Main Memory (RAM) → Secondary Storage (SSD/HDD) → Tertiary Storage (Magnetic tape/Optical - Slowest, Largest).
+
+6. COMPILERS:
+   - Compiler Phases: Front End (Lexical Analyzer/Lexer → Syntax Analyzer/Parser → Semantic Analyzer) and Back End (Intermediate Code Generator → Code Optimizer → Target Code Generator) with Symbol Table and Error Handler linked to all.
 
 ════════════════════════════════════════
 DIAGRAM TYPE SELECTION (choose ONE):
@@ -109,8 +118,13 @@ RULE 8 — FULL NAMES: never use abbreviations as the visible label
   GOOD: HLR["Home Location Register"]
   BAD:  HLR["HLR"]
 
-RULE 9 — erDiagram: entity names CAPS_WITH_UNDERSCORES, proper cardinality
-  CUSTOMER ||--o{ ORDER : "places"
+RULE 9 — erDiagram (Entity-Relationship):
+  - Entity names MUST be in ALL_CAPS_WITH_UNDERSCORES (e.g., CUSTOMER_ORDER).
+  - Relationships MUST use exactly double-hyphens '--' (solid line) or double-dots '..' (dashed line). Single hyphens '-' or single dots '.' are strictly banned.
+  - Cardinality markers MUST be exactly '||', '|o', 'o|', '|{', '}|', 'o{', or '}o'.
+  - Always separate entities, relationship line, colon, and labels with spaces.
+  - Labels MUST be enclosed in double quotes.
+  - Correct Format: CUSTOMER ||--o{ ORDER : "places"
 
 RULE 10 — sequenceDiagram: single-word participant names, use activate/deactivate
   participant Client
@@ -150,7 +164,7 @@ flowchart TD
   MSC -->|"external calls"| GMSC
   GMSC -->|"connects to"| PSTN`
 
-// ─── OpenRouter fallback ──────────────────────────────────────────────────────
+// OpenRouter fallback
 async function callOpenRouter(prompt) {
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
@@ -175,7 +189,7 @@ async function callOpenRouter(prompt) {
   return data.choices[0].message.content
 }
 
-// ─── Parse AI response safely ──────────────────────────────────────────────────
+//  Parse AI response safely 
 function parseResponse(text) {
   const clean = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim()
   try { return JSON.parse(clean) } catch {}
@@ -186,11 +200,124 @@ function parseResponse(text) {
   throw new Error('Could not parse AI response as JSON')
 }
 
-// ─── Fix common mermaid syntax issues automatically ───────────────────────────
+// Helper to clean a single node definition or reference part in flowchart/graph diagrams
+function cleanNodePart(part, definedNodeIds = new Set()) {
+  part = part.trim()
+  if (!part) return ''
+  
+  // Find the first shape bracket: [, (, {, >
+  const match = part.match(/^([^\[\(\{\>]+)(.*)$/)
+  if (!match) return part // fallback
+  
+  let id = match[1].trim()
+  let labelPart = match[2].trim()
+  
+  // Clean up ID: replace spaces/hyphens/special chars with underscores to make it a valid Mermaid ID
+  const cleanId = id.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+  
+  if (!labelPart) {
+    if (id !== cleanId) {
+      if (definedNodeIds.has(cleanId)) {
+        return cleanId
+      }
+      return `${cleanId}["${id}"]`
+    }
+    return cleanId
+  }
+  
+  // Custom shape-matching logic check
+  const pairs = [
+    { start: '([', end: '])' },
+    { start: '[(', end: ')]' },
+    { start: '[[', end: ']]' },
+    { start: '((', end: '))' },
+    { start: '{{', end: '}}' },
+    { start: '[/', end: '/]' },
+    { start: '[\\', end: '\\]' },
+    { start: '[/', end: '\\]' },
+    { start: '[\\', end: '/]' },
+    { start: '[', end: ']' },
+    { start: '(', end: ')' },
+    { start: '{', end: '}' },
+    { start: '>', end: ']' }
+  ]
+  
+  let matchedPair = null
+  for (const pair of pairs) {
+    if (labelPart.startsWith(pair.start) && labelPart.endsWith(pair.end)) {
+      matchedPair = pair
+      break
+    }
+  }
+  
+  if (matchedPair) {
+    const bracketStart = matchedPair.start
+    const bracketEnd = matchedPair.end
+    let text = labelPart.slice(bracketStart.length, labelPart.length - bracketEnd.length).trim()
+    
+    // Clean quotes from the text
+    text = text.replace(/^"|"$/g, '').replace(/^'|'$/g, '').trim()
+    text = text.replace(/"/g, '') // remove double quotes from inside the text
+    
+    return `${cleanId}${bracketStart}"${text}"${bracketEnd}`
+  }
+  
+  // Fallback: wrap in standard rectangular brackets with double quotes
+  return `${cleanId}["${labelPart.replace(/"/g, '')}"]`
+}
+
+//  Fix common mermaid syntax issues automatically 
 function fixMermaidCode(code) {
   if (!code) return code
 
   let fixed = code.trim()
+
+  // 1. Sanitize unicode characters and tabs
+  fixed = fixed.replace(/\t/g, ' ') // Replace tabs with spaces
+  
+  // Replace unicode arrow heads with standard equivalents
+  fixed = fixed.replace(/[\u25B6\u25B7\u25BA]/g, '>') // ▶, ▷, ► -> >
+  fixed = fixed.replace(/[\u25C0\u25C1\u25C4]/g, '<') // ◀, ◁, ◄ -> <
+  
+  // Replace all box drawing characters and horizontal dash-like characters with standard hyphens
+  fixed = fixed.replace(/[\u2500-\u257F\u2013\u2014\u2212]/g, '-')
+
+  // Fix trailing greater-than symbols after connection labels (e.g. -->|label|> -> -->|label|)
+  fixed = fixed.replace(/((?:<|>)?[-=]+\.?->\s*\|[^|]+\|)\s*>/g, '$1')
+
+  // Fix erDiagram relationship cardinality and lines (e.g. ||-o|{ -> ||--o{)
+  fixed = fixed.replace(/(\w+)\s*([|o{}]{2,})\s*([-.]+)\s*([|o{}]{2,})\s*(\w+)/g, (match, ent1, card1, line, card2, ent2) => {
+    let normalizedLine = line;
+    if (line.includes('.')) normalizedLine = '..';
+    else normalizedLine = '--';
+
+    const normalizeLeftCard = (c) => {
+      if (c === '||') return '||';
+      if (c.includes('o') && c.includes('|')) return '|o';
+      if (c.includes('o')) return '}o';
+      if (c.includes('|')) return '}|';
+      return '||';
+    };
+
+    const normalizeRightCard = (c) => {
+      if (c === '||') return '||';
+      if (c.includes('o') && c.includes('|')) return 'o|';
+      if (c.includes('o')) return 'o{';
+      if (c.includes('|')) return '|{';
+      return '||';
+    };
+
+    return `${ent1} ${normalizeLeftCard(card1)}${normalizedLine}${normalizeRightCard(card2)} ${ent2}`;
+  });
+
+  // Fix missing colon in erDiagram relationship labels (e.g. Entity1 ||--o{ Entity2 "label" -> Entity1 ||--o{ Entity2 : "label")
+  fixed = fixed.replace(/((\w+)\s+([|o{}]{2,}[-.]+[|o{}]{2,})\s+(\w+))\s+["']([^"']+)["']/g, '$1 : "$5"');
+
+  // Fix single quotes in erDiagram labels (e.g. : 'label' -> : "label")
+  fixed = fixed.replace(/:\s*'([^']+)'/g, ': "$1"');
+
+  // Fix unquoted labels in erDiagram (including multi-word labels) (e.g. : places -> : "places")
+  fixed = fixed.replace(/:\s*([^"\x27\s\n][^"\x27\n]*?)(?=\s*(?:%%|$))/mg, ': "$1"');
 
   // Remove backtick fences
   fixed = fixed.replace(/^```[a-z]*\n?/gm, '').replace(/^```\s*$/gm, '').trim()
@@ -215,51 +342,98 @@ function fixMermaidCode(code) {
     }
   }
 
-  // Fix single-quoted labels → double-quoted
+  const isFlowchartOrGraph = fixed.toLowerCase().startsWith('flowchart') || fixed.toLowerCase().startsWith('graph')
+
+  if (isFlowchartOrGraph) {
+    const lines = fixed.split('\n')
+    const definedNodeIds = new Set()
+    
+    // First pass: find all node IDs that are defined with a label/shape
+    lines.forEach(line => {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('%%') || trimmed.toLowerCase().startsWith('subgraph') || trimmed.toLowerCase().startsWith('flowchart') || trimmed.toLowerCase().startsWith('graph')) {
+        return
+      }
+      
+      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-+|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
+      parts.forEach((part, i) => {
+        if (i % 2 === 0) { // Node part
+          const match = part.trim().match(/^([^\[\(\{\>]+)(.+)$/)
+          if (match) {
+            const id = match[1].trim()
+            const cleanId = id.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+            definedNodeIds.add(cleanId)
+          }
+        }
+      })
+    })
+
+    const cleanedLines = lines.map(line => {
+      const trimmed = line.trim()
+      if (!trimmed || trimmed.startsWith('%%') || trimmed.toLowerCase().startsWith('flowchart') || trimmed.toLowerCase().startsWith('graph')) {
+        return line
+      }
+
+      // Check for subgraph start
+      if (trimmed.toLowerCase().startsWith('subgraph')) {
+        const rest = trimmed.slice(8).trim()
+        const match = rest.match(/^([^\[\(\{\"\n]+)(.*)$/)
+        if (match) {
+          let id = match[1].trim()
+          let labelPart = match[2].trim()
+          const cleanId = id.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          
+          if (!labelPart) {
+            return `  subgraph ${cleanId}["${id}"]`
+          } else {
+            let text = labelPart.replace(/^\["|\]$/g, '').replace(/^\[|\]$/g, '').replace(/^"|"$/g, '').replace(/^'|'$/g, '').trim()
+            return `  subgraph ${cleanId}["${text}"]`
+          }
+        }
+        return line
+      }
+
+      if (trimmed.toLowerCase() === 'end') {
+        return '  end'
+      }
+
+      // Process connections and node definitions
+      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-+|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
+      
+      const cleanedParts = parts.map((part, i) => {
+        if (i % 2 === 1) { // Arrow connector
+          let arrow = part
+          const labelMatch = arrow.match(/\|([^|]+)\|/)
+          if (labelMatch) {
+            let label = labelMatch[1].trim()
+            label = label.replace(/^"|"$/g, '').replace(/^'|'$/g, '').trim()
+            arrow = arrow.replace(/\|[^|]+\|/, `|"${label}"|`)
+          }
+          arrow = arrow.replace(/(==>|-->|-\.->|->)\s*\|([^|]+)\|\s*>/g, '$1|$2|')
+          return arrow
+        } else { // Node ID & shape definition
+          return cleanNodePart(part, definedNodeIds)
+        }
+      })
+
+      return '  ' + cleanedParts.join('')
+    })
+    fixed = cleanedLines.join('\n')
+  }
+
+  // Fallback cleanup for other diagram types/general rules
   fixed = fixed.replace(/\['([^']+)'\]/g, '["$1"]')
   fixed = fixed.replace(/\('([^']+)'\)/g, '("$1")')
   fixed = fixed.replace(/\{'([^']+)'\}/g, '{"$1"}')
   fixed = fixed.replace(/\|'([^']+)'\|/g, '|"$1"|')
 
-  // Fix arrows with trailing > on their labels: e.g. A -->|"label"|> B -> A -->|"label"| B
-  fixed = fixed.replace(/(==>|-->|-\.->|->)\s*\|([^|]+)\|\s*>/g, '$1|$2|')
-
-  // Clean unclosed HTML brackets or generic parameters inside double quotes: e.g. ["List<Integer>"] -> ["List[Integer]"]
+  // Clean unclosed HTML brackets or generic parameters inside double quotes
   fixed = fixed.replace(/"([^"]+)"/g, (match, content) => {
     if (content.includes('<') || content.includes('>')) {
       return `"${content.replace(/</g, '[').replace(/>/g, ']')}"`
     }
     return match
   })
-
-  // Fix parentheses inside subgraph label strings — Mermaid can't parse them
-  // e.g. subgraph MS_SUB["Mobile Station (MS)"] → subgraph MS_SUB["Mobile Station - MS"]
-  fixed = fixed.replace(
-    /subgraph\s+(\w+)\s*\["([^"]+)"\]/g,
-    (match, id, label) => {
-      const cleanLabel = label.replace(/\(/g, '- ').replace(/\)/g, '').trim()
-      return `subgraph ${id}["${cleanLabel}"]`
-    }
-  )
-
-  // Also fix parentheses inside any node label strings
-  // e.g. MS["Mobile Station (MS)"] → MS["Mobile Station - MS"]
-  fixed = fixed.replace(
-    /(\w+)\s*\["([^"]+)"\]/g,
-    (match, id, label) => {
-      const cleanLabel = label.replace(/\(/g, '- ').replace(/\)/g, '').trim()
-      return `${id}["${cleanLabel}"]`
-    }
-  )
-
-  // Fix parentheses in rounded node labels: A("text (abc)") → A("text - abc")
-  fixed = fixed.replace(
-    /(\w+)\s*\("([^"]+)"\)/g,
-    (match, id, label) => {
-      const cleanLabel = label.replace(/\(/g, '- ').replace(/\)/g, '').trim()
-      return `${id}("${cleanLabel}")`
-    }
-  )
 
   // Ban check
   if (fixed.startsWith('classDiagram') || fixed.startsWith('block-beta')) {
@@ -268,6 +442,7 @@ function fixMermaidCode(code) {
 
   return fixed
 }
+
 
 // ─── Validate result ──────────────────────────────────────────────────────────
 function validateResult(parsed) {
@@ -290,7 +465,7 @@ function validateResult(parsed) {
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { prompt, useProModel = false } = body
+    const { prompt, useProModel = false, forceAI = false } = body
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length < 2) {
       return Response.json({ error: 'Please enter a valid subject or topic.' }, { status: 400 })
@@ -299,7 +474,41 @@ export async function POST(req) {
       return Response.json({ error: 'Prompt too long. Keep it under 300 characters.' }, { status: 400 })
     }
 
-    // Use pro model for complex technical topics — better instruction following
+    // ── TIER 1: Static Library Lookup (free, instant, 100% accurate) ──────────
+    if (!forceAI) {
+      try {
+        const { matchDiagram } = await import('@/lib/diagramLibrary')
+        const libraryMatch = matchDiagram(prompt.trim())
+        if (libraryMatch) {
+          console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}"`)
+          return Response.json({
+            success: true,
+            data: {
+              schema: libraryMatch,
+              title: libraryMatch.title,
+              theory: libraryMatch.theory || '',
+              key_points: libraryMatch.keyPoints || [],
+              use_cases: libraryMatch.useCases || [],
+              examTip: libraryMatch.examTip || '',
+              complexity: libraryMatch.complexity || 'Intermediate',
+              subject_category: libraryMatch.category || 'Other',
+              diagram_type: libraryMatch.type,
+              source: 'library',
+            },
+            meta: {
+              model: 'static-library',
+              usedFallback: false,
+              fromLibrary: true,
+              timestamp: new Date().toISOString(),
+            },
+          })
+        }
+      } catch (libErr) {
+        console.warn('[Library] Lookup error, falling through to AI:', libErr.message)
+      }
+    }
+
+    // ── TIER 2: AI Generation (existing Groq / OpenRouter pipeline) ───────────
     const isComplexTopic = /block|architect|dbms|database|system|circuit|mcc|spcc|control|network|osi|gsm|compiler|processor|memory|cache|pipeline/i.test(prompt)
     const model = (useProModel || isComplexTopic)
       ? (process.env.GROQ_MODEL_PRO || 'llama-3.3-70b-versatile')
@@ -339,8 +548,8 @@ export async function POST(req) {
       const validated = validateResult(parsed)
       return Response.json({
         success: true,
-        data: validated,
-        meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, timestamp: new Date().toISOString() },
+        data: { ...validated, source: 'ai' },
+        meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, fromLibrary: false, timestamp: new Date().toISOString() },
       })
     } catch (validateErr) {
       if (validateErr.message === 'INVALID_DIAGRAM_TYPE' && !retried) {
@@ -352,8 +561,8 @@ export async function POST(req) {
           const validated = validateResult(parsed)
           return Response.json({
             success: true,
-            data: validated,
-            meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, timestamp: new Date().toISOString() },
+            data: { ...validated, source: 'ai' },
+            meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: false, timestamp: new Date().toISOString() },
           })
         } catch (retryErr) {
           console.error('Retry failed:', retryErr.message)

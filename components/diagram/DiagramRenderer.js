@@ -1,7 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { RefreshCw, AlertCircle } from 'lucide-react'
+import { RefreshCw, AlertCircle, Sparkles, BookOpen } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+// SVGEngine is loaded dynamically (client-only)
+const SVGEngine = dynamic(() => import('@/components/engine/SVGEngine'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center justify-center min-h-[320px]">
+      <RefreshCw className="w-5 h-5 animate-spin" style={{ color: 'var(--brand)' }} />
+    </div>
+  )
+})
 
 // ─── Per-diagram-type Mermaid themes ──────────────────────────────────────────
 const THEMES = {
@@ -98,45 +109,15 @@ async function initMermaid(type) {
     startOnLoad: false,
     theme: 'base',
     themeVariables: THEMES[type] || THEMES.flowchart,
-    flowchart: {
-      htmlLabels: true,
-      curve: 'basis',
-      padding: 16,
-      nodeSpacing: 45,
-      rankSpacing: 55,
-      useMaxWidth: true,
-    },
-    er: {
-      diagramPadding: 16,
-      layoutDirection: 'TB',
-      minEntityWidth: 110,
-      minEntityHeight: 60,
-      useMaxWidth: true,
-    },
-    sequence: {
-      actorMargin: 60,
-      width: 130,
-      height: 50,
-      boxMargin: 8,
-      noteMargin: 8,
-      messageMargin: 32,
-      messageFontSize: 12,
-      showSequenceNumbers: false,
-      useMaxWidth: true,
-    },
+    flowchart: { htmlLabels: true, curve: 'basis', padding: 16, nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
+    er: { diagramPadding: 16, layoutDirection: 'TB', minEntityWidth: 110, minEntityHeight: 60, useMaxWidth: true },
+    sequence: { actorMargin: 60, width: 130, height: 50, boxMargin: 8, noteMargin: 8, messageMargin: 32, messageFontSize: 12, showSequenceNumbers: false, useMaxWidth: true },
     state: { padding: 12, useMaxWidth: true },
-    graph: {
-      htmlLabels: true,
-      curve: 'basis',
-      nodeSpacing: 45,
-      rankSpacing: 55,
-      useMaxWidth: true,
-    },
+    graph: { htmlLabels: true, curve: 'basis', nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
   })
   return mermaid
 }
 
-// ─── Color palettes ────────────────────────────────────────────────────────────
 const NODE_PALETTE = [
   { bg: '#EEF2FF', border: '#6366F1', text: '#312E81' },
   { bg: '#F0FDF4', border: '#22C55E', text: '#14532D' },
@@ -159,38 +140,29 @@ const CLUSTER_PALETTE = [
 
 function enhanceSVG(svgEl, type) {
   if (!svgEl) return
-
-  // ── Fix invisible SVG: ensure explicit background and dimensions ──
   svgEl.style.background = 'transparent'
   svgEl.style.display    = 'block'
   svgEl.style.maxWidth   = '100%'
   svgEl.style.height     = 'auto'
   svgEl.removeAttribute('height')
 
-  // ── Fix viewBox so it isn't cut off ──
-  // Some graph LR diagrams render with a 0-height viewBox
   const vb = svgEl.getAttribute('viewBox')
   if (vb) {
     const parts = vb.split(/\s+|,/).map(Number)
     if (parts.length === 4 && (parts[3] === 0 || isNaN(parts[3]))) {
-      // viewBox height is broken — remove it so browser auto-sizes
       svgEl.removeAttribute('viewBox')
     }
   }
 
-  // ── Strip stray quotes from text nodes ──
   svgEl.querySelectorAll('text, tspan').forEach(el => {
     el.childNodes.forEach(node => {
       if (node.nodeType === Node.TEXT_NODE) {
-        const cleaned = node.textContent
-          .replace(/^['"]|['"]$/g, '')
-          .trim()
+        const cleaned = node.textContent.replace(/^['"]|['"]$/g, '').trim()
         if (cleaned !== node.textContent) node.textContent = cleaned
       }
     })
   })
 
-  // ── Color cluster subgraphs ──
   svgEl.querySelectorAll('.cluster').forEach((cluster, i) => {
     const c    = CLUSTER_PALETTE[i % CLUSTER_PALETTE.length]
     const rect = cluster.querySelector('rect')
@@ -202,23 +174,20 @@ function enhanceSVG(svgEl, type) {
       rect.setAttribute('ry',           '10')
     }
     cluster.querySelectorAll('.cluster-label text, .cluster-label tspan').forEach(t => {
-      t.setAttribute('fill',        c.label)
+      t.setAttribute('fill', c.label)
       t.style.fontWeight = '700'
       t.style.fontSize   = '12px'
     })
   })
 
-  // ── Color individual nodes ──
   if (type === 'flowchart' || type === 'graph') {
     svgEl.querySelectorAll('.node').forEach((node, i) => {
       const c = NODE_PALETTE[i % NODE_PALETTE.length]
-
       node.querySelectorAll('rect, circle, ellipse, polygon').forEach(shape => {
         shape.setAttribute('fill',         c.bg)
         shape.setAttribute('stroke',       c.border)
         shape.setAttribute('stroke-width', '2')
       })
-
       node.querySelectorAll('.nodeLabel, .label').forEach(lbl => {
         lbl.style.color      = c.text
         lbl.style.fontWeight = '500'
@@ -228,8 +197,6 @@ function enhanceSVG(svgEl, type) {
         t.style.fontWeight = '500'
       })
     })
-
-    // Soften edge lines
     svgEl.querySelectorAll('.edgePath path').forEach(p => {
       p.setAttribute('stroke',       '#94A3B8')
       p.setAttribute('stroke-width', '1.5')
@@ -237,8 +204,6 @@ function enhanceSVG(svgEl, type) {
     svgEl.querySelectorAll('marker path, marker polygon').forEach(m => {
       m.setAttribute('fill', '#94A3B8')
     })
-
-    // Edge label styling
     svgEl.querySelectorAll('.edgeLabel .label rect').forEach(r => {
       r.setAttribute('fill',   '#F8FAFC')
       r.setAttribute('stroke', 'none')
@@ -250,45 +215,25 @@ function enhanceSVG(svgEl, type) {
   }
 }
 
-// ─── Scale down oversized SVGs to fit viewport ────────────────────────────────
 function constrainSVGSize(svgEl, containerEl) {
   if (!svgEl || !containerEl) return
-
-  // Get the SVG's natural dimensions from viewBox or width/height attrs
   let naturalW = parseFloat(svgEl.getAttribute('width'))  || 800
   let naturalH = parseFloat(svgEl.getAttribute('height')) || 600
-
   const vb = svgEl.getAttribute('viewBox')
   if (vb) {
     const parts = vb.split(/\s+|,/).map(Number)
-    if (parts.length === 4) {
-      naturalW = parts[2] || naturalW
-      naturalH = parts[3] || naturalH
-    }
+    if (parts.length === 4) { naturalW = parts[2] || naturalW; naturalH = parts[3] || naturalH }
   }
-
-  const maxW = containerEl.clientWidth  || 800
-  const maxH = 520 // max diagram height in px
-
-  const scaleW = naturalW > maxW ? maxW / naturalW : 1
-  const scaleH = naturalH > maxH ? maxH / naturalH : 1
-  const scale  = Math.min(scaleW, scaleH)
-
-  if (scale < 1) {
-    svgEl.style.width  = `${naturalW * scale}px`
-    svgEl.style.height = `${naturalH * scale}px`
-  } else {
-    svgEl.style.width  = '100%'
-    svgEl.style.height = 'auto'
-  }
-
-  svgEl.style.maxWidth  = '100%'
-  svgEl.style.display   = 'block'
-  svgEl.style.margin    = '0 auto'
+  const maxW = containerEl.clientWidth || 800
+  const maxH = 520
+  const scale = Math.min(naturalW > maxW ? maxW / naturalW : 1, naturalH > maxH ? maxH / naturalH : 1)
+  if (scale < 1) { svgEl.style.width = `${naturalW * scale}px`; svgEl.style.height = `${naturalH * scale}px` }
+  else           { svgEl.style.width = '100%'; svgEl.style.height = 'auto' }
+  svgEl.style.maxWidth = '100%'; svgEl.style.display = 'block'; svgEl.style.margin = '0 auto'
 }
 
-// ─── Main component ────────────────────────────────────────────────────────────
-export default function DiagramRenderer({ code, className = '' }) {
+// ─── Mermaid renderer (AI-generated diagrams) ─────────────────────────────────
+function MermaidRenderer({ code, className = '' }) {
   const containerRef = useRef(null)
   const [status, setStatus]     = useState('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -296,7 +241,6 @@ export default function DiagramRenderer({ code, className = '' }) {
 
   useEffect(() => {
     if (!code) return
-
     const renderId = ++renderIdRef.current
     setStatus('rendering')
     setErrorMsg('')
@@ -305,28 +249,18 @@ export default function DiagramRenderer({ code, className = '' }) {
       try {
         const type    = detectType(code)
         const mermaid = await initMermaid(type)
-
-        // Validate syntax first
         await mermaid.parse(code)
-
         const id = `mmd-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
         const { svg } = await mermaid.render(id, code)
-
         if (renderId !== renderIdRef.current) return
-
         if (containerRef.current) {
           containerRef.current.innerHTML = svg
-
           const svgEl = containerRef.current.querySelector('svg')
           if (svgEl) {
             enhanceSVG(svgEl, type)
-            // Wait one frame for layout before constraining size
-            requestAnimationFrame(() => {
-              constrainSVGSize(svgEl, containerRef.current)
-            })
+            requestAnimationFrame(() => constrainSVGSize(svgEl, containerRef.current))
           }
         }
-
         setStatus('done')
       } catch (err) {
         if (renderId !== renderIdRef.current) return
@@ -381,4 +315,50 @@ export default function DiagramRenderer({ code, className = '' }) {
       />
     </div>
   )
+}
+
+// ─── Main DiagramRenderer (router) ────────────────────────────────────────────
+/**
+ * Routes to SVGEngine (library) or MermaidRenderer (AI) based on `source` prop
+ *
+ * Props:
+ *   source: 'library' | 'ai' — where the diagram came from
+ *   schema: object            — for library diagrams (passed to SVGEngine)
+ *   code:   string            — for AI diagrams (Mermaid code string)
+ */
+export default function DiagramRenderer({ source, schema, code, className = '' }) {
+  // Library diagram → precision SVGEngine
+  if (source === 'library' && schema) {
+    return (
+      <div className="w-full">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border-b border-emerald-100">
+          <BookOpen className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+          <span className="text-xs font-semibold text-emerald-700">
+            Precision Library Diagram — 100% accurate for exams
+          </span>
+        </div>
+        <SVGEngine schema={schema} className={className} />
+      </div>
+    )
+  }
+
+  // AI diagram → Mermaid.js renderer
+  if (source === 'ai' && code) {
+    return (
+      <div className="w-full">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-violet-50 border-b border-violet-100">
+          <Sparkles className="w-3.5 h-3.5 text-violet-600 flex-shrink-0" />
+          <span className="text-xs font-semibold text-violet-700">
+            AI-Generated Diagram — verify key details
+          </span>
+        </div>
+        <MermaidRenderer code={code} className={className} />
+      </div>
+    )
+  }
+
+  // Fallback: legacy Mermaid-only usage
+  if (code) return <MermaidRenderer code={code} className={className} />
+
+  return null
 }

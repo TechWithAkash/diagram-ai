@@ -1,0 +1,63 @@
+{
+  "id": "tcp-handshake",
+  "type": "sequence",
+  "title": "TCP Three-Way Handshake",
+  "category": "Networks",
+  "aliases": ["tcp handshake", "tcp three way handshake", "tcp 3 way handshake", "tcp connection establishment", "syn syn-ack ack", "tcp connection", "tcp/ip handshake"],
+  "examTip": "Three-Way Handshake: SYN → SYN-ACK → ACK. Client initiates. SYN (synchronize), ACK (acknowledge). After handshake, connection is ESTABLISHED. Four-way handshake for connection termination: FIN → ACK → FIN → ACK.",
+  "viewBox": { "width": 680, "height": 520 },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "participants": [
+    { "id": "client", "label": "Client", "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "server", "label": "Server", "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" }
+  ],
+  "messages": [
+    {
+      "from": "client", "to": "server",
+      "label": "SYN  (seq=x)",
+      "note": "Client requests connection.\nSYN flag=1, sends random\ninitial sequence number x",
+      "type": "request",
+      "state": "Client: SYN_SENT"
+    },
+    {
+      "from": "server", "to": "client",
+      "label": "SYN-ACK  (seq=y, ack=x+1)",
+      "note": "Server acknowledges client SYN\nand sends its own SYN.\nACK=x+1, seq=y (random)",
+      "type": "response",
+      "state": "Server: SYN_RECEIVED"
+    },
+    {
+      "from": "client", "to": "server",
+      "label": "ACK  (ack=y+1)",
+      "note": "Client acknowledges server SYN.\nConnection now ESTABLISHED\non both sides.",
+      "type": "request",
+      "state": "Both: ESTABLISHED"
+    },
+    {
+      "from": "client", "to": "server",
+      "label": "Data Transfer begins",
+      "note": "HTTP request, file data,\nor any application data",
+      "type": "data",
+      "state": ""
+    }
+  ],
+  "notes": [
+    "Connection Termination (4-way): FIN → ACK → FIN → ACK",
+    "TCP Port: Identified by (Source IP, Source Port, Dest IP, Dest Port)",
+    "SYN flood attack: attacker sends many SYN without completing handshake"
+  ],
+  "theory": "The TCP (Transmission Control Protocol) Three-Way Handshake is the connection establishment procedure used by TCP (a Layer 4 — Transport Layer protocol) to create a reliable, full-duplex connection between a client and server before any data is transferred.\n\nStep 1 — SYN (Synchronize): The client initiates the connection by sending a TCP segment with the SYN (synchronize) flag set to 1. The client also sends a randomly generated Initial Sequence Number (ISN) x. At this point, the client enters the SYN_SENT state.\n\nStep 2 — SYN-ACK (Synchronize-Acknowledge): The server, upon receiving the SYN, responds with a segment that has both SYN=1 and ACK=1. The ACK number is set to x+1 (acknowledging the client's sequence number). The server sends its own randomly generated ISN y. The server enters the SYN_RECEIVED state.\n\nStep 3 — ACK (Acknowledge): The client sends the final segment with ACK=1 and ACK number y+1, acknowledging the server's sequence number. No data is carried in this final handshake segment. Both sides are now in the ESTABLISHED state, and bidirectional data transfer can begin.\n\nPurpose of the Three-Way Handshake: (1) Both sides agree on sequence numbers for ordered delivery; (2) Both sides confirm readiness to communicate; (3) Ensures synchronization before data exchange.\n\nConnection Termination (Four-Way Handshake): TCP uses a four-step process to close connections: FIN → ACK → FIN → ACK, because each direction of communication must be closed independently.\n\nSecurity: SYN flood attacks exploit the handshake by sending many SYN segments without completing the connection, exhausting server resources (SYN cookies are the defense).",
+  "keyPoints": [
+    "Three steps: SYN (client) → SYN-ACK (server) → ACK (client) — then ESTABLISHED",
+    "SYN carries Initial Sequence Number (ISN); ACK = received ISN + 1",
+    "Purpose: synchronize sequence numbers and confirm both sides are ready to communicate",
+    "TCP is connection-oriented; UDP is connectionless (no handshake)",
+    "Connection termination uses 4-way handshake: FIN → ACK → FIN → ACK"
+  ],
+  "useCases": [
+    "HTTP/HTTPS web requests — every browser connection to a web server uses TCP handshake",
+    "SSH, FTP, SMTP — all reliable TCP-based application protocols",
+    "Network security analysis — detecting SYN flood DoS attacks and port scanning"
+  ]
+}

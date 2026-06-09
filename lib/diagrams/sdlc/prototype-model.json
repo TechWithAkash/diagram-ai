@@ -1,0 +1,42 @@
+{
+  "id": "prototype-model",
+  "type": "graph",
+  "title": "Prototyping Model — Software Development Life Cycle",
+  "category": "Software",
+  "aliases": ["prototype", "prototype model", "prototyping sdlc", "prototyping methodology", "evolutionary prototyping"],
+  "examTip": "Prototype model is iterative. Standard phases: Requirements Gathering → Quick Design → Build Prototype → Customer Evaluation → Refine Prototype → Engineer Product. Loop continues until customer approves. Great for unstable or unclear requirements.",
+  "viewBox": { "width": 960, "height": 450 },
+  "complexity": "Beginner",
+  "subject_category": "Software",
+  "nodes": [
+    { "id": "req", "label": "1. Requirements\nGathering", "x": 100, "y": 300, "r": 50, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "design", "label": "2. Quick\nDesign", "x": 260, "y": 300, "r": 50, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "build", "label": "3. Build\nPrototype", "x": 420, "y": 300, "r": 50, "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12" },
+    { "id": "eval", "label": "4. Customer\nEvaluation", "x": 580, "y": 300, "r": 50, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "refine", "label": "5. Refine\nPrototype", "x": 340, "y": 140, "r": 50, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+    { "id": "code", "label": "6. Code &\nImplement", "x": 740, "y": 300, "r": 50, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "maintain", "label": "7. Final Product\n& Maintenance", "x": 900, "y": 300, "r": 50, "color": "#F0FDF4", "borderColor": "#16A34A", "textColor": "#14532D" }
+  ],
+  "edges": [
+    { "from": "req", "to": "design" },
+    { "from": "design", "to": "build" },
+    { "from": "build", "to": "eval" },
+    { "from": "eval", "to": "refine", "label": "Disapproved" },
+    { "from": "refine", "to": "design", "label": "Update Design" },
+    { "from": "eval", "to": "code", "label": "Approved" },
+    { "from": "code", "to": "maintain" }
+  ],
+  "theory": "The Prototyping Model is a systems development method in which a prototype (an early, approximation or simplified version of the software) is built, tested, and reworked until an acceptable prototype is achieved, from which the complete system or product can now be developed.\n\nThis model is highly useful when the customer does not know the exact requirements in detail. Instead, an iterative feedback mechanism is created: developers build a quick, crude working model of the system so the client can inspect it and identify gaps.\n\nPhases of the Prototyping Model:\n1. Requirements Gathering and Analysis: Initial requirements are collected, specifically focusing on user interface and visible system outputs.\n2. Quick Design: A fast, preliminary design is created. It focuses on the layout and input/output formats rather than detailed database schemas or security mechanisms.\n3. Build Prototype: A working prototype is built using rapid development tools. It shows the basic layout and user interaction.\n4. Customer Evaluation: The client tests the prototype to assess whether it meets their expectations and identifies any modifications needed.\n5. Refine Prototype: Feedback is analyzed, and the prototype is modified to fix deficiencies. This loops back to quick design and build.\n6. Code & Implement: Once approved, the actual system is coded with proper engineering rigor (scalability, database, security).\n7. Final Product & Maintenance: The final product is tested, deployed, and maintained.\n\nAdvantages: Reduced time and cost if requirements are unclear; improved user involvement; early feedback.\nDisadvantages: Developer may take shortcuts; customer may mistake the prototype for the final product.",
+  "keyPoints": [
+    "Iterative model focused on building a quick mock-up or prototype to clarify requirements",
+    "Continuous feedback loop: Build Prototype → Customer Evaluation → Refine Prototype → Quick Design",
+    "Transition to standard development occurs only after the customer formally approves the prototype",
+    "Reduces risk of building the wrong product; increases user satisfaction and engagement",
+    "Drawback: Can lead to scope creep or developer dependency on temporary 'throwaway' code"
+  ],
+  "useCases": [
+    "User-interface intensive applications: website frontends, dashboards, mobile application mockups",
+    "Innovative products where the end-user has never seen a similar system and cannot define requirements",
+    "Complex database transaction systems where data flow must be validated by business users early"
+  ]
+}

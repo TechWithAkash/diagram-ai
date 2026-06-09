@@ -1,0 +1,95 @@
+{
+  "id": "8259-pic",
+  "type": "block-diagram",
+  "title": "Intel 8259 Programmable Interrupt Controller (PIC)",
+  "category": "Electronics",
+  "aliases": ["8259", "intel 8259", "8259 pic", "8259 block diagram", "programmable interrupt controller", "8259 controller"],
+  "examTip": "8259 has three key registers: IRR (Interrupt Request Register - stores pending requests from IR0-IR7), ISR (In-Service Register - stores interrupts currently being executed), and IMR (Interrupt Mask Register - masks bits). Priority Resolver decides highest priority interrupt. Cascade Buffer/Comparator links up to 8 slave 8259s to 1 master (up to 64 interrupts).",
+  "viewBox": { "width": 850, "height": 500 },
+  "complexity": "Advanced",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "data-buf",
+      "label": "Data Bus Buffer",
+      "x": 30, "y": 40, "width": 150, "height": 80,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["8-bit bidirectional buffer"]
+    },
+    {
+      "id": "rw-logic",
+      "label": "Read/Write Logic",
+      "x": 30, "y": 150, "width": 150, "height": 110,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Inputs: CS̄, RD̄, WR̄, A0", "Controls command word read/write"]
+    },
+    {
+      "id": "ctrl-logic",
+      "label": "Control Logic",
+      "x": 30, "y": 290, "width": 150, "height": 130,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["INT (Interrupt Output to CPU)", "INTĀ (Acknowledge Input from CPU)"]
+    },
+    {
+      "id": "cascade",
+      "label": "Cascade Buffer/Comparator",
+      "x": 310, "y": 180, "width": 180, "height": 90,
+      "color": "#F5F3FF", "borderColor": "#7C3AED",
+      "sublabels": ["CAS0 – CAS2 (Cascade lines)", "SP̄ / EN̄ (Master/Slave select)"]
+    },
+    {
+      "id": "resolver",
+      "label": "Priority Resolver",
+      "x": 310, "y": 40, "width": 180, "height": 90,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Determines highest priority", "among pending IRR requests"]
+    },
+    {
+      "id": "irr",
+      "label": "Interrupt Request Reg (IRR)",
+      "x": 600, "y": 40, "width": 210, "height": 90,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["Stores pending interrupts", "from external lines IR0 – IR7"]
+    },
+    {
+      "id": "imr",
+      "label": "Interrupt Mask Reg (IMR)",
+      "x": 600, "y": 180, "width": 210, "height": 90,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["Masks/unmasks individual", "interrupt channels"]
+    },
+    {
+      "id": "isr",
+      "label": "In-Service Register (ISR)",
+      "x": 310, "y": 320, "width": 180, "height": 90,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Tracks interrupts currently", "being executed by CPU"]
+    }
+  ],
+  "connections": [
+    { "from": "irr", "to": "resolver", "type": "unidirectional" },
+    { "from": "imr", "to": "irr", "label": "Masking", "type": "unidirectional" },
+    { "from": "resolver", "to": "isr", "type": "unidirectional" },
+    { "from": "data-buf", "to": "resolver", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "data-buf", "to": "irr", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "data-buf", "to": "isr", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "rw-logic", "to": "cascade", "type": "unidirectional" },
+    { "from": "ctrl-logic", "to": "resolver", "type": "unidirectional" }
+  ],
+  "buses": [
+    { "id": "sys-data", "label": "D0 – D7 (Data Bus)", "orientation": "horizontal", "y": 470, "color": "#2563EB" }
+  ],
+  "theory": "The Intel 8259 is a Programmable Interrupt Controller (PIC) designed for Intel 8085 and 8086 microprocessors. It manages up to eight vector hardware interrupts, resolving priorities and issuing a single interrupt request (INT) pin command to the host processor, making interrupt-driven systems highly organized.\n\nKey Components:\n1. Interrupt Request Register (IRR): An 8-bit register storing all pending interrupts on lines IR0 through IR7. A set bit indicates that the external device has requested an interrupt.\n2. Interrupt Mask Register (IMR): An 8-bit register containing mask bits. Writing a 1 to a bit masks (disables) that interrupt, ignoring requests on that line. It operates on the IRR.\n3. Priority Resolver (PR): A logic block that evaluates IRR requests that are not masked in the IMR. It determines the highest priority interrupt among them (by default, IR0 has highest, IR7 lowest).\n4. In-Service Register (ISR): An 8-bit register storing the interrupts currently being serviced by the microprocessor. The bit is cleared when the CPU writes an End of Interrupt (EOI) command.\n5. Cascade Buffer/Comparator: Used to cascade multiple 8259 chips. One master 8259 can control up to eight slave 8259s using the CAS0-CAS2 lines, increasing system interrupt capacity to 64 lines. SP/EN (Slave Program/Enable Buffer) determines if the chip is a master or slave.\n\nInteraction Flow:\nExternal devices trigger lines IR0-IR7. IRR registers them. Priority Resolver checks unmasked requests. If priority is higher than currently running interrupts in ISR, 8259 sends an INT signal to the CPU. CPU responds with INTA. 8259 resets IRR bit, sets ISR bit, and sends the interrupt vector address onto the data bus.",
+  "keyPoints": [
+    "Monitors 8 hardware interrupt request lines (IR0 – IR7) and priority-resolves them",
+    "Contains IRR (pending requests), ISR (current CPU-serviced requests), and IMR (masked requests)",
+    "INT output goes to CPU's INT input; INTA input acknowledges CPU status cycles",
+    "Supports master-slave cascading via CAS0–CAS2 lines, enabling up to 64 interrupt lines",
+    "Prioritization modes include Fully Nested, Automatic Rotation, and Specific Rotation"
+  ],
+  "useCases": [
+    "Legacy IBM PC/XT and AT architectures to route hardware interrupts (timer, keyboard, disk controller)",
+    "Real-time industrial systems requiring strict priority handling of multiple sensors",
+    "Embedded system interrupt expansion boards for microcontrollers"
+  ]
+}

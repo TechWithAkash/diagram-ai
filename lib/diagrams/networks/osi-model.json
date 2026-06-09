@@ -1,0 +1,37 @@
+{
+  "id": "osi-model",
+  "type": "layered-stack",
+  "title": "OSI Reference Model — 7 Layers",
+  "category": "Networks",
+  "aliases": ["OSI", "OSI model", "OSI layer", "OSI layers", "open systems interconnection", "7 layer model", "osi reference model", "network layers", "osi 7 layers"],
+  "examTip": "Mnemonic (top→bottom): 'All People Seem To Need Data Processing'. PDUs: Data|Data|Data|Segment|Packet|Frame|Bits. Each layer adds a header (encapsulation) going down, removes it going up (decapsulation).",
+  "viewBox": { "width": 780, "height": 540 },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "layers": [
+    { "number": 7, "name": "Application",   "protocols": "HTTP  HTTPS  FTP  SMTP  DNS  Telnet  SNMP  POP3", "color": "#DC2626", "pdu": "Data",    "device": "Gateway / Application Firewall" },
+    { "number": 6, "name": "Presentation",  "protocols": "SSL/TLS  JPEG  MPEG  GIF  ASCII  EBCDIC  Encryption", "color": "#EA580C", "pdu": "Data",    "device": "Gateway" },
+    { "number": 5, "name": "Session",       "protocols": "NetBIOS  RPC  SQL  NFS  PPTP  L2TP", "color": "#CA8A04", "pdu": "Data",    "device": "Gateway" },
+    { "number": 4, "name": "Transport",     "protocols": "TCP  UDP  SCTP  SPX", "color": "#16A34A", "pdu": "Segment", "device": "Firewall / Load Balancer" },
+    { "number": 3, "name": "Network",       "protocols": "IP (v4/v6)  ICMP  OSPF  BGP  RIP  ARP", "color": "#0284C7", "pdu": "Packet",  "device": "Router" },
+    { "number": 2, "name": "Data Link",     "protocols": "Ethernet (802.3)  Wi-Fi (802.11)  PPP  HDLC  MAC", "color": "#7C3AED", "pdu": "Frame",   "device": "Switch / Bridge" },
+    { "number": 1, "name": "Physical",      "protocols": "RS-232  DSL  SONET  Fiber Optic  802.11 PHY  USB", "color": "#6B7280", "pdu": "Bits",    "device": "Hub / Repeater / Cable" }
+  ],
+  "sideLabels": {
+    "left": "Upper Layers (Software)",
+    "right": "Lower Layers (Hardware)"
+  },
+  "theory": "The OSI (Open Systems Interconnection) Reference Model is a conceptual framework developed by ISO (International Organization for Standardization) in 1984 to standardize communication functions in a network. It divides the communication process into 7 ordered layers, each providing specific services to the layer above it and receiving services from the layer below.\n\nLayer 7 — Application: The topmost layer; provides network services directly to end-user applications (browsers, email clients). Protocols: HTTP, HTTPS, FTP, SMTP, DNS, Telnet, SNMP.\n\nLayer 6 — Presentation: Translates data between application format and network format. Handles encryption/decryption (SSL/TLS), compression, and character encoding (ASCII, EBCDIC). Data format conversion (JPEG, MPEG, GIF).\n\nLayer 5 — Session: Establishes, manages, and terminates communication sessions between applications. Provides dialog control (half-duplex or full-duplex) and synchronization via checkpoints. Protocols: NetBIOS, RPC, NFS.\n\nLayer 4 — Transport: Provides end-to-end reliable data transfer between processes. TCP (Transmission Control Protocol) provides connection-oriented, reliable, ordered delivery with flow control and error recovery. UDP (User Datagram Protocol) provides connectionless, fast, unreliable delivery. PDU: Segment. Port numbers identify processes.\n\nLayer 3 — Network: Handles logical addressing (IP addresses) and routing of data packets between different networks. Routers operate at this layer. IP fragmentation occurs here. PDU: Packet. Protocols: IP, ICMP, OSPF, BGP, RIP.\n\nLayer 2 — Data Link: Handles physical addressing (MAC addresses), framing, and error detection (CRC). Divided into LLC (Logical Link Control) and MAC (Media Access Control) sublayers. Switches and bridges operate here. PDU: Frame.\n\nLayer 1 — Physical: Transmits raw bits over the physical medium — electrical signals on copper wire, light pulses on fiber optic, or radio waves in wireless. Defines voltage levels, connector types, cable specifications, and bit timing. PDU: Bits. Devices: Hub, Repeater.\n\nData Encapsulation: As data travels down the layers from sender, each layer adds its own header (and sometimes trailer). The reverse (decapsulation) occurs at the receiver.",
+  "keyPoints": [
+    "7 layers: Application(7) → Presentation(6) → Session(5) → Transport(4) → Network(3) → Data Link(2) → Physical(1)",
+    "PDU names: Data | Data | Data | Segment | Packet | Frame | Bits (top to bottom)",
+    "TCP/UDP operate at Layer 4 (Transport); IP operates at Layer 3 (Network)",
+    "Devices: Router=L3, Switch=L2, Hub=L1, Firewall=L3/L4, Gateway=L7",
+    "Encapsulation (sender) adds headers going down; Decapsulation (receiver) removes them going up"
+  ],
+  "useCases": [
+    "Network troubleshooting — identifying at which layer a communication failure occurs",
+    "Protocol design — ensuring new protocols fit within the standardized layer model",
+    "Vendor interoperability — OSI model allows devices from different manufacturers to communicate"
+  ]
+}
