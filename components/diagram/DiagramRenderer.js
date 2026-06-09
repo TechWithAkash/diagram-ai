@@ -113,11 +113,11 @@ async function initMermaid(type) {
     startOnLoad: false,
     theme: 'base',
     themeVariables: THEMES[type] || THEMES.flowchart,
-    flowchart: { htmlLabels: true, curve: 'basis', padding: 16, nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
-    er: { diagramPadding: 16, layoutDirection: 'TB', minEntityWidth: 110, minEntityHeight: 60, useMaxWidth: true },
+    flowchart: { htmlLabels: false, curve: 'basis', padding: 32, nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
+    er: { diagramPadding: 32, layoutDirection: 'TB', minEntityWidth: 110, minEntityHeight: 60, useMaxWidth: true },
     sequence: { actorMargin: 60, width: 130, height: 50, boxMargin: 8, noteMargin: 8, messageMargin: 32, messageFontSize: 12, showSequenceNumbers: false, useMaxWidth: true },
-    state: { padding: 12, useMaxWidth: true },
-    graph: { htmlLabels: true, curve: 'basis', nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
+    state: { padding: 24, useMaxWidth: true },
+    graph: { htmlLabels: false, curve: 'basis', nodeSpacing: 45, rankSpacing: 55, useMaxWidth: true },
   })
   return mermaid
 }
@@ -177,10 +177,14 @@ function enhanceSVG(svgEl, type) {
       rect.setAttribute('rx',           '10')
       rect.setAttribute('ry',           '10')
     }
-    cluster.querySelectorAll('.cluster-label text, .cluster-label tspan').forEach(t => {
-      t.setAttribute('fill', c.label)
-      t.style.fontWeight = '700'
-      t.style.fontSize   = '12px'
+    cluster.querySelectorAll('text, tspan').forEach(t => {
+      const isSubgraphLabel = (t.closest('.cluster-label') || t.closest('.cluster')) && !t.closest('.node');
+      if (isSubgraphLabel) {
+        t.setAttribute('fill', c.label)
+        t.style.fontWeight = '700'
+        t.style.fontSize   = '13px'
+        t.setAttribute('dy', '0.4em')
+      }
     })
   })
 

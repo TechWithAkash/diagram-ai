@@ -34,6 +34,24 @@ export default function StateCircle({ state }) {
     )
   }
 
+  // Wrap description if it is longer than 13 characters
+  const words = (description || '').split(' ')
+  const descLines = []
+  let currentLine = ''
+  words.forEach(word => {
+    if ((currentLine + ' ' + word).trim().length > 13) {
+      if (currentLine) descLines.push(currentLine.trim())
+      currentLine = word
+    } else {
+      currentLine = (currentLine + ' ' + word)
+    }
+  })
+  if (currentLine) descLines.push(currentLine.trim())
+
+  const hasDesc = descLines.length > 0
+  const labelY = hasDesc ? (descLines.length > 1 ? y - 8 : y - 5) : y + 4
+  const descStartY = hasDesc ? (descLines.length > 1 ? y + 7.5 : y + 10) : y
+
   return (
     <g>
       {/* Shadow */}
@@ -47,29 +65,31 @@ export default function StateCircle({ state }) {
       />
       {/* Label */}
       <text
-        x={x} y={y + 4}
+        x={x} y={labelY}
         textAnchor="middle"
-        dominantBaseline="middle"
-        fontSize={12}
+        dominantBaseline={hasDesc ? "alphabetic" : "middle"}
+        fontSize={11.5}
         fontWeight="700"
         fill={textColor}
         fontFamily="Poppins, Inter, sans-serif"
       >
         {label}
       </text>
-      {/* Description (small, below label) */}
-      {description && (
+      {/* Description lines */}
+      {hasDesc && descLines.map((line, idx) => (
         <text
-          x={x} y={y + 18}
+          key={idx}
+          x={x} y={descStartY + idx * 8.5}
           textAnchor="middle"
-          fontSize={8.5}
+          fontSize={7.2}
+          fontWeight="500"
           fill={textColor}
-          opacity={0.7}
+          opacity={0.8}
           fontFamily="Poppins, Inter, sans-serif"
         >
-          {description}
+          {line}
         </text>
-      )}
+      ))}
     </g>
   )
 }

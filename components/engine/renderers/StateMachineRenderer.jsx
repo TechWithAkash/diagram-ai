@@ -62,8 +62,22 @@ function TransitionArrow({ transition, stateMap, index }) {
   const midY = (startY + endY) / 2
 
   // Curved control point — offset perpendicular to avoid overlap with return arrows
-  const perpX = -unitY * 55
-  const perpY =  unitX * 55
+  let perpX = -unitY * 55
+  let perpY =  unitX * 55
+
+  // Support explicit vertical top/bottom curves
+  if (curve === 'top' || transition.curve === 'top') {
+    if (Math.abs(unitX) > 0.3) {
+      perpX = 0
+      perpY = -Math.abs(perpY || 55)
+    }
+  } else if (curve === 'bottom' || transition.curve === 'bottom') {
+    if (Math.abs(unitX) > 0.3) {
+      perpX = 0
+      perpY = Math.abs(perpY || 55)
+    }
+  }
+
   const cpX   = midX + perpX
   const cpY   = midY + perpY
 
@@ -90,42 +104,62 @@ function TransitionArrow({ transition, stateMap, index }) {
   // Multi-line label handling
   const lines = label.split('\n').filter(Boolean)
 
+  const lineStrokeColor = '#64748B' // darker slate for premium contrast
+
   return (
     <g>
       <path
         d={d}
         fill="none"
-        stroke="#94A3B8"
+        stroke={lineStrokeColor}
         strokeWidth={2}
         strokeLinecap="round"
       />
-      <polygon points={`${endX},${endY} ${ax1},${ay1} ${ax2},${ay2}`} fill="#94A3B8" />
+      <polygon points={`${endX},${endY} ${ax1},${ay1} ${ax2},${ay2}`} fill={lineStrokeColor} />
 
       {/* Label */}
-      {lines.length > 0 && (
-        <g>
-          <rect
-            x={lblX - 60} y={lblY - lines.length * 8 - 4}
-            width={120} height={lines.length * 14 + 8}
-            fill="white" opacity={0.92} rx={5}
-            stroke="#E2E8F0" strokeWidth={1}
-          />
-          {lines.map((line, li) => (
-            <text
-              key={li}
-              x={lblX}
-              y={lblY - (lines.length - 1 - li) * 14 + 2}
-              textAnchor="middle"
-              fontSize={9.5}
-              fontWeight="600"
-              fill="#475569"
-              fontFamily="Poppins, Inter, sans-serif"
-            >
-              {line}
-            </text>
-          ))}
-        </g>
-      )}
+      {lines.length > 0 && (() => {
+        const maxChar = Math.max(...lines.map(l => l.length))
+        const boxWidth = Math.max(65, maxChar * 6.0 + 14)
+        const lineHeight = 13
+        const totalHeight = lines.length * lineHeight
+        const boxHeight = totalHeight + 10
+        const boxY = lblY - boxHeight / 2
+        return (
+          <g>
+            <rect
+              x={lblX - boxWidth / 2}
+              y={boxY}
+              width={boxWidth}
+              height={boxHeight}
+              fill="white"
+              opacity={0.96}
+              rx={6}
+              stroke="#CBD5E1"
+              strokeWidth={1}
+              filter="url(#block-shadow)"
+            />
+            {lines.map((line, li) => {
+              const lineY = lblY - (totalHeight / 2) + (li + 0.5) * lineHeight
+              return (
+                <text
+                  key={li}
+                  x={lblX}
+                  y={lineY}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontSize={9.5}
+                  fontWeight="600"
+                  fill="#334155"
+                  fontFamily="Poppins, Inter, sans-serif"
+                >
+                  {line}
+                </text>
+              )
+            })}
+          </g>
+        )
+      })()}
     </g>
   )
 }

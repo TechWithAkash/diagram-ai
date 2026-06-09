@@ -1,4 +1,5 @@
 import Groq from 'groq-sdk'
+import { matchDiagram } from '@/lib/diagramLibrary'
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
@@ -648,7 +649,6 @@ export async function POST(req) {
     // ── TIER 1: Static Library Lookup (free, instant, 100% accurate) ──────────
     if (!forceAI) {
       try {
-        const { matchDiagram } = await import('@/lib/diagramLibrary')
         const libraryMatch = matchDiagram(prompt.trim())
         if (libraryMatch) {
           console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}"`)

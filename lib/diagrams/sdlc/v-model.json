@@ -9,14 +9,16 @@
   "complexity": "Intermediate",
   "subject_category": "Software",
   "layout": "v-shape",
+  "theme": "textbook",
   "phases": [
     {
       "id": "req",
-      "name": "Requirements Analysis",
+      "name": "Requirement Analysis",
       "description": "User needs gathered → System Requirements Specification",
       "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F",
       "side": "left", "level": 0,
-      "testPhase": "Acceptance Testing (UAT)"
+      "testPhase": "Acceptance Testing (UAT)",
+      "hLabel": "Acceptance Test Design"
     },
     {
       "id": "sysdesign",
@@ -24,7 +26,8 @@
       "description": "Overall system architecture → HLD document",
       "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B",
       "side": "left", "level": 1,
-      "testPhase": "System Testing"
+      "testPhase": "System Testing",
+      "hLabel": "System Test Design"
     },
     {
       "id": "archdesign",
@@ -32,7 +35,8 @@
       "description": "Module breakdown, interfaces, data flow → LLD document",
       "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12",
       "side": "left", "level": 2,
-      "testPhase": "Integration Testing"
+      "testPhase": "Integration Testing",
+      "hLabel": "Integration Test Design"
     },
     {
       "id": "moddesign",
@@ -40,11 +44,12 @@
       "description": "Detailed internal design of each module — algorithms, data structures",
       "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337",
       "side": "left", "level": 3,
-      "testPhase": "Unit Testing"
+      "testPhase": "Unit Testing",
+      "hLabel": "Unit Test Design"
     },
     {
       "id": "coding",
-      "name": "CODING",
+      "name": "Coding",
       "description": "Actual implementation — source code written by developers",
       "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87",
       "side": "center", "level": 4
@@ -75,7 +80,7 @@
     },
     {
       "id": "uat",
-      "name": "Acceptance Testing (UAT)",
+      "name": "Acceptance Testing",
       "description": "Customer validates system against original requirements",
       "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F",
       "side": "right", "level": 0,
