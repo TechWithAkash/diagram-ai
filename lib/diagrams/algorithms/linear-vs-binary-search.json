@@ -1,0 +1,77 @@
+{
+  "id": "linear-vs-binary-search",
+  "type": "table",
+  "title": "Linear Search vs. Binary Search Comparison",
+  "category": "Algorithms",
+  "aliases": ["linear search", "binary search", "search algorithms", "sequential search", "searching techniques", "linear vs binary search"],
+  "examTip": "Binary search halves the search space each step: n=1024 elements takes at most 10 comparisons (2^10 = 1024). Always sort before binary search only if multiple searches are needed, since sorting takes O(n log n). For a single search on unsorted data, linear search is faster than sorting followed by binary search. Binary search requires random access, so it does not work efficiently on linked lists.",
+  "viewBox": { "width": 750, "height": 520 },
+  "complexity": "Beginner",
+  "subject_category": "Algorithms",
+  "columns": [
+    { "label": "Property", "color": "#2563EB" },
+    { "label": "Linear Search (Sequential)", "color": "#059669" },
+    { "label": "Binary Search (Divide & Conquer)", "color": "#7C3AED" }
+  ],
+  "rows": [
+    [
+      { "value": "Basic Concept" },
+      { "value": "Scans elements sequentially from the first to the last" },
+      { "value": "Repeatedly divides the search interval in half" }
+    ],
+    [
+      { "value": "Prerequisite" },
+      { "value": "None (works on sorted or unsorted data)" },
+      { "value": "Data MUST be sorted in ascending or descending order", "highlight": true }
+    ],
+    [
+      { "value": "Time Complexity (Best)" },
+      { "value": "O(1) — target is the first element" },
+      { "value": "O(1) — target is the exact middle element" }
+    ],
+    [
+      { "value": "Time Complexity (Average)" },
+      { "value": "O(n) — scans n/2 elements on average" },
+      { "value": "O(log n) — halves remaining space each step", "highlight": true }
+    ],
+    [
+      { "value": "Time Complexity (Worst)" },
+      { "value": "O(n) — target is last or not present" },
+      { "value": "O(log n) — target not present or at leaf level", "highlight": true }
+    ],
+    [
+      { "value": "Space Complexity" },
+      { "value": "O(1) — iterative search using a single pointer" },
+      { "value": "O(1) for iterative / O(log n) for recursive call stack" }
+    ],
+    [
+      { "value": "Supported Data Structures" },
+      { "value": "Arrays, Linked Lists, Trees, Stacks, Queues" },
+      { "value": "Arrays or contiguous blocks only (requires O(1) random access)" }
+    ],
+    [
+      { "value": "Comparisons for n = 1000" },
+      { "value": "Worst case: 1000 comparisons" },
+      { "value": "Worst case: ~10 comparisons (log2(1000) ≈ 9.97)", "highlight": true }
+    ],
+    [
+      { "value": "Algorithm Complexity" },
+      { "value": "Very simple to implement" },
+      { "value": "Slightly complex; requires careful boundary handling" }
+    ]
+  ],
+  "theory": "Searching algorithms are fundamental in computer science, designed to locate a specific target value within a collection of data. The two most common search techniques are Linear (or Sequential) Search and Binary Search. They represent different computational approaches: linear search is a straightforward brute-force scan, whereas binary search is a highly efficient divide-and-conquer strategy.\n\nLinear Search: This algorithm begins at the first element of a list and compares the target value with each subsequent element until a match is found or the end of the collection is reached. Because it makes no assumptions about the arrangement of the data, it works on both sorted and unsorted lists, and is compatible with any data structure (including sequential access structures like linked lists). However, its linear time complexity O(n) makes it highly inefficient for large datasets, where searching can become a major bottleneck.\n\nBinary Search: This algorithm operates by comparing the target value to the middle element of a sorted array. If they are equal, the search is successful. If the target is smaller, the search continues in the lower half of the array; if larger, it continues in the upper half. Each comparison eliminates half of the remaining elements from consideration. This halving effect yields logarithmic time complexity O(log n), which scales exceptionally well. For example, searching a dataset of 1,000,000 elements requires at most 20 comparisons.\n\nKey Trade-offs and Prerequisites: The primary prerequisite for binary search is that the data must be sorted and support O(1) random access (indexing). Sorting itself is an expensive operation, typically requiring O(n log n) time. Therefore, if a list is searched only once or twice, sorting it first just to perform a binary search is counter-productive. In contrast, for applications where the data is sorted once and searched frequently (such as database indexes), binary search is dramatically faster.",
+  "keyPoints": [
+    "Linear Search scans elements one by one; Binary Search divides the sorted search space in half",
+    "Linear Search works on unsorted data; Binary Search strictly requires sorted data",
+    "Binary Search requires O(1) random access (arrays), rendering it inefficient for standard linked lists",
+    "Time complexity: Linear Search is O(n) worst/average; Binary Search is O(log n) worst/average",
+    "For n = 1,048,576 elements: Linear Search takes up to 1,048,576 comparisons; Binary Search takes at most 20",
+    "If searching an unsorted array only once, use Linear Search to avoid the O(n log n) cost of sorting"
+  ],
+  "useCases": [
+    "Linear search is used for small, unsorted datasets or sequentially accessed structures like linked lists",
+    "Binary search is used for database indexing, symbol tables in compilers, and searching in sorted arrays",
+    "Lookup tables where data is static and pre-sorted for fast, repeated client queries"
+  ]
+}

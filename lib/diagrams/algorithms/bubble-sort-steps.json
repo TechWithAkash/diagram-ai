@@ -1,0 +1,126 @@
+{
+  "id": "bubble-sort-steps",
+  "type": "sequential-flow",
+  "title": "Bubble Sort — Step-by-Step Algorithm",
+  "category": "Algorithms",
+  "aliases": ["bubble sort", "sorting algorithm", "compare and swap", "exchange sort", "bubble sort flowchart", "bubble sort algorithm"],
+  "examTip": "Bubble Sort: Time O(n²) avg/worst, O(n) best (with early exit if no swaps in a pass). Space O(1) in-place. Stable sort. n=5: 4 passes max, 4+3+2+1=10 comparisons worst case. Called 'bubble' because largest elements bubble up to the end with each pass. Rarely used in practice — replaced by Merge Sort O(n log n) or Tim Sort.",
+  "viewBox": { "width": 680, "height": 940 },
+  "complexity": "Beginner",
+  "subject_category": "Algorithms",
+  "phases": [
+    {
+      "id": "start",
+      "name": "1. Start — Input Array",
+      "description": "Input: unsorted array A of n elements. Example: A = [64, 34, 25, 12, 22]. Initialize outer pass counter i = 0, swapped flag = false.",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["Array A of n elements loaded", "Initialize i = 0"]
+    },
+    {
+      "id": "outer-init",
+      "name": "2. Set i = 0 (Outer Pass Counter)",
+      "description": "Initialize the outer loop counter i = 0. Each outer pass places the largest unsorted element at its correct position. After pass i, the last i+1 elements are sorted.",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["Outer counter i initialized to 0", "n-1 passes total in worst case"]
+    },
+    {
+      "id": "inner-init",
+      "name": "3. Set j = 0 (Inner Comparison Counter)",
+      "description": "Initialize inner loop counter j = 0 and set swapped = false. The inner loop iterates from j = 0 to j = n - i - 2, comparing adjacent elements in the unsorted portion of the array.",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "outputs": ["Inner counter j initialized to 0", "swapped = false for this pass"]
+    },
+    {
+      "id": "compare",
+      "name": "4. Compare A[j] and A[j+1]",
+      "description": "Compare the element at position j with the element at position j+1. This is the fundamental comparison step of Bubble Sort. Each comparison determines if an adjacent swap is needed.",
+      "color": "#FFE4E6",
+      "borderColor": "#E11D48",
+      "textColor": "#881337",
+      "outputs": ["A[j] > A[j+1]? → YES: Swap | NO: No swap"]
+    },
+    {
+      "id": "swap-decision",
+      "name": "5. A[j] > A[j+1]? Swap Decision",
+      "description": "→ YES (A[j] > A[j+1]): Swap A[j] and A[j+1]. Set swapped = true. The larger element moves right, 'bubbling' toward the end.\n→ NO (A[j] ≤ A[j+1]): Elements are in correct order — no swap needed. Move to step 6.",
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87",
+      "outputs": ["YES → Swap A[j] ↔ A[j+1], swapped=true", "NO → No swap, proceed to step 6"]
+    },
+    {
+      "id": "increment-j",
+      "name": "6. j = j + 1",
+      "description": "Increment the inner loop counter j by 1 to move to the next adjacent pair for comparison.",
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "textColor": "#7C2D12",
+      "outputs": ["j incremented by 1"]
+    },
+    {
+      "id": "inner-check",
+      "name": "7. j < n - i - 1? (End of Inner Pass?)",
+      "description": "→ YES (j < n−i−1): More comparisons remain in this pass. Return to step 4 to compare next adjacent pair.\n→ NO (j = n−i−1): Inner pass complete. The largest element in the unsorted portion has bubbled to position n−i−1.",
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "textColor": "#064E3B",
+      "outputs": ["YES → Return to step 4 (compare next pair)", "NO → Inner pass complete, proceed to step 8"]
+    },
+    {
+      "id": "increment-i",
+      "name": "8. i = i + 1",
+      "description": "Increment outer pass counter i by 1. After each complete inner pass, one more element is in its final sorted position at the right end of the array.",
+      "color": "#EEF2FF",
+      "borderColor": "#6366F1",
+      "textColor": "#312E81",
+      "outputs": ["Outer counter i incremented", "One more element sorted at end"]
+    },
+    {
+      "id": "outer-check",
+      "name": "9. i < n - 1? (More Passes Needed?)",
+      "description": "→ YES (i < n−1): More outer passes remain. Return to step 3 to start a new inner pass.\n→ NO (i = n−1): All n−1 passes complete. Array must be sorted (even without early exit optimization).",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["YES → Return to step 3 (new inner pass)", "NO → Check if sorted via swapped flag"]
+    },
+    {
+      "id": "early-exit",
+      "name": "10. Swapped in Last Pass? (Early Exit Check)",
+      "description": "Optimization check: if no swaps occurred during the last inner pass (swapped = false), the array is already sorted.\n→ YES (swapped = true): At least one swap occurred — array may not be fully sorted. Continue next pass.\n→ NO (swapped = false): Array is completely sorted! Early exit. Best case: O(n) — already sorted input.",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["YES (swapped=true) → Continue with next pass", "NO (swapped=false) → ARRAY SORTED — STOP"]
+    },
+    {
+      "id": "output",
+      "name": "11. Output Sorted Array",
+      "description": "Algorithm complete. Array A is now sorted in ascending order. For n=5 example: input [64, 34, 25, 12, 22] → output [12, 22, 25, 34, 64]. Total comparisons: up to n(n-1)/2 = 10 for n=5.",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "outputs": ["Sorted array returned", "Algorithm terminated"]
+    }
+  ],
+  "theory": "Bubble Sort is one of the simplest comparison-based sorting algorithms. It repeatedly steps through the array, compares adjacent elements, and swaps them if they are in the wrong order. The largest unsorted element 'bubbles up' to its correct position at the end of the array with each pass — hence the name.\n\nAlgorithm Walkthrough (n=5, A=[64,34,25,12,22]):\nPass 1 (i=0): Compare pairs across full array. [64,34]→swap→[34,64,25,12,22]; [64,25]→swap→[34,25,64,12,22]; [64,12]→swap→[34,25,12,64,22]; [64,22]→swap→[34,25,12,22,64]. After pass 1: 64 is in final position.\nPass 2 (i=1): Compare pairs up to n−2. [34,25]→swap; [34,12]→swap; [34,22]→swap → [12,22,25,34,64]. After pass 2: 64 and 34 in final positions.\nPass 3 (i=2): [12,22]→no swap; [22,25]→no swap → no swaps occurred! Early exit triggered → array is sorted.\n\nTime Complexity Analysis:\nWorst Case O(n²): Array is sorted in reverse order. Every comparison requires a swap. Total comparisons = n(n−1)/2 = O(n²).\nAverage Case O(n²): Randomly arranged data still requires approximately n²/4 comparisons on average.\nBest Case O(n): Array is already sorted. With the early exit optimization (check if swapped=false after a pass), only 1 pass of n−1 comparisons is needed with no swaps.\n\nSpace Complexity: O(1) — Bubble Sort is an in-place sorting algorithm. Only a constant amount of extra memory is used (for the swap temp variable and loop counters). This makes it memory-efficient but its quadratic time complexity makes it impractical for large datasets.\n\nStability: Bubble Sort is a stable sorting algorithm. Equal elements maintain their relative order from the input because the swap condition is strictly greater than (>), not greater than or equal to (≥). Stability is important when sorting objects with multiple attributes (e.g., sort by last name, then by first name — a stable sort preserves the first-name order within same last-name groups).\n\nComparison with Other Sorting Algorithms:\n- Bubble Sort O(n²) vs Selection Sort O(n²): Bubble Sort is stable; Selection Sort is not. Bubble Sort can terminate early; Selection Sort always does n² comparisons.\n- Bubble Sort O(n²) vs Insertion Sort O(n²): Insertion Sort is generally faster in practice (fewer swaps on average, better cache performance, also O(n) best case). Both are O(n²) worst.\n- Bubble Sort O(n²) vs Merge Sort O(n log n): Merge Sort is vastly superior for large datasets but requires O(n) extra space (not in-place).\n- Tim Sort (Python's default sort): O(n log n) average, O(n) best case — adaptive merge sort used in modern production systems.\n\nPractical Use: Bubble Sort is almost never used in production systems due to its O(n²) average time complexity. Its primary value is pedagogical — it clearly demonstrates the concept of comparison-based sorting and illustrates how early exit optimizations improve algorithm performance.",
+  "keyPoints": [
+    "Bubble Sort: repeatedly compare adjacent elements and swap if out of order — largest element bubbles to end each pass",
+    "Time: O(n²) average/worst, O(n) best (with early exit when no swaps occur in a pass)",
+    "Space: O(1) — in-place sorting, requires no extra memory proportional to input size",
+    "Stable sort: equal elements maintain relative order (swap condition is strictly greater-than)",
+    "For n elements: at most n−1 outer passes, n(n−1)/2 total comparisons in worst case",
+    "Early exit optimization: if a full inner pass completes with zero swaps, array is already sorted — stop immediately"
+  ],
+  "useCases": [
+    "Computer science education — Bubble Sort is the classic introductory algorithm for teaching sorting concepts, loop invariants, and algorithm analysis",
+    "Nearly-sorted data — with early exit optimization, Bubble Sort achieves O(n) for data that is already sorted or requires only a few swaps",
+    "Small datasets — for arrays of fewer than ~10 elements, the simplicity of Bubble Sort makes it acceptable despite its quadratic complexity"
+  ]
+}

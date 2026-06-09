@@ -1,0 +1,109 @@
+{
+  "type": "circuit-schematic",
+  "title": "Inverting Op-Amp Amplifier",
+  "description": "An operational amplifier configured in inverting topology. Output is 180° out of phase with input. Voltage gain = −Rf/R1.",
+  "category": "Digital Electronics",
+  "aliases": ["inverting amplifier", "op amp inverting", "inverting op-amp circuit", "negative gain amplifier", "inverting amplifier circuit"],
+  "viewBox": { "width": 640, "height": 380 },
+
+  "theory": "The inverting amplifier is one of the two fundamental op-amp configurations. In this topology, the input signal Vin is applied through the input resistor R1 to the inverting (−) input of the op-amp. The non-inverting (+) input is connected directly to ground. A feedback resistor Rf connects the output back to the inverting input, completing the negative feedback loop. Due to the op-amp's extremely high open-loop gain (typically ~10^5 to 10^6), the differential input voltage is forced to near zero. This 'virtual ground' principle means that the inverting input (−) is held at approximately 0 V even though it is not physically connected to ground. Using Kirchhoff's current law (KCL) at the virtual-ground node: current through R1 = current through Rf, giving Vin/R1 = −Vout/Rf, so Av = Vout/Vin = −Rf/R1. The negative sign indicates a 180° phase inversion. The closed-loop input impedance equals R1. The gain-bandwidth product (GBW) is constant: increasing Av reduces bandwidth proportionally. Slew rate of the op-amp limits high-frequency large-signal response.",
+
+  "keyPoints": [
+    "Voltage gain: Av = −Rf/R1 (negative = 180° phase inversion).",
+    "Virtual ground: inverting input (−) is held at ~0 V due to negative feedback.",
+    "Input impedance = R1 (relatively low — a disadvantage vs. non-inverting topology).",
+    "Output impedance ≈ 0 Ω (ideal op-amp).",
+    "Gain-bandwidth product (GBW) is constant: higher gain → lower bandwidth.",
+    "For unity gain (buffer-like), set Rf = R1 → Av = −1 (inverting unity gain).",
+    "Both resistors R1 and Rf should be in the kΩ–MΩ range to minimize loading.",
+    "Slew rate limits the maximum rate of change of output voltage: SR = dV/dt|max."
+  ],
+
+  "examTip": "Inverting amplifier: Av = -Rf/R1. Negative sign = 180° phase inversion. Virtual ground: IN- ≈ 0V (due to negative feedback and high open-loop gain ~10^5). Input impedance = R1. Output impedance ≈ 0. Bandwidth: GBW = Av × f3dB = constant (gain-bandwidth product). Slew rate limits high-frequency response.",
+
+  "useCases": [
+    "Audio signal amplification and mixing circuits.",
+    "Summing amplifiers (multiple inputs through separate R1 resistors).",
+    "Active filter design (low-pass, high-pass, band-pass with reactive components).",
+    "PID controllers in analog control systems.",
+    "Signal conditioning and level shifting in sensor interfaces."
+  ],
+
+  "components": [
+    {
+      "id": "U1",
+      "symbol": "op-amp",
+      "x": 340,
+      "y": 195,
+      "rotation": 0,
+      "label": "U1"
+    },
+    {
+      "id": "R1",
+      "symbol": "resistor",
+      "x": 170,
+      "y": 215,
+      "rotation": 0,
+      "label": "R1"
+    },
+    {
+      "id": "Rf",
+      "symbol": "resistor",
+      "x": 300,
+      "y": 120,
+      "rotation": 0,
+      "label": "Rf"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 310,
+      "y": 260,
+      "rotation": 0
+    },
+    {
+      "id": "VCC",
+      "symbol": "vcc-rail",
+      "x": 340,
+      "y": 110,
+      "rotation": 0,
+      "label": "V+"
+    },
+    {
+      "id": "VEE",
+      "symbol": "ground",
+      "x": 340,
+      "y": 310,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 215, "x2": 142, "y2": 215, "comment": "Vin to R1 left lead" },
+    { "x1": 198, "y1": 215, "x2": 260, "y2": 215, "comment": "R1 right lead to IN- virtual-ground node" },
+    { "x1": 260, "y1": 215, "x2": 300, "y2": 215, "comment": "Virtual-ground node to op-amp IN- port" },
+    { "x1": 260, "y1": 120, "x2": 260, "y2": 215, "comment": "Feedback node vertical — connecting Rf left end down to IN- node" },
+    { "x1": 260, "y1": 120, "x2": 272, "y2": 120, "comment": "To Rf left lead" },
+    { "x1": 328, "y1": 120, "x2": 370, "y2": 120, "comment": "Rf right lead to Vout line" },
+    { "x1": 370, "y1": 120, "x2": 370, "y2": 195, "comment": "Vout vertical line from Rf to op-amp output" },
+    { "x1": 370, "y1": 195, "x2": 500, "y2": 195, "comment": "Op-amp output to Vout label" },
+    { "x1": 310, "y1": 175, "x2": 310, "y2": 248, "comment": "IN+ port down to GND" },
+    { "x1": 340, "y1": 140, "x2": 340, "y2": 110, "comment": "V+ power rail" },
+    { "x1": 340, "y1": 250, "x2": 340, "y2": 298, "comment": "V- power rail down to GND symbol" }
+  ],
+
+  "junctions": [
+    { "x": 260, "y": 215, "comment": "Virtual-ground node: R1 output + Rf left + op-amp IN-" },
+    { "x": 370, "y": 195, "comment": "Vout node: op-amp output + Rf right + Vout wire" }
+  ],
+
+  "labels": [
+    { "text": "Vin", "x": 68,  "y": 219, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "end" },
+    { "text": "Vout", "x": 512, "y": 199, "fontSize": 12, "fontWeight": "700", "fill": "#15803d", "textAnchor": "start" },
+    { "text": "Virtual GND ≈ 0V", "x": 260, "y": 236, "fontSize": 8, "fontWeight": "400", "fill": "#dc2626", "fontStyle": "italic", "textAnchor": "middle" },
+    { "text": "Av = −Rf / R1", "x": 300, "y": 340, "fontSize": 13, "fontWeight": "700", "fill": "#7c3aed", "textAnchor": "middle" },
+    { "text": "(180° phase inversion)", "x": 300, "y": 358, "fontSize": 9, "fontWeight": "400", "fill": "#64748b", "fontStyle": "italic", "textAnchor": "middle" },
+    { "text": "GND", "x": 310, "y": 290, "fontSize": 9, "fontWeight": "600", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "V−", "x": 340, "y": 330, "fontSize": 9, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" }
+  ]
+}

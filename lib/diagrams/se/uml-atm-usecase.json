@@ -1,0 +1,30 @@
+{
+  "id": "uml-atm-usecase",
+  "type": "flowchart",
+  "title": "UML Use Case Diagram — ATM System",
+  "category": "Software",
+  "aliases": [
+    "atm usecase",
+    "atm use case diagram",
+    "uml use case atm",
+    "atm actors diagram"
+  ],
+  "examTip": "In a UML Use Case diagram, identify actors as stick figures (represented as styled actorNode boxes in Mermaid) and use cases as ovals (styled as usecaseNode). Draw the system boundary enclosing only the use cases. Map relationship types accurately: use dotted arrows with <<include>> labels to show mandatory sub-tasks (like PIN verification before cash withdrawal).",
+  "viewBox": { "width": 800, "height": 620 },
+  "complexity": "Beginner",
+  "subject_category": "Software",
+  "theory": "A UML Use Case Diagram captures the functional requirements of a system by outlining the interactions between external actors and system-defined operations. For an Automated Teller Machine (ATM) system, this diagram outlines user roles and host communications.\n\nActors: External entities interacting with the ATM system. They include the Customer (who initiates transactions), the ATM Technician (who maintains the hardware and refills cash), and the Bank Host/Database (the server authorization unit that validates accounts and runs transaction ledger updates).\n\nUse Cases inside the System Boundary: The system includes six key client-facing use cases: Check Account Balance, Withdraw Cash, Deposit Cash, Transfer Funds, Change PIN, and Authenticate User. It also contains administrative use cases like Refill Cash Tray and Perform Diagnostics.\n\nInclude Relationships: To check balance, withdraw, deposit, transfer, or change a PIN, the customer must first authenticate. Therefore, these five transactions have an <<include>> dependency pointing to the 'Authenticate User' usecase. This shows that PIN validation is a mandatory, reusable submodule of all primary transactions. Dotted arrows represent these associations, mapping out logical program dependencies for backend developers.",
+  "keyPoints": [
+    "External actors (Customer, Technician, Bank Host) represent users or systems interacting with the ATM",
+    "The System Boundary defines what is inside the ATM application vs. what is external to it",
+    "Use cases represent the discrete operations (Withdraw, Deposit, Refill) provided by the system",
+    "An <<include>> relationship indicates a mandatory sub-action (like PIN verification) required by a parent use case",
+    "The Bank Host represents a secondary actor because it receives transaction queries but does not initiate them"
+  ],
+  "useCases": [
+    "Defining software requirements and user stories during the inception phase of banking apps",
+    "Guiding quality assurance testers to draft test cases covering all user-ATM interaction paths",
+    "Communicating system features and access roles to project managers and stakeholders"
+  ],
+  "mermaid_code": "flowchart LR\n  subgraph Actors[\"External Actors\"]\n    Customer[\"Customer Actor\"]:::actorNode\n    Technician[\"ATM Technician Actor\"]:::actorNode\n    BankHost[\"Bank Host and Authorization System\"]:::actorNode\n  end\n\n  subgraph ATMSys[\"ATM System Boundary\"]\n    direction TB\n    UC_Auth([\"Authenticate User PIN\"]):::usecaseNode\n    UC_Check([\"Check Account Balance\"]):::usecaseNode\n    UC_Withdraw([\"Withdraw Cash\"]):::usecaseNode\n    UC_Deposit([\"Deposit Cash\"]):::usecaseNode\n    UC_Transfer([\"Transfer Funds\"]):::usecaseNode\n    UC_ChangePin([\"Change PIN\"]):::usecaseNode\n    UC_Refill([\"Refill Cash Tray\"]):::usecaseNode\n    UC_Maintain([\"Perform Diagnostics\"]):::usecaseNode\n    \n    %% Relationships\n    UC_Check -.->|\"<<include>>\"| UC_Auth\n    UC_Withdraw -.->|\"<<include>>\"| UC_Auth\n    UC_Deposit -.->|\"<<include>>\"| UC_Auth\n    UC_Transfer -.->|\"<<include>>\"| UC_Auth\n    UC_ChangePin -.->|\"<<include>>\"| UC_Auth\n  end\n\n  Customer --> UC_Check\n  Customer --> UC_Withdraw\n  Customer --> UC_Deposit\n  Customer --> UC_Transfer\n  Customer --> UC_ChangePin\n\n  Technician --> UC_Refill\n  Technician --> UC_Maintain\n\n  UC_Auth --> BankHost\n  UC_Check --> BankHost\n  UC_Withdraw --> BankHost\n  UC_Deposit --> BankHost\n  UC_Transfer --> BankHost"
+}

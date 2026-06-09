@@ -1,0 +1,110 @@
+{
+  "type": "circuit-schematic",
+  "title": "Non-Inverting Op-Amp Amplifier",
+  "description": "An operational amplifier configured in non-inverting topology. Output is in phase with input. Voltage gain = 1 + Rf/R1. Extremely high input impedance.",
+  "category": "Digital Electronics",
+  "aliases": ["non inverting amplifier", "op amp non inverting", "positive gain amplifier", "voltage follower", "non-inverting op-amp"],
+  "viewBox": { "width": 640, "height": 380 },
+
+  "theory": "The non-inverting amplifier is the second fundamental op-amp configuration. The input signal Vin is applied directly to the non-inverting (+) input of the op-amp, which draws virtually no current (the op-amp's input impedance is typically in the GΩ range). This makes the input impedance of the non-inverting amplifier extremely high — approaching infinity for ideal op-amps. The output is fed back to the inverting (−) input through a voltage divider formed by Rf and R1. R1 connects from the inverting input to ground, and Rf connects from the output back to the inverting input. The negative feedback forces the inverting input to equal the non-inverting input (virtual short), so the voltage at the inverting node equals Vin. By the voltage divider: Vin = Vout × R1/(R1 + Rf), giving Av = 1 + Rf/R1. The gain is always ≥ 1 and is always positive (no phase inversion). A special case: if Rf = 0 (short circuit) and R1 = ∞ (open), the output connects directly to the inverting input, giving a unity-gain buffer (voltage follower) with Av = 1, Zin → ∞, and Zout → 0. This is the ideal impedance buffer.",
+
+  "keyPoints": [
+    "Voltage gain: Av = 1 + Rf/R1 (always ≥ 1, always positive — no phase inversion).",
+    "Input signal is applied to IN+ (non-inverting) → input impedance approaches infinity.",
+    "Virtual short: voltage at IN- equals Vin due to negative feedback.",
+    "Output impedance ≈ 0 Ω (ideal op-amp).",
+    "Unity-gain buffer (voltage follower): Rf = 0, R1 removed → Av = 1, Zin → ∞.",
+    "GBW product is constant: Av × f3dB = constant.",
+    "Best configuration when high input impedance is required (e.g., sensor interfaces).",
+    "Phase margin and stability must be checked for high-gain configurations."
+  ],
+
+  "examTip": "Non-inverting amplifier: Av = 1 + Rf/R1 (always ≥ 1, always positive — no phase inversion). High input impedance (Zin → ∞, since Vin goes to IN+ not through any resistor). Unity-gain buffer (voltage follower): remove R1 and Rf, connect Vout directly to IN- → Av=1, Zin→∞, Zout→0. Most common op-amp configuration for impedance matching.",
+
+  "useCases": [
+    "Impedance matching between stages in signal processing chains.",
+    "Voltage follower/buffer for sensor outputs (e.g., pH sensors, temperature probes).",
+    "Instrumentation amplifiers (differential amplifier front-end).",
+    "Active filter designs where high input impedance is critical.",
+    "Audio pre-amplifier stages and microphone input buffers."
+  ],
+
+  "components": [
+    {
+      "id": "U1",
+      "symbol": "op-amp",
+      "x": 340,
+      "y": 190,
+      "rotation": 0,
+      "label": "U1"
+    },
+    {
+      "id": "Rf",
+      "symbol": "resistor",
+      "x": 300,
+      "y": 130,
+      "rotation": 0,
+      "label": "Rf"
+    },
+    {
+      "id": "R1",
+      "symbol": "resistor",
+      "x": 310,
+      "y": 255,
+      "rotation": 90,
+      "label": "R1"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 310,
+      "y": 310,
+      "rotation": 0
+    },
+    {
+      "id": "VCC",
+      "symbol": "vcc-rail",
+      "x": 340,
+      "y": 110,
+      "rotation": 0,
+      "label": "V+"
+    },
+    {
+      "id": "VGND",
+      "symbol": "ground",
+      "x": 340,
+      "y": 305,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 170, "x2": 300, "y2": 170, "comment": "Vin to op-amp IN+ port" },
+    { "x1": 260, "y1": 210, "x2": 310, "y2": 210, "comment": "IN- node to left of R1 top / Rf left end" },
+    { "x1": 260, "y1": 130, "x2": 260, "y2": 210, "comment": "Vertical from Rf-left corner down to IN- node" },
+    { "x1": 260, "y1": 130, "x2": 272, "y2": 130, "comment": "To Rf left lead" },
+    { "x1": 328, "y1": 130, "x2": 370, "y2": 130, "comment": "Rf right lead to Vout line" },
+    { "x1": 370, "y1": 130, "x2": 370, "y2": 190, "comment": "Vout line down to op-amp output level" },
+    { "x1": 370, "y1": 190, "x2": 500, "y2": 190, "comment": "Op-amp output to Vout label" },
+    { "x1": 310, "y1": 210, "x2": 310, "y2": 227, "comment": "IN- node down into R1 top lead" },
+    { "x1": 310, "y1": 283, "x2": 310, "y2": 298, "comment": "R1 bottom lead down to GND symbol" },
+    { "x1": 340, "y1": 140, "x2": 340, "y2": 110, "comment": "V+ power rail" },
+    { "x1": 340, "y1": 245, "x2": 340, "y2": 293, "comment": "V- power rail to GND symbol" }
+  ],
+
+  "junctions": [
+    { "x": 260, "y": 210, "comment": "IN- node: Rf left + R1 top + op-amp IN- stub" },
+    { "x": 370, "y": 190, "comment": "Vout node: op-amp output + Rf right + output wire" }
+  ],
+
+  "labels": [
+    { "text": "Vin", "x": 68,  "y": 174, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "end" },
+    { "text": "Vout", "x": 512, "y": 194, "fontSize": 12, "fontWeight": "700", "fill": "#15803d", "textAnchor": "start" },
+    { "text": "IN+ (Vin applied here)", "x": 290, "y": 158, "fontSize": 8, "fontWeight": "400", "fill": "#1e40af", "fontStyle": "italic", "textAnchor": "end" },
+    { "text": "Av = 1 + Rf / R1", "x": 300, "y": 348, "fontSize": 13, "fontWeight": "700", "fill": "#7c3aed", "textAnchor": "middle" },
+    { "text": "(no phase inversion  |  Zin → ∞)", "x": 300, "y": 366, "fontSize": 9, "fontWeight": "400", "fill": "#64748b", "fontStyle": "italic", "textAnchor": "middle" },
+    { "text": "GND", "x": 310, "y": 332, "fontSize": 9, "fontWeight": "600", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "V−", "x": 340, "y": 325, "fontSize": 9, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Virtual short: V(IN-) = Vin", "x": 260, "y": 228, "fontSize": 7.5, "fontWeight": "400", "fill": "#dc2626", "fontStyle": "italic", "textAnchor": "middle" }
+  ]
+}

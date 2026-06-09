@@ -1,0 +1,99 @@
+{
+  "id": "dns-resolution",
+  "type": "sequential-flow",
+  "title": "DNS Resolution Process",
+  "category": "Networks",
+  "aliases": ["dns lookup", "dns resolution", "domain name system", "how dns works", "dns query", "dns hierarchy"],
+  "examTip": "DNS uses a hierarchical distributed database. Recursive resolver does all the work for the client. 13 root server clusters worldwide. TTL (Time-To-Live) controls cache duration. DNS uses UDP port 53 for queries, TCP for zone transfers (>512 bytes). Round-robin DNS provides basic load balancing.",
+  "viewBox": { "width": 680, "height": 720 },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "phases": [
+    {
+      "id": "browser-cache",
+      "name": "1. Browser Cache Check",
+      "description": "Browser checks its own local DNS cache for a previously resolved IP address for the domain",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["Cached IP (cache hit) → skip to step 8", "Cache miss → proceed to step 2"]
+    },
+    {
+      "id": "hosts-file",
+      "name": "2. OS Hosts File",
+      "description": "Operating system checks /etc/hosts (Linux/macOS) or C:\\Windows\\System32\\drivers\\etc\\hosts (Windows) for a static entry",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["Static IP match found → skip to step 8", "No match → proceed to step 3"]
+    },
+    {
+      "id": "recursive-resolver",
+      "name": "3. Recursive Resolver Query",
+      "description": "OS queries the ISP's Recursive DNS Resolver (also called a full-service resolver). The resolver checks its own cache first.",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "outputs": ["Resolver cache hit → IP returned", "Cache miss → resolver begins iterative resolution"]
+    },
+    {
+      "id": "root-nameserver",
+      "name": "4. Root Name Server",
+      "description": "Resolver queries one of the 13 root name server clusters (a.root-servers.net through m.root-servers.net). Root server does NOT know the IP but returns the address of the TLD nameserver.",
+      "color": "#FFE4E6",
+      "borderColor": "#E11D48",
+      "textColor": "#881337",
+      "outputs": ["Referral to TLD nameserver (e.g., .com, .org, .net)"]
+    },
+    {
+      "id": "tld-nameserver",
+      "name": "5. TLD Name Server",
+      "description": "Resolver queries the Top-Level Domain (TLD) nameserver for the domain's extension (e.g., Verisign for .com). TLD server knows which authoritative nameserver is responsible for the domain.",
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87",
+      "outputs": ["Referral to Authoritative Name Server for the domain"]
+    },
+    {
+      "id": "authoritative-ns",
+      "name": "6. Authoritative Name Server",
+      "description": "Resolver queries the domain's own Authoritative Name Server (e.g., ns1.example.com). This server holds the actual DNS records (A, AAAA, CNAME, MX) for the domain.",
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "textColor": "#7C2D12",
+      "outputs": ["DNS A record (IPv4) or AAAA record (IPv6) returned to resolver"]
+    },
+    {
+      "id": "ip-returned",
+      "name": "7. IP Address Returned",
+      "description": "The Recursive Resolver receives the IP address from the authoritative nameserver, caches it for the duration of the record's TTL (Time-To-Live), then sends the IP to the requesting client OS.",
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "textColor": "#064E3B",
+      "outputs": ["IP address sent to client", "Resolver caches result per TTL value"]
+    },
+    {
+      "id": "browser-connects",
+      "name": "8. Browser Connects to Server",
+      "description": "Browser uses the resolved IP address to initiate a TCP connection (port 80 for HTTP, port 443 for HTTPS) to the web server. Browser also caches the IP locally for future requests.",
+      "color": "#EEF2FF",
+      "borderColor": "#6366F1",
+      "textColor": "#312E81",
+      "outputs": ["TCP connection established", "HTTP/HTTPS request sent", "IP cached in browser for TTL duration"]
+    }
+  ],
+  "theory": "DNS (Domain Name System) is the internet's distributed hierarchical naming system that translates human-readable domain names (like www.google.com) into machine-readable IP addresses (like 142.250.80.46). Without DNS, users would have to memorize IP addresses for every website. DNS is often described as the 'phone book of the internet.'\n\nDNS Hierarchy: The DNS namespace is organized as an inverted tree with four levels. The root zone ('.') is at the top, managed by ICANN. Below it are Top-Level Domains (TLDs) like .com, .org, .net, country-code TLDs (.uk, .in). Below TLDs are Second-Level Domains (google, amazon) and below those are subdomains (www, mail, ftp). Reading a fully qualified domain name (FQDN) right-to-left follows this hierarchy: www.example.com. = subdomain.domain.TLD.root.\n\nRecursive vs Iterative Queries: The client OS makes a recursive query to the resolver — asking the resolver to do all the work and return a final answer. The resolver then makes iterative queries to root and TLD servers — each returns a referral (not the final answer). This distinction is key: the resolver does the 'legwork' so the client doesn't have to.\n\nDNS Caching and TTL: Every DNS record has a TTL (Time-To-Live) value in seconds. Once a resolver caches a result, it serves that cached answer for the TTL duration without querying again. Common TTLs: 3600s (1 hour), 86400s (24 hours). Low TTL allows rapid DNS changes (useful during migrations). High TTL reduces DNS query load. Negative caching (RFC 2308) also caches 'not found' responses.\n\nDNS Record Types: A (IPv4 address), AAAA (IPv6 address), CNAME (alias/canonical name), MX (mail exchange), NS (name server), TXT (text — used for SPF, DKIM email validation), PTR (reverse DNS lookup — IP to name), SOA (Start of Authority — zone metadata). Understanding these record types is critical for network administration and troubleshooting.\n\nDNS Security: DNS was designed without authentication, creating vulnerabilities. DNSSEC (DNS Security Extensions) adds cryptographic signatures to DNS records. DNS over HTTPS (DoH) and DNS over TLS (DoT) encrypt DNS queries to prevent eavesdropping. DNS cache poisoning (Kaminsky attack) involves injecting forged DNS responses into a resolver's cache to redirect users to malicious sites.",
+  "keyPoints": [
+    "DNS resolution follows a hierarchy: Browser cache → Hosts file → Recursive resolver → Root NS → TLD NS → Authoritative NS",
+    "Recursive resolver (ISP's DNS) does all the iterative queries — the client only talks to the resolver",
+    "13 root name server clusters (a-m.root-servers.net) — each is actually many anycast servers worldwide",
+    "TTL controls how long DNS responses are cached; lower TTL = faster propagation of changes but higher DNS load",
+    "DNS uses UDP port 53 for queries (faster, no connection overhead); switches to TCP port 53 for responses >512 bytes or zone transfers",
+    "Key record types: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), NS (nameserver), TXT (verification)"
+  ],
+  "useCases": [
+    "Web browsing — every URL typed in a browser triggers DNS resolution to find the server's IP address",
+    "Email routing — DNS MX records direct email to the correct mail server for a domain",
+    "Load balancing and failover — multiple A records or low-TTL DNS enables traffic distribution and rapid failover to backup servers"
+  ]
+}

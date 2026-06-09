@@ -1,0 +1,70 @@
+{
+  "id": "decoder-2to4-gates",
+  "title": "2-to-4 Binary Decoder (Logic Gate Implementation)",
+  "aliases": ["2 to 4 decoder", "binary decoder", "2:4 decoder", "demux", "line decoder", "2 to 4 line decoder"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": { "width": 560, "height": 380 },
+  "complexity": "Basic",
+  "subject_category": "Electronics",
+  "examTip": "2-to-4 Decoder: n inputs, 2^n outputs, exactly one output HIGH at a time. Truth table: AB=00→D0=1, AB=01→D1=1, AB=10→D2=1, AB=11→D3=1 (when EN=1). Decoders can implement any minterm (used in memory address decoding).",
+  "inputs": [
+    { "id": "A",  "label": "A",  "x": 80, "y": 160 },
+    { "id": "B",  "label": "B",  "x": 80, "y": 220 },
+    { "id": "EN", "label": "EN", "x": 80, "y": 310 }
+  ],
+  "outputs": [
+    { "id": "D0", "label": "D0 (AB=00)", "x": 480, "y": 120 },
+    { "id": "D1", "label": "D1 (AB=01)", "x": 480, "y": 200 },
+    { "id": "D2", "label": "D2 (AB=10)", "x": 480, "y": 280 },
+    { "id": "D3", "label": "D3 (AB=11)", "x": 480, "y": 360 }
+  ],
+  "gates": [
+    { "id": "G_NA", "type": "NOT", "x": 180, "y": 160, "label": "NOT", "inputsCount": 1 },
+    { "id": "G_NB", "type": "NOT", "x": 180, "y": 220, "label": "NOT", "inputsCount": 1 },
+    { "id": "G_D0", "type": "AND", "x": 340, "y": 120, "label": "AND", "inputsCount": 3 },
+    { "id": "G_D1", "type": "AND", "x": 340, "y": 200, "label": "AND", "inputsCount": 3 },
+    { "id": "G_D2", "type": "AND", "x": 340, "y": 280, "label": "AND", "inputsCount": 3 },
+    { "id": "G_D3", "type": "AND", "x": 340, "y": 360, "label": "AND", "inputsCount": 3 }
+  ],
+  "connections": [
+    { "from": "A",    "to": "G_NA", "toPort": 0, "route": "straight" },
+    { "from": "B",    "to": "G_NB", "toPort": 0, "route": "straight" },
+    { "from": "G_NA", "to": "G_D0", "toPort": 0, "route": "Z", "midX": 260 },
+    { "from": "G_NB", "to": "G_D0", "toPort": 1, "route": "Z", "midX": 260 },
+    { "from": "EN",   "to": "G_D0", "toPort": 2, "route": "Z", "midX": 210 },
+    { "from": "G_NA", "to": "G_D1", "toPort": 0, "route": "Z", "midX": 260 },
+    { "from": "B",    "to": "G_D1", "toPort": 1, "route": "Z", "midX": 210 },
+    { "from": "EN",   "to": "G_D1", "toPort": 2, "route": "Z", "midX": 210 },
+    { "from": "A",    "to": "G_D2", "toPort": 0, "route": "Z", "midX": 210 },
+    { "from": "G_NB", "to": "G_D2", "toPort": 1, "route": "Z", "midX": 260 },
+    { "from": "EN",   "to": "G_D2", "toPort": 2, "route": "Z", "midX": 210 },
+    { "from": "A",    "to": "G_D3", "toPort": 0, "route": "Z", "midX": 210 },
+    { "from": "B",    "to": "G_D3", "toPort": 1, "route": "Z", "midX": 210 },
+    { "from": "EN",   "to": "G_D3", "toPort": 2, "route": "Z", "midX": 210 },
+    { "from": "G_D0", "to": "D0",   "route": "straight" },
+    { "from": "G_D1", "to": "D1",   "route": "straight" },
+    { "from": "G_D2", "to": "D2",   "route": "straight" },
+    { "from": "G_D3", "to": "D3",   "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 130, "y": 160 },
+    { "x": 130, "y": 220 },
+    { "x": 130, "y": 310 }
+  ],
+  "theory": "A Decoder is a combinational logic circuit that converts n binary input lines to 2^n unique output lines, where exactly one output is active (HIGH) at any given time corresponding to the binary value of the input. A 2-to-4 decoder has 2 input lines (A, B), an Enable (EN) input, and 4 output lines (D0–D3).\n\nOperation: The EN (Enable) input acts as a master switch. When EN=0, all outputs are forced LOW regardless of A and B. When EN=1, exactly one output becomes HIGH based on the binary address AB. D0 = EN·A-bar·B-bar (active when AB=00), D1 = EN·A-bar·B (active when AB=01), D2 = EN·A·B-bar (active when AB=10), D3 = EN·A·B (active when AB=11).\n\nGate-Level Implementation: Two NOT gates generate A-bar and B-bar. Four 3-input AND gates each compute one output minterm: G_D0 = A-bar AND B-bar AND EN, G_D1 = A-bar AND B AND EN, G_D2 = A AND B-bar AND EN, G_D3 = A AND B AND EN. Note that inputs A and B are both fed (directly and through NOT gates) to multiple AND gates — hence the junction points in the wiring.\n\nDecoder vs. Demultiplexer: A decoder has the EN pin always HIGH. A Demultiplexer (DEMUX) uses EN as a data input, routing that single data signal to one of 2^n outputs. Same hardware, different usage perspective.\n\nMemory Address Decoding: The most critical use of decoders is in memory systems. A 10-bit address bus (A0–A9) can uniquely select one of 1024 memory locations using a 10-to-1024 decoder. Only one memory cell is activated at a time, preventing bus conflicts.",
+  "keyPoints": [
+    "2-to-4 Decoder: 2 inputs → 4 outputs, exactly one output HIGH at any time (when EN=1)",
+    "Truth table: AB=00→D0=1, 01→D1=1, 10→D2=1, 11→D3=1 (EN must be 1)",
+    "EN=0 disables all outputs — used for cascading multiple decoders",
+    "Can implement any minterm: D0=m0, D1=m1, D2=m2, D3=m3 of a 2-variable function",
+    "Inverse of an encoder: decoder has fewer inputs than outputs",
+    "When used as DEMUX, EN becomes the data input and AB selects the output channel",
+    "Cascading: two 2-to-4 decoders + MSB → one 3-to-8 decoder"
+  ],
+  "useCases": [
+    "Memory address decoding in RAM and ROM systems to select individual memory chips",
+    "Seven-segment display decoder (BCD to 7-segment) for driving digit displays",
+    "Instruction decode stage in CPU designs to activate the correct functional unit"
+  ]
+}

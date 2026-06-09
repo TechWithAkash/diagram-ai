@@ -41,6 +41,69 @@
     stroke-width: 1.5px;
   }
 
+  /* DFD styling overrides for Mermaid SVG nodes */
+  .dfd-process rect,
+  .dfdProcess rect {
+    rx: 99px !important;
+    ry: 99px !important;
+  }
+
+  .dfd-datastore rect,
+  .dfdDataStore rect {
+    clip-path: inset(0 3px) !important;
+  }
+
+  .dfd-entity rect,
+  .dfdEntity rect {
+    rx: 0px !important;
+    ry: 0px !important;
+  }
+
+  /* UML styling overrides for Mermaid SVG nodes */
+  .umlClass rect,
+  .umlClass circle,
+  .umlClass ellipse,
+  .umlClass polygon {
+    fill: #FAF5FF !important;
+    stroke: #9333EA !important;
+    stroke-width: 1.5px !important;
+    rx: 4px !important;
+    ry: 4px !important;
+  }
+  .umlClass text,
+  .umlClass tspan {
+    font-family: var(--font-jetbrains), monospace !important;
+    font-size: 11px !important;
+  }
+
+  .actorNode rect,
+  .actorNode circle,
+  .actorNode ellipse,
+  .actorNode polygon {
+    fill: #FFF7ED !important;
+    stroke: #F97316 !important;
+    stroke-width: 2px !important;
+    rx: 8px !important;
+    ry: 8px !important;
+  }
+  .actorNode text,
+  .actorNode tspan {
+    font-weight: 600 !important;
+  }
+
+  .usecaseNode rect,
+  .usecaseNode circle,
+  .usecaseNode ellipse,
+  .usecaseNode polygon {
+    fill: #FDF4FF !important;
+    stroke: #A855F7 !important;
+    stroke-width: 2px !important;
+  }
+  .usecaseNode text,
+  .usecaseNode tspan {
+    font-weight: 600 !important;
+  }
+
   /* Scrollbar styling */
   .custom-scroll::-webkit-scrollbar {
     width: 4px;

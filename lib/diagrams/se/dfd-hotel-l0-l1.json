@@ -1,0 +1,31 @@
+{
+  "id": "dfd-hotel-l0-l1",
+  "type": "flowchart",
+  "title": "DFD Level 0 & Level 1 — Hotel Management System",
+  "category": "Software",
+  "aliases": [
+    "hotel dfd",
+    "hotel data flow diagram",
+    "dfd level 0 hotel",
+    "dfd level 1 hotel",
+    "hotel management system dfd"
+  ],
+  "examTip": "In a Hotel Management DFD, ensure you show how the guest interacts with the room booking process (Level 1) and how services (food, laundry) add charges to the guest bill. Make sure that room availability status and reservation details are kept in separate data stores (D1 and D2) to represent accurate operational state.",
+  "viewBox": { "width": 800, "height": 760 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "theory": "A Hotel Management System DFD maps the flow of booking info, room states, services, and transactions. Modeling these pathways helps developers structure databases and program APIs to handle reservations and invoicing smoothly.\n\nLevel 0 Context Diagram: Shows the data exchanges between the system and three main entities: Guest, Receptionist, and Hotel Manager. The Guest sends booking parameters and payment data and receives confirmations and invoices. The Receptionist submits guest check-in details and allocates rooms. The Manager extracts sales and occupancy report summaries.\n\nLevel 1 Detail DFD: Decomposes system operations into four main processes:\n1. 1.1 Room Search & Booking: Guests request dates and room types. The process queries 'D1: Room Availability DB' to check vacancies. If a room is free, it registers the reservation in 'D2: Bookings Registry' and sends a confirmation.\n2. 1.2 Guest Check-In / Check-Out: The Receptionist updates the booking status upon guest arrival, writes detail to 'D3: Guest Profiles', and sets room availability to 'occupied' in 'D1'.\n3. 1.3 Food & Service Ordering: Captures custom orders (room service, dining) and logs the charges in 'D4: Services & Orders Log' linked to the guest's room ID.\n4. 1.4 Bill Generation & Payment: When checking out, the system reads base room tariffs from 'D2', aggregates extra service charges from 'D4', pulls guest ID data from 'D3', processes payment, updates room status in 'D1' back to 'available', and prints the receipt.",
+  "keyPoints": [
+    "Level 0 Context diagram encapsulates the data boundary between the hotel system, guest, clerk, and manager",
+    "Level 1 DFD separates room booking, guest registration, service ordering, and final checkout billing",
+    "D1: Room Availability DB stores real-time room statuses (vacant, dirty, occupied, under maintenance)",
+    "D2: Bookings Registry tracks customer reservation details, tariffs, deposit amounts, and booking windows",
+    "D4: Services & Orders Log aggregates miscellaneous billing items like dining, laundry, and minibar usage"
+  ],
+  "useCases": [
+    "Designing cloud-based reservation platforms for hotel chains, motels, and luxury resorts",
+    "Integrating front-desk PMS (Property Management Systems) with room-service POS networks",
+    "Streamlining guest billing and auditing workflows in hospitality operations"
+  ],
+  "mermaid_code": "flowchart TD\n  subgraph L0[\"Level 0: Context DFD\"]\n    direction LR\n    GuestL0[\"Hotel Guest\"]:::dfdEntity\n    HotelSystem[\"1.0 Hotel Management System\"]:::dfdProcess\n    ReceptionistL0[\"Receptionist / Clerk\"]:::dfdEntity\n    ManagerL0[\"Hotel Manager\"]:::dfdEntity\n    \n    GuestL0 -->|\"Booking Parameters & Payment\"| HotelSystem\n    HotelSystem -->|\"Booking Confirmation & Invoice\"| GuestL0\n    ReceptionistL0 -->|\"Check-in / Check-out Details\"| HotelSystem\n    HotelSystem -->|\"Room Statuses & Keys\"| ReceptionistL0\n    HotelSystem -->|\"Occupancy & Sales Reports\"| ManagerL0\n  end\n\n  subgraph L1[\"Level 1: Detail DFD\"]\n    direction TB\n    GuestL1[\"Hotel Guest\"]:::dfdEntity\n    ReceptionistL1[\"Receptionist / Clerk\"]:::dfdEntity\n    \n    P1[\"1.1 Room Search & Booking\"]:::dfdProcess\n    P2[\"1.2 Guest Check-In / Check-Out\"]:::dfdProcess\n    P3[\"1.3 Food & Service Ordering\"]:::dfdProcess\n    P4[\"1.4 Bill Generation & Payment\"]:::dfdProcess\n    \n    D1[(\"D1: Room Availability DB\")]:::dfdDataStore\n    D2[(\"D2: Bookings Registry\")]:::dfdDataStore\n    D3[(\"D3: Guest Profiles\")]:::dfdDataStore\n    D4[(\"D4: Services & Orders Log\")]:::dfdDataStore\n    \n    %% Booking\n    GuestL1 -->|\"Room selection & dates\"| P1\n    P1 -->|\"Check status\"| D1\n    P1 -->|\"Add reservation record\"| D2\n    P1 -->|\"Booking voucher\"| GuestL1\n\n    %% Check-In / Check-Out\n    ReceptionistL1 -->|\"Process Guest Arrival\"| P2\n    P2 -->|\"Retrieve booking\"| D2\n    P2 -->|\"Create guest card\"| D3\n    P2 -->|\"Set Room to Occupied\"| D1\n    \n    %% Food & Service\n    GuestL1 -->|\"Order room service / food\"| P3\n    P3 -->|\"Post service costs\"| D4\n    \n    %% Bill Generation\n    P4 -->|\"Read base tariff details\"| D2\n    P4 -->|\"Query service items\"| D4\n    P4 -->|\"Query guest identity\"| D3\n    P4 -->|\"Set room to vacant\"| D1\n    P4 -->|\"Final invoice receipt\"| GuestL1\n    GuestL1 -->|\"Complete payment transaction\"| P4\n  end"
+}

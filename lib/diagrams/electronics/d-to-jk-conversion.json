@@ -1,0 +1,110 @@
+{
+  "id": "d-to-jk-conversion",
+  "title": "D to JK Flip-Flop Conversion",
+  "aliases": ["d to jk conversion", "convert d to jk", "flip flop conversion d jk", "d to jk flipflop"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 600, "height": 320 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "D→JK Conversion: D = J·Q̄ + K̄·Q. Requires AND-OR-NOT combinational logic with Q feedback. More complex than JK→D. K-map minimization confirms this is already in minimal form.",
+  "blocks": [
+    {
+      "id": "j-input",
+      "label": "J",
+      "x": 30, "y": 80, "width": 60, "height": 30,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "k-input",
+      "label": "K",
+      "x": 30, "y": 180, "width": 60, "height": 30,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "not-k",
+      "label": "NOT (K̄)",
+      "x": 110, "y": 180, "width": 80, "height": 30,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": []
+    },
+    {
+      "id": "and1",
+      "label": "AND 1",
+      "x": 110, "y": 80, "width": 80, "height": 30,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["J · Q̄"]
+    },
+    {
+      "id": "and2",
+      "label": "AND 2",
+      "x": 110, "y": 230, "width": 80, "height": 30,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["K̄ · Q"]
+    },
+    {
+      "id": "or-gate",
+      "label": "OR Gate",
+      "x": 220, "y": 155, "width": 80, "height": 30,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["D output"]
+    },
+    {
+      "id": "dff-block",
+      "label": "D Flip-Flop",
+      "x": 340, "y": 110, "width": 130, "height": 100,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["D = J·Q̄ + K̄·Q", "CLK →"]
+    },
+    {
+      "id": "q-out",
+      "label": "Q",
+      "x": 510, "y": 125, "width": 70, "height": 30,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "qbar-out",
+      "label": "Q̄",
+      "x": 510, "y": 175, "width": 70, "height": 30,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "equation-label",
+      "label": "D = J·Q̄ + K̄·Q  (with Q feedback from D FF output)",
+      "x": 50, "y": 286, "width": 490, "height": 26,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": []
+    }
+  ],
+  "connections": [
+    { "from": "j-input",   "to": "and1",     "type": "unidirectional", "label": "J"   },
+    { "from": "k-input",   "to": "not-k",    "type": "unidirectional", "label": "K"   },
+    { "from": "not-k",     "to": "and2",     "type": "unidirectional", "label": "K̄"  },
+    { "from": "and1",      "to": "or-gate",  "type": "unidirectional", "label": "J·Q̄"},
+    { "from": "and2",      "to": "or-gate",  "type": "unidirectional", "label": "K̄·Q"},
+    { "from": "or-gate",   "to": "dff-block","type": "unidirectional", "label": "D"   },
+    { "from": "dff-block", "to": "q-out",    "type": "unidirectional", "label": "Q"   },
+    { "from": "dff-block", "to": "qbar-out", "type": "unidirectional", "label": "Q̄"  },
+    { "from": "q-out",     "to": "and2",     "type": "unidirectional", "label": "Q feedback" },
+    { "from": "qbar-out",  "to": "and1",     "type": "unidirectional", "label": "Q̄ feedback"}
+  ],
+  "theory": "Converting a D Flip-Flop to behave as a JK Flip-Flop requires adding an external combinational logic circuit that computes the proper D input from J, K, and the current output Q. Unlike the simple JK→D conversion (which needs only 1 NOT gate), this conversion needs two AND gates, one OR gate, and one NOT gate — plus Q output feedback.\n\nDerivation using Characteristic Equations: The JK FF characteristic equation is Q(n+1) = J·Q-bar + K-bar·Q. The D FF has Q(n+1) = D. To make the D FF behave like a JK FF, we set: D = J·Q-bar + K-bar·Q. This means the D input to the D FF must be pre-computed from the external J, K signals and the current Q state.\n\nCircuit Implementation: AND1 computes J·Q-bar (J ANDed with the complement of Q). AND2 computes K-bar·Q (the complement of K ANDed with Q). A NOT gate generates K-bar from K. The OR gate combines AND1 and AND2 outputs to produce D = J·Q-bar + K-bar·Q. This D value is then fed into the D FF, and the Q and Q-bar outputs are fed back to AND1 and AND2 respectively.\n\nVerification via Truth Table: For J=0, K=0: D = 0·Q-bar + 1·Q = Q → No Change ✓. For J=0, K=1: D = 0·Q-bar + 0·Q = 0 → Reset ✓. For J=1, K=0: D = 1·Q-bar + 1·Q = Q-bar+Q = 1 → Set ✓. For J=1, K=1: D = 1·Q-bar + 0·Q = Q-bar → Toggle ✓.\n\nK-map Analysis: The expression D = J·Q-bar + K-bar·Q is already in minimum sum-of-products form. No further simplification is possible, confirming that the two AND gates and one OR gate structure is optimal.",
+  "keyPoints": [
+    "D = J·Q̄ + K̄·Q — requires AND-OR-NOT logic plus Q feedback",
+    "Circuit needs: 1 NOT gate, 2 AND gates, 1 OR gate (4 gates total vs 1 for JK→D)",
+    "Q and Q̄ outputs must be fed back to the input logic — creates sequential dependency",
+    "Verified for all 4 JK input combinations: NC, Reset, Set, Toggle all correct",
+    "K-map confirms D = J·Q̄ + K̄·Q is the minimal SOP expression",
+    "More complex than JK→D because D FF lacks the inherent memory feedback of JK FF",
+    "Useful when only D flip-flops are available but JK behavior is needed"
+  ],
+  "useCases": [
+    "Implementing JK counter behavior using D flip-flops in CMOS logic families",
+    "Digital systems coursework demonstrating flip-flop excitation table methodology",
+    "Understanding combinational feedback circuits and sequential logic state transitions"
+  ]
+}

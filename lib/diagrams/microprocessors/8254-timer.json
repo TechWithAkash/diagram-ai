@@ -1,0 +1,82 @@
+{
+  "id": "8254-timer",
+  "type": "block-diagram",
+  "title": "Intel 8254 Programmable Interval Timer (PIT)",
+  "category": "Microprocessors",
+  "aliases": ["8254", "8253", "programmable interval timer", "pit", "8254 timer", "intel 8254 block diagram", "8254 architecture"],
+  "examTip": "8254 has 3 independent 16-bit counters. A0, A1 select: 00=Counter0, 01=Counter1, 10=Counter2, 11=Control Register. 6 modes: Mode 0=Interrupt, Mode 1=One-Shot, Mode 2=Rate Generator, Mode 3=Square Wave, Mode 4=Software Strobe, Mode 5=Hardware Strobe.",
+  "viewBox": { "width": 800, "height": 550 },
+  "complexity": "Intermediate",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "data-buffer",
+      "label": "Data Bus Buffer",
+      "x": 30, "y": 40, "width": 160, "height": 100,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["8-bit bi-directional", "D0 – D7", "Interfaces system data bus"]
+    },
+    {
+      "id": "rw-logic",
+      "label": "Read/Write Control Logic",
+      "x": 30, "y": 210, "width": 160, "height": 220,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Inputs from CPU:", "• CS̄ (Chip Select)", "• RD̄ (Read)", "• WR̄ (Write)", "• A1, A0 (Register Select)"]
+    },
+    {
+      "id": "control-reg",
+      "label": "Control Word Register",
+      "x": 260, "y": 40, "width": 160, "height": 100,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Write-only register", "Stores mode control byte", "Configures counters"]
+    },
+    {
+      "id": "counter-0",
+      "label": "Counter 0 (16-bit)",
+      "x": 520, "y": 40, "width": 180, "height": 110,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": ["16-bit Down Counter", "Pins:", "• CLK 0 (Clock Input)", "• GATE 0 (Gate Control)", "• OUT 0 (Timer Output)"]
+    },
+    {
+      "id": "counter-1",
+      "label": "Counter 1 (16-bit)",
+      "x": 520, "y": 180, "width": 180, "height": 110,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["16-bit Down Counter", "Pins:", "• CLK 1 (Clock Input)", "• GATE 1 (Gate Control)", "• OUT 1 (Timer Output)"]
+    },
+    {
+      "id": "counter-2",
+      "label": "Counter 2 (16-bit)",
+      "x": 520, "y": 320, "width": 180, "height": 110,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["16-bit Down Counter", "Pins:", "• CLK 2 (Clock Input)", "• GATE 2 (Gate Control)", "• OUT 2 (Timer Output)"]
+    }
+  ],
+  "connections": [
+    { "from": "data-buffer", "to": "control-reg", "label": "Internal Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "counter-0", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "counter-1", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "counter-2", "label": "Data Bus", "type": "bidirectional" },
+    { "from": "rw-logic", "to": "control-reg", "label": "Control", "type": "unidirectional" },
+    { "from": "rw-logic", "to": "counter-0", "label": "Control", "type": "unidirectional" },
+    { "from": "rw-logic", "to": "counter-1", "label": "Control", "type": "unidirectional" },
+    { "from": "rw-logic", "to": "counter-2", "label": "Control", "type": "unidirectional" }
+  ],
+  "buses": [
+    { "id": "sys-data", "label": "D0 – D7 (System Data Bus)", "orientation": "horizontal", "y": 500, "color": "#2563EB" }
+  ],
+  "theory": "The Intel 8254 is a Programmable Interval Timer (PIT) designed to solve the timing control problems in microcomputer systems. It is an upgrade of the legacy 8253 chip, offering higher speed and the ability to read the counter status (Read-Back Command) without stopping the counter.\n\nStructure and Registers:\n- Three Independent Counters: The chip contains three identical 16-bit down counters (Counter 0, 1, and 2). Each counter operates independently and can be programmed in different modes.\n- Control Word Register: A write-only register that receives config bytes from the CPU. This control byte determines which counter is selected, how data is read/written (LSB only, MSB only, or LSB then MSB), the operating mode, and whether binary or BCD counting is used.\n- Read/Write Logic: Decodes A1 and A0 lines to access the desired counter or the Control Register: 00 selects Counter 0, 01 selects Counter 1, 10 selects Counter 2, and 11 selects the Control Register.\n\nModes of Operation:\n- Mode 0 (Interrupt on Terminal Count): The output goes low after writing the count and remains low until the count reaches zero, at which point it goes high and stays high.\n- Mode 1 (Hardware Retriggerable One-Shot): The output goes low upon a trigger signal from the GATE input and remains low until the count reaches zero.\n- Mode 2 (Rate Generator / Divide-by-N): The output remains high, pulses low for one clock cycle when the count reaches zero, then reloads the count and repeats.\n- Mode 3 (Square Wave Generator): The output is high for half of the count and low for the other half. Commonly used for generating audio or baud rates.\n- Mode 4 (Software Triggered Strobe): The output remains high. When the count reaches zero, it pulses low for one clock cycle and then goes high again.\n- Mode 5 (Hardware Triggered Strobe): Similar to Mode 4, but counting is triggered by a rising edge on the GATE input.",
+  "keyPoints": [
+    "Three independent 16-bit down-counters that can count in binary or BCD",
+    "Uses A1, A0 to address: Counter 0 (00), Counter 1 (01), Counter 2 (10), Control Word Reg (11)",
+    "Read-Back Command allows reading counter value and status on-the-fly",
+    "Operating frequency up to 10 MHz (8254-2 version)",
+    "Six software-programmable counter modes covering interrupts, square waves, and strobes",
+    "Each counter has clock (CLK), gate control (GATE), and output (OUT) pins"
+  ],
+  "useCases": [
+    "Real-time clock generation and system timing interrupts (IRQ0 in IBM PC)",
+    "Event counter and frequency divider/measurer",
+    "Programmable baud rate generator for UART serial communication"
+  ]
+}

@@ -11,6 +11,8 @@ import GraphRenderer           from './renderers/GraphRenderer'
 import TableRenderer           from './renderers/TableRenderer'
 import Arch8086Renderer        from './renderers/Arch8086Renderer'
 import Arch8085Renderer        from './renderers/Arch8085Renderer'
+import LogicDiagramRenderer    from './renderers/LogicDiagramRenderer'
+import CircuitRenderer         from './renderers/CircuitRenderer'
 
 /** Map schema type string → renderer component */
 const RENDERERS = {
@@ -24,6 +26,8 @@ const RENDERERS = {
   'table':           TableRenderer,
   '8086-custom':     Arch8086Renderer,
   '8085-custom':     Arch8085Renderer,
+  'logic-diagram':   LogicDiagramRenderer,
+  'circuit-schematic': CircuitRenderer,
 }
 
 /**

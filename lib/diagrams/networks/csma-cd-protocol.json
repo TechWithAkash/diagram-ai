@@ -1,0 +1,117 @@
+{
+  "id": "csma-cd-protocol",
+  "type": "sequential-flow",
+  "title": "CSMA/CD — Carrier Sense Multiple Access with Collision Detection",
+  "category": "Networks",
+  "aliases": ["csma cd", "collision detection", "ethernet access method", "carrier sense multiple access", "csma collision"],
+  "examTip": "CSMA/CD used in wired Ethernet (IEEE 802.3). Jam signal: 32 bits sent to ensure all stations detect collision. Backoff: random(0, 2^min(k,10)-1) × 51.2μs (slot time for 10Mbps). After 16 attempts → abort and report to upper layer. CSMA/CA (avoid, not detect) used in WiFi (IEEE 802.11) since wireless can't detect collisions.",
+  "viewBox": { "width": 680, "height": 860 },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "phases": [
+    {
+      "id": "frame-ready",
+      "name": "1. Frame Ready to Send",
+      "description": "A station (network adapter) has a frame queued and ready for transmission on the shared Ethernet medium",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["Frame queued → proceed to carrier sense"]
+    },
+    {
+      "id": "carrier-sense",
+      "name": "2. Sense Channel (Carrier Sense)",
+      "description": "Station listens to the channel to detect if another station is currently transmitting (carrier signal present). This is the 'CS' — Carrier Sense — part of CSMA/CD.",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["Channel Busy → YES: Wait (go to step 2)", "Channel Idle → NO: Proceed to transmit"]
+    },
+    {
+      "id": "channel-busy-decision",
+      "name": "3. Channel Busy? Decision",
+      "description": "→ YES (Channel Busy): Station waits a random backoff period then re-senses the channel (returns to step 2). This prevents all waiting stations from transmitting simultaneously when the channel clears.\n→ NO (Channel Idle): Station proceeds immediately to begin transmitting its frame.",
+      "color": "#FEF9C3",
+      "borderColor": "#CA8A04",
+      "textColor": "#713F12",
+      "outputs": ["YES → Wait random time, re-sense (step 2)", "NO → Begin transmission (step 4)"]
+    },
+    {
+      "id": "begin-transmit",
+      "name": "4. Begin Transmitting Frame",
+      "description": "Station starts transmitting the frame bit-by-bit onto the shared medium. Simultaneously, it continues to monitor the channel for any voltage anomalies indicating a collision. This is the 'CD' — Collision Detection — phase.",
+      "color": "#FFE4E6",
+      "borderColor": "#E11D48",
+      "textColor": "#881337",
+      "outputs": ["No collision detected → Success", "Collision detected → Send jam signal"]
+    },
+    {
+      "id": "collision-detected",
+      "name": "5. Collision Detected? Decision",
+      "description": "→ NO (No Collision): Frame transmitted successfully. Transmission complete — station resets collision counter to 0.\n→ YES (Collision Detected): Two or more stations started transmitting nearly simultaneously. Voltage on the wire exceeds single-station level. Proceed to jam signal.",
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87",
+      "outputs": ["NO → Transmission Complete — SUCCESS", "YES → Send Jam Signal (step 6)"]
+    },
+    {
+      "id": "jam-signal",
+      "name": "6. Send 32-bit Jam Signal",
+      "description": "Station immediately stops sending data and broadcasts a 32-bit jam signal (alternating 1s and 0s — not a valid data pattern). This ensures all stations on the network detect the collision, even if they haven't noticed it yet due to propagation delay.",
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "textColor": "#7C2D12",
+      "outputs": ["All stations detect collision", "All transmitting stations abort their transmissions"]
+    },
+    {
+      "id": "increment-counter",
+      "name": "7. Increment Collision Counter (attempt++)",
+      "description": "The collision counter for this frame is incremented. This counter tracks how many attempts have been made to transmit this particular frame. Maximum allowed attempts = 16.",
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "textColor": "#064E3B",
+      "outputs": ["Counter incremented", "Check: attempt > 16?"]
+    },
+    {
+      "id": "attempt-check",
+      "name": "8. Attempt > 16? Decision",
+      "description": "→ YES (More than 16 attempts): Station gives up. Abort the transmission and report error to the upper protocol layer (e.g., TCP will handle retransmission).\n→ NO (16 or fewer attempts): Continue to Binary Exponential Backoff (step 9).",
+      "color": "#EEF2FF",
+      "borderColor": "#6366F1",
+      "textColor": "#312E81",
+      "outputs": ["YES → ABORT — Report error to upper layer", "NO → Binary Exponential Backoff (step 9)"]
+    },
+    {
+      "id": "backoff",
+      "name": "9. Wait Binary Exponential Backoff",
+      "description": "Station waits a random number of slot times before retrying. Backoff = random(0, 2^min(attempt, 10) − 1) × slot time. For 10Mbps Ethernet, slot time = 51.2μs. After k=1: wait 0 or 1 slots. After k=2: wait 0–3 slots. After k=10+: wait 0–1023 slots. This exponential growth prevents repeated collisions.",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F",
+      "outputs": ["Random wait duration computed", "Station waits the computed time", "Return to Carrier Sense (step 2)"]
+    },
+    {
+      "id": "retry",
+      "name": "10. Retry — Return to Carrier Sense",
+      "description": "After the backoff period expires, the station returns to step 2 (Carrier Sense) to check if the channel is now free before attempting to transmit again.",
+      "color": "#D1FAE5",
+      "borderColor": "#059669",
+      "textColor": "#064E3B",
+      "outputs": ["Go to step 2 — Sense Channel again"]
+    }
+  ],
+  "theory": "CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is the Media Access Control (MAC) protocol used in traditional wired Ethernet networks (IEEE 802.3). It governs how multiple stations share a single communication channel (the shared Ethernet bus or hub-based network) without a central controller.\n\nThree Key Concepts: (1) Carrier Sense (CS) — before transmitting, a station 'listens' to the medium to detect if it's already in use. If the channel is busy, the station defers transmission. (2) Multiple Access (MA) — multiple stations share the same communication medium (the Ethernet bus). Any station can transmit when the channel appears idle. (3) Collision Detection (CD) — while transmitting, a station simultaneously monitors the channel. If the transmitted signal differs from what's expected (voltage level increases due to signal superposition), a collision is detected immediately.\n\nCollision and Jam Signal: A collision occurs when two stations sense an idle channel at nearly the same moment and begin transmitting simultaneously. Due to propagation delay, neither station detects the other's signal immediately. The colliding signals corrupt each other. Upon detecting a collision, all transmitting stations stop data transmission and broadcast a 32-bit jam signal to guarantee every station on the network is aware of the collision.\n\nBinary Exponential Backoff Algorithm: After a collision, each involved station independently computes a random backoff delay using the formula: wait = random(0, 2^min(k, 10) − 1) × slot_time, where k is the collision count for this frame. The slot time for 10Mbps Ethernet is 51.2 microseconds (the time for a signal to travel the maximum network diameter and return). After the first collision (k=1), each station waits 0 or 1 slot times. After k=10, the range is 0–1023. This exponential expansion makes repeated collisions less likely because the probability of two stations choosing the same random wait decreases as the range grows.\n\nMaximum Retransmission Limit: If a frame has collided 16 times, the station abandons transmission and reports an error to the higher layer. This prevents a single frame from indefinitely consuming bandwidth and allows upper-layer protocols (like TCP) to handle recovery.\n\nCSMA/CD vs CSMA/CA: CSMA/CD (collision detect) is used in wired Ethernet (IEEE 802.3) because the collision signal is detectable as a voltage anomaly on the wire. CSMA/CA (Collision Avoidance) is used in WiFi (IEEE 802.11) because in wireless transmission, a station cannot transmit and receive simultaneously — it cannot detect its own collision. Wi-Fi instead uses RTS/CTS (Ready to Send/Clear to Send) and random backoff before transmission to avoid collisions.\n\nModern Relevance: CSMA/CD is largely obsolete in modern networks. Full-duplex switched Ethernet (using network switches instead of hubs) eliminates collisions entirely because each link is a dedicated point-to-point connection. CSMA/CD knowledge remains essential for understanding legacy networks and Ethernet fundamentals.",
+  "keyPoints": [
+    "CSMA/CD: Carrier Sense (listen before talk) + Multiple Access (shared medium) + Collision Detection (abort on collision)",
+    "Jam signal = 32 bits — ensures all stations detect the collision despite propagation delay",
+    "Binary Exponential Backoff: after k collisions, wait random(0, 2^min(k,10)−1) × 51.2μs (for 10Mbps)",
+    "Maximum 16 retransmission attempts — after 16 failures, frame is aborted and error reported to upper layer",
+    "CSMA/CD used in IEEE 802.3 (wired Ethernet); CSMA/CA used in IEEE 802.11 (WiFi)",
+    "Full-duplex switched Ethernet eliminates collisions — CSMA/CD is only relevant in half-duplex/hub-based LANs"
+  ],
+  "useCases": [
+    "Legacy Ethernet LANs using hubs — CSMA/CD managed contention on the shared half-duplex bus",
+    "Understanding IEEE 802.3 standard — CSMA/CD is the foundational MAC mechanism for all Ethernet history",
+    "Comparing wireless vs wired access methods — CSMA/CA (WiFi) vs CSMA/CD (Ethernet) is a common exam topic"
+  ]
+}

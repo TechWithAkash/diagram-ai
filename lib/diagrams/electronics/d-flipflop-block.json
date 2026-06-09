@@ -1,0 +1,85 @@
+{
+  "id": "d-flipflop-block",
+  "title": "D Flip-Flop (Functional Block Diagram)",
+  "aliases": ["d flip-flop block", "d ff symbol", "d flip flop symbol", "d latch block", "74ls74"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 500, "height": 280 },
+  "complexity": "Basic",
+  "subject_category": "Electronics",
+  "examTip": "Block diagram representation is used in timing diagrams and sequential circuit design. PRE (Preset) forces Q=1 asynchronously. CLR (Clear) forces Q=0 asynchronously. Both are active-LOW in most ICs (74LS74).",
+  "blocks": [
+    {
+      "id": "dff-block",
+      "label": "D Flip-Flop",
+      "x": 170, "y": 60, "width": 160, "height": 160,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["(74LS74)", "Positive Edge-Triggered"]
+    },
+    {
+      "id": "pin-D",
+      "label": "D (Data)",
+      "x": 50, "y": 85, "width": 90, "height": 30,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "pin-CLK",
+      "label": "CLK (>)",
+      "x": 50, "y": 125, "width": 90, "height": 30,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "pin-PRE",
+      "label": "PRĒ (Set)",
+      "x": 50, "y": 165, "width": 90, "height": 30,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": []
+    },
+    {
+      "id": "pin-CLR",
+      "label": "CLR̄ (Rst)",
+      "x": 50, "y": 205, "width": 90, "height": 30,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": []
+    },
+    {
+      "id": "pin-Q",
+      "label": "Q",
+      "x": 360, "y": 95, "width": 90, "height": 30,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "pin-Qbar",
+      "label": "Q̄ (Complement)",
+      "x": 360, "y": 155, "width": 110, "height": 30,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    }
+  ],
+  "connections": [
+    { "from": "pin-D",   "to": "dff-block", "type": "unidirectional", "label": "D" },
+    { "from": "pin-CLK", "to": "dff-block", "type": "unidirectional", "label": "CLK" },
+    { "from": "pin-PRE", "to": "dff-block", "type": "unidirectional", "label": "PRĒ" },
+    { "from": "pin-CLR", "to": "dff-block", "type": "unidirectional", "label": "CLR̄" },
+    { "from": "dff-block", "to": "pin-Q",    "type": "unidirectional", "label": "Q" },
+    { "from": "dff-block", "to": "pin-Qbar", "type": "unidirectional", "label": "Q̄" }
+  ],
+  "theory": "The D Flip-Flop block symbol provides an abstracted view of the device, hiding the internal gate-level implementation and showing only the functional pins used in circuit design and timing diagrams. The standard block representation is universally used in logic schematics, datasheet diagrams, and textbook sequential circuit analysis.\n\nPin Description: The D (Data) input is the primary data input, whose value is transferred to output Q on the active clock edge. The CLK pin features a dynamic indicator (shown as '>') denoting positive edge-triggering — Q changes only on the rising edge of CLK. In negative edge-triggered variants, a bubble (small circle) appears at the CLK pin.\n\nAsynchronous Pins — PRE and CLR: The PRE-bar (Preset) and CLR-bar (Clear) are asynchronous control inputs, meaning they operate independently of the clock. PRE-bar=0 immediately forces Q=1 (regardless of CLK or D). CLR-bar=0 immediately forces Q=0. These are active-LOW — a logic LOW signal activates them. When both are HIGH (inactive), they have no effect and the flip-flop operates normally. In most ICs, both PRE-bar=0 and CLR-bar=0 simultaneously is an invalid/forbidden condition.\n\nOutputs Q and Q-bar: Q is the normal (non-inverted) output. Q-bar is the complementary output, always the logical inverse of Q. Both outputs are available simultaneously, which is essential for building counters and shift registers that require both true and complement values.\n\nIC Reference — 74LS74: The 74LS74 is a dual positive-edge-triggered D flip-flop IC containing two independent D flip-flops with individual PRE-bar, CLR-bar, D, and CLK inputs, and Q and Q-bar outputs.",
+  "keyPoints": [
+    "Block symbol shows D, CLK, PRĒ, CLR̄ on left and Q, Q̄ on right",
+    "The '>' symbol at CLK indicates positive (rising) edge triggering",
+    "PRĒ=0 asynchronously forces Q=1 independent of clock — active LOW",
+    "CLR̄=0 asynchronously forces Q=0 independent of clock — active LOW",
+    "74LS74 is the standard TTL IC containing two D flip-flops",
+    "Q and Q̄ outputs are always logical complements of each other",
+    "Used in timing diagrams to show state transitions aligned with clock edges"
+  ],
+  "useCases": [
+    "Timing diagram analysis and sequential circuit design documentation",
+    "Register files and data latches in CPU and microcontroller designs",
+    "Debounce circuits and synchronization of asynchronous signals to a clock domain"
+  ]
+}

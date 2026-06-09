@@ -1,0 +1,63 @@
+{
+  "id": "full-adder-logic-circuit",
+  "title": "Full Adder Logic Circuit",
+  "aliases": ["full adder", "full adder logic circuit", "full adder circuit"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": {
+    "width": 640,
+    "height": 400
+  },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "Sum = A ⊕ B ⊕ Cin. Cout = AB + Cin(A ⊕ B). A Full Adder can be constructed using two Half Adders and an OR gate. Memorize this cascade for exam questions.",
+  "inputs": [
+    { "id": "A", "label": "A", "x": 80, "y": 80 },
+    { "id": "B", "label": "B", "x": 80, "y": 140 },
+    { "id": "Cin", "label": "Cin", "x": 80, "y": 260 }
+  ],
+  "outputs": [
+    { "id": "Sum", "label": "Sum (S)", "x": 580, "y": 140 },
+    { "id": "Carry", "label": "Carry (Cout)", "x": 580, "y": 240 }
+  ],
+  "gates": [
+    { "id": "x1", "type": "XOR", "x": 220, "y": 110, "label": "XOR 1", "inputsCount": 2 },
+    { "id": "a1", "type": "AND", "x": 220, "y": 200, "label": "AND 1", "inputsCount": 2 },
+    { "id": "x2", "type": "XOR", "x": 380, "y": 140, "label": "XOR 2", "inputsCount": 2 },
+    { "id": "a2", "type": "AND", "x": 380, "y": 290, "label": "AND 2", "inputsCount": 2 },
+    { "id": "o1", "type": "OR", "x": 500, "y": 240, "label": "OR", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "A", "to": "x1", "toPort": 0, "route": "Z", "midX": 130 },
+    { "from": "A", "to": "a1", "toPort": 0, "x1": 130, "y1": 80, "route": "Z", "midX": 130 },
+    { "from": "B", "to": "x1", "toPort": 1, "route": "Z", "midX": 150 },
+    { "from": "B", "to": "a1", "toPort": 1, "x1": 150, "y1": 140, "route": "Z", "midX": 150 },
+    { "from": "x1", "to": "x2", "toPort": 0, "route": "Z", "midX": 290 },
+    { "from": "x1", "to": "a2", "toPort": 0, "x1": 290, "y1": 110, "route": "Z", "midX": 290 },
+    { "from": "Cin", "to": "x2", "toPort": 1, "route": "Z", "midX": 170 },
+    { "from": "Cin", "to": "a2", "toPort": 1, "x1": 170, "y1": 260, "route": "Z", "midX": 170 },
+    { "from": "a1", "to": "o1", "toPort": 0, "route": "Z", "midX": 430 },
+    { "from": "a2", "to": "o1", "toPort": 1, "route": "Z", "midX": 450 },
+    { "from": "x2", "to": "Sum", "route": "straight" },
+    { "from": "o1", "to": "Carry", "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 130, "y": 80 },
+    { "x": 150, "y": 140 },
+    { "x": 290, "y": 110 },
+    { "x": 170, "y": 260 }
+  ],
+  "theory": "A Full Adder is a combinational digital logic circuit that performs the addition of three input bits: A, B, and a Carry-in (Cin) from a previous addition stage. It produces two outputs: Sum (S) and Carry-out (Cout).\n\nLogic Implementation:\nA standard Full Adder is constructed using two Half Adders and an OR gate:\n1. First Half Adder: Adds inputs A and B, producing a temporary sum (S1 = A ⊕ B) and a temporary carry (C1 = A · B).\n2. Second Half Adder: Adds S1 and Cin, producing the final Sum (S = S1 ⊕ Cin = A ⊕ B ⊕ Cin) and a secondary carry (C2 = S1 · Cin).\n3. OR Gate: Combines the carry outputs from both Half Adders to produce the final Carry-out (Cout = C1 + C2 = AB + Cin(A ⊕ B)).\n\nThis cascading structure allows Full Adders to be connected in series to perform multi-bit binary addition (e.g., Ripple Carry Adders).",
+  "keyPoints": [
+    "Adds three binary inputs: A, B, and Carry-in (Cin)",
+    "Produces two outputs: Sum (Sum) and Carry-out (Cout)",
+    "Sum logic equation: Sum = A ⊕ B ⊕ Cin",
+    "Carry-out logic equation: Cout = A·B + Cin·(A ⊕ B)",
+    "Can be built using two Half Adders and a single OR gate"
+  ],
+  "useCases": [
+    "Cascaded in Ripple Carry Adders to add multi-bit binary numbers",
+    "Utilized in Arithmetic Logic Units (ALUs) for integer arithmetic",
+    "Incorporated into multiplier circuits and DSP processors"
+  ]
+}

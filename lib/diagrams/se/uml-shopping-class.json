@@ -1,0 +1,30 @@
+{
+  "id": "uml-shopping-class",
+  "type": "flowchart",
+  "title": "UML Class Diagram — Online Shopping System",
+  "category": "Software",
+  "aliases": [
+    "shopping class diagram",
+    "uml class shopping",
+    "online shopping classes",
+    "class diagram online shopping"
+  ],
+  "examTip": "Class Diagrams capture structural domain models. Keep fields organized clearly. For shopping domains, ensure there is an 'Item' class separating the 'ShoppingCart' from the 'Product' to support varying order quantities per product without polluting product definitions. Represent relationships and multiplicities accurately.",
+  "viewBox": { "width": 800, "height": 650 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "theory": "A UML Class Diagram for an Online Shopping System captures the essential domain classes and attributes required to build an e-commerce platform. It maps relationships between customer accounts, shopping baskets, catalog items, and payments.\n\nClasses and Fields:\n1. Customer: Contains customer data (customerId, name, address, email) and methods for signup (register) and authentication (login).\n2. ShoppingCart: Stores the active shopping state (cartId, createdDate) and manages item lists (addItem, removeItem, checkout).\n3. Item: Represents a specific product instance added to the cart, holding transaction properties like price and quantity. This class decouples shopping carts from products.\n4. Product: Contains catalog details (productId, name, description, stock) and inventory status checks (isAvailable).\n5. Order: Holds finalized checkout records (orderId, orderDate, status, totalAmount) and shipping details (processPayment, shipOrder).\n6. Payment: Coordinates payment transactions (paymentId, amount, method) and runs gateway authorizations (validateCard, authorize).\n\nAssociations and Multiplicities: A Customer has one ShoppingCart. A ShoppingCart holds multiple Items. An Item references a specific Product. When a Customer checks out, the ShoppingCart generates an Order. The Order is paid by a Payment.",
+  "keyPoints": [
+    "Class Diagrams define structural components, attributes, methods, and relationships of e-commerce systems",
+    "The Customer class represents the central user account with registration and profile attributes",
+    "The Item class acts as an association class connecting ShoppingCart and Product to store specific checkout quantities",
+    "ShoppingCart manages active checkouts, while Order stores persistent records of completed transactions",
+    "Payment encapsulates processing logic and interfaces with external payment gateways"
+  ],
+  "useCases": [
+    "Drafting database schemas for e-commerce web applications and microservices",
+    "Writing object-oriented domain classes and CRUD endpoints in back-end frameworks",
+    "Designing system features such as stock management, order tracking, and invoicing modules"
+  ],
+  "mermaid_code": "flowchart TD\n  class_Customer[\"Customer\n- customerId: String\n- name: String\n- address: String\n- email: String\n--\n+ register: boolean\n+ login: boolean\"]:::umlClass\n  class_ShoppingCart[\"ShoppingCart\n- cartId: String\n- createdDate: Date\n--\n+ addItem: void\n+ removeItem: void\n+ checkout: void\"]:::umlClass\n  class_Item[\"Item\n- itemId: String\n- price: double\n- quantity: int\n--\n+ updateQuantity: void\"]:::umlClass\n  class_Product[\"Product\n- productId: String\n- name: String\n- description: String\n- stock: int\n--\n+ isAvailable: boolean\"]:::umlClass\n  class_Order[\"Order\n- orderId: String\n- orderDate: Date\n- status: String\n- totalAmount: double\n--\n+ processPayment: void\n+ shipOrder: void\"]:::umlClass\n  class_Payment[\"Payment\n- paymentId: String\n- amount: double\n- method: String\n--\n+ validateCard: boolean\n+ authorize: boolean\"]:::umlClass\n\n  %% Associations\n  class_Customer -->|\"has 1\"| class_ShoppingCart\n  class_ShoppingCart -->|\"holds\"| class_Item\n  class_Item -->|\"references\"| class_Product\n  class_ShoppingCart -->|\"generates\"| class_Order\n  class_Order -->|\"paid by\"| class_Payment"
+}

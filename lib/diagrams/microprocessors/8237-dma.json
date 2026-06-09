@@ -1,0 +1,93 @@
+{
+  "id": "8237-dma",
+  "type": "block-diagram",
+  "title": "Intel 8237 Programmable DMA Controller",
+  "category": "Microprocessors",
+  "aliases": ["8237", "8237a", "dma controller", "direct memory access controller", "intel 8237", "8237 dma"],
+  "examTip": "8237 manages 4 independent DMA channels. Priority modes: Fixed (Channel 0 highest) or Rotating (round-robin). Transfer modes: Single, Block, Demand, Cascade. DREQ=DMA Request from device, DACK=DMA Acknowledge, HRQ=Hold Request to CPU, HLDA=Hold Acknowledge from CPU.",
+  "viewBox": { "width": 800, "height": 580 },
+  "complexity": "Intermediate",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "data-buffer",
+      "label": "Data Bus Buffer",
+      "x": 30, "y": 40, "width": 160, "height": 100,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["8-bit bidirectional", "DB0 – DB7", "System interface"]
+    },
+    {
+      "id": "rw-logic",
+      "label": "Read/Write Control Logic",
+      "x": 30, "y": 180, "width": 160, "height": 170,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Controls CPU/DMA handshakes:", "• CS̄ (Chip Select)", "• IOR̄ / IOW̄ (I/O R/W)", "• MEMR̄ / MEMW̄ (Mem R/W)", "• A0 – A3 (Address Lines)"]
+    },
+    {
+      "id": "timing-control",
+      "label": "Timing & Control Logic",
+      "x": 230, "y": 40, "width": 180, "height": 120,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Controls DMA cycles", "• HRQ (Hold Request)", "• HLDA (Hold Acknowledge)", "• EOP̄ (End of Process)", "• READY, CLK, RESET"]
+    },
+    {
+      "id": "priority-block",
+      "label": "Priority Encoder",
+      "x": 230, "y": 190, "width": 180, "height": 110,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Resolves DREQ0-3 priorities", "• Fixed Priority", "• Rotating Priority"]
+    },
+    {
+      "id": "registers-block",
+      "label": "Control Registers",
+      "x": 230, "y": 330, "width": 180, "height": 200,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["Internal Registers:", "• Command Register", "• Status Register", "• Mode Register", "• Request Register", "• Mask Register", "• Temp Register"]
+    },
+    {
+      "id": "channels-block",
+      "label": "DMA Channels 0 – 3",
+      "x": 480, "y": 40, "width": 260, "height": 490,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": [
+        "Four Independent Channels.",
+        "Each channel includes:",
+        "• Current Address Reg (16-bit)",
+        "• Current Word Count Reg (16-bit)",
+        "• Base Address Reg (16-bit)",
+        "• Base Word Count Reg (16-bit)",
+        "",
+        "External I/O Interfaces:",
+        "• DREQ0 – DREQ3 (Channel Requests)",
+        "• DACK0 – DACK3 (Acknowledge outputs)"
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "data-buffer", "to": "timing-control", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "priority-block", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "registers-block", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "data-buffer", "to": "channels-block", "label": "Internal Data Bus", "type": "bidirectional" },
+    { "from": "rw-logic", "to": "timing-control", "label": "Control", "type": "unidirectional" },
+    { "from": "timing-control", "to": "priority-block", "label": "Control", "type": "unidirectional" },
+    { "from": "priority-block", "to": "channels-block", "label": "Priority Select", "type": "unidirectional" },
+    { "from": "registers-block", "to": "channels-block", "label": "Reg Config", "type": "unidirectional" }
+  ],
+  "buses": [
+    { "id": "sys-data", "label": "D0 – D7 (System Data Bus)", "orientation": "horizontal", "y": 550, "color": "#2563EB" }
+  ],
+  "theory": "The Intel 8237 is a Programmable Direct Memory Access (DMA) controller designed to optimize data transfer speeds between high-speed peripheral devices and system memory. In standard transfer methods, the CPU reads data from a peripheral and writes it to memory, taking multiple bus cycles. The 8237 bypasses the CPU completely, allowing the peripheral to write directly to or read directly from memory in a single bus cycle.\n\nStructure and Channels:\n- Four Independent Channels: The 8237 provides 4 DMA channels, enabling up to 4 peripherals to interface with the DMA controller. Each channel has a 16-bit Current Address Register, Current Word Count Register, Base Address Register, and Base Word Count Register.\n- Priority Resolver: Resolves conflicting requests from peripherals. It can operate in Fixed Priority mode (where Channel 0 has the highest priority and Channel 3 the lowest) or Rotating Priority mode (where priority rotates round-robin so no channel is starved).\n- Read/Write and Timing Logic: Manages bus control. When a DMA channel is activated, the 8237 sends a Hold Request (HRQ) to the CPU. The CPU releases control of the address, data, and control buses and replies with a Hold Acknowledge (HLDA). The 8237 then takes over the system bus to perform the transfer.\n\nModes of Operation:\n- Single Transfer Mode: Transfers one byte of data per DMA cycle. The bus control is then released back to the CPU. This is the most CPU-friendly mode as it doesn't hog the bus.\n- Block Transfer Mode: Transfers data blocks continuously until the Word Count register reaches zero (Terminal Count) or an external EOP signal is received.\n- Demand Transfer Mode: Data is transferred continuously as long as the requesting device maintains its DREQ line active. If the device deactivates DREQ, the DMA transfer is suspended until it is reactivated.\n- Cascade Mode: Allows multiple 8237 chips to be connected together (cascaded) to expand the number of DMA channels beyond 4. Under this mode, one channel's DREQ/DACK is connected to another 8237's HRQ/HLDA.",
+  "keyPoints": [
+    "Four independent programmable DMA channels with 16-bit address and word count registers",
+    "Uses HRQ and HLDA signals to perform bus arbitration and take master control from the CPU",
+    "Supports 4 transfer modes: Single, Block, Demand, and Cascade",
+    "Priority resolution can be set to Fixed (0 > 1 > 2 > 3) or Rotating (round-robin)",
+    "Includes active-low control inputs/outputs: IOR̄, IOW̄, MEMR̄, MEMW̄ for direct memory-to-device routing",
+    "EOP̄ (End of Process) pin acts as a bidirectional signal indicating or triggering terminal count completion"
+  ],
+  "useCases": [
+    "Legacy PC architecture floppy disk controller and sound card data streaming",
+    "High-speed data transfers between network interface cards and system RAM",
+    "Hard disk drive buffer reads in early microcomputer designs"
+  ]
+}

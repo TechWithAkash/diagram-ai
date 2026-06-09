@@ -1,0 +1,57 @@
+{
+  "id": "d-flipflop-gates",
+  "title": "D Flip-Flop (NAND Gate Implementation)",
+  "aliases": ["d flip-flop gates", "d ff nand circuit", "d flip flop gate level", "d flipflop nand", "d-type flip flop gates"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": { "width": 560, "height": 360 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "The D Flip-Flop eliminates the forbidden state of the SR Flip-Flop by forcing S-bar = D and R-bar = D-bar. When CLK=1, Q follows D. When CLK=0, Q holds its last state (memory). Characteristic equation: Q(next) = D.",
+  "inputs": [
+    { "id": "D",   "label": "D",   "x": 80, "y": 120 },
+    { "id": "CLK", "label": "CLK", "x": 80, "y": 240 }
+  ],
+  "outputs": [
+    { "id": "Q",    "label": "Q",    "x": 500, "y": 80  },
+    { "id": "Qbar", "label": "Q̄",   "x": 500, "y": 220 }
+  ],
+  "gates": [
+    { "id": "G_NOT", "type": "NOT",  "x": 180, "y": 240, "label": "NOT",  "inputsCount": 1 },
+    { "id": "G1",    "type": "NAND", "x": 280, "y": 100, "label": "NAND", "inputsCount": 2 },
+    { "id": "G2",    "type": "NAND", "x": 280, "y": 200, "label": "NAND", "inputsCount": 2 },
+    { "id": "G3",    "type": "NAND", "x": 400, "y": 80,  "label": "NAND", "inputsCount": 2 },
+    { "id": "G4",    "type": "NAND", "x": 400, "y": 220, "label": "NAND", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "D",    "to": "G1",    "toPort": 0, "route": "Z", "midX": 180 },
+    { "from": "CLK",  "to": "G1",    "toPort": 1, "route": "Z", "midX": 180 },
+    { "from": "CLK",  "to": "G2",    "toPort": 1, "route": "Z", "midX": 230 },
+    { "from": "D",    "to": "G_NOT", "toPort": 0, "route": "Z", "midX": 140 },
+    { "from": "G_NOT","to": "G2",    "toPort": 0, "route": "Z", "midX": 235 },
+    { "from": "G1",   "to": "G3",    "toPort": 0, "route": "straight" },
+    { "from": "G2",   "to": "G4",    "toPort": 0, "route": "straight" },
+    { "from": "G3",   "to": "Q",     "route": "straight" },
+    { "from": "G4",   "to": "Qbar",  "route": "straight" },
+    { "from": "G3",   "to": "G4",    "toPort": 1, "route": "Z", "midX": 460, "label": "feedback" },
+    { "from": "G4",   "to": "G3",    "toPort": 1, "route": "Z", "midX": 460, "label": "feedback" }
+  ],
+  "junctions": [
+    { "x": 140, "y": 120 }
+  ],
+  "theory": "The D Flip-Flop (Data or Delay Flip-Flop) is a fundamental sequential logic element that captures the value of the D (data) input on the rising (or falling) edge of the clock signal and holds it until the next clock event. It is derived from the SR Flip-Flop by connecting the S input directly to D and the R input to D-bar (the complement of D), thus eliminating the invalid/forbidden state where both S=1 and R=1.\n\nNAND Gate Implementation: This implementation uses four NAND gates. G1 and G2 form the first latch stage (the 'clocked SR latch'), where G1 produces S-bar = NAND(D, CLK) and G2 produces R-bar = NAND(D-bar, CLK). A NOT gate inverts D to produce D-bar for G2. When CLK=0, both G1 and G2 outputs are forced HIGH, holding the output latch (G3, G4) in a stable state regardless of D — this is the 'hold' condition.\n\nOperation when CLK=1: When the clock is HIGH, the latch becomes transparent. If D=1, G1 output goes LOW (S-bar=0), which sets G3 output HIGH (Q=1). If D=0, G2 output goes LOW (R-bar=0), which sets G4 output HIGH (Q-bar=1, so Q=0). The output latch G3-G4 maintains its state through cross-coupled feedback: G3 output feeds into G4's second input and vice versa.\n\nFeedback and Memory: The cross-coupled NAND pair G3-G4 is the actual memory element. Once set by the first stage (G1, G2), the feedback paths ensure the output remains stable even if D changes while CLK is still HIGH — though in practice, edge-triggered versions use master-slave configurations. The characteristic equation of the D flip-flop is simply Q(next) = D, making it the easiest to analyze among all flip-flop types.\n\nTiming Considerations: The D Flip-Flop requires setup time (D must be stable before CLK edge), hold time (D must remain stable after CLK edge), and propagation delay (time from CLK edge to Q change). Violation of setup or hold time can cause metastability — a condition where the output is indeterminate.",
+  "keyPoints": [
+    "Characteristic equation: Q(next) = D — output simply follows data input on clock edge",
+    "Eliminates the forbidden/invalid state of SR FF by ensuring S and R are always complements",
+    "When CLK=0 (or falling edge), the output is latched (held) — acts as memory",
+    "When CLK=1 (or rising edge), the output is transparent — Q follows D",
+    "Requires 5 NAND gates in this gated-latch form; edge-triggered version needs 6 NAND gates",
+    "Truth table: CLK=0→Q holds; CLK=1,D=0→Q=0; CLK=1,D=1→Q=1",
+    "Used as the basic building block of shift registers and data pipelines"
+  ],
+  "useCases": [
+    "Shift registers and serial-to-parallel data conversion circuits",
+    "Data synchronization between clock domains in digital systems",
+    "Building blocks for counters, registers, and RAM cells in sequential circuits"
+  ]
+}

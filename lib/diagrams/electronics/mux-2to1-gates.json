@@ -1,0 +1,54 @@
+{
+  "id": "mux-2to1-logic-circuit",
+  "title": "2-to-1 Multiplexer Logic Circuit",
+  "aliases": ["2-to-1 multiplexer", "2 to 1 mux", "multiplexer", "mux", "mux-2to1"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": {
+    "width": 560,
+    "height": 320
+  },
+  "complexity": "Beginner",
+  "subject_category": "Electronics",
+  "examTip": "Equation is Y = I0·S' + I1·S. When S = 0, Y = I0. When S = 1, Y = I1. It functions as a single-pole double-throw (SPDT) electronic switch.",
+  "inputs": [
+    { "id": "I0", "label": "I0", "x": 80, "y": 80 },
+    { "id": "S", "label": "S (Select)", "x": 80, "y": 160 },
+    { "id": "I1", "label": "I1", "x": 80, "y": 240 }
+  ],
+  "outputs": [
+    { "id": "Y", "label": "Output (Y)", "x": 500, "y": 160 }
+  ],
+  "gates": [
+    { "id": "n1", "type": "NOT", "x": 180, "y": 160, "label": "NOT", "inputsCount": 1 },
+    { "id": "a1", "type": "AND", "x": 280, "y": 100, "label": "AND 1", "inputsCount": 2 },
+    { "id": "a2", "type": "AND", "x": 280, "y": 220, "label": "AND 2", "inputsCount": 2 },
+    { "id": "o1", "type": "OR", "x": 400, "y": 160, "label": "OR", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "I0", "to": "a1", "toPort": 0, "route": "Z", "midX": 160 },
+    { "from": "S", "to": "n1", "toPort": 0, "route": "straight" },
+    { "from": "S", "to": "a2", "toPort": 0, "x1": 120, "y1": 160, "route": "Z", "midX": 120 },
+    { "from": "n1", "to": "a1", "toPort": 1, "route": "Z", "midX": 230 },
+    { "from": "I1", "to": "a2", "toPort": 1, "route": "Z", "midX": 160 },
+    { "from": "a1", "to": "o1", "toPort": 0, "route": "Z", "midX": 340 },
+    { "from": "a2", "to": "o1", "toPort": 1, "route": "Z", "midX": 340 },
+    { "from": "o1", "to": "Y", "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 120, "y": 160 }
+  ],
+  "theory": "A Multiplexer (MUX) is a combinational digital logic circuit designed to select one of several input signals and route it to a single output line. A 2-to-1 Multiplexer has two data inputs (I0 and I1), one select line (S), and one output (Y).\n\nLogic and Operation:\n- S = 0 (Low): The output Y follows the data input I0. The upper AND gate is enabled because its select input is inverted to 1 (S' = 1), while the lower AND gate is disabled (since S = 0).\n- S = 1 (High): The output Y follows the data input I1. The lower AND gate is enabled, while the upper AND gate is disabled (since S' = 0).\n\nThis behavior is expressed by the Boolean logic equation: Y = (I0 · S') + (I1 · S). The physical implementation uses one NOT gate (to generate S'), two AND gates (to select which input is active), and one OR gate (to combine the selected outputs). Multiplexers are widely used in telecommunications, data routing, and CPU design to switch signals dynamically.",
+  "keyPoints": [
+    "Selects one of two data inputs (I0, I1) based on a select line S",
+    "Boolean output equation: Y = I0·S' + I1·S",
+    "Uses 1 NOT gate, 2 AND gates, and 1 OR gate",
+    "Serves as a fundamental data router in digital systems",
+    "Can be used to implement arbitrary boolean functions up to 2 variables"
+  ],
+  "useCases": [
+    "Data routing and switching between bus lines in microprocessor architectures",
+    "Parallel-to-serial conversion systems",
+    "Function generators in Field Programmable Gate Arrays (FPGAs)"
+  ]
+}

@@ -494,6 +494,7 @@ export async function POST(req) {
               subject_category: libraryMatch.category || 'Other',
               diagram_type: libraryMatch.type,
               source: 'library',
+              mermaid_code: libraryMatch.mermaid_code || '',
             },
             meta: {
               model: 'static-library',

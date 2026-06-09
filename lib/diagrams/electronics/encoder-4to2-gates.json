@@ -1,0 +1,50 @@
+{
+  "id": "encoder-4to2-gates",
+  "title": "4-to-2 Priority Encoder (Logic Gate Implementation)",
+  "aliases": ["4 to 2 encoder", "priority encoder", "4:2 encoder", "binary encoder", "4 to 2 priority encoder"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": { "width": 500, "height": 400 },
+  "complexity": "Basic",
+  "subject_category": "Electronics",
+  "examTip": "Priority Encoder: A0=I1+I3, A1=I2+I3. Priority order: I3 > I2 > I1 > I0. If I3=1, output=11 regardless of other inputs. An additional Valid output V=I0+I1+I2+I3 indicates at least one input is active. Opposite of a decoder.",
+  "inputs": [
+    { "id": "I0", "label": "I0", "x": 80, "y": 100 },
+    { "id": "I1", "label": "I1", "x": 80, "y": 180 },
+    { "id": "I2", "label": "I2", "x": 80, "y": 260 },
+    { "id": "I3", "label": "I3", "x": 80, "y": 340 }
+  ],
+  "outputs": [
+    { "id": "A0", "label": "A0 (LSB)", "x": 400, "y": 140 },
+    { "id": "A1", "label": "A1 (MSB)", "x": 400, "y": 260 }
+  ],
+  "gates": [
+    { "id": "G_A0", "type": "OR", "x": 280, "y": 140, "label": "OR", "inputsCount": 2 },
+    { "id": "G_A1", "type": "OR", "x": 280, "y": 260, "label": "OR", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "I1", "to": "G_A0", "toPort": 0, "route": "Z", "midX": 180 },
+    { "from": "I3", "to": "G_A0", "toPort": 1, "route": "Z", "midX": 180 },
+    { "from": "I2", "to": "G_A1", "toPort": 0, "route": "Z", "midX": 180 },
+    { "from": "I3", "to": "G_A1", "toPort": 1, "route": "Z", "midX": 180 },
+    { "from": "G_A0", "to": "A0", "route": "straight" },
+    { "from": "G_A1", "to": "A1", "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 180, "y": 340 }
+  ],
+  "theory": "An Encoder is a digital combinational circuit that performs the inverse operation of a decoder. It accepts 2^n input lines and generates an n-bit binary code at its outputs. A 4-to-2 binary encoder takes 4 input lines (I0–I3) and produces a 2-bit output (A1, A0) corresponding to the active input line.\n\nPriority Encoder functionality: In a basic encoder, if more than one input is active simultaneously, an invalid output is generated. To resolve this, a Priority Encoder assigns priorities to the inputs. If multiple inputs are HIGH, only the input with the highest priority is encoded. Here, I3 has the highest priority and I0 has the lowest. Therefore, if I3 is active, the output is always 11, regardless of the states of I2, I1, and I0.\n\nMathematical Logic: The Boolean expressions for the outputs of a simplified 4-to-2 priority encoder (neglecting lower-priority term modifications for simplicity in direct gate layout) are A0 = I1 + I3 and A1 = I2 + I3. In a complete priority encoder, the logic includes terms representing priorities: A1 = I2 + I3, and A0 = I3 + I1·I2-bar. Here we show the classic textbook gate implementation using two 2-input OR gates.\n\nValid Output Indicator (V): An additional output, V (Valid), is often included in priority encoders. It is HIGH when one or more inputs are active, and LOW when all inputs are 0. This distinguishes the state where no inputs are active from the state where only I0 is active (since both output 00).",
+  "keyPoints": [
+    "4-to-2 Priority Encoder: 4 inputs → 2 binary outputs with priority resolution",
+    "Priority assignment: I3 (highest) > I2 > I1 > I0 (lowest)",
+    "Output Equations: A0 = I1 + I3 (LSB), A1 = I2 + I3 (MSB)",
+    "Valid Indicator (V): V = I0 + I1 + I2 + I3 (indicates active input status)",
+    "Prevents output conflicts when multiple inputs are active simultaneously",
+    "Inverse function of a 2-to-4 binary decoder"
+  ],
+  "useCases": [
+    "Interrupt controller design in microprocessors to prioritize multiple device interrupt requests",
+    "Analog-to-Digital Converters (ADCs), particularly Flash ADCs, to convert comparator outputs to binary",
+    "Keyboard encoder circuits to detect and convert keystrokes into binary codes"
+  ]
+}

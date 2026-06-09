@@ -1,0 +1,31 @@
+{
+  "id": "dfd-library-l0-l1",
+  "type": "flowchart",
+  "title": "DFD Level 0 & Level 1 — Library Management System",
+  "category": "Software",
+  "aliases": [
+    "library dfd",
+    "library data flow diagram",
+    "dfd level 0 library",
+    "dfd level 1 library",
+    "library management system dfd"
+  ],
+  "examTip": "A Data Flow Diagram (DFD) maps out the flow of information for any process or system. Level 0 (Context Diagram) represents the entire system as a single process bubble with its external entities. Level 1 explodes this process bubble into detailed sub-processes and introduces data stores. Core DFD Rule: Data cannot flow directly between two external entities or between two data stores; it must always go through a process.",
+  "viewBox": { "width": 800, "height": 750 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "theory": "A Data Flow Diagram (DFD) is a graphical representation of the flow of data through an information system. For a Library Management System, the DFD is structured hierarchically starting with the Context Diagram (Level 0) and expanding into a detailed Level 1 diagram.\n\nLevel 0 Context Diagram: The system is modeled as a single central process, '1.0 Library Management System'. It interacts with two primary external entities: the Student (or borrower) and the Librarian. The Student provides book search requests and book return details, and receives issued books and search results. The Librarian manages book additions, updates catalog inventories, and receives operational reports or fine/overdue notifications.\n\nLevel 1 Detail DFD: The single process bubble is decomposed into four key sub-processes:\n1. 1.1 User Authentication: Verifies the student or librarian credentials against the 'D1: User Database'.\n2. 1.2 Book Catalog Search: Allows students to query the 'D2: Books Catalog' using keywords, author names, or ISBNs.\n3. 1.3 Issue & Return Processing: Handles borrowing transactions, updates the status in 'D3: Issue Transactions', and updates book availability in 'D2: Books Catalog'. It also checks student status in 'D1: User Database' to verify checkout eligibility.\n4. 1.4 Inventory Management: Used by the Librarian to add or update records in the 'D2: Books Catalog' and generate report summaries from the 'D3: Issue Transactions' data store.\n\nData stores represent files or databases where information is persisted. DFDs are essential for software engineers to design systems because they separate logical requirements from physical implementation details.",
+  "keyPoints": [
+    "Level 0 (Context DFD) models the system as a single bubble to define boundaries and external interfaces",
+    "Level 1 DFD decomposes the system into detailed sub-processes (1.1 to 1.4) and introduces data persistence (data stores D1 to D3)",
+    "External entities (Student, Librarian) act as the source or sink of data entering or leaving the system",
+    "Data stores represent database tables: User database (D1), Books catalog (D2), and Issue transactions (D3)",
+    "DFD design rules strictly forbid direct flows between two external entities or two data stores without an intervening process"
+  ],
+  "useCases": [
+    "Designing logical data requirements for school and university library automation systems",
+    "Analyzing existing manual library check-out procedures to design digital workflows",
+    "Documenting data interfaces and user privileges in academic administration modules"
+  ],
+  "mermaid_code": "flowchart TD\n  subgraph L0[\"Level 0: Context DFD\"]\n    direction LR\n    StudentL0[\"Student / Borrower\"]:::dfdEntity\n    LMS[\"1.0 Library Management System\"]:::dfdProcess\n    LibrarianL0[\"Librarian\"]:::dfdEntity\n    \n    StudentL0 -->|\"Book Request / Search Query\"| LMS\n    LMS -->|\"Issued Book / Search Results\"| StudentL0\n    LibrarianL0 -->|\"Add New Books / Update Inventory\"| LMS\n    LMS -->|\"System Reports / Overdue Alerts\"| LibrarianL0\n  end\n\n  subgraph L1[\"Level 1: Detail DFD\"]\n    direction TB\n    StudentL1[\"Student / Borrower\"]:::dfdEntity\n    LibrarianL1[\"Librarian\"]:::dfdEntity\n    \n    P1[\"1.1 User Authentication\"]:::dfdProcess\n    P2[\"1.2 Book Catalog Search\"]:::dfdProcess\n    P3[\"1.3 Issue & Return Processing\"]:::dfdProcess\n    P4[\"1.4 Inventory Management\"]:::dfdProcess\n    \n    D1[(\"D1: User Database\")]:::dfdDataStore\n    D2[(\"D2: Books Catalog\")]:::dfdDataStore\n    D3[(\"D3: Issue Transactions\")]:::dfdDataStore\n    \n    %% Flows for P1\n    StudentL1 -->|\"Login Credentials\"| P1\n    P1 -->|\"Verify User\"| D1\n    D1 -->|\"User Status\"| P1\n    P1 -->|\"Auth Status\"| StudentL1\n\n    %% Flows for P2\n    StudentL1 -->|\"Search Query\"| P2\n    P2 -->|\"Query Books\"| D2\n    D2 -->|\"Book Details\"| P2\n    P2 -->|\"Search Results\"| StudentL1\n\n    %% Flows for P3\n    StudentL1 -->|\"Book Request / Return\"| P3\n    P3 -->|\"Update Transaction Log\"| D3\n    P3 -->|\"Update Availability\"| D2\n    P3 -->|\"Verify Membership\"| D1\n    P3 -->|\"Issue Confirmation\"| StudentL1\n\n    %% Flows for P4\n    LibrarianL1 -->|\"Update Catalog\"| P4\n    P4 -->|\"Add / Update Book\"| D2\n    P4 -->|\"Fetch Logs\"| D3\n    D3 -->|\"Transaction Log Data\"| P4\n    P4 -->|\"Report Summaries\"| LibrarianL1\n  end"
+}

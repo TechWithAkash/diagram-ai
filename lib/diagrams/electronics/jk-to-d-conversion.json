@@ -1,0 +1,77 @@
+{
+  "id": "jk-to-d-conversion",
+  "title": "JK to D Flip-Flop Conversion",
+  "aliases": ["jk to d conversion", "convert jk to d", "flip flop conversion jk d", "jk to d flipflop"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 560, "height": 300 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "JK→D Conversion: J=D, K=D-bar. Derivation: Q(n+1) = J·Q̄ + K̄·Q = D·Q̄ + D·Q = D(Q̄+Q) = D. Only needs 1 NOT gate. This is the simplest flip-flop conversion.",
+  "blocks": [
+    {
+      "id": "d-input",
+      "label": "D (Input)",
+      "x": 40, "y": 120, "width": 80, "height": 36,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "not-gate",
+      "label": "NOT Gate",
+      "x": 160, "y": 184, "width": 90, "height": 36,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["D̄ = D-bar"]
+    },
+    {
+      "id": "jkff-block",
+      "label": "JK Flip-Flop",
+      "x": 310, "y": 80, "width": 150, "height": 140,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["J=D", "K=D̄", "CLK →"]
+    },
+    {
+      "id": "q-out",
+      "label": "Q (Output)",
+      "x": 500, "y": 110, "width": 90, "height": 36,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "qbar-out",
+      "label": "Q̄ (Output)",
+      "x": 500, "y": 184, "width": 90, "height": 36,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "equation-label",
+      "label": "Equations: J = D,  K = D̄",
+      "x": 100, "y": 260, "width": 360, "height": 28,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Derivation: Q(n+1) = J·Q̄ + K̄·Q = D·Q̄ + D·Q = D(Q̄+Q) = D"]
+    }
+  ],
+  "connections": [
+    { "from": "d-input",   "to": "jkff-block", "type": "unidirectional", "label": "J = D"  },
+    { "from": "d-input",   "to": "not-gate",    "type": "unidirectional", "label": "to NOT" },
+    { "from": "not-gate",  "to": "jkff-block",  "type": "unidirectional", "label": "K = D̄" },
+    { "from": "jkff-block","to": "q-out",       "type": "unidirectional", "label": "Q"      },
+    { "from": "jkff-block","to": "qbar-out",    "type": "unidirectional", "label": "Q̄"     }
+  ],
+  "theory": "Flip-flop conversion is the process of implementing one type of flip-flop's behavior using a different type by adding external combinational logic at the inputs. Converting a JK Flip-Flop to behave as a D Flip-Flop is the simplest of all flip-flop conversions, requiring only a single NOT gate.\n\nDerivation Method using Characteristic Equations: The D flip-flop has the characteristic equation Q(n+1) = D. The JK flip-flop has the characteristic equation Q(n+1) = J·Q-bar + K-bar·Q. To convert JK→D, we equate these: D = J·Q-bar + K-bar·Q. We need to find J and K in terms of D. By inspection, if J=D and K=D-bar (the complement of D): Q(n+1) = D·Q-bar + (D-bar)-bar·Q = D·Q-bar + D·Q = D·(Q-bar + Q) = D·1 = D. This proves the conversion is correct.\n\nK-map Approach (Alternative): Create excitation tables for the JK FF showing what J and K values are needed to achieve each state transition. From Q=0→Q=0: J=0, K=x; Q=0→Q=1: J=1, K=x; Q=1→Q=0: J=x, K=1; Q=1→Q=1: J=x, K=0. Then map against D=0 (→Q=0) and D=1 (→Q=1): J=D and K=D-bar, confirming the direct inspection result.\n\nHardware Implementation: Only 1 NOT gate is required, making this the most hardware-efficient flip-flop conversion. The NOT gate inverts D to produce D-bar which connects to K, while D connects directly to J. The CLK input of the JK FF receives the system clock.",
+  "keyPoints": [
+    "J = D and K = D̄: only 1 NOT gate needed — simplest flip-flop conversion",
+    "Proof: Q(n+1) = D·Q̄ + D·Q = D(Q̄ + Q) = D·1 = D (matches D FF equation)",
+    "Derived using characteristic equation equating method or K-map excitation table",
+    "When D=1: J=1, K=0 → JK FF is in Set mode → Q=1",
+    "When D=0: J=0, K=1 → JK FF is in Reset mode → Q=0",
+    "CLK connects directly to the JK FF's CLK without modification",
+    "Practical use: when only JK FFs are available but D FF behavior is needed"
+  ],
+  "useCases": [
+    "Replacing D flip-flops with JK flip-flops in legacy TTL logic designs for component standardization",
+    "Sequential circuit conversion exercises in digital electronics coursework and exams",
+    "Understanding flip-flop excitation tables and characteristic equation methodology"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "id": "half-adder-logic-circuit",
+  "title": "Half Adder Logic Circuit",
+  "aliases": ["half adder", "half adder logic circuit", "half adder circuit"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": {
+    "width": 500,
+    "height": 300
+  },
+  "complexity": "Beginner",
+  "subject_category": "Electronics",
+  "examTip": "Sum is A XOR B, Carry is A AND B. Remember that a Half Adder cannot accept a carry-in from a previous column, which is why it is called a 'half' adder.",
+  "inputs": [
+    { "id": "A", "label": "A", "x": 80, "y": 90 },
+    { "id": "B", "label": "B", "x": 80, "y": 170 }
+  ],
+  "outputs": [
+    { "id": "Sum", "label": "Sum (S)", "x": 420, "y": 110 },
+    { "id": "Carry", "label": "Carry (C)", "x": 420, "y": 210 }
+  ],
+  "gates": [
+    { "id": "g1", "type": "XOR", "x": 280, "y": 110, "label": "XOR", "inputsCount": 2 },
+    { "id": "g2", "type": "AND", "x": 280, "y": 210, "label": "AND", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "A", "to": "g1", "toPort": 0, "route": "Z", "midX": 150 },
+    { "from": "A", "to": "g2", "toPort": 0, "x1": 150, "y1": 90, "route": "Z", "midX": 150 },
+    { "from": "B", "to": "g1", "toPort": 1, "route": "Z", "midX": 180 },
+    { "from": "B", "to": "g2", "toPort": 1, "x1": 180, "y1": 170, "route": "Z", "midX": 180 },
+    { "from": "g1", "to": "Sum", "route": "straight" },
+    { "from": "g2", "to": "Carry", "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 150, "y": 90 },
+    { "x": 180, "y": 170 }
+  ],
+  "theory": "A Half Adder is a fundamental combinational digital logic circuit that performs the addition of two single-bit binary numbers, commonly labeled A and B. It produces two outputs: Sum (S) and Carry (C).\n\n1. Sum (S) output: The Sum is calculated using a two-input Exclusive-OR (XOR) gate. The boolean equation is S = A ⊕ B. S is high (1) only when one of the inputs A or B is high, but not both.\n\n2. Carry (C) output: The Carry is calculated using a two-input AND gate. The boolean equation is C = A · B. C is high (1) only when both inputs A and B are high (1).\n\nIn binary addition, the operations are: 0 + 0 = Sum 0 Carry 0; 0 + 1 = Sum 1 Carry 0; 1 + 0 = Sum 1 Carry 0; 1 + 1 = Sum 0 Carry 1. The limitation of the half adder is that it can only add two single bits. It cannot handle an incoming carry-in bit (Cin) from a previous stage of addition. For multi-bit addition, a Full Adder must be used.",
+  "keyPoints": [
+    "Half Adder adds two single-bit inputs A and B",
+    "Produces two outputs: Sum (S) and Carry (C)",
+    "Sum logic uses an XOR gate: S = A ⊕ B",
+    "Carry logic uses an AND gate: C = A · B",
+    "Cannot handle an incoming carry-in (Cin) bit"
+  ],
+  "useCases": [
+    "Used in the least significant bit (LSB) position of multi-bit adders",
+    "Fundamental building block for ALU (Arithmetic Logic Unit) designs",
+    "Address calculation in processors and memory units"
+  ]
+}

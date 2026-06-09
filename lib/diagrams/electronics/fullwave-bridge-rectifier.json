@@ -1,0 +1,130 @@
+{
+  "type": "circuit-schematic",
+  "title": "Full-Wave Bridge Rectifier Circuit",
+  "description": "Converts both half-cycles of AC to DC using four diodes in a bridge configuration. Doubles ripple frequency and significantly improves DC output quality.",
+  "category": "Digital Electronics",
+  "aliases": ["bridge rectifier", "full wave rectifier", "4 diode rectifier", "graetz bridge", "h-bridge rectifier", "full wave bridge"],
+  "viewBox": { "width": 680, "height": 420 },
+
+  "theory": "A full-wave bridge rectifier uses four diodes arranged in a bridge (Graetz bridge) configuration to convert both positive and negative half-cycles of AC input into a unidirectional DC output. During the positive half-cycle of AC input, diodes D1 and D2 are forward-biased and conduct, while D3 and D4 are reverse-biased and block. During the negative half-cycle, D3 and D4 conduct while D1 and D2 block. In both cases, current flows through the load resistor R_L in the same direction, producing a full-wave rectified output. The average DC output voltage is 0.636 × Vm (compared to 0.318 × Vm for half-wave), and since both half-cycles are utilized, the ripple frequency is doubled (2f) relative to the supply frequency. The rectification efficiency is approximately 81.2% — double that of the half-wave rectifier. No center-tapped transformer is needed, making it practical and widely used in AC/DC power supplies. Each diode in the conducting pair drops approximately 0.7V (silicon), so the actual output is Vm − 1.4V.",
+
+  "keyPoints": [
+    "Uses 4 diodes in a Graetz bridge — BOTH half-cycles contribute to DC output.",
+    "Positive half-cycle: D1 and D2 conduct; Negative half-cycle: D3 and D4 conduct.",
+    "Average DC output voltage = 0.636 × Vm (twice that of half-wave rectifier).",
+    "Ripple frequency = 2f (e.g., 100 Hz for a 50 Hz supply) — easier to filter.",
+    "Rectification efficiency = 81.2%; Ripple factor = 0.482.",
+    "No center-tapped transformer required — works with a standard transformer.",
+    "Each conducting pair of diodes drops ~1.4 V total (2 × 0.7 V silicon drops).",
+    "PIV per diode = Vm (lower than center-tap full-wave rectifier's 2Vm).",
+    "Form factor = 1.11; Transformer Utilization Factor (TUF) = 0.812."
+  ],
+
+  "examTip": "Bridge rectifier: BOTH half-cycles contribute. Positive cycle: D1,D2 conduct. Negative cycle: D3,D4 conduct. DC output = 0.636 × Vm. Efficiency = 81.2%. Ripple factor = 0.482. Ripple frequency = 2f (100Hz for 50Hz supply). No center-tap transformer needed. Each diode drops ~0.7V → output = Vm - 1.4V.",
+
+  "useCases": [
+    "Standard AC-to-DC power adapters (phone chargers, laptop adapters).",
+    "Industrial power supplies requiring high efficiency.",
+    "Battery charging systems with good DC quality.",
+    "Audio amplifier power supplies (pre-regulated stage).",
+    "Welding power supplies and motor drive circuits."
+  ],
+
+  "components": [
+    {
+      "id": "VS1",
+      "symbol": "ac-source",
+      "x": 80,
+      "y": 210,
+      "rotation": 0,
+      "label": "Vs"
+    },
+    {
+      "id": "D1",
+      "symbol": "diode",
+      "x": 270,
+      "y": 110,
+      "rotation": 0,
+      "label": "D1"
+    },
+    {
+      "id": "D2",
+      "symbol": "diode",
+      "x": 410,
+      "y": 110,
+      "rotation": 0,
+      "label": "D2"
+    },
+    {
+      "id": "D3",
+      "symbol": "diode",
+      "x": 270,
+      "y": 310,
+      "rotation": 180,
+      "label": "D3"
+    },
+    {
+      "id": "D4",
+      "symbol": "diode",
+      "x": 410,
+      "y": 310,
+      "rotation": 180,
+      "label": "D4"
+    },
+    {
+      "id": "RL",
+      "symbol": "resistor",
+      "x": 540,
+      "y": 210,
+      "rotation": 90,
+      "label": "R_L"
+    },
+    {
+      "id": "C1",
+      "symbol": "capacitor",
+      "x": 590,
+      "y": 210,
+      "rotation": 90,
+      "label": "C"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 340,
+      "y": 360,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 184, "x2": 80, "y2": 110, "comment": "AC source top terminal to bridge left-top" },
+    { "x1": 80, "y1": 110, "x2": 245, "y2": 110, "comment": "Left-top rail to D1 anode" },
+    { "x1": 295, "y1": 110, "x2": 385, "y2": 110, "comment": "D1 cathode to D2 anode" },
+    { "x1": 435, "y1": 110, "x2": 540, "y2": 110, "comment": "D2 cathode to output+ top" },
+    { "x1": 540, "y1": 110, "x2": 540, "y2": 182, "comment": "Output+ rail down to RL top" },
+    { "x1": 590, "y1": 110, "x2": 590, "y2": 182, "comment": "Same for C1 top lead" },
+    { "x1": 540, "y1": 238, "x2": 540, "y2": 310, "comment": "RL bottom to bottom rail" },
+    { "x1": 590, "y1": 238, "x2": 590, "y2": 310, "comment": "C1 bottom to bottom rail" },
+    { "x1": 540, "y1": 310, "x2": 590, "y2": 310, "comment": "Join RL bottom and C1 bottom" },
+    { "x1": 80, "y1": 236, "x2": 80, "y2": 310, "comment": "AC source bottom terminal down to bridge left-bottom" },
+    { "x1": 80, "y1": 310, "x2": 245, "y2": 310, "comment": "Left-bottom rail to D3 anode (reversed = cathode side)" },
+    { "x1": 295, "y1": 310, "x2": 385, "y2": 310, "comment": "D3 cathode to D4 anode" },
+    { "x1": 435, "y1": 310, "x2": 540, "y2": 310, "comment": "D4 cathode to output bottom rail" },
+    { "x1": 340, "y1": 310, "x2": 340, "y2": 348, "comment": "GND lead from bottom rail" }
+  ],
+
+  "junctions": [
+    { "x": 340, "y": 110, "comment": "Top bridge junction between D1 and D2" },
+    { "x": 340, "y": 310, "comment": "Bottom bridge junction between D3 and D4" },
+    { "x": 540, "y": 110, "comment": "Output+ top junction" },
+    { "x": 540, "y": 310, "comment": "Output− bottom junction" }
+  ],
+
+  "labels": [
+    { "text": "Vin (AC)", "x": 40,  "y": 200, "fontSize": 11, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "Vout+ (DC)", "x": 620, "y": 200, "fontSize": 10, "fontWeight": "700", "fill": "#15803d", "textAnchor": "start" },
+    { "text": "+ve cycle: D1, D2", "x": 340, "y": 60,  "fontSize": 9, "fontWeight": "600", "fill": "#16a34a", "textAnchor": "middle" },
+    { "text": "−ve cycle: D3, D4", "x": 340, "y": 392, "fontSize": 9, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Vdc = 0.636·Vm  |  η = 81.2%  |  γ = 0.482  |  f_ripple = 2f", "x": 340, "y": 408, "fontSize": 8.5, "fontWeight": "500", "fill": "#475569", "textAnchor": "middle" }
+  ]
+}

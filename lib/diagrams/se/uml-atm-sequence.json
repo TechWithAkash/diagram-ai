@@ -1,0 +1,30 @@
+{
+  "id": "uml-atm-sequence",
+  "type": "sequenceDiagram",
+  "title": "UML Sequence Diagram — ATM PIN Verification",
+  "category": "Software",
+  "aliases": [
+    "atm sequence diagram",
+    "uml sequence atm",
+    "atm pin verification sequence",
+    "atm verification sequence"
+  ],
+  "examTip": "Sequence diagrams model dynamic system behavior over time. Focus on life-lines, vertical activation bars (active execution blocks), and horizontal message arrows. For conditional logic (e.g. success vs. incorrect PIN), use 'alt' / 'else' combined blocks to showcase alternative scenarios.",
+  "viewBox": { "width": 800, "height": 650 },
+  "complexity": "Intermediate",
+  "subject_category": "Software",
+  "theory": "A UML Sequence Diagram is an interaction diagram that shows how processes operate with one another and in what order. It is a visualization of a message sequence chart.\n\nParticipants: The diagram contains four active lifelines:\n1. User: The cardholder who initiates the card insertion and inputs the PIN.\n2. ATM Terminal: The physical client machine that captures input, displays menus, and communicates with the bank network.\n3. Bank Server: The remote authentication system coordinating transaction checks.\n4. Account Database: The persistent ledger holding credentials and balances.\n\nExecution Sequence: The flow is initiated by card insertion, followed by a PIN prompt. The user provides their 4-digit PIN. The ATM Terminal transmits an authentication request with cardNumber and PIN parameters to the Bank Server. The Bank Server queries the Account Database for matching hashes and account statuses. Based on the return value, an 'alt/else' control structure takes place:\n- Success Case: The card is validated, a session token is generated, and the main transaction menu is displayed to the user.\n- Failure Case (Invalid PIN): The server reports an error, and the ATM Terminal displays a warning and ejects the card.\n- Suspended Case (Account Blocked): The server flags the card, and the ATM Terminal displays a warning and retains the physical card to prevent fraud.",
+  "keyPoints": [
+    "Sequence diagrams map chronological messaging between lifelines to capture transactional flows",
+    "Lifelines represent object instances (User, ATM Terminal, Bank Server, Database) during execution",
+    "Activation blocks (vertical rectangles on lifelines) show when an object is actively executing a task",
+    "Solid arrows represent synchronous calls, while dashed arrows represent return values/callbacks",
+    "Control structures (alt, else) illustrate conditional branches, such as valid vs. invalid PIN entries"
+  ],
+  "useCases": [
+    "Documenting security handshake flows between terminal endpoints and banking host networks",
+    "Designing API message structures and return payloads for transaction processing services",
+    "Troubleshooting transaction failures and session timeout conditions in distributed systems"
+  ],
+  "mermaid_code": "sequenceDiagram\n  autonumber\n  actor User\n  participant ATM as ATM Terminal\n  participant Bank as Bank Server\n  participant DB as Account Database\n\n  User ->> ATM: Insert Debit Card\n  activate ATM\n  ATM ->> User: Prompt for PIN\n  User ->> ATM: Enter Four Digit PIN\n  ATM ->> Bank: Verify Card and PIN with Credentials\n  activate Bank\n  Bank ->> DB: Query Account Credentials by Card Number\n  activate DB\n  DB -->> Bank: Returns Hash and Active Status\n  deactivate DB\n  \n  alt PIN is Valid & Account Active\n    Bank -->> ATM: Verification Successful with Session Token\n    ATM ->> User: Display Main Menu to Select Service\n  else PIN is Invalid\n    Bank -->> ATM: Authentication Failed due to Invalid PIN\n    ATM ->> User: Display Error & Eject Card\n  else Account Blocked\n    Bank -->> ATM: Account Suspended Notification\n    deactivate Bank\n    ATM ->> User: Display Retention Message & Retain Card\n    deactivate ATM\n  end"
+}

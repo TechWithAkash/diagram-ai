@@ -327,8 +327,16 @@ function MermaidRenderer({ code, className = '' }) {
  *   code:   string            — for AI diagrams (Mermaid code string)
  */
 export default function DiagramRenderer({ source, schema, code, className = '' }) {
-  // Library diagram → precision SVGEngine
+  // Library diagram → precision SVGEngine or Mermaid (if schema contains mermaid_code)
   if (source === 'library' && schema) {
+    const isMermaid = schema.mermaid_code && (
+      schema.type === 'flowchart' ||
+      schema.type === 'sequenceDiagram' ||
+      schema.type === 'erDiagram' ||
+      schema.type === 'stateDiagram' ||
+      schema.type === 'graph'
+    );
+
     return (
       <div className="w-full">
         <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border-b border-emerald-100">
@@ -337,7 +345,11 @@ export default function DiagramRenderer({ source, schema, code, className = '' }
             Precision Library Diagram — 100% accurate for exams
           </span>
         </div>
-        <SVGEngine schema={schema} className={className} />
+        {isMermaid ? (
+          <MermaidRenderer code={schema.mermaid_code} className={className} />
+        ) : (
+          <SVGEngine schema={schema} className={className} />
+        )}
       </div>
     )
   }

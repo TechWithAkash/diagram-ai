@@ -1,0 +1,72 @@
+{
+  "id": "ethernet-frame",
+  "type": "table",
+  "title": "Ethernet Frame Structure (IEEE 802.3)",
+  "category": "Networks",
+  "aliases": ["ethernet frame", "802.3 frame", "ethernet packet structure", "mac frame", "data link frame", "ethernet format"],
+  "examTip": "Minimum frame = 64 bytes (ensures collision detected before TX ends at 10Mbps). Maximum = 1518 bytes (1500 data + 18 overhead). FCS uses CRC-32. Broadcast MAC = FF:FF:FF:FF:FF:FF. Multicast: first byte LSB=1. Unicast: first byte LSB=0. Jumbo frames = 9000 bytes (non-standard).",
+  "viewBox": { "width": 680, "height": 480 },
+  "complexity": "Beginner",
+  "subject_category": "Networks",
+  "columns": [
+    { "label": "Field", "color": "#2563EB" },
+    { "label": "Size", "color": "#059669" },
+    { "label": "Content / Purpose", "color": "#7C3AED" }
+  ],
+  "rows": [
+    [
+      { "value": "Preamble" },
+      { "value": "7 bytes" },
+      { "value": "10101010... alternating bits — allows receiving NIC to synchronize clock with sender", "highlight": false }
+    ],
+    [
+      { "value": "SFD (Start Frame Delimiter)" },
+      { "value": "1 byte" },
+      { "value": "10101011 — last bit differs, signals: actual frame data begins next" }
+    ],
+    [
+      { "value": "Destination MAC Address" },
+      { "value": "6 bytes (48 bits)" },
+      { "value": "Hardware address of the receiver. FF:FF:FF:FF:FF:FF = broadcast; first byte LSB=1 = multicast", "highlight": true }
+    ],
+    [
+      { "value": "Source MAC Address" },
+      { "value": "6 bytes (48 bits)" },
+      { "value": "Hardware address of the sender (the NIC transmitting the frame)" }
+    ],
+    [
+      { "value": "EtherType / Length" },
+      { "value": "2 bytes" },
+      { "value": ">1500: protocol type (0x0800=IPv4, 0x0806=ARP, 0x86DD=IPv6) | ≤1500: payload length in bytes", "highlight": true }
+    ],
+    [
+      { "value": "Data / Payload" },
+      { "value": "46–1500 bytes" },
+      { "value": "Encapsulated upper-layer data (IP packet, ARP packet, etc.). Padded with zeros if <46 bytes" }
+    ],
+    [
+      { "value": "FCS / CRC (Frame Check Sequence)" },
+      { "value": "4 bytes" },
+      { "value": "CRC-32 checksum computed over Dest MAC + Src MAC + EtherType + Data. Used for error detection.", "highlight": true }
+    ],
+    [
+      { "value": "TOTAL FRAME SIZE", "color": "#FEF9C3" },
+      { "value": "64 – 1518 bytes", "color": "#FEF9C3" },
+      { "value": "Min 64B (Preamble+SFD excluded from this count). Max 1518B. Preamble+SFD add 8 bytes.", "color": "#FEF9C3" }
+    ]
+  ],
+  "theory": "An Ethernet frame is the Protocol Data Unit (PDU) at the Data Link Layer (Layer 2) of the OSI model. Defined by IEEE 802.3, it is the fundamental unit of data transmission on Ethernet networks. Every frame has a fixed structure with well-defined fields that enable addressing, error detection, and protocol identification.\n\nPreamble and SFD: The 7-byte Preamble consists of alternating 1s and 0s (10101010 repeated). This pattern allows the receiving network interface card (NIC) to synchronize its clock with the incoming bit stream — a process called clock recovery. The 1-byte Start Frame Delimiter (SFD = 10101011) immediately follows and signals that the actual frame data begins in the very next byte. Note: The Preamble and SFD are added by the physical layer and are NOT counted in the official 64–1518 byte frame size.\n\nMAC Addresses — Destination and Source: Each field is 6 bytes (48 bits) long, typically expressed in hexadecimal (e.g., AA:BB:CC:DD:EE:FF). The Destination MAC tells the switch/NIC which device should receive this frame. The Source MAC identifies the sender. Special MAC addresses: FF:FF:FF:FF:FF:FF is the broadcast address (all devices on the LAN accept it). A MAC address with LSB of the first byte = 1 is a multicast address. LSB = 0 indicates unicast.\n\nEtherType / Length Field: This 2-byte field has dual purpose. If the value is greater than 1500 (0x05DC), it specifies the Layer 3 protocol type encapsulated in the payload: 0x0800 = IPv4, 0x0806 = ARP, 0x86DD = IPv6, 0x8100 = VLAN tagged (IEEE 802.1Q). If the value is 1500 or less, it specifies the length of the payload in bytes (used in the original 802.3 format).\n\nData / Payload: Contains the encapsulated higher-layer protocol data (usually an IP packet). The minimum payload size is 46 bytes — if the actual data is smaller, the frame is padded with zeros to meet the minimum. This minimum ensures the frame is at least 64 bytes long, which is required for CSMA/CD collision detection to work correctly at 10Mbps Ethernet (the signal must still be on the wire when a collision occurs at the far end of the maximum-length cable).\n\nFCS — Frame Check Sequence: The 4-byte FCS field contains a CRC-32 (Cyclic Redundancy Check) value computed over the Destination MAC, Source MAC, EtherType/Length, and Data fields. The sender calculates the CRC and appends it. The receiver recalculates the CRC over the received data and compares it with the FCS field. If they match, the frame is assumed error-free. If they differ, the frame is silently discarded (Layer 2 does NOT request retransmission — that's TCP's job at Layer 4).\n\nFrame Size Constraints: Minimum frame = 64 bytes (excluding preamble+SFD). This ensures that in a 10Mbps network with the maximum cable length, a transmitting station has not finished sending before a collision signal returns. Maximum frame = 1518 bytes (1500 bytes data + 18 bytes overhead: 6+6+2+4). Exceeding the maximum produces a 'giant' frame, which is discarded. Jumbo frames (up to 9000 bytes payload) are a non-standard extension supported by some Gigabit Ethernet equipment to improve throughput for large data transfers.",
+  "keyPoints": [
+    "Ethernet frame structure: Preamble(7B) + SFD(1B) + Dst MAC(6B) + Src MAC(6B) + EtherType(2B) + Data(46–1500B) + FCS(4B)",
+    "Minimum frame = 64 bytes — ensures collision detection works at 10Mbps before transmission ends",
+    "Maximum frame = 1518 bytes (1500B data + 18B overhead); Preamble+SFD (8B) not counted in size limit",
+    "EtherType >1500: protocol ID (0x0800=IPv4, 0x0806=ARP, 0x86DD=IPv6); EtherType ≤1500: payload length",
+    "FCS uses CRC-32 for error detection — corrupt frames are silently dropped at Layer 2",
+    "Broadcast MAC = FF:FF:FF:FF:FF:FF; Multicast has first byte LSB=1; Unicast has first byte LSB=0"
+  ],
+  "useCases": [
+    "LAN communication — every data exchange on Ethernet uses this frame structure at the Data Link layer",
+    "Network protocol analysis — tools like Wireshark dissect Ethernet frames to show each field for troubleshooting",
+    "Switch operation — switches read Destination MAC from frames to make forwarding decisions via CAM table lookup"
+  ]
+}

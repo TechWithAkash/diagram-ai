@@ -1,0 +1,31 @@
+{
+  "id": "dfd-hospital-l0-l1",
+  "type": "flowchart",
+  "title": "DFD Level 0 & Level 1 — Hospital Management System",
+  "category": "Software",
+  "aliases": [
+    "hospital dfd",
+    "hospital data flow diagram",
+    "dfd level 0 hospital",
+    "dfd level 1 hospital",
+    "hospital management system dfd"
+  ],
+  "examTip": "When drawing the Hospital DFD, ensure you capture the patient's symptoms/details going in and diagnostic prescriptions coming out, alongside the doctor's inputs. Data stores should reflect distinct categories of persistent data, such as Patient Records, Appointments, Medical History, and Billing Ledger. Remember, all data flows must have descriptive labels.",
+  "viewBox": { "width": 800, "height": 780 },
+  "complexity": "Advanced",
+  "subject_category": "Software",
+  "theory": "A Data Flow Diagram (DFD) for a Hospital Management System (HMS) outlines how patient information, medical histories, scheduling requests, and billing records move through various departments. DFD modeling enables administrators and database developers to chart data structures and identify critical system boundaries.\n\nLevel 0 Context Diagram: Defines the interaction between the system and three main external entities: Patient, Doctor, and Hospital Administrator. The Patient registers with symptoms and demographic details and receives prescriptions, appointment schedules, and invoices. The Doctor enters diagnosis notes and treatment schemes and retrieves patient histories. The Administrator inputs doctor schedules, configures system roles, and receives operational and financial report summaries.\n\nLevel 1 Detail DFD: Decomposes the hospital operations into four key processes supported by database tables (data stores):\n1. 1.1 Patient Registration: Captures demographic details from the patient and saves them to 'D1: Patient Records Database'.\n2. 1.2 Appointment Scheduling: Queries the 'D2: Appointments Database' to check physician availability, assigns open time slots, and sends confirmations.\n3. 1.3 Clinical Management: Used by doctors to document diagnostic details, treatment protocols, and prescription orders in 'D3: Medical History Database'.\n4. 1.4 Billing & Invoice Processing: Collects medication lists and consultation durations from 'D3: Medical History Database', retrieves patient status from 'D1', calculates final fees, posts them to 'D4: Billing Ledger', and outputs invoices to the Patient and financial reports to the Administrator.",
+  "keyPoints": [
+    "Level 0 outlines the data bounds between the Patient, Doctor, Administrator, and the central system",
+    "Level 1 separates clinical care (diagnosis, prescriptions) from administrative tasks (registration, scheduling, billing)",
+    "D1: Patient Records Database persists demographics, while D3: Medical History Database logs diagnoses",
+    "D2: Appointments Database stores doctor timetables and booked slots to prevent scheduling conflicts",
+    "D4: Billing Ledger records treatment costs, invoice statuses, and patient payment transactions"
+  ],
+  "useCases": [
+    "Designing logical data architecture for integrated hospital information networks (HIS)",
+    "Documenting electronic health record (EHR) data workflows for healthcare regulatory compliance",
+    "Optimizing outpatient scheduling systems and billing cycles in private clinics and public hospitals"
+  ],
+  "mermaid_code": "flowchart TD\n  subgraph L0[\"Level 0: Context DFD\"]\n    direction LR\n    PatientL0[\"Patient\"]:::dfdEntity\n    HMS[\"1.0 Hospital Management System\"]:::dfdProcess\n    DoctorL0[\"Doctor\"]:::dfdEntity\n    AdminL0[\"Hospital Administrator\"]:::dfdEntity\n    \n    PatientL0 -->|\"Registration & Symptoms\"| HMS\n    HMS -->|\"Appointments & Prescriptions\"| PatientL0\n    DoctorL0 -->|\"Treatment Plans & Reports\"| HMS\n    HMS -->|\"Patient Medical History\"| DoctorL0\n    AdminL0 -->|\"Staff Info & System Configuration\"| HMS\n    HMS -->|\"Operational & Financial Reports\"| AdminL0\n  end\n\n  subgraph L1[\"Level 1: Detail DFD\"]\n    direction TB\n    PatientL1[\"Patient\"]:::dfdEntity\n    DoctorL1[\"Doctor\"]:::dfdEntity\n    AdminL1[\"Hospital Administrator\"]:::dfdEntity\n    \n    P1[\"1.1 Patient Registration\"]:::dfdProcess\n    P2[\"1.2 Appointment Scheduling\"]:::dfdProcess\n    P3[\"1.3 Clinical Management\"]:::dfdProcess\n    P4[\"1.4 Billing & Invoice Processing\"]:::dfdProcess\n    \n    D1[(\"D1: Patient Records DB\")]:::dfdDataStore\n    D2[(\"D2: Appointments DB\")]:::dfdDataStore\n    D3[(\"D3: Medical History DB\")]:::dfdDataStore\n    D4[(\"D4: Billing Ledger\")]:::dfdDataStore\n    \n    %% Patient registration\n    PatientL1 -->|\"Personal Details\"| P1\n    P1 -->|\"Save New Patient\"| D1\n    P1 -->|\"Patient ID Slip\"| PatientL1\n    \n    %% Appointments scheduling\n    PatientL1 -->|\"Request Appointment\"| P2\n    P2 -->|\"Check Doctor Availability\"| D2\n    P2 -->|\"Book Slot\"| D2\n    P2 -->|\"Confirmation Slip\"| PatientL1\n    DoctorL1 -->|\"Retrieve Schedule\"| P2\n    \n    %% Clinical management\n    DoctorL1 -->|\"Enter Diagnosis & Prescription\"| P3\n    P3 -->|\"Fetch Patient Record\"| D1\n    P3 -->|\"Write Treatment Log\"| D3\n    D3 -->|\"Read Medical History\"| P3\n    P3 -->|\"Treatment Details\"| PatientL1\n\n    %% Billing & Invoicing\n    P4 -->|\"Read Treatment Costs\"| D3\n    P4 -->|\"Read Patient Demographics\"| D1\n    P4 -->|\"Post Invoice Balance\"| D4\n    PatientL1 -->|\"Submit Payment\"| P4\n    P4 -->|\"Payment Receipt\"| PatientL1\n    P4 -->|\"Financial Statements\"| AdminL1\n  end"
+}

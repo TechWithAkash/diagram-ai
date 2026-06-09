@@ -1,0 +1,93 @@
+{
+  "type": "circuit-schematic",
+  "title": "Half-Wave Rectifier Circuit",
+  "description": "Converts AC to pulsating DC using a single diode. Only positive half-cycles of the AC input pass to the load.",
+  "category": "Digital Electronics",
+  "aliases": ["half wave rectifier", "diode rectifier", "ac to dc converter", "half wave", "halfwave rectifier circuit"],
+  "viewBox": { "width": 600, "height": 360 },
+
+  "theory": "A half-wave rectifier is the simplest form of a rectifier circuit that converts alternating current (AC) to direct current (DC). It uses a single PN junction diode that conducts only during the positive half-cycle of the AC input signal. During the positive half-cycle, the diode is forward-biased and current flows through the load resistor R_L. During the negative half-cycle, the diode is reverse-biased and no current flows. As a result, the output is a series of positive pulses separated by zero intervals, making the output a pulsating DC waveform. The output frequency equals the input supply frequency. The average DC output voltage is approximately 0.318 × Vm (where Vm is the peak voltage), and the RMS output is 0.5 × Vm. The rectification efficiency is 40.6% and the ripple factor is 1.21, indicating significant ripple which typically requires filtering for practical use.",
+
+  "keyPoints": [
+    "Only one diode is used — the simplest and cheapest rectifier configuration.",
+    "Conducts only during the POSITIVE half-cycle of AC input; negative half-cycle is blocked.",
+    "Average DC output voltage = 0.318 × Vm (Vm = peak AC voltage).",
+    "Rectification efficiency = 40.6% — lowest among rectifier types.",
+    "Ripple factor = 1.21 — high ripple; a filter capacitor is usually required.",
+    "Ripple frequency equals supply frequency (e.g., 50 Hz input → 50 Hz ripple).",
+    "PIV (Peak Inverse Voltage) rating of the diode must exceed Vm to prevent breakdown.",
+    "Form factor = Vrms / Vdc = 1.57; transformer utilization factor (TUF) = 0.287."
+  ],
+
+  "examTip": "Half-wave rectifier conducts only during POSITIVE half-cycle of AC input. Output DC voltage = 0.318 × Vm (Vm = peak voltage). Efficiency = 40.6%. Ripple factor = 1.21. Frequency of ripple = supply frequency (50Hz → 50Hz ripple). Uses only 1 diode — simplest rectifier. PIV (Peak Inverse Voltage) of diode must exceed Vm.",
+
+  "useCases": [
+    "Simple, low-cost power supplies where DC quality is not critical.",
+    "Signal demodulation in radio receivers.",
+    "Battery charging circuits (with filter capacitor).",
+    "Low-power applications where efficiency is not the primary concern.",
+    "Educational/laboratory demonstrations of basic rectification principles."
+  ],
+
+  "components": [
+    {
+      "id": "VS1",
+      "symbol": "ac-source",
+      "x": 100,
+      "y": 180,
+      "rotation": 0,
+      "label": "Vs"
+    },
+    {
+      "id": "D1",
+      "symbol": "diode",
+      "x": 300,
+      "y": 100,
+      "rotation": 0,
+      "label": "D1"
+    },
+    {
+      "id": "RL",
+      "symbol": "resistor",
+      "x": 470,
+      "y": 180,
+      "rotation": 90,
+      "label": "R_L"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 100,
+      "y": 270,
+      "rotation": 0
+    },
+    {
+      "id": "GND2",
+      "symbol": "ground",
+      "x": 470,
+      "y": 270,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 100, "y1": 154, "x2": 100, "y2": 100, "comment": "AC source top terminal up to top-left corner" },
+    { "x1": 100, "y1": 100, "x2": 275, "y2": 100, "comment": "Top rail, left — approaching diode anode" },
+    { "x1": 325, "y1": 100, "x2": 470, "y2": 100, "comment": "Top rail, right — diode cathode to RL top" },
+    { "x1": 470, "y1": 100, "x2": 470, "y2": 152, "comment": "RL top lead down to RL component" },
+    { "x1": 470, "y1": 208, "x2": 470, "y2": 260, "comment": "RL bottom lead to bottom rail" },
+    { "x1": 100, "y1": 206, "x2": 100, "y2": 260, "comment": "AC source bottom terminal down to bottom rail" },
+    { "x1": 100, "y1": 260, "x2": 470, "y2": 260, "comment": "Bottom return rail — completing the loop" }
+  ],
+
+  "junctions": [],
+
+  "labels": [
+    { "text": "Vin (AC)", "x": 58,  "y": 90,  "fontSize": 11, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "Vout (DC)", "x": 540, "y": 180, "fontSize": 11, "fontWeight": "700", "fill": "#15803d", "textAnchor": "start" },
+    { "text": "→ only +ve half cycle", "x": 300, "y": 82, "fontSize": 9, "fontWeight": "400", "fill": "#64748b", "fontStyle": "italic", "textAnchor": "middle" },
+    { "text": "PIV ≥ Vm", "x": 300, "y": 130, "fontSize": 9, "fontWeight": "400", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Vdc = 0.318·Vm", "x": 300, "y": 310, "fontSize": 10, "fontWeight": "600", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "η = 40.6%  |  γ = 1.21", "x": 300, "y": 328, "fontSize": 9, "fontWeight": "400", "fill": "#475569", "textAnchor": "middle" }
+  ]
+}

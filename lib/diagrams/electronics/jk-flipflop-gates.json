@@ -1,0 +1,60 @@
+{
+  "id": "jk-flipflop-gates",
+  "title": "JK Flip-Flop (NAND Gate Implementation)",
+  "aliases": ["jk flip-flop", "jk ff", "j k flip flop gate level", "jk flip flop nand circuit", "jk flipflop"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": { "width": 600, "height": 380 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "JK truth table: J=0,K=0=No Change | J=0,K=1=Reset(Q=0) | J=1,K=0=Set(Q=1) | J=1,K=1=Toggle(Q-complement). The Toggle state (J=K=1) is the unique feature distinguishing JK from SR. Characteristic equation: Q(next) = J·Q̄ + K̄·Q.",
+  "inputs": [
+    { "id": "J",   "label": "J",   "x": 80, "y": 100 },
+    { "id": "CLK", "label": "CLK", "x": 80, "y": 190 },
+    { "id": "K",   "label": "K",   "x": 80, "y": 280 }
+  ],
+  "outputs": [
+    { "id": "Q",    "label": "Q",  "x": 520, "y": 100 },
+    { "id": "Qbar", "label": "Q̄", "x": 520, "y": 280 }
+  ],
+  "gates": [
+    { "id": "G1", "type": "NAND", "x": 260, "y": 120, "label": "NAND", "inputsCount": 3 },
+    { "id": "G2", "type": "NAND", "x": 260, "y": 260, "label": "NAND", "inputsCount": 3 },
+    { "id": "G3", "type": "NAND", "x": 400, "y": 100, "label": "NAND", "inputsCount": 2 },
+    { "id": "G4", "type": "NAND", "x": 400, "y": 280, "label": "NAND", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "J",   "to": "G1", "toPort": 0, "route": "Z", "midX": 170 },
+    { "from": "CLK", "to": "G1", "toPort": 1, "route": "Z", "midX": 170 },
+    { "from": "CLK", "to": "G2", "toPort": 1, "route": "Z", "midX": 170 },
+    { "from": "K",   "to": "G2", "toPort": 0, "route": "Z", "midX": 170 },
+    { "from": "G1",  "to": "G3", "toPort": 0, "route": "straight" },
+    { "from": "G2",  "to": "G4", "toPort": 0, "route": "straight" },
+    { "from": "G3",  "to": "Q",  "route": "straight" },
+    { "from": "G4",  "to": "Qbar", "route": "straight" },
+    { "from": "G3",  "to": "G4", "toPort": 1, "route": "Z", "midX": 468, "label": "Q→G2 feedback" },
+    { "from": "G4",  "to": "G3", "toPort": 1, "route": "Z", "midX": 468, "label": "Q̄→G1 feedback" },
+    { "from": "G3",  "to": "G2", "toPort": 2, "route": "Z", "midX": 340, "label": "Q feedback" },
+    { "from": "G4",  "to": "G1", "toPort": 2, "route": "Z", "midX": 340, "label": "Q̄ feedback" }
+  ],
+  "junctions": [
+    { "x": 170, "y": 190 },
+    { "x": 430, "y": 100 },
+    { "x": 430, "y": 280 }
+  ],
+  "theory": "The JK Flip-Flop is the most versatile and universal sequential logic element, resolving the undefined/forbidden state of the SR Flip-Flop (where S=R=1 was prohibited) by introducing the Toggle operation when both J=1 and K=1. Every other flip-flop type can be derived from the JK flip-flop through appropriate input conditioning.\n\nNAND Gate Implementation: This implementation uses two 3-input NAND gates (G1, G2) for the first stage (input logic) and two 2-input NAND gates (G3, G4) for the cross-coupled SR latch output stage. G1 computes S-bar = NAND(J, CLK, Q-bar) and G2 computes R-bar = NAND(K, CLK, Q). The critical difference from the SR flip-flop is the feedback: the Q output is fed back to G2's input (to allow K to reset the FF only when Q=1), and Q-bar is fed back to G1's input (to allow J to set the FF only when Q=0).\n\nFeedback Mechanism and Race Around Problem: The feedback connections from the output latch back to G1 and G2 are what give the JK its toggle behavior. When J=K=1 and CLK=1: if Q=0, then Q-bar=1, so G1's output goes LOW (setting Q=1), and then Q-bar=0, making G2's output go LOW, toggling Q back to 0 — this creates the 'race-around condition' in level-triggered JK FFs. This is why practical JK flip-flops are edge-triggered or use master-slave configurations.\n\nTruth Table: J=0, K=0 → No Change (Q retains previous value); J=0, K=1 → Reset (Q=0); J=1, K=0 → Set (Q=1); J=1, K=1 → Toggle (Q=Q-bar). The characteristic equation is Q(next) = J·Q-bar + K-bar·Q.\n\nUniversality: The JK FF can function as an SR FF (J=S, K=R), a D FF (K=J-bar, D=J), or a T FF (J=K=T). This makes it the most flexible building block in sequential circuit design.",
+  "keyPoints": [
+    "Characteristic equation: Q(next) = J·Q̄ + K̄·Q — resolves SR FF's forbidden state",
+    "Toggle state (J=K=1) is unique to JK FF — Q complements on every active clock edge",
+    "Three-input NAND gates incorporate Q and Q̄ feedback to prevent forbidden state",
+    "Race-around condition occurs in level-triggered JK FFs when J=K=1 and CLK stays HIGH",
+    "Edge-triggered or master-slave design solves the race-around problem",
+    "JK FF is universal: can be configured as SR, D, or T flip-flop",
+    "74LS76 is the standard TTL dual JK flip-flop IC"
+  ],
+  "useCases": [
+    "Binary ripple counters and synchronous counters using Toggle mode (J=K=1)",
+    "Frequency dividers — a JK FF in toggle mode divides input frequency by 2",
+    "State machine design where both Set, Reset, Hold, and Toggle behaviors are needed"
+  ]
+}

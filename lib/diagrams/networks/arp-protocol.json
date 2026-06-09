@@ -1,0 +1,88 @@
+{
+  "id": "arp-protocol",
+  "type": "sequence",
+  "title": "ARP Protocol — Address Resolution Process",
+  "category": "Networks",
+  "aliases": ["arp", "address resolution protocol", "arp request", "arp reply", "mac resolution", "arp cache"],
+  "examTip": "ARP resolves Layer 3 (IP) to Layer 2 (MAC). ARP request is broadcast (FF:FF:FF:FF:FF:FF), reply is unicast. `arp -a` shows ARP table. Gratuitous ARP: host broadcasts its own IP→MAC to update neighbors' caches (used after IP change). Proxy ARP: router answers on behalf of hosts on another subnet.",
+  "viewBox": { "width": 680, "height": 580 },
+  "complexity": "Beginner",
+  "subject_category": "Networks",
+  "participants": [
+    { "id": "host-a", "label": "Host A", "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "network", "label": "Network (Broadcast)", "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12" },
+    { "id": "host-b", "label": "Host B", "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "arp-cache", "label": "ARP Cache", "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" }
+  ],
+  "messages": [
+    {
+      "from": "host-a", "to": "arp-cache",
+      "label": "Check for MAC of 192.168.1.5",
+      "note": "Host A needs to send a frame\nto 192.168.1.5 but doesn't know\nthe MAC address. Checks local cache.",
+      "type": "request",
+      "state": "Host A: Checking ARP cache"
+    },
+    {
+      "from": "arp-cache", "to": "host-a",
+      "label": "Cache Miss (not found)",
+      "note": "192.168.1.5 not in ARP table.\nMust send ARP Request to\ndiscover MAC address.",
+      "type": "response",
+      "state": "Host A: ARP cache miss"
+    },
+    {
+      "from": "host-a", "to": "network",
+      "label": "ARP Request BROADCAST: \"Who has 192.168.1.5? Tell 192.168.1.1\"",
+      "note": "Ethernet frame:\nDest MAC = FF:FF:FF:FF:FF:FF\nSrc MAC = Host A's MAC\nOpcode = 1 (Request)\nAll hosts on subnet receive this",
+      "type": "request",
+      "state": "Host A: ARP_REQUEST sent"
+    },
+    {
+      "from": "network", "to": "host-b",
+      "label": "Receives broadcast",
+      "note": "All hosts receive the broadcast.\nOnly host with IP 192.168.1.5\n(Host B) will respond.",
+      "type": "data",
+      "state": "All hosts: receive broadcast"
+    },
+    {
+      "from": "host-b", "to": "host-a",
+      "label": "ARP Reply (UNICAST): \"192.168.1.5 is at AA:BB:CC:DD:EE:FF\"",
+      "note": "Sent UNICAST directly to Host A.\nOpcode = 2 (Reply)\nContains Host B's MAC address\nAA:BB:CC:DD:EE:FF",
+      "type": "response",
+      "state": "Host B: ARP_REPLY sent"
+    },
+    {
+      "from": "host-a", "to": "arp-cache",
+      "label": "Store mapping: 192.168.1.5 → AA:BB:CC:DD:EE:FF",
+      "note": "Mapping stored in ARP cache\nwith a timeout (typically 20 min\nfor dynamic entries). Avoids\nrepeated ARP broadcasts.",
+      "type": "request",
+      "state": "Host A: ARP cache updated"
+    },
+    {
+      "from": "host-a", "to": "host-b",
+      "label": "Begin normal communication using MAC address",
+      "note": "Host A now frames its data\nwith dest MAC AA:BB:CC:DD:EE:FF.\nLayer 2 (Ethernet) communication\nproceeds normally.",
+      "type": "data",
+      "state": "Communication: ESTABLISHED"
+    }
+  ],
+  "notes": [
+    "ARP operates at Layer 2/3 boundary — maps IP (L3) to MAC (L2)",
+    "Gratuitous ARP: host sends unsolicited ARP reply of its own IP to update caches",
+    "Proxy ARP: router responds to ARP requests on behalf of hosts on other subnets",
+    "ARP Spoofing attack: attacker sends fake ARP replies to poison caches (MITM attack)"
+  ],
+  "theory": "ARP (Address Resolution Protocol), defined in RFC 826 (1982), is a network communication protocol used to discover the hardware (MAC) address of a device from its known IP address within a local network. ARP operates at the boundary of Layer 2 (Data Link) and Layer 3 (Network) of the OSI model.\n\nWhy ARP is Needed: IP addresses (Layer 3) are logical addresses used for routing across networks. However, actual data frame delivery on a local network (LAN) requires Layer 2 MAC addresses. When a host knows the IP address of the destination but not its MAC address, it uses ARP to discover it. Without ARP, Ethernet frames cannot be correctly addressed for local delivery.\n\nARP Request — Broadcast: The requesting host constructs an ARP Request packet with its own IP and MAC as the sender fields, and the target IP address as the destination. Since the target MAC is unknown, the Ethernet frame is broadcast to FF:FF:FF:FF:FF:FF — every device on the LAN receives and processes this. The ARP packet contains opcode 1 (Request).\n\nARP Reply — Unicast: The host that owns the target IP address sends an ARP Reply directly (unicast) back to the requester. The reply contains the sender's MAC address. All other hosts simply discard the broadcast. The ARP packet contains opcode 2 (Reply).\n\nARP Cache: To avoid repeating ARP lookups for every packet, hosts maintain an ARP cache (ARP table) — a temporary mapping of IP addresses to MAC addresses. Dynamic entries typically expire after 20 minutes (varies by OS). The command `arp -a` displays the current ARP table. Static ARP entries can be configured manually for security.\n\nSpecial ARP Types: Gratuitous ARP — a host broadcasts an ARP reply of its own IP-to-MAC mapping, used after IP address changes or NIC replacement to update neighbors' ARP caches. Proxy ARP — a router responds to ARP requests for hosts on other subnets, enabling inter-subnet communication without the host knowing.\n\nARP Security Issues: ARP has no authentication mechanism, making it vulnerable to ARP Spoofing (ARP Poisoning) attacks where an attacker sends forged ARP replies to associate their MAC with another host's IP, enabling Man-in-the-Middle (MITM) attacks. Defenses include Dynamic ARP Inspection (DAI) on managed switches and static ARP entries for critical hosts.",
+  "keyPoints": [
+    "ARP maps Layer 3 IP addresses to Layer 2 MAC addresses within a local subnet",
+    "ARP Request is BROADCAST (FF:FF:FF:FF:FF:FF) — all hosts on subnet receive it",
+    "ARP Reply is UNICAST — only the requesting host receives the reply",
+    "ARP cache stores IP→MAC mappings temporarily (default ~20 min) to reduce broadcast traffic",
+    "Gratuitous ARP: host broadcasts its own IP→MAC mapping to update neighbors' caches proactively",
+    "ARP Spoofing is a common MITM attack; Dynamic ARP Inspection (DAI) on switches prevents it"
+  ],
+  "useCases": [
+    "Local network communication — any time two hosts on the same subnet communicate, ARP resolves IP to MAC",
+    "Default gateway resolution — end devices use ARP to find the MAC address of their router/gateway",
+    "Network troubleshooting — ARP table inspection (`arp -a`) helps diagnose Layer 2 connectivity issues and detect ARP spoofing attacks"
+  ]
+}

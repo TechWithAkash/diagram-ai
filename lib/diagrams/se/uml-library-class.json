@@ -1,0 +1,30 @@
+{
+  "id": "uml-library-class",
+  "type": "flowchart",
+  "title": "UML Class Diagram — Library Management System",
+  "category": "Software",
+  "aliases": [
+    "library class diagram",
+    "uml class library",
+    "library classes",
+    "class diagram library management"
+  ],
+  "examTip": "Class Diagrams model system structure by showing classes, attributes, methods, and relationships. Generalization (inheritance) shows specialized classes pointing to their base class (e.g. Librarian and Member pointing to User). In flowchart representations, use boxes with fields separated by lines (representing Class Name, Attributes, and Methods) and label associations clearly.",
+  "viewBox": { "width": 800, "height": 650 },
+  "complexity": "Advanced",
+  "subject_category": "Software",
+  "theory": "A UML Class Diagram is a static structure diagram that describes the structure of a system by showing the system's classes, their attributes, operations (or methods), and the relationships among objects.\n\nClasses and Fields: The Library Management System contains several key domain classes:\n1. User (Base class): Holds general credentials (userId, name, email) and authorization method (login).\n2. Librarian (Subclass): Inherits from User and includes administrative functions (addBook, removeBook, verifyMember).\n3. Member (Subclass): Inherits from User and tracks checkout metrics (memberId, barcode, totalBooksCheckedOut).\n4. Book: Persists catalogue details (isbn, title, author, isReferenceOnly) and provides availability checks.\n5. BookLending (Transaction): Manages borrowing details (creationDate, dueDate, returnDate) and transactional methods (renewBook, collectFine).\n6. Catalog: Aggregates catalog operations (totalBooks) and provides search interfaces.\n\nRelationships: Generalization (inheritance) is used to represent that Librarian and Member are types of Users. Associations illustrate operational dependencies: Librarians manage Books; the Catalog contains Books; Members initiate lending transactions; and lending transactions borrow Books.",
+  "keyPoints": [
+    "Class Diagrams provide a static view of the system, helping developers structure object models",
+    "Generalization represents object-oriented inheritance (Librarian/Member inheriting from User)",
+    "Attributes define object properties (e.g. isbn), while methods define class behaviors (e.g. isAvailable)",
+    "Associations (lines with arrows) capture connections: Catalog contains Books, lending references Book",
+    "UML class diagrams are mapped to database structures (tables) and classes during codebase implementation"
+  ],
+  "useCases": [
+    "Generating object-oriented code structures in languages like Java, C++, or Python",
+    "Designing database schemas based on entity attributes and relations",
+    "Communicating software architectures and class responsibilities to developers"
+  ],
+  "mermaid_code": "flowchart TD\n  class_User[\"User\n- userId: String\n- name: String\n- email: String\n--\n+ login: boolean\"]:::umlClass\n  class_Librarian[\"Librarian\n- staffId: String\n--\n+ addBook: void\n+ removeBook: void\n+ verifyMember: void\"]:::umlClass\n  class_Member[\"Member\n- memberId: String\n- barcode: String\n- totalBooksCheckedOut: int\n--\n+ getBooksCheckedOut: int\"]:::umlClass\n  class_Book[\"Book\n- isbn: String\n- title: String\n- author: String\n- isReferenceOnly: boolean\n--\n+ isAvailable: boolean\"]:::umlClass\n  class_Lending[\"BookLending\n- creationDate: Date\n- dueDate: Date\n- returnDate: Date\n--\n+ renewBook: boolean\n+ collectFine: void\"]:::umlClass\n  class_Catalog[\"Catalog\n- totalBooks: int\n--\n+ searchByTitle: List\n+ searchByAuthor: List\"]:::umlClass\n\n  %% Inheritance\n  class_Librarian -->|\"inherits\"| class_User\n  class_Member -->|\"inherits\"| class_User\n\n  %% Associations\n  class_Librarian -->|\"manages\"| class_Book\n  class_Catalog -->|\"contains\"| class_Book\n  class_Member -->|\"requests\"| class_Lending\n  class_Lending -->|\"borrows\"| class_Book"
+}

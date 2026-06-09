@@ -1,0 +1,71 @@
+{
+  "id": "mux-4to1-gates",
+  "title": "4-to-1 Multiplexer (Logic Gate Implementation)",
+  "aliases": ["4 to 1 mux", "4:1 multiplexer", "4 input mux", "four to one mux", "4 to 1 multiplexer"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": { "width": 640, "height": 440 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "4-to-1 MUX: needs 2 select lines (2^2=4). Boolean: Y = I0·S̄1·S̄0 + I1·S̄1·S0 + I2·S1·S̄0 + I3·S1·S0. Universal logic: any Boolean function of n variables can be implemented using a 2^n input MUX.",
+  "inputs": [
+    { "id": "S1", "label": "S1", "x": 80, "y": 120 },
+    { "id": "S0", "label": "S0", "x": 80, "y": 200 },
+    { "id": "I0", "label": "I0", "x": 80, "y": 280 },
+    { "id": "I1", "label": "I1", "x": 80, "y": 320 },
+    { "id": "I2", "label": "I2", "x": 80, "y": 360 },
+    { "id": "I3", "label": "I3", "x": 80, "y": 400 }
+  ],
+  "outputs": [
+    { "id": "Y", "label": "Y (Out)", "x": 560, "y": 340 }
+  ],
+  "gates": [
+    { "id": "G_NS1", "type": "NOT", "x": 160, "y": 120, "label": "NOT", "inputsCount": 1 },
+    { "id": "G_NS0", "type": "NOT", "x": 160, "y": 200, "label": "NOT", "inputsCount": 1 },
+    { "id": "G_A0",  "type": "AND", "x": 320, "y": 280, "label": "AND", "inputsCount": 3 },
+    { "id": "G_A1",  "type": "AND", "x": 320, "y": 320, "label": "AND", "inputsCount": 3 },
+    { "id": "G_A2",  "type": "AND", "x": 320, "y": 360, "label": "AND", "inputsCount": 3 },
+    { "id": "G_A3",  "type": "AND", "x": 320, "y": 400, "label": "AND", "inputsCount": 3 },
+    { "id": "G_OR",  "type": "OR",  "x": 460, "y": 340, "label": "OR",  "inputsCount": 4 }
+  ],
+  "connections": [
+    { "from": "S1",    "to": "G_NS1", "toPort": 0, "route": "straight" },
+    { "from": "S0",    "to": "G_NS0", "toPort": 0, "route": "straight" },
+    { "from": "G_NS1", "to": "G_A0",  "toPort": 0, "route": "Z", "midX": 240 },
+    { "from": "G_NS0", "to": "G_A0",  "toPort": 1, "route": "Z", "midX": 240 },
+    { "from": "I0",    "to": "G_A0",  "toPort": 2, "route": "Z", "midX": 200 },
+    { "from": "G_NS1", "to": "G_A1",  "toPort": 0, "route": "Z", "midX": 240 },
+    { "from": "S0",    "to": "G_A1",  "toPort": 1, "route": "Z", "midX": 200 },
+    { "from": "I1",    "to": "G_A1",  "toPort": 2, "route": "Z", "midX": 200 },
+    { "from": "S1",    "to": "G_A2",  "toPort": 0, "route": "Z", "midX": 200 },
+    { "from": "G_NS0", "to": "G_A2",  "toPort": 1, "route": "Z", "midX": 240 },
+    { "from": "I2",    "to": "G_A2",  "toPort": 2, "route": "Z", "midX": 200 },
+    { "from": "S1",    "to": "G_A3",  "toPort": 0, "route": "Z", "midX": 200 },
+    { "from": "S0",    "to": "G_A3",  "toPort": 1, "route": "Z", "midX": 200 },
+    { "from": "I3",    "to": "G_A3",  "toPort": 2, "route": "Z", "midX": 200 },
+    { "from": "G_A0",  "to": "G_OR",  "toPort": 0, "route": "Z", "midX": 390 },
+    { "from": "G_A1",  "to": "G_OR",  "toPort": 1, "route": "Z", "midX": 390 },
+    { "from": "G_A2",  "to": "G_OR",  "toPort": 2, "route": "Z", "midX": 390 },
+    { "from": "G_A3",  "to": "G_OR",  "toPort": 3, "route": "Z", "midX": 390 },
+    { "from": "G_OR",  "to": "Y",     "route": "straight" }
+  ],
+  "junctions": [
+    { "x": 120, "y": 120 },
+    { "x": 120, "y": 200 }
+  ],
+  "theory": "A Multiplexer (MUX) is a combinational logic circuit that selects one of several input signals and routes it to a single output based on the binary value of select lines. The 4-to-1 MUX has 4 data inputs (I0–I3), 2 select lines (S1, S0), and 1 output (Y). The number of select lines needed is log2(N) where N is the number of data inputs.\n\nBoolean Expression: The output Y of a 4-to-1 MUX is given by: Y = I0·S1-bar·S0-bar + I1·S1-bar·S0 + I2·S1·S0-bar + I3·S1·S0. This is essentially a sum-of-minterms expression where each AND gate enables exactly one data input for exactly one combination of S1, S0.\n\nGate-Level Implementation: NOT gates generate S1-bar and S0-bar from S1 and S0 respectively. Four 3-input AND gates each combine one data input with the appropriate select line combination (enabling it only for its specific address). A 4-input OR gate combines all AND gate outputs — only one AND gate will be non-zero at any time (since exactly one minterm is active).\n\nOperation Table: S1=0, S0=0 → Y=I0; S1=0, S0=1 → Y=I1; S1=1, S0=0 → Y=I2; S1=1, S0=1 → Y=I3.\n\nMUX as Universal Logic Gate: Any Boolean function of n variables can be implemented using a 2^n:1 MUX. For a function of 3 variables (A, B, C), use A and B as select lines; connect each of the 4 inputs to either 0, 1, C, or C-bar based on the truth table. This makes MUXes powerful components for logic function implementation without needing individual gate arrays.",
+  "keyPoints": [
+    "4:1 MUX: 4 data inputs, 2 select lines, 1 output — selects 1-of-4 based on select code",
+    "Boolean: Y = I0·S̄1·S̄0 + I1·S̄1·S0 + I2·S1·S̄0 + I3·S1·S0",
+    "Needs 2 NOT gates, 4 three-input AND gates, 1 four-input OR gate",
+    "Exactly one AND gate produces HIGH at any given time (only one minterm active)",
+    "Universal logic: any 3-variable Boolean function implementable with a 4:1 MUX",
+    "Enable (EN) pin, when present, disables all outputs when EN=0",
+    "Reverse operation: Demultiplexer (DEMUX) routes one input to one of multiple outputs"
+  ],
+  "useCases": [
+    "Data routing in buses — selecting which source drives a shared communication line",
+    "Implementing arbitrary Boolean functions in programmable logic devices (PLDs/FPGAs)",
+    "Time-division multiplexing in communication systems to share a channel among multiple signals"
+  ]
+}

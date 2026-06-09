@@ -1,0 +1,84 @@
+{
+  "id": "binary-search-tree",
+  "type": "tree",
+  "title": "Binary Search Tree — Structure & Traversals",
+  "category": "Algorithms",
+  "aliases": ["binary search tree", "bst", "binary tree", "tree traversal", "inorder preorder postorder", "bst traversal"],
+  "examTip": "BST property: Left subtree < Root < Right subtree (for all nodes). Inorder traversal = sorted ascending output. Search time: O(log n) average, O(n) worst (skewed tree). Insertion: compare and go left/right recursively. Deletion: 3 cases — leaf (just delete), one child (bypass), two children (replace with inorder successor).",
+  "viewBox": { "width": 680, "height": 420 },
+  "complexity": "Intermediate",
+  "subject_category": "Algorithms",
+  "root": {
+    "id": "node-50",
+    "label": "50",
+    "color": "#DBEAFE",
+    "borderColor": "#2563EB",
+    "textColor": "#1E3A5F",
+    "children": [
+      {
+        "id": "node-25",
+        "label": "25",
+        "color": "#D1FAE5",
+        "borderColor": "#059669",
+        "textColor": "#064E3B",
+        "children": [
+          {
+            "id": "node-10",
+            "label": "10",
+            "color": "#FEF9C3",
+            "borderColor": "#CA8A04",
+            "textColor": "#713F12",
+            "children": []
+          },
+          {
+            "id": "node-35",
+            "label": "35",
+            "color": "#FEF9C3",
+            "borderColor": "#CA8A04",
+            "textColor": "#713F12",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "node-75",
+        "label": "75",
+        "color": "#F3E8FF",
+        "borderColor": "#9333EA",
+        "textColor": "#581C87",
+        "children": [
+          {
+            "id": "node-60",
+            "label": "60",
+            "color": "#FFE4E6",
+            "borderColor": "#E11D48",
+            "textColor": "#881337",
+            "children": []
+          },
+          {
+            "id": "node-90",
+            "label": "90",
+            "color": "#FFE4E6",
+            "borderColor": "#E11D48",
+            "textColor": "#881337",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "theory": "A Binary Search Tree (BST) is a node-based binary tree data structure where each node has at most two children (left and right), and the BST property is maintained: for every node N, all values in the left subtree are less than N's value, and all values in the right subtree are greater than N's value. This property holds recursively for every node in the tree.\n\nFor the example tree with root 50: The left child 25 (and its subtree with 10 and 35) are all less than 50. The right child 75 (and its subtree with 60 and 90) are all greater than 50. Within each subtree the same rule applies — 10 < 25 < 35 and 60 < 75 < 90.\n\nTree Traversals — Three classic depth-first traversal methods:\n(1) Inorder (Left → Root → Right): Visit left subtree, then root, then right subtree. Result for this tree: 10, 25, 35, 50, 60, 75, 90. Inorder traversal of a valid BST always produces values in sorted ascending order — this is a key property used in BST validation.\n(2) Preorder (Root → Left → Right): Visit root first, then left subtree, then right subtree. Result: 50, 25, 10, 35, 75, 60, 90. Used for serializing/copying a tree structure.\n(3) Postorder (Left → Right → Root): Visit left subtree, then right subtree, then root. Result: 10, 35, 25, 60, 90, 75, 50. Used for safe deletion of a tree (delete children before parent).\n\nBST Operations and Complexity:\nSearch: Start at root, compare with target. If target < current node, go left; if > current node, go right; repeat until found or null. Time: O(log n) average (balanced tree), O(n) worst case (degenerate/skewed tree — all nodes in a single chain).\nInsertion: Follow search path until a null position is found; insert new node there. Maintains BST property. Time: O(log n) average, O(n) worst.\nDeletion: Three cases — (1) Leaf node: simply remove it. (2) One child: replace node with its single child. (3) Two children: find the inorder successor (smallest node in right subtree) or inorder predecessor (largest in left subtree), copy its value to the current node, then delete the successor/predecessor.\n\nBalanced BSTs: A degenerate BST (inserting already-sorted data) degrades to a linked list with O(n) operations. Self-balancing BSTs like AVL Trees and Red-Black Trees maintain O(log n) height guarantees through rotations. AVL Trees: height difference between left and right subtrees is at most 1. Red-Black Trees: used in Java TreeMap, C++ std::map — guaranteed O(log n) all operations.",
+  "keyPoints": [
+    "BST property: all left subtree values < node value < all right subtree values (recursive for every node)",
+    "Inorder traversal (L→Root→R): always produces sorted output for a valid BST — 10, 25, 35, 50, 60, 75, 90",
+    "Preorder (Root→L→R): 50, 25, 10, 35, 75, 60, 90 — useful for copying/serializing tree structure",
+    "Postorder (L→R→Root): 10, 35, 25, 60, 90, 75, 50 — useful for deletion (children before parent)",
+    "Search/Insert/Delete: O(log n) average for balanced BST; O(n) worst case for skewed (degenerate) BST",
+    "Deletion with 2 children: replace with inorder successor (min of right subtree) or inorder predecessor (max of left subtree)"
+  ],
+  "useCases": [
+    "Ordered data storage and retrieval — databases use BST-based structures (B-Trees) for indexed lookups with O(log n) performance",
+    "Expression parsing — compilers use binary trees to represent and evaluate arithmetic expressions",
+    "Autocomplete and dictionary implementations — BST enables fast prefix-based searching and range queries on sorted data"
+  ]
+}

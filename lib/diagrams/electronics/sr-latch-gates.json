@@ -1,0 +1,51 @@
+{
+  "id": "sr-latch-logic-circuit",
+  "title": "SR Latch Logic Circuit",
+  "aliases": ["sr latch", "s-r latch", "sr latch circuit", "latch"],
+  "category": "Digital Electronics",
+  "type": "logic-diagram",
+  "viewBox": {
+    "width": 480,
+    "height": 320
+  },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "This is an Active-Low SR Latch (built using NAND gates). S=0, R=1 sets the latch (Q=1). S=1, R=0 resets it (Q=0). S=0, R=0 is the invalid state because it forces both outputs to 1.",
+  "inputs": [
+    { "id": "S_bar", "label": "S (Set)", "x": 80, "y": 100 },
+    { "id": "R_bar", "label": "R (Reset)", "x": 80, "y": 220 }
+  ],
+  "outputs": [
+    { "id": "Q", "label": "Q", "x": 400, "y": 110 },
+    { "id": "Q_bar", "label": "Q̅", "x": 400, "y": 210 }
+  ],
+  "gates": [
+    { "id": "g1", "type": "NAND", "x": 240, "y": 110, "label": "NAND 1", "inputsCount": 2 },
+    { "id": "g2", "type": "NAND", "x": 240, "y": 210, "label": "NAND 2", "inputsCount": 2 }
+  ],
+  "connections": [
+    { "from": "S_bar", "to": "g1", "toPort": 0, "route": "straight" },
+    { "from": "R_bar", "to": "g2", "toPort": 1, "route": "straight" },
+    { "from": "g1", "to": "Q", "route": "straight" },
+    { "from": "g2", "to": "Q_bar", "route": "straight" },
+    { "from": "g1", "to": "g2", "toPort": 0, "x1": 320, "y1": 110, "route": "Z", "midX": 170 },
+    { "from": "g2", "to": "g1", "toPort": 1, "x1": 320, "y1": 210, "route": "Z", "midX": 150 }
+  ],
+  "junctions": [
+    { "x": 320, "y": 110 },
+    { "x": 320, "y": 210 }
+  ],
+  "theory": "An SR Latch (Set-Reset Latch) is a fundamental, active-low sequential logic circuit used to store a single bit of binary state. Unlike combinational circuits, sequential circuits contain feedback loops, allowing them to possess memory.\n\nStructure and Cross-Coupling:\nThis latch is constructed using two cross-coupled NAND gates (G1 and G2):\n- The upper NAND gate (G1) produces the state output Q.\n- The lower NAND gate (G2) produces the complementary state output Q_bar.\n- The outputs are cross-coupled: the output of G1 (Q) is fed back as one of the inputs to G2, and the output of G2 (Q_bar) is fed back as one of the inputs to G1.\n\nState Transitions:\n1. Set State (S = 0, R = 1): S_bar goes low (0). Regardless of other inputs, G1 output Q becomes high (1). This Q (1) is fed back to G2. Since both inputs of G2 are now high (Q = 1, R_bar = 1), G2 output Q_bar becomes low (0).\n2. Reset State (S = 1, R = 0): R_bar goes low (0). G2 output Q_bar becomes high (1). This Q_bar (1) is fed back to G1. Since both inputs of G1 are now high (S_bar = 1, Q_bar = 1), G1 output Q becomes low (0).\n3. Hold State (S = 1, R = 1): Both inputs are high. The circuit remains in its previous state (Q and Q_bar do not change).\n4. Invalid State (S = 0, R = 0): Both inputs are low. Both gates try to output high (Q = 1, Q_bar = 1), violating the complementary output condition. This state is unstable and banned in standard operation.",
+  "keyPoints": [
+    "Stores a single bit of state using cross-coupled NAND gates (sequential logic)",
+    "Active-Low inputs: S = 0 sets the output Q to 1; R = 0 resets the output Q to 0",
+    "Outputs Q and Q_bar are complementary during normal operation",
+    "S = 1, R = 1 is the 'Hold' state, preserving the previous value",
+    "S = 0, R = 0 is a restricted/invalid state causing race conditions"
+  ],
+  "useCases": [
+    "Contact bounce elimination (debouncing) switches",
+    "Basic 1-bit memory cell in static RAM (SRAM)",
+    "Asynchronous state machines and timing control registers"
+  ]
+}

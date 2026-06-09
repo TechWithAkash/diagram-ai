@@ -1,0 +1,100 @@
+{
+  "id": "jk-flipflop-block",
+  "title": "JK Flip-Flop (Functional Block Diagram)",
+  "aliases": ["jk flip-flop block", "jk ff symbol", "jk latch block", "74ls76"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 500, "height": 300 },
+  "complexity": "Basic",
+  "subject_category": "Electronics",
+  "examTip": "JK FF is universal: acts as SR FF (using J,K like S,R), D FF (tie J=D, K=D-bar), T FF (tie J=K=1). PRE and CLR are asynchronous active-LOW inputs. IC: 74LS76 is a dual JK FF.",
+  "blocks": [
+    {
+      "id": "jkff-block",
+      "label": "JK Flip-Flop",
+      "x": 160, "y": 50, "width": 160, "height": 200,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["(74LS76)", "Negative Edge-Triggered"]
+    },
+    {
+      "id": "pin-J",
+      "label": "J",
+      "x": 40, "y": 68, "width": 90, "height": 28,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "pin-CLK",
+      "label": "CLK (>)",
+      "x": 40, "y": 106, "width": 90, "height": 28,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "pin-K",
+      "label": "K",
+      "x": 40, "y": 144, "width": 90, "height": 28,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "pin-PRE",
+      "label": "PRĒ",
+      "x": 40, "y": 182, "width": 90, "height": 28,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": []
+    },
+    {
+      "id": "pin-CLR",
+      "label": "CLR̄",
+      "x": 40, "y": 220, "width": 90, "height": 28,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": []
+    },
+    {
+      "id": "pin-Q",
+      "label": "Q",
+      "x": 350, "y": 88, "width": 90, "height": 28,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "pin-Qbar",
+      "label": "Q̄",
+      "x": 350, "y": 184, "width": 90, "height": 28,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "truth-table",
+      "label": "JK Truth Table",
+      "x": 50, "y": 262, "width": 390, "height": 28,
+      "color": "#FFFBEB", "borderColor": "#D97706",
+      "sublabels": ["J=0,K=0 → No Change | J=0,K=1 → Q=0 (Reset) | J=1,K=0 → Q=1 (Set) | J=1,K=1 → Toggle"]
+    }
+  ],
+  "connections": [
+    { "from": "pin-J",   "to": "jkff-block", "type": "unidirectional" },
+    { "from": "pin-CLK", "to": "jkff-block", "type": "unidirectional" },
+    { "from": "pin-K",   "to": "jkff-block", "type": "unidirectional" },
+    { "from": "pin-PRE", "to": "jkff-block", "type": "unidirectional" },
+    { "from": "pin-CLR", "to": "jkff-block", "type": "unidirectional" },
+    { "from": "jkff-block", "to": "pin-Q",    "type": "unidirectional" },
+    { "from": "jkff-block", "to": "pin-Qbar", "type": "unidirectional" }
+  ],
+  "theory": "The JK Flip-Flop block symbol is the standard schematic representation used in timing diagrams, sequential circuit schematics, and system-level designs. It abstracts the complex NAND gate implementation into a clean, readable block with labeled pins.\n\nPin Functions: J (Jump/Set) and K (Kill/Reset) are the two data inputs that control the next state. CLK is the clock input with a dynamic indicator ('>') — in negative edge-triggered variants (like 74LS76), a bubble appears at the CLK pin. PRE-bar (Preset) is an asynchronous active-LOW input that immediately sets Q=1 regardless of J, K, or CLK. CLR-bar (Clear) is an asynchronous active-LOW input that immediately resets Q=0.\n\nTruth Table (Synchronous Operation, when PRE=CLR=1): J=0, K=0 → No Change (memory function); J=0, K=1 → Q=0 (Reset); J=1, K=0 → Q=1 (Set); J=1, K=1 → Toggle (Q complements). This truth table eliminates the forbidden state present in SR flip-flops.\n\nUniversality as a Building Block: The JK FF is called 'universal' because all other flip-flop types can be derived from it. To make it behave as a D FF: connect K=D-bar (J=D). To make it a T FF: connect J=K=T. To make it an SR FF: use J as S and K as R (while avoiding J=K=1).\n\nIC 74LS76: Contains two independent JK flip-flops with individual asynchronous PRE-bar and CLR-bar inputs. It is negative edge-triggered, meaning state changes occur on the falling edge of the clock signal.",
+  "keyPoints": [
+    "Five left-side inputs: J, CLK, K (synchronous), PRĒ, CLR̄ (asynchronous)",
+    "Two right-side outputs: Q (true) and Q̄ (complement) — always available simultaneously",
+    "Toggle mode (J=K=1) is the unique and defining feature of the JK flip-flop",
+    "PRĒ=0 forces Q=1 asynchronously; CLR̄=0 forces Q=0 asynchronously — active LOW",
+    "74LS76: dual JK FF IC, negative edge-triggered",
+    "Universal flip-flop: can be configured to behave as D, T, or SR flip-flop",
+    "Characteristic equation: Q(next) = J·Q̄ + K̄·Q"
+  ],
+  "useCases": [
+    "Synchronous and ripple counter design using toggle mode",
+    "Control logic in digital state machines requiring Set, Reset, Hold, and Toggle operations",
+    "Configurable register elements that need multiple operating modes in a single IC"
+  ]
+}
