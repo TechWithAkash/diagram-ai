@@ -308,6 +308,8 @@ export default function HomePage() {
                       source={data.source}
                       schema={data.schema}
                       code={data.mermaid_code}
+                      useFallback={data.useFallback}
+                      fallbackJson={data.fallback_json}
                       className="w-full"
                     />
                   </div>

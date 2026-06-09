@@ -73,7 +73,15 @@ RETURN THIS EXACT JSON:
   "key_points": ["accurate technical point 1", "accurate technical point 2", "accurate technical point 3", "accurate technical point 4", "accurate technical point 5"],
   "use_cases": ["real-world use case 1", "real-world use case 2", "real-world use case 3"],
   "complexity": "Beginner|Intermediate|Advanced",
-  "subject_category": "Electronics|Networks|Database|Software|Control Systems|Other"
+  "subject_category": "Electronics|Networks|Database|Software|Control Systems|Other",
+  "fallback_json": {
+    "nodes": [
+      { "id": "node_id", "label": "Full Component Name", "type": "rectangle|process|decision|terminal|input_output" }
+    ],
+    "edges": [
+      { "from": "source_id", "to": "target_id", "label": "connection/signal label" }
+    ]
+  }
 }
 
 ════════════════════════════════════════
@@ -201,7 +209,7 @@ function parseResponse(text) {
 }
 
 // Helper to clean a single node definition or reference part in flowchart/graph diagrams
-function cleanNodePart(part, definedNodeIds = new Set()) {
+function cleanNodePart(part, definedNodeIds = new Set(), printedNodeIds = new Set()) {
   part = part.trim()
   if (!part) return ''
   
@@ -217,13 +225,16 @@ function cleanNodePart(part, definedNodeIds = new Set()) {
   
   if (!labelPart) {
     if (id !== cleanId) {
-      if (definedNodeIds.has(cleanId)) {
+      if (definedNodeIds.has(cleanId) || printedNodeIds.has(cleanId)) {
         return cleanId
       }
+      printedNodeIds.add(cleanId)
       return `${cleanId}["${id}"]`
     }
     return cleanId
   }
+  
+  printedNodeIds.add(cleanId)
   
   // Custom shape-matching logic check
   const pairs = [
@@ -351,11 +362,24 @@ function fixMermaidCode(code) {
     // First pass: find all node IDs that are defined with a label/shape
     lines.forEach(line => {
       const trimmed = line.trim()
-      if (!trimmed || trimmed.startsWith('%%') || trimmed.toLowerCase().startsWith('subgraph') || trimmed.toLowerCase().startsWith('flowchart') || trimmed.toLowerCase().startsWith('graph')) {
+      const lower = trimmed.toLowerCase()
+      if (
+        !trimmed || 
+        trimmed.startsWith('%%') || 
+        lower.startsWith('subgraph') || 
+        lower.startsWith('flowchart') || 
+        lower.startsWith('graph') ||
+        lower.startsWith('style ') ||
+        lower.startsWith('linkstyle ') ||
+        lower.startsWith('classdef ') ||
+        lower.startsWith('class ') ||
+        lower.startsWith('click ') ||
+        lower.startsWith('direction ')
+      ) {
         return
       }
       
-      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-+|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
+      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-{2,}|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
       parts.forEach((part, i) => {
         if (i % 2 === 0) { // Node part
           const match = part.trim().match(/^([^\[\(\{\>]+)(.+)$/)
@@ -368,6 +392,7 @@ function fixMermaidCode(code) {
       })
     })
 
+    const printedNodeIds = new Set()
     const cleanedLines = lines.map(line => {
       const trimmed = line.trim()
       if (!trimmed || trimmed.startsWith('%%') || trimmed.toLowerCase().startsWith('flowchart') || trimmed.toLowerCase().startsWith('graph')) {
@@ -397,8 +422,67 @@ function fixMermaidCode(code) {
         return '  end'
       }
 
-      // Process connections and node definitions
-      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-+|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
+      // Check for config, styling, click, direction lines and handle them separately
+      const lowerTrimmed = trimmed.toLowerCase()
+      
+      if (lowerTrimmed.startsWith('direction ')) {
+        return '  ' + trimmed
+      }
+      
+      if (lowerTrimmed.startsWith('style ')) {
+        const rest = trimmed.slice(6).trim()
+        const firstSpaceIndex = rest.indexOf(' ')
+        if (firstSpaceIndex !== -1) {
+          const idsPart = rest.slice(0, firstSpaceIndex)
+          const stylePart = rest.slice(firstSpaceIndex)
+          const cleanedIds = idsPart.split(',').map(id => {
+            const trimmedId = id.trim()
+            return trimmedId.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          }).join(',')
+          return `  style ${cleanedIds}${stylePart}`
+        }
+        return '  ' + trimmed
+      }
+
+      if (lowerTrimmed.startsWith('linkstyle ')) {
+        return '  ' + trimmed
+      }
+
+      if (lowerTrimmed.startsWith('classdef ')) {
+        return '  ' + trimmed
+      }
+
+      if (lowerTrimmed.startsWith('class ')) {
+        const rest = trimmed.slice(6).trim()
+        const firstSpaceIndex = rest.indexOf(' ')
+        if (firstSpaceIndex !== -1) {
+          const idsPart = rest.slice(0, firstSpaceIndex)
+          const classPart = rest.slice(firstSpaceIndex)
+          const cleanedIds = idsPart.split(',').map(id => {
+            const trimmedId = id.trim()
+            return trimmedId.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          }).join(',')
+          return `  class ${cleanedIds}${classPart}`
+        }
+        return '  ' + trimmed
+      }
+
+      if (lowerTrimmed.startsWith('click ')) {
+        const rest = trimmed.slice(6).trim()
+        const firstSpaceIndex = rest.indexOf(' ')
+        if (firstSpaceIndex !== -1) {
+          const id = rest.slice(0, firstSpaceIndex).trim()
+          const restPart = rest.slice(firstSpaceIndex)
+          const cleanId = id.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          return `  click ${cleanId}${restPart}`
+        } else {
+          const cleanId = rest.replace(/[^a-zA-Z0-9_]/g, '_').replace(/__+/g, '_').replace(/^_+|_+$/g, '')
+          return `  click ${cleanId}`
+        }
+      }
+
+      // Process connections and node definitions (arrow connectors must have at least 2 hyphens: -{2,})
+      const parts = trimmed.split(/(\s*(?:-+\.?-*>|==+>|-{2,}|-+\.-+)\s*(?:\|[^|]+\|\s*)?)/)
       
       const cleanedParts = parts.map((part, i) => {
         if (i % 2 === 1) { // Arrow connector
@@ -412,7 +496,7 @@ function fixMermaidCode(code) {
           arrow = arrow.replace(/(==>|-->|-\.->|->)\s*\|([^|]+)\|\s*>/g, '$1|$2|')
           return arrow
         } else { // Node ID & shape definition
-          return cleanNodePart(part, definedNodeIds)
+          return cleanNodePart(part, definedNodeIds, printedNodeIds)
         }
       })
 
@@ -443,6 +527,86 @@ function fixMermaidCode(code) {
   return fixed
 }
 
+function detectType(code = '') {
+  const t = code.trim().toLowerCase()
+  if (t.startsWith('erdiagram'))       return 'erDiagram'
+  if (t.startsWith('sequencediagram')) return 'sequenceDiagram'
+  if (t.startsWith('statediagram'))    return 'stateDiagram'
+  if (t.startsWith('graph'))           return 'graph'
+  return 'flowchart'
+}
+
+// Lightweight syntax validator
+function validateMermaidSyntax(code) {
+  if (!code || code.trim().length < 30) {
+    return { valid: false, error: 'Mermaid code is too short or empty.' }
+  }
+  
+  const type = detectType(code)
+  const lines = code.split('\n')
+  
+  for (let idx = 0; idx < lines.length; idx++) {
+    const lineNum = idx + 1
+    const line = lines[idx].trim()
+    
+    if (!line || line.startsWith('%%') || line.toLowerCase().startsWith('flowchart') || line.toLowerCase().startsWith('graph') || line.toLowerCase().startsWith('sequencediagram') || line.toLowerCase().startsWith('erdiagram') || line.toLowerCase().startsWith('statediagram')) {
+      continue
+    }
+    
+    // Check unclosed double quotes
+    const quoteCount = (line.match(/"/g) || []).length
+    if (quoteCount % 2 !== 0) {
+      return { valid: false, error: `Unclosed double quotes on line ${lineNum}: ${line}` }
+    }
+    
+    // Flowchart specific validation
+    if (type === 'flowchart' || type === 'graph') {
+      // Check unclosed shapes or parentheses
+      if (!line.includes('"')) {
+        const openParen = (line.match(/\(/g) || []).length
+        const closeParen = (line.match(/\)/g) || []).length
+        if (openParen !== closeParen) {
+          return { valid: false, error: `Unbalanced parentheses on line ${lineNum}: ${line}` }
+        }
+        
+        const openBracket = (line.match(/\[/g) || []).length
+        const closeBracket = (line.match(/\]/g) || []).length
+        if (openBracket !== closeBracket) {
+          return { valid: false, error: `Unbalanced square brackets on line ${lineNum}: ${line}` }
+        }
+        
+        const openCurly = (line.match(/\{/g) || []).length
+        const closeCurly = (line.match(/\}/g) || []).length
+        if (openCurly !== closeCurly) {
+          return { valid: false, error: `Unbalanced curly brackets on line ${lineNum}: ${line}` }
+        }
+      }
+      
+      // Check single quotes inside flowchart labels
+      if (line.includes("'") && !line.includes('"')) {
+        return { valid: false, error: `Single quotes are not supported inside flowchart labels on line ${lineNum}. Use double quotes instead: ${line}` }
+      }
+      
+      // Check invalid connection syntax
+      if (line.includes('-->') || line.includes('==>') || line.includes('->') || line.includes('---')) {
+        if (line.startsWith('-->') || line.endsWith('-->') || line.startsWith('==>') || line.endsWith('==>')) {
+          return { valid: false, error: `Connector starts or ends line on line ${lineNum}: ${line}` }
+        }
+      }
+    }
+    
+    // ER Diagram specific validation
+    if (type === 'erDiagram') {
+      if (line.includes('||--') || line.includes('}|--') || line.includes('o{') || line.includes('}|') || line.includes('o|')) {
+        if (!line.includes(':')) {
+          return { valid: false, error: `Missing colon (':') in relationship definition on line ${lineNum}: ${line}` }
+        }
+      }
+    }
+  }
+  
+  return { valid: true, error: null }
+}
 
 // ─── Validate result ──────────────────────────────────────────────────────────
 function validateResult(parsed) {
@@ -454,6 +618,13 @@ function validateResult(parsed) {
   if (!fixed) throw new Error('INVALID_DIAGRAM_TYPE')
 
   parsed.mermaid_code = fixed
+
+  // Validate syntax
+  const val = validateMermaidSyntax(parsed.mermaid_code)
+  if (!val.valid) {
+    throw new Error(`SYNTAX_ERROR: ${val.error}`)
+  }
+
   if (!parsed.theory) parsed.theory = 'Theory not available.'
   if (!Array.isArray(parsed.key_points)) parsed.key_points = []
   if (!Array.isArray(parsed.use_cases)) parsed.use_cases = []
@@ -511,18 +682,19 @@ export async function POST(req) {
 
     // ── TIER 2: AI Generation (existing Groq / OpenRouter pipeline) ───────────
     const isComplexTopic = /block|architect|dbms|database|system|circuit|mcc|spcc|control|network|osi|gsm|compiler|processor|memory|cache|pipeline/i.test(prompt)
-    const model = (useProModel || isComplexTopic)
+    let model = (useProModel || isComplexTopic)
       ? (process.env.GROQ_MODEL_PRO || 'llama-3.3-70b-versatile')
       : (process.env.GROQ_MODEL || 'llama-3.1-8b-instant')
 
     let rawText, usedFallback = false, retried = false
 
-    const tryGroq = async (m) => {
+    const tryGroq = async (m, customPrompt = null) => {
+      const promptToUse = customPrompt || `Generate a technically accurate, complete, student-friendly diagram for: ${prompt.trim()}`
       const completion = await groq.chat.completions.create({
         model: m,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: `Generate a technically accurate, complete, student-friendly diagram for: ${prompt.trim()}` },
+          { role: 'user', content: promptToUse },
         ],
         max_tokens: 3000,
         temperature: 0.1,
@@ -543,30 +715,60 @@ export async function POST(req) {
       }
     }
 
-    let parsed = parseResponse(rawText)
-
+    let parsed
     try {
+      parsed = parseResponse(rawText)
       const validated = validateResult(parsed)
       return Response.json({
         success: true,
-        data: { ...validated, source: 'ai' },
+        data: { ...validated, source: 'ai', useFallback: false },
         meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, fromLibrary: false, timestamp: new Date().toISOString() },
       })
     } catch (validateErr) {
-      if (validateErr.message === 'INVALID_DIAGRAM_TYPE' && !retried) {
+      const isSyntaxOrInvalid = validateErr.message.startsWith('SYNTAX_ERROR') || validateErr.message === 'INVALID_DIAGRAM_TYPE' || validateErr.message.includes('JSON')
+      
+      if (isSyntaxOrInvalid && !retried) {
         retried = true
-        console.warn('Invalid diagram type, retrying with pro model...')
+        const errDetails = validateErr.message
+        console.warn(`Initial generation failed (${errDetails}). Retrying with correction prompt...`)
+        
+        let correctionPrompt
+        if (errDetails.includes('JSON')) {
+          correctionPrompt = `You previously generated a response for "${prompt.trim()}" but it was not valid JSON. Please generate a valid JSON object matching the requested schema exactly. Include the required fallback_json structure.`
+        } else {
+          correctionPrompt = `You previously generated a diagram for "${prompt.trim()}" but it failed validation with error: "${errDetails}".
+Here is the invalid Mermaid code you generated:
+\`\`\`
+${parsed ? parsed.mermaid_code : 'unknown'}
+\`\`\`
+Please regenerate the JSON, correcting the specific syntax error. Ensure the Mermaid code compiles perfectly. Keep all other fields (title, theory, key_points, use_cases, fallback_json) complete and accurate.`
+        }
+
         try {
-          rawText = await tryGroq('llama-3.3-70b-versatile')
+          rawText = await tryGroq('llama-3.3-70b-versatile', correctionPrompt)
           parsed = parseResponse(rawText)
           const validated = validateResult(parsed)
           return Response.json({
             success: true,
-            data: { ...validated, source: 'ai' },
+            data: { ...validated, source: 'ai', useFallback: false },
             meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: false, timestamp: new Date().toISOString() },
           })
         } catch (retryErr) {
           console.error('Retry failed:', retryErr.message)
+          if (parsed && parsed.fallback_json) {
+            console.warn('Retry failed to generate valid Mermaid syntax. Switching to fallback HTML/CSS renderer.')
+            return Response.json({
+              success: true,
+              data: {
+                ...parsed,
+                source: 'ai',
+                useFallback: true,
+                mermaid_code: parsed.mermaid_code || ''
+              },
+              meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: false, timestamp: new Date().toISOString(), fallbackActive: true },
+            })
+          }
+          throw retryErr
         }
       }
       throw validateErr
@@ -575,7 +777,7 @@ export async function POST(req) {
   } catch (err) {
     console.error('Generate API error:', err)
     return Response.json({
-      error: err.message === 'INVALID_DIAGRAM_TYPE'
+      error: err.message.startsWith('SYNTAX_ERROR') || err.message === 'INVALID_DIAGRAM_TYPE'
         ? 'Could not generate a valid diagram. Please try rephrasing your prompt.'
         : (err.message || 'Something went wrong. Please try again.')
     }, { status: 500 })
