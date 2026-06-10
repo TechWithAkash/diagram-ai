@@ -1,0 +1,178 @@
+{
+  "id": "bplus-tree",
+  "type": "block-diagram",
+  "title": "B+ Tree Structure — Index & Leaf Node Layout",
+  "category": "Database Management Systems",
+  "aliases": [
+    "B+ tree",
+    "B plus tree",
+    "bplus tree",
+    "B+ tree structure",
+    "database indexing B+ tree",
+    "B+ tree index",
+    "B+ tree nodes",
+    "tree index DBMS"
+  ],
+  "examTip": "In a B+ Tree of order 'n', internal (index) nodes can hold at most n-1 keys and n child pointers. Leaf nodes hold the actual data (key + record pointer) and are linked in a doubly-linked list for efficient range queries. All data records are stored only in leaf nodes — internal nodes hold only search keys for navigation.",
+  "viewBox": { "width": 900, "height": 500 },
+  "complexity": "Advanced",
+  "subject_category": "Database",
+  "blocks": [
+    {
+      "id": "root",
+      "label": "Root (Index)",
+      "x": 330,
+      "y": 20,
+      "width": 240,
+      "height": 60,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "sublabels": ["P₁ | 25 | P₂ | 50 | P₃", "Order-3 Internal Node"]
+    },
+    {
+      "id": "internal-l",
+      "label": "Internal Node",
+      "x": 60,
+      "y": 150,
+      "width": 200,
+      "height": 55,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": ["P₁ | 10 | P₂ | 20 | P₃"]
+    },
+    {
+      "id": "internal-m",
+      "label": "Internal Node",
+      "x": 350,
+      "y": 150,
+      "width": 200,
+      "height": 55,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": ["P₁ | 30 | P₂ | 40 | P₃"]
+    },
+    {
+      "id": "internal-r",
+      "label": "Internal Node",
+      "x": 640,
+      "y": 150,
+      "width": 200,
+      "height": 55,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": ["P₁ | 55 | P₂ | 70 | P₃"]
+    },
+    {
+      "id": "leaf-1",
+      "label": "Leaf [5, 8]",
+      "x": 20,
+      "y": 310,
+      "width": 110,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["5→r₁", "8→r₂", "→next"]
+    },
+    {
+      "id": "leaf-2",
+      "label": "Leaf [10, 15]",
+      "x": 155,
+      "y": 310,
+      "width": 115,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["10→r₃", "15→r₄", "→next"]
+    },
+    {
+      "id": "leaf-3",
+      "label": "Leaf [20, 22]",
+      "x": 295,
+      "y": 310,
+      "width": 115,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["20→r₅", "22→r₆", "→next"]
+    },
+    {
+      "id": "leaf-4",
+      "label": "Leaf [25, 28]",
+      "x": 435,
+      "y": 310,
+      "width": 115,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["25→r₇", "28→r₈", "→next"]
+    },
+    {
+      "id": "leaf-5",
+      "label": "Leaf [40, 45]",
+      "x": 575,
+      "y": 310,
+      "width": 115,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["40→r₉", "45→r₁₀", "→next"]
+    },
+    {
+      "id": "leaf-6",
+      "label": "Leaf [55, 60]",
+      "x": 715,
+      "y": 310,
+      "width": 115,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": ["55→r₁₁", "60→r₁₂", "→null"]
+    },
+    {
+      "id": "legend",
+      "label": "Legend",
+      "x": 20,
+      "y": 420,
+      "width": 860,
+      "height": 60,
+      "color": "#FFFBEB",
+      "borderColor": "#D97706",
+      "sublabels": [
+        "Blue = Index/Internal Nodes (keys only, no data)  |  Green = Leaf Nodes (key + record pointer)  |  → = Next-leaf pointer (linked list)"
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "root", "to": "internal-l", "x1": 380, "y1": 80, "x2": 160, "y2": 150, "label": "< 25" },
+    { "from": "root", "to": "internal-m", "x1": 450, "y1": 80, "x2": 450, "y2": 150, "label": "25-49" },
+    { "from": "root", "to": "internal-r", "x1": 540, "y1": 80, "x2": 740, "y2": 150, "label": "≥ 50" },
+    { "from": "internal-l", "to": "leaf-1", "x1": 100, "y1": 205, "x2": 75,  "y2": 310, "label": "< 10" },
+    { "from": "internal-l", "to": "leaf-2", "x1": 160, "y1": 205, "x2": 212, "y2": 310, "label": "10-19" },
+    { "from": "internal-l", "to": "leaf-3", "x1": 220, "y1": 205, "x2": 352, "y2": 310, "label": "≥ 20" },
+    { "from": "internal-m", "to": "leaf-3", "x1": 390, "y1": 205, "x2": 352, "y2": 310, "label": "< 30" },
+    { "from": "internal-m", "to": "leaf-4", "x1": 450, "y1": 205, "x2": 492, "y2": 310, "label": "30-39" },
+    { "from": "internal-m", "to": "leaf-5", "x1": 510, "y1": 205, "x2": 632, "y2": 310, "label": "≥ 40" },
+    { "from": "internal-r", "to": "leaf-5", "x1": 680, "y1": 205, "x2": 632, "y2": 310, "label": "< 55" },
+    { "from": "internal-r", "to": "leaf-6", "x1": 740, "y1": 205, "x2": 772, "y2": 310, "label": "≥ 55" },
+    { "from": "leaf-1", "to": "leaf-2", "x1": 130, "y1": 340, "x2": 155, "y2": 340, "label": "→", "type": "sequential" },
+    { "from": "leaf-2", "to": "leaf-3", "x1": 270, "y1": 340, "x2": 295, "y2": 340, "label": "→", "type": "sequential" },
+    { "from": "leaf-3", "to": "leaf-4", "x1": 410, "y1": 340, "x2": 435, "y2": 340, "label": "→", "type": "sequential" },
+    { "from": "leaf-4", "to": "leaf-5", "x1": 550, "y1": 340, "x2": 575, "y2": 340, "label": "→", "type": "sequential" },
+    { "from": "leaf-5", "to": "leaf-6", "x1": 690, "y1": 340, "x2": 715, "y2": 340, "label": "→", "type": "sequential" }
+  ],
+  "theory": "A B+ Tree is a balanced tree data structure commonly used in database systems and file systems to efficiently store and retrieve sorted data. It is an extension of the B-Tree where all data records are stored in the leaf nodes and internal nodes serve only as navigation indexes.\n\nStructure:\n- Internal (Index) Nodes: Contain only search key values (no actual data/record pointers). Each internal node of order 'n' can have at most n-1 keys and n child pointers. Used purely for routing search queries down to the correct leaf.\n- Leaf Nodes: Contain search key values paired with pointers to the actual data records. All leaf nodes are at the same level (the tree is balanced). They are linked together in a sorted, sequential linked list (the 'sequence set'), enabling efficient range queries.\n- Root Node: The topmost node. Can be a leaf (if the tree is very small) or an internal node.\n\nKey Properties:\n1. All leaves are at the same depth (height-balanced).\n2. Each internal node (except root) has ⌈n/2⌉ to n children.\n3. Each leaf node has ⌈(n-1)/2⌉ to n-1 key-value pairs.\n4. The leaf nodes form a sorted linked list, ideal for range scans.\n5. Data search always traverses from root to leaf — O(log n) time.\n\nComparison with B-Tree:\n- B-Tree: Data can be stored in internal nodes and leaf nodes. Range queries are slow (require in-order traversal of the tree).\n- B+ Tree: Data is stored ONLY in leaf nodes. Range queries are very fast (just traverse the leaf linked list).\n\nOperations:\n- Search: Traverse from root, using internal node keys to navigate, until reaching the correct leaf node. O(log_n N).\n- Insertion: Insert into leaf. If the leaf overflows (> n-1 keys), split it and push the middle key up to the parent. Propagate splits upward if needed.\n- Deletion: Remove from leaf. If underflow occurs (< ⌈(n-1)/2⌉ keys), borrow from a sibling or merge with a sibling and remove a key from the parent.\n\nApplications in DBMS:\nB+ Trees are the default index structure in most major RDBMS (MySQL InnoDB, PostgreSQL, Oracle, SQL Server). They are used for primary key indexes, secondary indexes, and clustered indexes because of their excellent performance for both equality lookups and range scans.",
+  "keyPoints": [
+    "All data records are stored ONLY in leaf nodes; internal nodes hold only keys for routing.",
+    "Leaf nodes are linked in a sorted doubly-linked list, making range queries O(k + log N) efficient.",
+    "The tree is always height-balanced — all leaves are at the same depth.",
+    "Order-n B+ tree internal nodes hold at most n-1 keys and n pointers.",
+    "Insertion may cause leaf/node splits; deletion may cause underflow requiring borrow or merge.",
+    "B+ Trees are the default index structure in InnoDB (MySQL), PostgreSQL, Oracle, and SQL Server."
+  ],
+  "useCases": [
+    "Primary and secondary indexing in relational database management systems.",
+    "File system directory indexing (NTFS, ext4 uses HTree which is based on B+ tree).",
+    "Efficient range-query processing in OLAP/data warehouse systems.",
+    "Key-value store implementations requiring sorted-key iteration."
+  ]
+}

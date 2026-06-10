@@ -1,0 +1,270 @@
+{
+  "id": "parse-tree",
+  "complexity": "Intermediate",
+  "type": "block-diagram",
+  "title": "Parse Tree for id + id * id",
+  "description": "A syntax analysis parse tree representing the expression 'id + id * id' using operator precedence and context-free grammar rules.",
+  "category": "System Programming & Compiler Construction (SPCC)",
+  "aliases": [
+    "parse tree",
+    "syntax tree",
+    "operator precedence parse tree",
+    "expression parse tree",
+    "id + id * id",
+    "syntax analysis parse tree",
+    "SPCC parse tree",
+    "compiler parse tree",
+    "Aho Dragon Book parse tree"
+  ],
+  "viewBox": { "width": 800, "height": 420 },
+
+  "theory": "A parse tree (or concrete syntax tree) is a graphical representation of the hierarchical syntactic structure of a sentence derived from a context-free grammar (CFG). In compiler design, syntax analysis (parsing) takes a stream of tokens produced by the lexical analyzer and constructs a parse tree to verify grammatical correctness. For the expression 'id + id * id' under a standard compiler grammar (E -> E + T | T; T -> T * F | F; F -> id), the parser constructs the tree by enforcing operator precedence. Multiplicative operators (*) have higher precedence than additive operators (+), so '*' is grouped deeper in the tree under 'T', ensuring it is evaluated before '+'.",
+  
+  "keyPoints": [
+    "Represents concrete syntax of the expression 'id + id * id' based on context-free grammar.",
+    "Higher precedence operator (*) is positioned deeper in the tree than lower precedence operator (+).",
+    "Leaves of the parse tree, read left-to-right, yield the original string: id, +, id, *, id.",
+    "Non-terminals (E, T, F) represent syntactic categories; terminals represent tokens.",
+    "Enforces correct evaluation order: (id * id) is computed first, then added to the first id."
+  ],
+
+  "examTip": "When drawing a parse tree for 'id + id * id', remember that multiplication (*) has higher precedence than addition (+), so the multiplication sub-tree (T * F) must be nested deeper. The yield of the leaf nodes from left to right must exactly match the target input string.",
+
+  "useCases": [
+    "Syntax analysis in production compilers like GCC, Clang, and Java compiler.",
+    "Abstract Syntax Tree (AST) generation in interpreters and static code analyzers.",
+    "Formula evaluation in spreadsheets and mathematical solvers."
+  ],
+
+  "blocks": [
+    {
+      "id": "E1",
+      "label": "E",
+      "x": 325,
+      "y": 20,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "E2",
+      "label": "E",
+      "x": 95,
+      "y": 100,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "plus",
+      "label": "+",
+      "x": 235,
+      "y": 100,
+      "width": 50,
+      "height": 40,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "T1",
+      "label": "T",
+      "x": 535,
+      "y": 100,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "T2",
+      "label": "T",
+      "x": 95,
+      "y": 180,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "T3",
+      "label": "T",
+      "x": 385,
+      "y": 180,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "star",
+      "label": "*",
+      "x": 535,
+      "y": 180,
+      "width": 50,
+      "height": 40,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "F1",
+      "label": "F",
+      "x": 675,
+      "y": 180,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "F2",
+      "label": "F",
+      "x": 95,
+      "y": 260,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "F3",
+      "label": "F",
+      "x": 385,
+      "y": 260,
+      "width": 50,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "id3",
+      "label": "id",
+      "x": 675,
+      "y": 260,
+      "width": 50,
+      "height": 40,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    },
+    {
+      "id": "id1",
+      "label": "id",
+      "x": 95,
+      "y": 340,
+      "width": 50,
+      "height": 40,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    },
+    {
+      "id": "id2",
+      "label": "id",
+      "x": 385,
+      "y": 340,
+      "width": 50,
+      "height": 40,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    }
+  ],
+
+  "connections": [
+    {
+      "from": "E1",
+      "to": "E2",
+      "x1": 350,
+      "y1": 60,
+      "x2": 120,
+      "y2": 100
+    },
+    {
+      "from": "E1",
+      "to": "plus",
+      "x1": 350,
+      "y1": 60,
+      "x2": 260,
+      "y2": 100
+    },
+    {
+      "from": "E1",
+      "to": "T1",
+      "x1": 350,
+      "y1": 60,
+      "x2": 560,
+      "y2": 100
+    },
+    {
+      "from": "E2",
+      "to": "T2",
+      "x1": 120,
+      "y1": 140,
+      "x2": 120,
+      "y2": 180
+    },
+    {
+      "from": "T2",
+      "to": "F2",
+      "x1": 120,
+      "y1": 220,
+      "x2": 120,
+      "y2": 260
+    },
+    {
+      "from": "F2",
+      "to": "id1",
+      "x1": 120,
+      "y1": 300,
+      "x2": 120,
+      "y2": 340
+    },
+    {
+      "from": "T1",
+      "to": "T3",
+      "x1": 560,
+      "y1": 140,
+      "x2": 410,
+      "y2": 180
+    },
+    {
+      "from": "T1",
+      "to": "star",
+      "x1": 560,
+      "y1": 140,
+      "x2": 560,
+      "y2": 180
+    },
+    {
+      "from": "T1",
+      "to": "F1",
+      "x1": 560,
+      "y1": 140,
+      "x2": 700,
+      "y2": 180
+    },
+    {
+      "from": "T3",
+      "to": "F3",
+      "x1": 410,
+      "y1": 220,
+      "x2": 410,
+      "y2": 260
+    },
+    {
+      "from": "F3",
+      "to": "id2",
+      "x1": 410,
+      "y1": 300,
+      "x2": 410,
+      "y2": 340
+    },
+    {
+      "from": "F1",
+      "to": "id3",
+      "x1": 700,
+      "y1": 220,
+      "x2": 700,
+      "y2": 260
+    }
+  ]
+}

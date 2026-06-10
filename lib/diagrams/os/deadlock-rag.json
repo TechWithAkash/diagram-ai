@@ -1,0 +1,153 @@
+{
+  "id": "deadlock-rag",
+  "type": "graph",
+  "title": "Resource Allocation Graph (RAG) — Deadlock State",
+  "category": "OS",
+  "aliases": [
+    "deadlock resource allocation graph",
+    "rag",
+    "deadlock graph",
+    "resource allocation graph",
+    "deadlock cycle",
+    "RAG",
+    "resource allocation",
+    "operating system deadlock"
+  ],
+  "examTip": "When drawing a RAG in exams, clearly distinguish Process nodes (circles) and Resource nodes (squares). Remember that assignment edges start from the specific dot inside the resource box, while request edges point to the boundary of the resource box. A cycle with single-instance resources always means deadlock!",
+  "viewBox": { "width": 800, "height": 400 },
+  "complexity": "Intermediate",
+  "subject_category": "Operating Systems",
+  "nodes": [
+    {
+      "id": "P1",
+      "label": "Process\nP1",
+      "x": 180,
+      "y": 260,
+      "r": 25,
+      "type": "process",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F"
+    },
+    {
+      "id": "P2",
+      "label": "Process\nP2",
+      "x": 480,
+      "y": 140,
+      "r": 25,
+      "type": "process",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F"
+    },
+    {
+      "id": "P3",
+      "label": "Process\nP3",
+      "x": 480,
+      "y": 320,
+      "r": 25,
+      "type": "process",
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "textColor": "#1E3A5F"
+    },
+    {
+      "id": "R1",
+      "label": "Resource R1",
+      "x": 330,
+      "y": 140,
+      "r": 25,
+      "type": "resource",
+      "instances": 1,
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87"
+    },
+    {
+      "id": "R2",
+      "label": "Resource R2",
+      "x": 330,
+      "y": 260,
+      "r": 25,
+      "type": "resource",
+      "instances": 2,
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87"
+    },
+    {
+      "id": "R3",
+      "label": "Resource R3",
+      "x": 630,
+      "y": 230,
+      "r": 25,
+      "type": "resource",
+      "instances": 1,
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87"
+    },
+    {
+      "id": "R4",
+      "label": "Resource R4",
+      "x": 630,
+      "y": 80,
+      "r": 25,
+      "type": "resource",
+      "instances": 3,
+      "color": "#F3E8FF",
+      "borderColor": "#9333EA",
+      "textColor": "#581C87"
+    }
+  ],
+  "edges": [
+    {
+      "from": "P1",
+      "to": "R1",
+      "label": "Requests"
+    },
+    {
+      "from": "R1",
+      "to": "P2",
+      "label": "Allocated"
+    },
+    {
+      "from": "P2",
+      "to": "R3",
+      "label": "Requests"
+    },
+    {
+      "from": "R3",
+      "to": "P3",
+      "label": "Allocated"
+    },
+    {
+      "from": "P3",
+      "to": "R2",
+      "label": "Requests"
+    },
+    {
+      "from": "R2",
+      "to": "P1",
+      "label": "Allocated"
+    },
+    {
+      "from": "R2",
+      "to": "P2",
+      "label": "Allocated"
+    }
+  ],
+  "theory": "A Resource Allocation Graph (RAG) is a directed graph used to represent the state of resource allocation in an operating system. It consists of processes and resources, and is used to detect the presence of a deadlock.\n\nIn a RAG:\n1. Nodes:\n   - Process Nodes (represented as circles): Show active processes in the system (e.g., P1, P2, P3).\n   - Resource Nodes (represented as rectangles/squares): Show types of resources (e.g., R1, R2). Each resource node contains one or more dots indicating its available instances.\n2. Edges:\n   - Request Edge (Process → Resource): A directed edge from a process node to a resource node indicating that the process is waiting for an instance of that resource.\n   - Assignment Edge (Resource → Process): A directed edge from an instance inside a resource node to a process node indicating that the instance has been allocated to the process.\n\nDeadlock Detection Condition:\n- If the Resource Allocation Graph contains no cycle, the system is not deadlocked.\n- If the graph contains a cycle:\n  - If all resource types have only a single instance, a cycle indicates that a deadlock exists.\n  - If resource types have multiple instances, a cycle does not necessarily imply a deadlock (since another process could release a resource to break the cycle).\n\nIn the diagram shown, a cycle exists: P1 → R1 → P2 → R3 → P3 → R2 → P1. R1 and R3 have 1 instance, and R2 has 2 instances, both of which are allocated. No resource can be released, meaning processes P1, P2, and P3 are deadlocked.",
+  "keyPoints": [
+    "Process nodes are circles; Resource nodes are rectangles/squares containing instance dots.",
+    "Request edges point from process to resource; Assignment edges point from resource instance to process.",
+    "If all resources are single-instance, any cycle in the RAG guarantees a deadlock.",
+    "If resources have multiple instances, a cycle is a necessary but not sufficient condition for deadlock.",
+    "RAG is used by deadlock detection algorithms to identify if the system is in an unsafe/deadlocked state."
+  ],
+  "useCases": [
+    "Deadlock Detection in Operating Systems: Handled by the OS scheduler to track resource claims.",
+    "Database Transaction Management: Identifying lock contention and deadlock cycles in database engines.",
+    "Distributed Systems: Distributed deadlock detection using wait-for graphs (WFG), a simplified version of RAG."
+  ]
+}

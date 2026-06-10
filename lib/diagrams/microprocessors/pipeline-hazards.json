@@ -1,0 +1,211 @@
+{
+  "id": "pipeline-hazards",
+  "type": "block-diagram",
+  "title": "Pipeline Hazards — Data, Control & Structural Hazards",
+  "category": "Computer Organization",
+  "aliases": [
+    "pipeline hazards",
+    "data hazard",
+    "control hazard",
+    "structural hazard",
+    "pipeline stall",
+    "resource clash pipeline",
+    "RAW hazard",
+    "WAW hazard",
+    "WAR hazard",
+    "pipeline hazard diagram"
+  ],
+  "examTip": "There are 3 types of pipeline hazards: (1) Structural Hazard — two instructions need the same hardware resource simultaneously. (2) Data Hazard — instruction needs result of prior in-progress instruction. RAW is most common. (3) Control Hazard — branch changes PC before pipeline knows target. Solutions: stalling (NOPs), forwarding/bypassing, branch prediction.",
+  "viewBox": { "width": 900, "height": 820 },
+  "complexity": "Advanced",
+  "subject_category": "Computer Organization",
+  "blocks": [
+    {
+      "id": "title-box",
+      "label": "Pipeline Hazards — Types and Detection",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A",
+      "labelSize": 15
+    },
+    {
+      "id": "hazard-type-1",
+      "label": "1. Structural Hazard",
+      "x": 10, "y": 60, "width": 275, "height": 55,
+      "color": "#FEE2E2", "borderColor": "#DC2626",
+      "note": "Hardware resource conflict between 2 instructions",
+      "labelSize": 13
+    },
+    {
+      "id": "hazard-type-2",
+      "label": "2. Data Hazard (RAW, WAR, WAW)",
+      "x": 312, "y": 60, "width": 275, "height": 55,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "note": "Instruction depends on result of prior in-pipeline instruction",
+      "labelSize": 13
+    },
+    {
+      "id": "hazard-type-3",
+      "label": "3. Control Hazard",
+      "x": 614, "y": 60, "width": 276, "height": 55,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Branch changes PC — next fetched instructions may be wrong",
+      "labelSize": 13
+    },
+
+    {
+      "id": "section-data",
+      "label": "Data Hazard — RAW (Read After Write) — Resource Clash Table",
+      "x": 10, "y": 130, "width": 880, "height": 36,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "labelSize": 13
+    },
+
+    { "id": "th-blank", "label": "",      "x": 10,  "y": 174, "width": 105, "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 12 },
+    { "id": "th-t1",   "label": "t1",    "x": 120,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t2",   "label": "t2",    "x": 199,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t3",   "label": "t3",    "x": 278,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t4",   "label": "t4",    "x": 357,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t5",   "label": "t5 ⚠", "x": 436,  "y": 174, "width": 74,  "height": 36, "color": "#DC2626", "borderColor": "#7F1D1D", "labelSize": 13 },
+    { "id": "th-t6",   "label": "t6",    "x": 515,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t7",   "label": "t7",    "x": 594,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+    { "id": "th-t8",   "label": "t8 ⚠", "x": 673,  "y": 174, "width": 74,  "height": 36, "color": "#DC2626", "borderColor": "#7F1D1D", "labelSize": 13 },
+    { "id": "th-t9",   "label": "t9",    "x": 752,  "y": 174, "width": 74,  "height": 36, "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13 },
+
+    { "id": "i1-row",   "label": "Instr. 1", "x": 10,  "y": 216, "width": 105, "height": 38, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "i1-c1-if", "label": "IF",       "x": 120,  "y": 216, "width": 74,  "height": 38, "color": "#BAE6FD", "borderColor": "#0284C7", "labelSize": 14 },
+    { "id": "i1-c2-id", "label": "ID",       "x": 199,  "y": 216, "width": 74,  "height": 38, "color": "#BBF7D0", "borderColor": "#16A34A", "labelSize": 14 },
+    { "id": "i1-c3-ex", "label": "EX",       "x": 278,  "y": 216, "width": 74,  "height": 38, "color": "#FEF08A", "borderColor": "#CA8A04", "labelSize": 14 },
+    { "id": "i1-c4-rw", "label": "RW ★",     "x": 357,  "y": 216, "width": 74,  "height": 38, "color": "#FBBF24", "borderColor": "#B45309", "labelSize": 13 },
+    { "id": "i1-c5",    "label": "—",         "x": 436,  "y": 216, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i1-c6",    "label": "—",         "x": 515,  "y": 216, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+
+    { "id": "i2-row",   "label": "Instr. 2", "x": 10,  "y": 260, "width": 105, "height": 38, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "i2-c1",    "label": "—",         "x": 120,  "y": 260, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i2-c2-if", "label": "IF",        "x": 199,  "y": 260, "width": 74,  "height": 38, "color": "#BAE6FD", "borderColor": "#0284C7", "labelSize": 14 },
+    { "id": "i2-c3-id", "label": "ID",        "x": 278,  "y": 260, "width": 74,  "height": 38, "color": "#BBF7D0", "borderColor": "#16A34A", "labelSize": 14 },
+    { "id": "i2-c4-ex", "label": "EX",        "x": 357,  "y": 260, "width": 74,  "height": 38, "color": "#FEF08A", "borderColor": "#CA8A04", "labelSize": 14 },
+    { "id": "i2-c5-rw", "label": "RW ★",      "x": 436,  "y": 260, "width": 74,  "height": 38, "color": "#FBBF24", "borderColor": "#B45309", "labelSize": 13 },
+    { "id": "i2-c6",    "label": "—",          "x": 515,  "y": 260, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+
+    { "id": "i3-row",   "label": "Instr. 3", "x": 10,  "y": 304, "width": 105, "height": 38, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "i3-c1",    "label": "—",         "x": 120,  "y": 304, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i3-c2",    "label": "—",         "x": 199,  "y": 304, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i3-c3-if", "label": "IF",        "x": 278,  "y": 304, "width": 74,  "height": 38, "color": "#BAE6FD", "borderColor": "#0284C7", "labelSize": 14 },
+    { "id": "i3-c4-id", "label": "ID",        "x": 357,  "y": 304, "width": 74,  "height": 38, "color": "#BBF7D0", "borderColor": "#16A34A", "labelSize": 14 },
+    { "id": "i3-c5-ex", "label": "EX",        "x": 436,  "y": 304, "width": 74,  "height": 38, "color": "#FEF08A", "borderColor": "#CA8A04", "labelSize": 14 },
+    { "id": "i3-c6-rw", "label": "RW ★",      "x": 515,  "y": 304, "width": 74,  "height": 38, "color": "#FBBF24", "borderColor": "#B45309", "labelSize": 13 },
+
+    { "id": "i4-row",   "label": "Instr. 4", "x": 10,  "y": 348, "width": 105, "height": 38, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "i4-c1",    "label": "—",         "x": 120,  "y": 348, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i4-c2",    "label": "—",         "x": 199,  "y": 348, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i4-c3",    "label": "—",         "x": 278,  "y": 348, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i4-c4-if", "label": "IF",        "x": 357,  "y": 348, "width": 74,  "height": 38, "color": "#BAE6FD", "borderColor": "#0284C7", "labelSize": 14 },
+    { "id": "i4-c5-id", "label": "ID",        "x": 436,  "y": 348, "width": 74,  "height": 38, "color": "#BBF7D0", "borderColor": "#16A34A", "labelSize": 14 },
+    { "id": "i4-c6-ex", "label": "EX",        "x": 515,  "y": 348, "width": 74,  "height": 38, "color": "#FEF08A", "borderColor": "#CA8A04", "labelSize": 14 },
+    { "id": "i4-c7-rw", "label": "RW ★",      "x": 594,  "y": 348, "width": 74,  "height": 38, "color": "#FBBF24", "borderColor": "#B45309", "labelSize": 13 },
+
+    { "id": "i5-row",   "label": "Instr. 5", "x": 10,  "y": 392, "width": 105, "height": 38, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "i5-c1",    "label": "—",         "x": 120,  "y": 392, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i5-c2",    "label": "—",         "x": 199,  "y": 392, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i5-c3",    "label": "—",         "x": 278,  "y": 392, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i5-c4",    "label": "—",         "x": 357,  "y": 392, "width": 74,  "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 14 },
+    { "id": "i5-c5-if", "label": "IF",        "x": 436,  "y": 392, "width": 74,  "height": 38, "color": "#BAE6FD", "borderColor": "#0284C7", "labelSize": 14 },
+    { "id": "i5-c6-id", "label": "ID",        "x": 515,  "y": 392, "width": 74,  "height": 38, "color": "#BBF7D0", "borderColor": "#16A34A", "labelSize": 14 },
+    { "id": "i5-c7-ex", "label": "EX",        "x": 594,  "y": 392, "width": 74,  "height": 38, "color": "#FEF08A", "borderColor": "#CA8A04", "labelSize": 14 },
+    { "id": "i5-c8-rw", "label": "RW ★",      "x": 673,  "y": 392, "width": 74,  "height": 38, "color": "#FBBF24", "borderColor": "#B45309", "labelSize": 13 },
+
+    {
+      "id": "clash-t5",
+      "label": "⚠ Clash at t5",
+      "x": 408, "y": 442, "width": 148, "height": 42,
+      "color": "#FEE2E2", "borderColor": "#DC2626",
+      "note": "Instr 2 (RW) & Instr 3 (EX) conflict",
+      "labelSize": 12
+    },
+    {
+      "id": "clash-t8",
+      "label": "⚠ Clash at t8",
+      "x": 645, "y": 442, "width": 148, "height": 42,
+      "color": "#FEE2E2", "borderColor": "#DC2626",
+      "note": "Instr 5 (RW) & Instr 4 (RW) overlap",
+      "labelSize": 12
+    },
+
+    {
+      "id": "hazard-legend",
+      "label": "Legend: IF = Fetch (Blue) | ID = Decode (Green) | EX = Execute (Yellow) | RW★ = Mem R/W (Amber) | ⚠ = Clash",
+      "x": 10, "y": 498, "width": 880, "height": 38,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1",
+      "labelSize": 11
+    },
+
+    {
+      "id": "section-types",
+      "label": "Hazard Types — Detailed Explanation",
+      "x": 10, "y": 548, "width": 880, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A",
+      "labelSize": 14
+    },
+
+    {
+      "id": "structural-box",
+      "label": "Structural Hazard",
+      "x": 10, "y": 595, "width": 275, "height": 210,
+      "color": "#FEE2E2", "borderColor": "#DC2626",
+      "sublabels": [
+        "Cause: Two instructions need the same hardware resource simultaneously.",
+        "Example: Single unified memory — IF stage and MEM stage both need memory access at the same time.",
+        "Solution: Harvard architecture — use separate Instruction Cache (I-Cache) and Data Cache (D-Cache).",
+        "Alternative: Stall the pipeline for 1 cycle by inserting a NOP bubble."
+      ],
+      "labelSize": 14
+    },
+    {
+      "id": "data-box",
+      "label": "Data Hazard (RAW / WAR / WAW)",
+      "x": 302, "y": 595, "width": 296, "height": 210,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "sublabels": [
+        "RAW (Read After Write): I2 reads register before I1 finishes writing it. Most common hazard type.",
+        "Example: ADD R1,R2,R3 → SUB R4,R1,R5 — R1 not ready when SUB needs it.",
+        "WAR (Write After Read): I2 writes a reg before I1 reads it. Rare in in-order pipelines.",
+        "WAW (Write After Write): I2 writes same register as I1 — output dependency.",
+        "Solutions: (1) Stall/NOP bubbles, (2) Data Forwarding/Bypassing — route result from EX output directly to EX input."
+      ],
+      "labelSize": 13
+    },
+    {
+      "id": "control-box",
+      "label": "Control Hazard (Branch Hazard)",
+      "x": 615, "y": 595, "width": 275, "height": 210,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "sublabels": [
+        "Cause: Branch instruction changes PC. Instructions already fetched after the branch may be from the wrong path.",
+        "Example: BEQ instruction — branch outcome is known only in EX stage (cycle 3).",
+        "Penalty: 2 instructions already fetched must be flushed (wasted cycles).",
+        "Solutions: (1) Branch Prediction — static or dynamic, (2) Delayed branching — execute next instruction always, (3) Flush wrong-path instructions."
+      ],
+      "labelSize": 13
+    }
+  ],
+  "connections": [
+    { "from": "i2-c5-rw", "to": "clash-t5", "x1": 473, "y1": 298, "x2": 473, "y2": 442, "label": "⚠" },
+    { "from": "i5-c8-rw", "to": "clash-t8", "x1": 710, "y1": 430, "x2": 710, "y2": 442, "label": "⚠" },
+    { "from": "structural-box", "to": "data-box", "x1": 285, "y1": 700, "x2": 302, "y2": 700, "label": "vs" },
+    { "from": "data-box", "to": "control-box", "x1": 598, "y1": 700, "x2": 615, "y2": 700, "label": "vs" }
+  ],
+  "theory": "A pipeline hazard is any condition that prevents the next instruction in the instruction stream from executing during its designated clock cycle.\n\n1. STRUCTURAL HAZARD: Occurs when two or more instructions need the same hardware resource simultaneously. Example: A single unified memory serving both IF (instruction fetch) and MEM (data access) stages simultaneously. Solution: Harvard architecture with separate I-Cache and D-Cache.\n\n2. DATA HAZARD: Occurs when an instruction depends on the result of a previous instruction still in the pipeline. RAW (Read After Write) is most common — I2 reads a register before I1 writes the result. Solution: Data forwarding (bypassing) routes the ALU output directly back to the next instruction's ALU input, eliminating the stall. When forwarding is not possible, stalls (NOP bubbles) are inserted.\n\n3. CONTROL HAZARD: Occurs when a branch instruction changes the PC. Instructions fetched after the branch may be from the wrong path and must be discarded (flushed). Solution: Branch prediction predicts the branch outcome, and flush-on-miss discards wrongly fetched instructions.",
+  "keyPoints": [
+    "3 types: Structural (hardware conflict), Data (register dependency), Control (branch/PC change).",
+    "RAW (Read After Write) is the most frequent — I2 reads register before I1 writes it.",
+    "Data forwarding eliminates RAW stalls by routing EX-stage output directly to next ALU input.",
+    "Structural hazards resolved by Harvard architecture — separate I-Cache and D-Cache.",
+    "Control hazards cause a branch penalty of 1-3 cycles depending on when branch is resolved.",
+    "Each pipeline stall = 1 NOP bubble inserted = 1 wasted clock cycle = reduced throughput."
+  ],
+  "useCases": [
+    "Analyzing performance penalties in modern RISC pipelines (MIPS, ARM, RISC-V).",
+    "Designing forwarding units and hazard detection logic in processor microarchitecture.",
+    "Compiler-level instruction reordering and scheduling to minimize RAW stalls."
+  ]
+}

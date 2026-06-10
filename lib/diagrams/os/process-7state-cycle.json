@@ -1,0 +1,56 @@
+{
+  "id": "process-7state-cycle",
+  "type": "state-machine",
+  "title": "7-State Process Transition Model",
+  "category": "OS",
+  "aliases": [
+    "7-state process model",
+    "7 state process lifecycle",
+    "seven state process model",
+    "process suspension states",
+    "7-state process transition diagram",
+    "process life cycle 7 state",
+    "process seven state cycle",
+    "stallings process model"
+  ],
+  "examTip": "Understand the two suspended states in secondary memory (disk): Ready/Suspend and Blocked/Suspend. Swapping is controlled by the Medium-Term Scheduler (MTS). The key transition is Blocked/Suspend → Ready/Suspend when I/O completes.",
+  "viewBox": { "width": 960, "height": 520 },
+  "complexity": "Hard",
+  "subject_category": "OS",
+  "states": [
+    { "id": "new", "label": "New", "x": 80, "y": 130, "r": 54, "color": "#DCFCE7", "borderColor": "#16A34A", "textColor": "#14532D", "description": "Created" },
+    { "id": "ready", "label": "Ready", "x": 310, "y": 130, "r": 54, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F", "description": "Ready in RAM" },
+    { "id": "running", "label": "Running", "x": 590, "y": 130, "r": 54, "color": "#FDE68A", "borderColor": "#D97706", "textColor": "#713F12", "description": "Executing" },
+    { "id": "blocked", "label": "Blocked", "x": 590, "y": 290, "r": 54, "color": "#FEE2E2", "borderColor": "#DC2626", "textColor": "#7F1D1D", "description": "Waiting in RAM" },
+    { "id": "terminated", "label": "Terminated", "x": 870, "y": 130, "r": 54, "color": "#F3F4F6", "borderColor": "#6B7280", "textColor": "#374151", "description": "Finished" },
+    { "id": "ready_suspended", "label": "Ready/Suspend", "x": 310, "y": 450, "r": 54, "color": "#E0E7FF", "borderColor": "#4F46E5", "textColor": "#312E81", "description": "Ready on disk" },
+    { "id": "blocked_suspended", "label": "Blocked/Suspend", "x": 590, "y": 450, "r": 54, "color": "#FCE7F3", "borderColor": "#DB2777", "textColor": "#500724", "description": "Blocked on disk" }
+  ],
+  "transitions": [
+    { "from": "new", "to": "ready", "label": "Admitted\n(RAM Available)", "curve": "straight" },
+    { "from": "new", "to": "ready_suspended", "label": "Admitted\n(RAM Full)", "curve": "straight" },
+    { "from": "ready", "to": "running", "label": "Scheduler\nDispatch", "curve": "top" },
+    { "from": "running", "to": "ready", "label": "Time Slice\nExpired", "curve": "bottom" },
+    { "from": "running", "to": "terminated", "label": "Exit /\nTerminate", "curve": "straight" },
+    { "from": "running", "to": "blocked", "label": "I/O or Event\nWait", "curve": "straight" },
+    { "from": "blocked", "to": "ready", "label": "I/O or Event\nComplete", "curve": "straight" },
+    { "from": "blocked", "to": "blocked_suspended", "label": "Suspend\n(Swap Out)", "curve": "curve" },
+    { "from": "blocked_suspended", "to": "blocked", "label": "Activate\n(Swap In)", "curve": "curve" },
+    { "from": "blocked_suspended", "to": "ready_suspended", "label": "I/O or Event\nComplete", "curve": "straight" },
+    { "from": "ready", "to": "ready_suspended", "label": "Suspend\n(Swap Out)", "curve": "curve" },
+    { "from": "ready_suspended", "to": "ready", "label": "Activate\n(Swap In)", "curve": "curve" }
+  ],
+  "theory": "The 7-state process transition model extends the standard 5-state model by introducing two suspended states to manage main memory (RAM) limitations in multitasking operating systems. In a system with only 5 states (New, Ready, Running, Blocked, Terminated), if all active processes are waiting for I/O, the CPU remains idle while main memory is fully occupied. To solve this, the OS swaps blocked processes out of RAM to secondary storage (disk), freeing memory for other processes.\n\nTwo Suspended States are introduced:\n1. Blocked/Suspend: The process is in secondary memory and is waiting for an I/O event to occur.\n2. Ready/Suspend: The process is in secondary memory but is ready to run as soon as it is swapped back into main memory.\n\nKey Transitions and Mechanisms:\n- Suspend (Blocked → Blocked/Suspend): The Medium-Term Scheduler (MTS) swaps out a blocked process to secondary storage to free physical memory.\n- Suspend (Ready → Ready/Suspend): Under extreme memory pressure, the MTS may swap out a ready process to make room for higher priority processes.\n- Activate (Ready/Suspend → Ready): When physical memory becomes available, the MTS swaps the process back into RAM.\n- Activate (Blocked/Suspend → Blocked): Rare, but occurs if the process has high priority and memory is freed.\n- I/O Completion (Blocked/Suspend → Ready/Suspend): When the I/O operation finishes, the process state is updated in secondary storage to reflect that it is ready to run when memory is available.\n- New → Ready/Suspend: If a process is newly created and main memory is full, the OS can allocate its PCB in RAM but store the process image directly on disk.",
+  "keyPoints": [
+    "Introduces two disk-based states: Ready/Suspend and Blocked/Suspend to optimize RAM usage.",
+    "Swapping is managed by the Medium-Term Scheduler (MTS) to balance memory allocation and CPU utilization.",
+    "Blocked/Suspend to Ready/Suspend transition allows I/O completion to be handled directly on disk.",
+    "Allows new processes to be admitted directly to disk (New → Ready/Suspend) when main memory is fully saturated.",
+    "Prevents system thrashing and ensures the CPU remains busy even when many processes are waiting for I/O."
+  ],
+  "useCases": [
+    "Virtual memory systems utilizing swapping (swap space/paging file) to run programs larger than physical RAM.",
+    "Unix/Linux process scheduling where processes are swapped to disk during periods of heavy memory load.",
+    "Batch processing systems that queue low-priority tasks on disk until high-priority interactive tasks complete."
+  ]
+}

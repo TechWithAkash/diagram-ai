@@ -1,0 +1,76 @@
+{
+  "id": "t-flipflop",
+  "title": "T Flip-Flop (from JK Flip-Flop Conversion)",
+  "aliases": ["t flip-flop", "t flipflop block", "t-flipflop", "convert jk to t", "t flip flop conversion"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 550, "height": 300 },
+  "complexity": "Basic",
+  "subject_category": "Electronics",
+  "examTip": "T Flip-Flop Conversion: Tie J and K inputs of a JK Flip-Flop together to form the T input (J = K = T). The characteristic equation becomes Q(next) = T·Q̄ + T̄·Q. T=0 holds, T=1 toggles.",
+  "blocks": [
+    {
+      "id": "t-input",
+      "label": "T (Input)",
+      "x": 40, "y": 110, "width": 80, "height": 40,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "clk-input",
+      "label": "CLK",
+      "x": 40, "y": 200, "width": 80, "height": 40,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "jkff-block",
+      "label": "JK Flip-Flop",
+      "x": 240, "y": 60, "width": 140, "height": 180,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["J = T", "K = T", "CLK (>)"]
+    },
+    {
+      "id": "q-out",
+      "label": "Q",
+      "x": 440, "y": 80, "width": 70, "height": 40,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "qbar-out",
+      "label": "Q̄",
+      "x": 440, "y": 180, "width": 70, "height": 40,
+      "color": "#FDF4FF", "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "equation-label",
+      "label": "Equations: J = K = T",
+      "x": 60, "y": 260, "width": 430, "height": 28,
+      "color": "#FFE4E6", "borderColor": "#E11D48",
+      "sublabels": ["Q(next) = T·Q̄ + T̄·Q  (Hold if T = 0, Toggle if T = 1)"]
+    }
+  ],
+  "connections": [
+    { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "J = T", "x1": 120, "y1": 130, "x2": 240, "y2": 90 },
+    { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "K = T", "x1": 120, "y1": 130, "x2": 240, "y2": 210 },
+    { "from": "clk-input", "to": "jkff-block", "type": "unidirectional", "label": "CLK", "x1": 120, "y1": 220, "x2": 240, "y2": 150 },
+    { "from": "jkff-block", "to": "q-out", "type": "unidirectional", "label": "Q", "x1": 380, "y1": 100, "x2": 440, "y2": 100 },
+    { "from": "jkff-block", "to": "qbar-out", "type": "unidirectional", "label": "Q̄", "x1": 380, "y1": 200, "x2": 440, "y2": 200 }
+  ],
+  "theory": "A T (Toggle) Flip-Flop can be constructed from a JK Flip-Flop by connecting (tying) the J and K inputs together to a single input terminal, designated as T.\n\nDerivation and Operation:\nThe characteristic equation of a JK flip-flop is:\nQ(next) = J·Q̄ + K̄·Q\n\nBy tying J and K together and setting J = K = T, the equation becomes:\nQ(next) = T·Q̄ + T̄·Q\n\nAnalyzing this equation:\n- When T = 0: Q(next) = 0·Q̄ + 1·Q = Q (Hold state, no change)\n- When T = 1: Q(next) = 1·Q̄ + 0·Q = Q̄ (Toggle state, output complements on clock pulse)\n\nThus, the circuit functions exactly as a T flip-flop. This is one of the most common flip-flop conversions because it allows a universal JK flip-flop to be easily converted into a toggle element, which is the fundamental building block for binary counters, frequency dividers, and sequential control logic.\n\nClock Triggering:\nThe state transitions occur at the active edge of the clock signal (dynamic indicator '>'). For edge-triggered devices, the toggle or hold operation occurs synchronously with the clock transition.",
+  "keyPoints": [
+    "Tied inputs: J and K inputs of the JK flip-flop are connected to form a single T input.",
+    "Characteristic equation: Q(next) = T·Q̄ + T̄·Q.",
+    "T = 0 mode: Holds the current state (Q(next) = Q).",
+    "T = 1 mode: Toggles the output state (Q(next) = Q̄) on the clock transition.",
+    "Simplest conversion: Requires no additional logic gates, only a direct connection.",
+    "Applications: Used as a frequency divider (by setting T = 1 permanently) and in ripple/synchronous counters."
+  ],
+  "useCases": [
+    "Designing synchronous and asynchronous binary counters (e.g., up/down counters).",
+    "Frequency division circuits where the output frequency is half of the input clock frequency.",
+    "Control logic where state toggling is required on specific input conditions."
+  ]
+}

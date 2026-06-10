@@ -1,0 +1,65 @@
+{
+  "id": "signal-flow-graph",
+  "complexity": "Intermediate",
+  "type": "graph",
+  "title": "Signal Flow Graph (SFG) — Mason's Gain Formula",
+  "description": "A signal flow graph representing a system with multiple forward paths and feedback loops, used to demonstrate transfer function derivation via Mason's Gain Formula.",
+  "category": "Control Systems",
+  "aliases": [
+    "signal flow graph",
+    "sfg",
+    "masons gain formula",
+    "mason's gain",
+    "transfer function sfg",
+    "sfg reduction",
+    "control systems sfg",
+    "Mason's Gain Formula"
+  ],
+  "viewBox": { "width": 800, "height": 450 },
+  "theory": "A Signal Flow Graph (SFG) is a graphical representation of the relationships between the variables of a set of linear algebraic equations. Developed by Samuel Jefferson Mason, it represents a control system's signal transmission flow through nodes (representing system variables) and directed branches (representing gains or transfer functions between variables).\n\nMason's Gain Formula is used to determine the overall transfer function (overall gain) of a system directly from its SFG without performing step-by-step block diagram reduction. The formula is:\n\n  T = (1 / Δ) * Σ (P_k * Δ_k)\n\nWhere:\n- T is the overall transfer function (C/R).\n- P_k is the path gain of the k-th forward path.\n- Δ is the determinant of the graph, calculated as:\n    Δ = 1 - (Σ L_i) + (Σ L_i L_j) - (Σ L_i L_j L_m) + ...\n    (where L_i is the gain of each individual loop, L_i L_j is the product of loop gains of all possible combinations of two non-touching loops, and so on).\n- Δ_k is the cofactor of the k-th forward path, which is the determinant of the part of the graph that does not touch the k-th forward path (obtained by removing all loops touching path P_k from the calculation of Δ).\n\nIn this diagram:\n1. Forward Paths:\n   - Path 1: R → x1 → x2 → x3 → x4 → x5 → C (Gain P1 = G1*G2*G3*G4)\n   - Path 2: R → x1 → x6 → x4 → x5 → C (Gain P2 = G5*G4)\n2. Individual Loops:\n   - Loop 1: x2 → x3 → fb1 → x2 (Gain L1 = -G2*H1)\n   - Loop 2: x4 → x5 → fb2 → x4 (Gain L2 = -G4*H2)\n   - Loop 3: x2 → x3 → x4 → fb3 → x2 (Gain L3 = -G2*G3*H3)\n3. Non-Touching Loops:\n   - Loop 1 and Loop 2 do not share any common nodes. Their gain product is L1*L2 = G2*G4*H1*H2.\n4. Determinant Δ:\n   - Δ = 1 - (L1 + L2 + L3) + L1*L2 = 1 + G2*H1 + G4*H2 + G2*G3*H3 + G2*G4*H1*H2\n5. Path Cofactors:\n   - Path 1 touches all loops, so Δ1 = 1.\n   - Path 2 does not touch Loop 1 (x2, x3), so Δ2 = 1 - L1 = 1 + G2*H1.",
+  "keyPoints": [
+    "Nodes represent system variables (inputs, outputs, and intermediate states).",
+    "Directed branches represent gains (transfer functions) between variables.",
+    "Forward paths go from input node to output node without visiting any node more than once.",
+    "Feedback loops start and end at the same node, tracing along directed branches.",
+    "Non-touching loops are loops that do not share any common node.",
+    "Mason's Gain Formula determines transfer functions without requiring algebraic or block diagram reductions."
+  ],
+  "examTip": "When applying Mason's Gain Formula, double-check all feedback loops. A common mistake is missing self-loops or failing to identify non-touching loop combinations. Remember that a forward path cannot cross itself, and cofactors (Δ_k) are calculated by setting the gains of all loops touching the k-th path to zero in the Δ equation.",
+  "useCases": [
+    "Analyzing complex feedback architectures in control systems engineering.",
+    "Simplifying block diagrams in electrical networks and amplifier circuits.",
+    "Computing transfer functions of analog signal processors and filters.",
+    "Designing feedback controllers for industrial plants and robotics.",
+    "Verifying signal path integrity in communications systems and digital signal processors."
+  ],
+  "nodes": [
+    { "id": "R", "label": "R(s)", "x": 80, "y": 220, "r": 20, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "x1", "label": "x1", "x": 180, "y": 220, "r": 18, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "x2", "label": "x2", "x": 280, "y": 220, "r": 18, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "x3", "label": "x3", "x": 380, "y": 220, "r": 18, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "x4", "label": "x4", "x": 480, "y": 220, "r": 18, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "x5", "label": "x5", "x": 580, "y": 220, "r": 18, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "C", "label": "C(s)", "x": 680, "y": 220, "r": 20, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "x6", "label": "x6", "x": 330, "y": 100, "r": 12, "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12" },
+    { "id": "fb_h1", "label": "fb1", "x": 330, "y": 310, "r": 12, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "fb_h2", "label": "fb2", "x": 530, "y": 310, "r": 12, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "fb_h3", "label": "fb3", "x": 380, "y": 390, "r": 12, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" }
+  ],
+  "edges": [
+    { "from": "R", "to": "x1", "label": "1" },
+    { "from": "x1", "to": "x2", "label": "G1" },
+    { "from": "x2", "to": "x3", "label": "G2" },
+    { "from": "x3", "to": "x4", "label": "G3" },
+    { "from": "x4", "to": "x5", "label": "G4" },
+    { "from": "x5", "to": "C", "label": "1" },
+    { "from": "x1", "to": "x6", "label": "G5", "labelOffsetY": -10 },
+    { "from": "x6", "to": "x4", "label": "1", "labelOffsetY": -10 },
+    { "from": "x3", "to": "fb_h1", "label": "-H1", "labelOffsetX": 10, "labelOffsetY": 10 },
+    { "from": "fb_h1", "to": "x2", "label": "1", "labelOffsetX": -10, "labelOffsetY": 10 },
+    { "from": "x5", "to": "fb_h2", "label": "-H2", "labelOffsetX": 10, "labelOffsetY": 10 },
+    { "from": "fb_h2", "to": "x4", "label": "1", "labelOffsetX": -10, "labelOffsetY": 10 },
+    { "from": "x4", "to": "fb_h3", "label": "-H3", "labelOffsetX": 15, "labelOffsetY": 10 },
+    { "from": "fb_h3", "to": "x2", "label": "1", "labelOffsetX": -15, "labelOffsetY": 10 }
+  ]
+}

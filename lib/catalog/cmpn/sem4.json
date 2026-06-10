@@ -147,5 +147,1121 @@
         }
       ]
     }
+  },
+  {
+    "id": "process-7state-cycle",
+    "title": "7-State Process Transition Model",
+    "type": "state-machine",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 2: Process Management (Process States & Swapping)",
+    "textbook_reference": "William Stallings, Operating Systems: Internals and Design Principles, Chapter 3, Page 118",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the 7-state process transition model in Operating Systems with a neat diagram. Highlight why suspended states are necessary (Dec 2023).",
+        "Describe process swapping. Explain the transition from Blocked/Suspend to Ready/Suspend (May 2023)."
+      ]
+    },
+    "theory": "The 7-state process transition model extends the standard 5-state model by introducing two suspended states to manage main memory (RAM) limitations in multitasking operating systems. When physical memory is saturated and all active processes are waiting for I/O, the CPU remains idle. To solve this, the Medium-Term Scheduler (MTS) swaps blocked processes out of RAM to secondary storage (disk), freeing memory for other processes. The two suspended states are: (1) Blocked/Suspend: The process is in secondary memory and is waiting for an I/O event to occur; and (2) Ready/Suspend: The process is in secondary memory but is ready to run as soon as it is swapped back into main memory.",
+    "key_points": [
+      "Ready/Suspend: Ready process swapped out of RAM to disk to free space.",
+      "Blocked/Suspend: Blocked process swapped out of RAM to disk.",
+      "Medium-Term Scheduler (MTS): Manages process swapping and state transitions between memory and disk.",
+      "I/O Completion on Disk: Transports Blocked/Suspend process to Ready/Suspend state directly in secondary storage.",
+      "Memory Optimization: Prevents trashing and ensures CPU utilization is maximized during high-concurrency tasks."
+    ],
+    "use_cases": [
+      "Swapping mechanism implementation in UNIX/Linux systems during high memory usage.",
+      "Designing virtual memory schedulers to manage process images between RAM and swap partition."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 960,
+        "height": 520
+      },
+      "states": [
+        {
+          "id": "new",
+          "label": "New",
+          "x": 80,
+          "y": 130
+        },
+        {
+          "id": "ready",
+          "label": "Ready",
+          "x": 310,
+          "y": 130
+        },
+        {
+          "id": "running",
+          "label": "Running",
+          "x": 590,
+          "y": 130
+        },
+        {
+          "id": "blocked",
+          "label": "Blocked",
+          "x": 590,
+          "y": 290
+        },
+        {
+          "id": "terminated",
+          "label": "Terminated",
+          "x": 870,
+          "y": 130
+        },
+        {
+          "id": "ready_suspended",
+          "label": "Ready/Suspend",
+          "x": 310,
+          "y": 450
+        },
+        {
+          "id": "blocked_suspended",
+          "label": "Blocked/Suspend",
+          "x": 590,
+          "y": 450
+        }
+      ],
+      "transitions": [
+        {
+          "from": "new",
+          "to": "ready",
+          "label": "Admitted (RAM Available)"
+        },
+        {
+          "from": "new",
+          "to": "ready_suspended",
+          "label": "Admitted (RAM Full)"
+        },
+        {
+          "from": "ready",
+          "to": "running",
+          "label": "Scheduler Dispatch"
+        },
+        {
+          "from": "running",
+          "to": "ready",
+          "label": "Time Slice Expired"
+        },
+        {
+          "from": "running",
+          "to": "terminated",
+          "label": "Exit / Terminate"
+        },
+        {
+          "from": "running",
+          "to": "blocked",
+          "label": "I/O or Event Wait"
+        },
+        {
+          "from": "blocked",
+          "to": "ready",
+          "label": "I/O or Event Complete"
+        },
+        {
+          "from": "blocked",
+          "to": "blocked_suspended",
+          "label": "Suspend (Swap Out)"
+        },
+        {
+          "from": "blocked_suspended",
+          "to": "blocked",
+          "label": "Activate (Swap In)"
+        },
+        {
+          "from": "blocked_suspended",
+          "to": "ready_suspended",
+          "label": "I/O or Event Complete"
+        },
+        {
+          "from": "ready",
+          "to": "ready_suspended",
+          "label": "Suspend (Swap Out)"
+        },
+        {
+          "from": "ready_suspended",
+          "to": "ready",
+          "label": "Activate (Swap In)"
+        }
+      ]
+    }
+  },
+  {
+    "id": "paging-hardware",
+    "title": "Paging Hardware Memory Mapping",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Paging Hardware)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, 9th Edition, Chapter 8, Page 356",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain paging hardware with a neat memory mapping diagram. (Dec 2023)",
+        "What is paging? Explain paging hardware with translation mechanism. (May 2024)"
+      ]
+    },
+    "theory": "Paging is a memory management scheme that eliminates the need for contiguous allocation of physical memory. The process's logical address space can be non-contiguous, and the physical memory is divided into fixed-size blocks called frames. The logical memory is divided into blocks of the same size called pages. Every address generated by the CPU is divided into two parts: Page Number (p) and Page Offset (d). The page number (p) is used as an index into a page table. The page table contains the base address of each page in physical memory (the frame number f). The frame number (f) is combined with the page offset (d) to form the Physical Address (f, d), which points to the exact byte in the Physical Memory.",
+    "key_points": [
+      "Logical Address is divided into Page Number (p) and Page Offset (d).",
+      "Page Table maps the Page Number (p) to the Physical Frame Number (f).",
+      "Page Offset (d) is copied directly to the Physical Address without any translation.",
+      "Physical Address consists of the Frame Number (f) and Page Offset (d).",
+      "Paging avoids external fragmentation and allows sharing of common code pages."
+    ],
+    "use_cases": [
+      "Modern virtual memory systems implementing paging in Windows, Linux, and macOS.",
+      "Hardware-level address translation handled by the Memory Management Unit (MMU).",
+      "Enabling processes to run even when their virtual memory space is larger than physical RAM."
+    ]
+  },
+  {
+    "id": "segmentation-hardware",
+    "title": "Segmentation Memory Mapping Hardware",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Segmentation)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, 10th Edition, Chapter 9 (Main Memory)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the concept of segmentation. Describe with a neat diagram the hardware support for segmentation.",
+        "Draw and explain the address translation mechanism in a segmented memory system."
+      ]
+    },
+    "theory": "Segmentation is a memory-management scheme that supports a user-programmer's view of memory. Instead of viewing memory as a linear array of bytes (as in paging), memory is divided into variable-sized logical units called segments (e.g., code, stack, heap, data, library functions).\n\nTo map these logical segments into physical memory, hardware support is required in the form of a Segment Table. Each entry in the Segment Table corresponds to a segment and contains two primary values:\n1. Base Address: The starting physical address in memory where the segment resides.\n2. Limit: The exact length or size of that segment.\n\nAddress Translation Process:\n1. The CPU generates a logical address containing a segment number (s) and an offset (d).\n2. The segment number (s) is used to index into the Segment Table.\n3. The hardware retrieves the Limit and Base for segment (s).\n4. The offset (d) is compared against the Limit: d < Limit.\n5. If the offset is invalid (d >= Limit), the hardware generates an interrupt/trap (Segmentation Fault / Access Violation).\n6. If valid, the physical address is calculated as: Physical Address = Base + d.\n7. The physical address is then used to access the appropriate location in physical memory.",
+    "key_points": [
+      "Divides logical memory into variable-length segments reflecting the programmer's structure (Code, Data, Stack).",
+      "Logical Address consists of: Segment number (s) and Offset (d).",
+      "Segment Table entries have two parts: Limit (segment size) and Base (physical starting address).",
+      "Hardware protection: Comparator verifies that offset d is strictly less than Limit (d < Limit).",
+      "Invalid access triggers an addressing error trap (segmentation fault / core dump).",
+      "Valid access translates: Physical Address = Base + d."
+    ],
+    "use_cases": [
+      "Process memory segmentation: Dividing a running process into text, data, heap, and stack segments.",
+      "Memory Protection: Tagging segments (e.g., Code as read-only and executable, Stack as non-executable).",
+      "Shared Memory: Allowing multiple processes to share common code libraries or shared memory segments for IPC."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 900,
+        "height": 420
+      },
+      "blocks": [
+        {
+          "id": "cpu",
+          "label": "CPU / Processor",
+          "x": 30,
+          "y": 20,
+          "width": 130,
+          "height": 50,
+          "color": "#F8FAFC",
+          "borderColor": "#64748B"
+        },
+        {
+          "id": "logical_addr",
+          "label": "Logical Address",
+          "x": 30,
+          "y": 100,
+          "width": 130,
+          "height": 110,
+          "color": "#F1F5F9",
+          "borderColor": "#94A3B8",
+          "children": [
+            {
+              "id": "s",
+              "label": "s",
+              "x": 45,
+              "y": 145,
+              "width": 45,
+              "height": 45,
+              "color": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "note": "Segment #"
+            },
+            {
+              "id": "d",
+              "label": "d",
+              "x": 100,
+              "y": 145,
+              "width": 45,
+              "height": 45,
+              "color": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "note": "Offset"
+            }
+          ]
+        },
+        {
+          "id": "segment_table",
+          "label": "Segment Table",
+          "x": 240,
+          "y": 100,
+          "width": 180,
+          "height": 125,
+          "color": "#FFFBEB",
+          "borderColor": "#D97706",
+          "children": [
+            {
+              "id": "limit_col",
+              "label": "Limit",
+              "x": 255,
+              "y": 145,
+              "width": 70,
+              "height": 65,
+              "color": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "note": "Segment size"
+            },
+            {
+              "id": "base_col",
+              "label": "Base",
+              "x": 335,
+              "y": 145,
+              "width": 70,
+              "height": 65,
+              "color": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "note": "Start addr"
+            }
+          ]
+        },
+        {
+          "id": "comparator",
+          "label": "d < Limit?",
+          "x": 480,
+          "y": 130,
+          "width": 80,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#EF4444"
+        },
+        {
+          "id": "trap",
+          "label": "Trap: Addressing Error",
+          "note": "(Segmentation Fault)",
+          "x": 610,
+          "y": 135,
+          "width": 150,
+          "height": 50,
+          "color": "#FEF2F2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "adder",
+          "label": "+",
+          "note": "Adder",
+          "x": 500,
+          "y": 310,
+          "width": 60,
+          "height": 60,
+          "color": "#ECFDF5",
+          "borderColor": "#10B981"
+        },
+        {
+          "id": "physical_memory",
+          "label": "Physical Memory",
+          "x": 780,
+          "y": 80,
+          "width": 100,
+          "height": 320,
+          "color": "#F0F9FF",
+          "borderColor": "#0284C7",
+          "children": [
+            {
+              "id": "mem_segment",
+              "label": "Segment Memory",
+              "note": "(Base + Offset)",
+              "x": 790,
+              "y": 180,
+              "width": 80,
+              "height": 80,
+              "color": "#E0F2FE",
+              "borderColor": "#0EA5E9"
+            }
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "from": "cpu",
+          "to": "logical_addr",
+          "x1": 95,
+          "y1": 70,
+          "x2": 95,
+          "y2": 100,
+          "label": "Logical Address"
+        },
+        {
+          "from": "s",
+          "to": "segment_table",
+          "x1": 90,
+          "y1": 167.5,
+          "x2": 240,
+          "y2": 167.5,
+          "label": "s (Index)"
+        },
+        {
+          "x1": 122.5,
+          "y1": 145,
+          "x2": 122.5,
+          "y2": 60
+        },
+        {
+          "x1": 122.5,
+          "y1": 60,
+          "x2": 510,
+          "y2": 60,
+          "label": "Offset (d)"
+        },
+        {
+          "x1": 510,
+          "y1": 60,
+          "x2": 510,
+          "y2": 130
+        },
+        {
+          "from": "limit_col",
+          "to": "comparator",
+          "x1": 325,
+          "y1": 177.5,
+          "x2": 480,
+          "y2": 160,
+          "label": "Limit"
+        },
+        {
+          "x1": 370,
+          "y1": 210,
+          "x2": 370,
+          "y2": 280
+        },
+        {
+          "x1": 370,
+          "y1": 280,
+          "x2": 530,
+          "y2": 280,
+          "label": "Base"
+        },
+        {
+          "x1": 530,
+          "y1": 280,
+          "x2": 530,
+          "y2": 310
+        },
+        {
+          "from": "comparator",
+          "to": "trap",
+          "x1": 560,
+          "y1": 160,
+          "x2": 610,
+          "y2": 160,
+          "label": "No (d >= Limit)"
+        },
+        {
+          "from": "comparator",
+          "to": "adder",
+          "x1": 510,
+          "y1": 190,
+          "x2": 510,
+          "y2": 310,
+          "label": "Yes (d < Limit)"
+        },
+        {
+          "x1": 122.5,
+          "y1": 190,
+          "x2": 122.5,
+          "y2": 340
+        },
+        {
+          "x1": 122.5,
+          "y1": 340,
+          "x2": 500,
+          "y2": 340,
+          "label": "Offset (d)"
+        },
+        {
+          "x1": 560,
+          "y1": 340,
+          "x2": 740,
+          "y2": 340
+        },
+        {
+          "x1": 740,
+          "y1": 340,
+          "x2": 740,
+          "y2": 220
+        },
+        {
+          "x1": 740,
+          "y1": 220,
+          "x2": 780,
+          "y2": 220,
+          "label": "Physical Address"
+        }
+      ]
+    }
+  },
+  {
+    "id": "tlb-hardware",
+    "title": "TLB Hardware Paging Cache Memory Mapping",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Paging, TLB)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, Chapter 8 (Main Memory), Page 360",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "What is Translation Lookaside Buffer (TLB)? Explain the hardware support for paging with a neat block diagram (Dec 2023).",
+        "Describe the paging scheme with TLB. Explain hit ratio and effective access time calculations (May 2024)."
+      ]
+    },
+    "theory": "A Translation Lookaside Buffer (TLB) is a high-speed associative hardware cache memory helper used to reduce the memory access latency of paging. When the CPU generates a logical address containing a Page Number (p) and an Offset (d), it must convert the Page Number (p) to a physical Frame Number (f). In simple paging, this requires searching the Page Table in main memory, costing an extra memory cycle. To speed this up, the TLB stores a small subset of recently used page-table entries (typically 64 to 1024 entries). The Page Number (p) is looked up in the TLB in parallel (associative search). On a TLB Hit, the Frame Number (f) is retrieved instantly. On a TLB Miss, the CPU must access the Page Table in main memory, retrieve the Frame Number, and update the TLB with the new page-frame pair for subsequent accesses.",
+    "key_points": [
+      "TLB is an associative, high-speed cache memory implemented in hardware.",
+      "Parallel Search: TLB lookup of Page Number (p) takes less than 1 nanosecond.",
+      "TLB Hit: Retrieves Frame Number (f) immediately, avoiding a Page Table memory access.",
+      "TLB Miss: Retrieves Frame Number from the Page Table in memory, causing a latency penalty.",
+      "Effective Access Time (EAT) = (Hit Ratio * Hit Time) + (Miss Ratio * Miss Time).",
+      "TLB entries are flushed or tagged with an Address Space Identifier (ASID) during a process context switch."
+    ],
+    "use_cases": [
+      "Hardware-based address translation acceleration in modern MMUs (Memory Management Units).",
+      "Evaluating CPU architecture performance using TLB hit/miss profiling tools."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 800,
+        "height": 500
+      },
+      "blocks": [
+        {
+          "id": "cpu",
+          "label": "CPU",
+          "x": 40,
+          "y": 40,
+          "width": 90,
+          "height": 60,
+          "color": "#DBEAFE",
+          "borderColor": "#2563EB"
+        },
+        {
+          "id": "logical_p",
+          "label": "Page No. (p)",
+          "x": 180,
+          "y": 40,
+          "width": 90,
+          "height": 60,
+          "color": "#DCFCE7",
+          "borderColor": "#16A34A"
+        },
+        {
+          "id": "logical_d",
+          "label": "Offset (d)",
+          "x": 270,
+          "y": 40,
+          "width": 70,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "tlb",
+          "label": "TLB\n(Translation Lookaside Buffer)",
+          "x": 155,
+          "y": 170,
+          "width": 140,
+          "height": 80,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706"
+        },
+        {
+          "id": "page_table",
+          "label": "Page Table\n(Main Memory)",
+          "x": 410,
+          "y": 170,
+          "width": 130,
+          "height": 80,
+          "color": "#F3E8FF",
+          "borderColor": "#7C3AED"
+        },
+        {
+          "id": "physical_f",
+          "label": "Frame No. (f)",
+          "x": 410,
+          "y": 350,
+          "width": 80,
+          "height": 60,
+          "color": "#DCFCE7",
+          "borderColor": "#16A34A"
+        },
+        {
+          "id": "physical_d",
+          "label": "Offset (d)",
+          "x": 490,
+          "y": 350,
+          "width": 70,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "physical_mem",
+          "label": "Physical\nMemory\n(RAM)",
+          "x": 650,
+          "y": 260,
+          "width": 110,
+          "height": 180,
+          "color": "#EFF6FF",
+          "borderColor": "#3B82F6"
+        }
+      ],
+      "connections": [
+        {
+          "from": "cpu",
+          "to": "logical_p",
+          "x1": 130,
+          "y1": 70,
+          "x2": 180,
+          "y2": 70,
+          "label": "Logical Addr"
+        },
+        {
+          "from": "logical_p",
+          "to": "tlb",
+          "x1": 225,
+          "y1": 100,
+          "x2": 225,
+          "y2": 170,
+          "label": "Lookup p"
+        },
+        {
+          "from": "tlb",
+          "to": "page_table",
+          "x1": 295,
+          "y1": 210,
+          "x2": 410,
+          "y2": 210,
+          "label": "TLB Miss"
+        },
+        {
+          "from": "tlb",
+          "to": "physical_f",
+          "x1": 225,
+          "y1": 250,
+          "x2": 225,
+          "y2": 380,
+          "label": "TLB Hit"
+        },
+        {
+          "from": "tlb",
+          "to": "physical_f",
+          "x1": 225,
+          "y1": 380,
+          "x2": 410,
+          "y2": 380,
+          "label": "f (Frame)"
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 305,
+          "y1": 100,
+          "x2": 580,
+          "y2": 100
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 580,
+          "y1": 100,
+          "x2": 580,
+          "y2": 310
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 580,
+          "y1": 310,
+          "x2": 525,
+          "y2": 310
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 525,
+          "y1": 310,
+          "x2": 525,
+          "y2": 350,
+          "label": "d (Bypass)"
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 475,
+          "y1": 250,
+          "x2": 475,
+          "y2": 310
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 475,
+          "y1": 310,
+          "x2": 450,
+          "y2": 310
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 450,
+          "y1": 310,
+          "x2": 450,
+          "y2": 350,
+          "label": "Frame f"
+        },
+        {
+          "from": "page_table",
+          "to": "tlb",
+          "x1": 475,
+          "y1": 300,
+          "x2": 260,
+          "y2": 300
+        },
+        {
+          "from": "page_table",
+          "to": "tlb",
+          "x1": 260,
+          "y1": 300,
+          "x2": 260,
+          "y2": 250,
+          "label": "Update"
+        },
+        {
+          "from": "physical_d",
+          "to": "physical_mem",
+          "x1": 560,
+          "y1": 380,
+          "x2": 650,
+          "y2": 380,
+          "label": "Access"
+        }
+      ]
+    }
+  },
+  {
+    "id": "deadlock-rag",
+    "title": "Resource Allocation Graph (RAG) — Deadlock State",
+    "type": "graph",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Deadlocks (Resource Allocation Graph)",
+    "textbook_reference": "Abraham Silberschatz & Peter Galvin, Operating System Concepts, Chapter 7, Page 294",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "What is a Resource Allocation Graph (RAG)? Draw the RAG representing a deadlock state (May 2024).",
+        "Explain deadlock detection using Resource Allocation Graph with a neat sketch (Dec 2023)."
+      ]
+    },
+    "theory": "A Resource Allocation Graph (RAG) is a directed graph used to represent the state of resource allocation in an operating system. It consists of processes and resources, and is used to detect the presence of a deadlock. Process nodes are represented as circles, and resource nodes are represented as rectangles/squares, with small dots representing resource instances. Directed edges from processes to resources represent requests, and directed edges from resource instances to processes represent allocations. A cycle in a single-instance RAG indicates a deadlock state.",
+    "key_points": [
+      "Process nodes are circles; Resource nodes are rectangles/squares containing instance dots.",
+      "Request edges point from process to resource; Assignment edges point from resource instance to process.",
+      "If all resources are single-instance, any cycle in the RAG guarantees a deadlock.",
+      "If resources have multiple instances, a cycle is a necessary but not sufficient condition for deadlock.",
+      "RAG is used by deadlock detection algorithms to identify if the system is in an unsafe/deadlocked state."
+    ],
+    "use_cases": [
+      "Deadlock Detection in Operating Systems: Handled by the OS scheduler to track resource claims.",
+      "Database Transaction Management: Identifying lock contention and deadlock cycles in database engines."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": {
+        "width": 800,
+        "height": 400
+      },
+      "nodes": [
+        {
+          "id": "P1",
+          "label": "Process\nP1",
+          "x": 180,
+          "y": 260,
+          "type": "process"
+        },
+        {
+          "id": "P2",
+          "label": "Process\nP2",
+          "x": 480,
+          "y": 140,
+          "type": "process"
+        },
+        {
+          "id": "P3",
+          "label": "Process\nP3",
+          "x": 480,
+          "y": 320,
+          "type": "process"
+        },
+        {
+          "id": "R1",
+          "label": "Resource R1",
+          "x": 330,
+          "y": 140,
+          "type": "resource",
+          "instances": 1
+        },
+        {
+          "id": "R2",
+          "label": "Resource R2",
+          "x": 330,
+          "y": 260,
+          "type": "resource",
+          "instances": 2
+        },
+        {
+          "id": "R3",
+          "label": "Resource R3",
+          "x": 630,
+          "y": 230,
+          "type": "resource",
+          "instances": 1
+        },
+        {
+          "id": "R4",
+          "label": "Resource R4",
+          "x": 630,
+          "y": 80,
+          "type": "resource",
+          "instances": 3
+        }
+      ],
+      "connections": [
+        {
+          "from": "P1",
+          "to": "R1"
+        },
+        {
+          "from": "R1",
+          "to": "P2"
+        },
+        {
+          "from": "P2",
+          "to": "R3"
+        },
+        {
+          "from": "R3",
+          "to": "P3"
+        },
+        {
+          "from": "P3",
+          "to": "R2"
+        },
+        {
+          "from": "R2",
+          "to": "P1"
+        },
+        {
+          "from": "R2",
+          "to": "P2"
+        }
+      ]
+    }
+  },
+  {
+    "id": "er-notation-table",
+    "title": "ER Diagram Notation Reference Table",
+    "type": "table",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 2: Entity-Relationship Model (ER Notation)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 2 (Entity-Relationship Model)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "List and explain the notation symbols used in ER diagram (Dec 2022).",
+        "Draw symbols for weak entity, multi-valued attribute, identifying relationship, and key attribute in ER model (May 2023)."
+      ]
+    },
+    "theory": "The Entity-Relationship (ER) model uses specific graphic representations to model database schemas. These symbols represent entities, attributes, and relationships. Standard notations include: (1) Rectangles for entity sets, (2) Ellipses for attributes, (3) Diamonds for relationship sets, (4) Double Rectangles for weak entity sets, (5) Double Ellipses for multi-valued attributes, (6) Dashed Ellipses for derived attributes, (7) Underlined text inside an ellipse for primary key attributes, and (8) Double Diamonds for identifying relationship sets of weak entities. Cardinaility and participation (total vs partial) constraints are also represented using directed/undirected lines and double lines.",
+    "key_points": [
+      "Rectangles denote Entity Sets, which are real-world objects with distinct existence.",
+      "Diamonds denote Relationship Sets, representing associations between entity sets.",
+      "Ellipses denote Attributes, representing properties of entities.",
+      "Double shapes indicate 'Weak' or dependent components (Weak Entity, Identifying Relationship, Multi-valued Attribute).",
+      "Dashed/Dotted lines or ellipses denote derived or calculated values.",
+      "Underlining key attributes signifies the primary identifier constraint."
+    ],
+    "use_cases": [
+      "Creating logical database design diagrams prior to SQL table creation.",
+      "Documenting database schemas for communication with system developers."
+    ],
+    "columns": [
+      {
+        "label": "Notation Symbol",
+        "color": "#1E3A8A"
+      },
+      {
+        "label": "Shape/Representation",
+        "color": "#0D9488"
+      },
+      {
+        "label": "Description",
+        "color": "#4F46E5"
+      }
+    ],
+    "rows": [
+      [
+        {
+          "value": "Strong Entity Set"
+        },
+        {
+          "value": "Rectangle"
+        },
+        {
+          "value": "Represents a principal, independent object type"
+        }
+      ],
+      [
+        {
+          "value": "Weak Entity Set"
+        },
+        {
+          "value": "Double Rectangle"
+        },
+        {
+          "value": "Dependent on a strong identifying entity set"
+        }
+      ],
+      [
+        {
+          "value": "Relationship Set"
+        },
+        {
+          "value": "Diamond"
+        },
+        {
+          "value": "Represents an association between entity sets"
+        }
+      ],
+      [
+        {
+          "value": "Identifying Relationship"
+        },
+        {
+          "value": "Double Diamond"
+        },
+        {
+          "value": "Links a weak entity to its owner entity set"
+        }
+      ],
+      [
+        {
+          "value": "Base Attribute"
+        },
+        {
+          "value": "Ellipse"
+        },
+        {
+          "value": "Represents a basic property of an entity"
+        }
+      ],
+      [
+        {
+          "value": "Key Attribute"
+        },
+        {
+          "value": "Underlined Ellipse",
+          "highlight": true
+        },
+        {
+          "value": "Uniquely identifies each entity (Primary Key)"
+        }
+      ],
+      [
+        {
+          "value": "Multivalued Attribute"
+        },
+        {
+          "value": "Double Ellipse"
+        },
+        {
+          "value": "Can store multiple values (e.g., Phone Number)"
+        }
+      ],
+      [
+        {
+          "value": "Derived Attribute"
+        },
+        {
+          "value": "Dashed Ellipse"
+        },
+        {
+          "value": "Computed from other attributes (e.g., Age from DOB)"
+        }
+      ]
+    ]
+  },
+  {
+    "id": "dbms-transaction-state",
+    "title": "DBMS Transaction State Transition Diagram",
+    "type": "state-machine",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 5: Transaction Management (Transaction States)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 14 (Transactions)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain transaction states with a neat transition diagram. (Dec 2023)",
+        "Draw and explain the state transition diagram of a transaction. (May 2024)"
+      ]
+    },
+    "theory": "A transaction in a DBMS is a logical unit of processing that transitions through various states during its execution. These states are: (1) Active: The initial state where the transaction executes read and write operations; (2) Partially Committed: Reached after executing the final statement, where modifications are in volatile buffers but not yet on disk; (3) Committed: Reached after database updates are successfully and permanently written to disk; (4) Failed: Entered if normal execution cannot proceed due to hardware or logical errors; and (5) Aborted: Entered after rolling back changes and restoring the database to its pre-transaction state. Rollback ensures the Atomicity property of the database.",
+    "key_points": [
+      "Active: Initial state during read/write execution.",
+      "Partially Committed: Execution is complete, but data remains in volatile RAM buffers.",
+      "Committed: Data is permanently written to disk, achieving durability.",
+      "Failed: Entered upon system crash or logical errors during execution.",
+      "Aborted: Entered after database rollback completes, ensuring atomicity."
+    ],
+    "use_cases": [
+      "Transaction management and crash recovery (e.g. ARIES protocol).",
+      "Concurrency control to maintain isolation levels during transaction execution."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 960,
+        "height": 400
+      },
+      "states": [
+        {
+          "id": "active",
+          "label": "Active",
+          "x": 160,
+          "y": 200,
+          "r": 54,
+          "color": "#DBEAFE",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A8A",
+          "description": "Initial state; transaction is executing read/write operations"
+        },
+        {
+          "id": "partially_committed",
+          "label": "Partially\nCommitted",
+          "x": 480,
+          "y": 90,
+          "r": 54,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706",
+          "textColor": "#78350F",
+          "description": "After final statement is executed; updates in memory buffers"
+        },
+        {
+          "id": "committed",
+          "label": "Committed",
+          "x": 800,
+          "y": 90,
+          "r": 54,
+          "color": "#D1FAE5",
+          "borderColor": "#10B981",
+          "textColor": "#065F46",
+          "description": "Successfully completed; updates permanently written to disk"
+        },
+        {
+          "id": "failed",
+          "label": "Failed",
+          "x": 480,
+          "y": 310,
+          "r": 54,
+          "color": "#FEE2E2",
+          "borderColor": "#EF4444",
+          "textColor": "#991B1B",
+          "description": "Error detected; normal execution can no longer proceed"
+        },
+        {
+          "id": "aborted",
+          "label": "Aborted",
+          "x": 800,
+          "y": 310,
+          "r": 54,
+          "color": "#F3F4F6",
+          "borderColor": "#4B5563",
+          "textColor": "#1F2937",
+          "description": "Transaction rolled back; database restored to prior state"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "active",
+          "to": "partially_committed",
+          "label": "Read / Write\nCompleted\n(Final Statement)",
+          "curve": "straight"
+        },
+        {
+          "from": "active",
+          "to": "failed",
+          "label": "Hardware / Logical\nError Detected",
+          "curve": "straight"
+        },
+        {
+          "from": "partially_committed",
+          "to": "committed",
+          "label": "Commit Operations\nCompleted (Write to Disk)",
+          "curve": "straight"
+        },
+        {
+          "from": "partially_committed",
+          "to": "failed",
+          "label": "System Crash\n/ Disk Failure\nduring commit",
+          "curve": "straight"
+        },
+        {
+          "from": "failed",
+          "to": "aborted",
+          "label": "Rollback\nCompleted",
+          "curve": "straight"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bplus-tree",
+    "title": "B+ Tree Structure — Index & Leaf Node Layout",
+    "type": "block-diagram",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 4: Indexing and Hashing (B+ Tree Index)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 11 (Indexing), Page 481",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the structure of a B+ tree. How is it used for indexing in databases? Explain insertion and deletion with examples (Dec 2023).",
+        "What is a B+ tree? Differentiate between a B-tree and B+ tree. Draw a B+ tree of order 3 for keys 5, 8, 10, 15, 20, 22, 25, 28, 40, 45, 55, 60 (May 2024)."
+      ]
+    },
+    "theory": "A B+ Tree is a self-balancing tree data structure commonly used in database systems and file systems for efficient storage and retrieval of sorted data. Unlike a B-tree, all data values (key + record pointer) are stored exclusively in the leaf nodes. The internal (index) nodes contain only separator keys to guide the search. The leaf nodes are linked in a sorted linked list, enabling efficient sequential scans and range queries. For a B+ tree of order n, internal nodes have at most n child pointers and n-1 keys; leaf nodes have at most n-1 key-pointer pairs. The tree is always height-balanced: all leaves reside at the same depth.",
+    "key_points": [
+      "All actual data records are stored ONLY in leaf nodes; internal nodes hold only keys for routing.",
+      "Leaf nodes are linked in a sorted sequential linked list for efficient range queries.",
+      "Order-n B+ tree: internal nodes have at most n-1 keys and n child pointers.",
+      "Guaranteed O(log n) search, insert, and delete operations.",
+      "B+ tree is the default index structure in MySQL InnoDB, PostgreSQL, Oracle, and SQL Server.",
+      "Splits propagate upward on insert; borrows or merges occur on delete underflow."
+    ],
+    "use_cases": [
+      "Primary and secondary indexing in relational database management systems.",
+      "File system directory indexing (e.g., NTFS directory index).",
+      "Efficient range-query processing in data warehouses and OLAP systems."
+    ]
   }
 ]

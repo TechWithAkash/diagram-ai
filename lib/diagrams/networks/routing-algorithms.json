@@ -1,0 +1,146 @@
+{
+  "id": "routing-algorithms",
+  "type": "block-diagram",
+  "title": "Routing Algorithms — Distance Vector vs Link State",
+  "category": "Computer Networks",
+  "aliases": [
+    "routing algorithms",
+    "distance vector routing",
+    "link state routing",
+    "RIP OSPF routing",
+    "Bellman-Ford Dijkstra",
+    "routing protocol comparison",
+    "dynamic routing",
+    "routing table"
+  ],
+  "examTip": "Two main routing algorithm types: (1) Distance Vector (RIP, IGRP) — Bellman-Ford algorithm, each router shares its ENTIRE routing table with DIRECTLY CONNECTED neighbours periodically. Simple, slow convergence, count-to-infinity problem. (2) Link State (OSPF, IS-IS) — Dijkstra's SPF algorithm, each router floods its LOCAL link info to ALL routers, builds full topology map. Fast convergence, more memory/CPU, scalable with areas. Key formula: Bellman-Ford: d(u,v) = min over all w: {c(u,w) + d(w,v)}",
+  "viewBox": { "width": 900, "height": 760 },
+  "complexity": "Advanced",
+  "subject_category": "Computer Networks",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "Routing Algorithms — Distance Vector vs Link State",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 15
+    },
+    {
+      "id": "dv-header",
+      "label": "Distance Vector Routing (DVR)",
+      "x": 10, "y": 60, "width": 430, "height": 40,
+      "color": "#FEE2E2", "borderColor": "#DC2626", "labelSize": 14
+    },
+    {
+      "id": "ls-header",
+      "label": "Link State Routing (LSR)",
+      "x": 457, "y": 60, "width": 433, "height": 40,
+      "color": "#DBEAFE", "borderColor": "#2563EB", "labelSize": 14
+    },
+    {
+      "id": "dv-protocol",
+      "label": "Protocols: RIP (max 15 hops), IGRP, EIGRP",
+      "x": 10, "y": 106, "width": 430, "height": 36,
+      "color": "#FFF1F2", "borderColor": "#F87171", "labelSize": 12
+    },
+    {
+      "id": "ls-protocol",
+      "label": "Protocols: OSPF, IS-IS, BGP (partial)",
+      "x": 457, "y": 106, "width": 433, "height": 36,
+      "color": "#EFF6FF", "borderColor": "#60A5FA", "labelSize": 12
+    },
+    {
+      "id": "dv-algo",
+      "label": "Algorithm: Bellman-Ford",
+      "x": 10, "y": 148, "width": 430, "height": 60,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "note": "d(u,v) = min over all w { cost(u,w) + d(w,v) }",
+      "labelSize": 13
+    },
+    {
+      "id": "ls-algo",
+      "label": "Algorithm: Dijkstra's Shortest Path First (SPF)",
+      "x": 457, "y": 148, "width": 433, "height": 60,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "note": "Greedy expansion — always extends to lowest cost unvisited node",
+      "labelSize": 13
+    },
+    {
+      "id": "dv-how",
+      "label": "How DVR Works",
+      "x": 10, "y": 215, "width": 430, "height": 180,
+      "color": "#FFF1F2", "borderColor": "#DC2626",
+      "sublabels": [
+        "1. Each router maintains a Distance Vector table: destination, next-hop, cost.",
+        "2. Periodically (every 30s in RIP), each router sends its ENTIRE routing table to all directly connected neighbours only.",
+        "3. Neighbours update their own tables using Bellman-Ford: if cost through me < your current best → update.",
+        "4. Process repeats until tables stabilize (convergence).",
+        "5. Count-to-Infinity Problem: If a link goes down, routers may loop indefinitely incrementing the cost. Fixed by: Split Horizon (don't advertise a route back where you learned it), Route Poisoning (set cost to 16/infinity when link fails), Hold-down timers."
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "ls-how",
+      "label": "How LSR Works",
+      "x": 457, "y": 215, "width": 433, "height": 180,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": [
+        "1. Each router discovers its DIRECTLY CONNECTED neighbours and their link costs using Hello packets.",
+        "2. Each router creates a Link State Advertisement (LSA) containing: router ID, neighbour list, link costs.",
+        "3. LSAs are FLOODED to ALL routers in the network (reliable flooding with sequence numbers).",
+        "4. Each router builds an identical Link State Database (LSDB) = full network topology map.",
+        "5. Each router independently runs Dijkstra's SPF algorithm on its LSDB to compute the shortest path tree and populate its routing table."
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "comp-header",
+      "label": "Comparison Table: Distance Vector vs Link State",
+      "x": 10, "y": 405, "width": 880, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    { "id": "comp-feature","label": "Feature",         "x": 10,  "y": 445, "width": 200, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "comp-dv",    "label": "Distance Vector",  "x": 214, "y": 445, "width": 320, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "comp-ls",    "label": "Link State",       "x": 538, "y": 445, "width": 352, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+
+    { "id": "cr1f","label": "Algorithm",      "x": 10,  "y": 483, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr1d","label": "Bellman-Ford",   "x": 214, "y": 483, "width": 320, "height": 34, "color": "#FFF1F2","borderColor": "#FCA5A5","labelSize": 12 },
+    { "id": "cr1l","label": "Dijkstra's SPF", "x": 538, "y": 483, "width": 352, "height": 34, "color": "#EFF6FF","borderColor": "#93C5FD","labelSize": 12 },
+
+    { "id": "cr2f","label": "Info Shared",    "x": 10,  "y": 521, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr2d","label": "Full routing table — to direct neighbours only", "x": 214, "y": 521, "width": 320, "height": 34, "color": "#FFF1F2","borderColor": "#FCA5A5","labelSize": 11 },
+    { "id": "cr2l","label": "Local link state (LSA) — flooded to ALL routers", "x": 538, "y": 521, "width": 352, "height": 34, "color": "#EFF6FF","borderColor": "#93C5FD","labelSize": 11 },
+
+    { "id": "cr3f","label": "Convergence",    "x": 10,  "y": 559, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr3d","label": "Slow — propagates hop-by-hop (minutes)", "x": 214, "y": 559, "width": 320, "height": 34, "color": "#FEE2E2","borderColor": "#DC2626","labelSize": 11 },
+    { "id": "cr3l","label": "Fast — all routers get LSDB simultaneously (seconds)", "x": 538, "y": 559, "width": 352, "height": 34, "color": "#D1FAE5","borderColor": "#059669","labelSize": 11 },
+
+    { "id": "cr4f","label": "Memory/CPU",     "x": 10,  "y": 597, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr4d","label": "Low — only stores routing table", "x": 214, "y": 597, "width": 320, "height": 34, "color": "#D1FAE5","borderColor": "#059669","labelSize": 12 },
+    { "id": "cr4l","label": "High — stores LSDB, runs Dijkstra on every change", "x": 538, "y": 597, "width": 352, "height": 34, "color": "#FEE2E2","borderColor": "#DC2626","labelSize": 11 },
+
+    { "id": "cr5f","label": "Scale",          "x": 10,  "y": 635, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr5d","label": "Small networks only (RIP: max 15 hops)", "x": 214, "y": 635, "width": 320, "height": 34, "color": "#FEE2E2","borderColor": "#DC2626","labelSize": 12 },
+    { "id": "cr5l","label": "Large networks with hierarchical areas (OSPF Areas)", "x": 538, "y": 635, "width": 352, "height": 34, "color": "#D1FAE5","borderColor": "#059669","labelSize": 11 },
+
+    { "id": "cr6f","label": "Problem",        "x": 10,  "y": 673, "width": 200, "height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "cr6d","label": "Count-to-Infinity — routing loops during failure", "x": 214, "y": 673, "width": 320, "height": 34, "color": "#FEE2E2","borderColor": "#DC2626","labelSize": 11 },
+    { "id": "cr6l","label": "High bandwidth consumption from LSA flooding", "x": 538, "y": 673, "width": 352, "height": 34, "color": "#FFFBEB","borderColor": "#D97706","labelSize": 11 }
+  ],
+  "connections": [
+    { "from": "dv-header", "to": "ls-header", "x1": 440, "y1": 80, "x2": 457, "y2": 80, "label": "vs" }
+  ],
+  "theory": "Routing algorithms determine how packets are forwarded through a network by computing shortest paths between nodes.\n\nDISTANCE VECTOR ROUTING (Bellman-Ford):\n- Each router knows only the distance (cost/hop count) to each destination and the next hop.\n- Routers exchange their FULL routing tables with directly connected neighbours periodically.\n- Update rule (Bellman-Ford): d(u,v) = min over all w { c(u,w) + d(w,v) } where c(u,w) is the link cost to neighbour w.\n- RIP (Routing Information Protocol) uses hop count as metric (max 15 hops; 16 = unreachable).\n- Count-to-Infinity Problem: When a link fails, incorrect information slowly propagates, causing routers to count up to infinity. Mitigated by: Split Horizon, Poison Reverse, Hold-down timers.\n\nLINK STATE ROUTING (Dijkstra's SPF):\n- Each router knows the COMPLETE topology of the entire network.\n- Step 1: Discover neighbours using Hello packets (Neighbor Discovery).\n- Step 2: Create Link State Advertisements (LSA) — local link info.\n- Step 3: Flood LSAs to ALL routers using reliable flooding with sequence numbers.\n- Step 4: Each router builds an identical Link State Database (LSDB).\n- Step 5: Run Dijkstra's SPF algorithm on the LSDB to find the shortest path tree.\n- OSPF (Open Shortest Path First) uses bandwidth as metric and supports hierarchical areas.",
+  "keyPoints": [
+    "Distance Vector (RIP): Bellman-Ford, shares FULL table with NEIGHBOURS only, slow convergence.",
+    "Link State (OSPF): Dijkstra's SPF, floods LOCAL link info to ALL routers, fast convergence.",
+    "DVR suffers from count-to-infinity problem — fixed by split horizon and route poisoning.",
+    "LSR requires more memory/CPU (stores LSDB + runs Dijkstra) but scales better with areas.",
+    "RIP max hop count = 15 (16 = infinity). OSPF has no hop limit, uses bandwidth as metric.",
+    "Bellman-Ford: d(u,v) = min over w { cost(u,w) + d(w,v) }."
+  ],
+  "useCases": [
+    "Configuring RIP (small networks, simple setup) vs OSPF (enterprise, large ISP networks).",
+    "Understanding BGP (Border Gateway Protocol) — path vector routing between autonomous systems.",
+    "Exam questions on Dijkstra's algorithm execution tables and routing table updates."
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "id": "http-request-response",
+  "type": "block-diagram",
+  "title": "HTTP Request-Response Cycle — Web Communication",
+  "category": "Computer Networks",
+  "aliases": [
+    "HTTP request response",
+    "HTTP cycle",
+    "web request response",
+    "HTTP GET POST",
+    "HTTP protocol diagram",
+    "HTTP handshake",
+    "client server HTTP",
+    "HTTP status codes"
+  ],
+  "examTip": "HTTP (HyperText Transfer Protocol, Port 80) and HTTPS (Port 443) follow a simple request-response model. Client sends a request with: Method (GET/POST/PUT/DELETE) + URL + Headers + Body. Server responds with: Status Code + Headers + Body. HTTP is STATELESS — each request is independent. Cookies/sessions are used to maintain state. HTTP/1.1 uses persistent connections; HTTP/2 uses multiplexing (multiple requests in one TCP connection); HTTP/3 uses QUIC (UDP-based).",
+  "viewBox": { "width": 900, "height": 720 },
+  "complexity": "Intermediate",
+  "subject_category": "Computer Networks",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "HTTP Request-Response Cycle — Client-Server Web Communication",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 14
+    },
+    {
+      "id": "client-box",
+      "label": "Web Client (Browser)",
+      "x": 10, "y": 65, "width": 200, "height": 120,
+      "color": "#D1FAE5", "borderColor": "#059669",
+      "sublabels": [
+        "Chrome / Firefox / Safari",
+        "URL: https://example.com/page",
+        "Sends HTTP Request",
+        "Renders HTML/CSS/JS response"
+      ],
+      "labelSize": 13
+    },
+    {
+      "id": "dns-res",
+      "label": "DNS Resolver",
+      "x": 260, "y": 65, "width": 160, "height": 80,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "sublabels": [
+        "example.com → 93.184.216.34",
+        "Returns IP address"
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "tcp-box",
+      "label": "TCP 3-Way Handshake",
+      "x": 260, "y": 157, "width": 160, "height": 90,
+      "color": "#EDE9FE", "borderColor": "#7C3AED",
+      "sublabels": [
+        "SYN →",
+        "← SYN-ACK",
+        "ACK →",
+        "(HTTPS: TLS after this)"
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "server-box",
+      "label": "Web Server",
+      "x": 690, "y": 65, "width": 200, "height": 120,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "sublabels": [
+        "e.g., Nginx / Apache",
+        "IP: 93.184.216.34",
+        "Port 80 (HTTP) / 443 (HTTPS)",
+        "Processes request & responds"
+      ],
+      "labelSize": 13
+    },
+    {
+      "id": "req-header",
+      "label": "HTTP Request Structure",
+      "x": 10, "y": 205, "width": 880, "height": 36,
+      "color": "#059669", "borderColor": "#065F46", "labelSize": 13
+    },
+    {
+      "id": "req-line",     "label": "Request Line:  GET /page HTTP/1.1",                  "x": 10, "y": 245, "width": 880, "height": 34, "color": "#ECFDF5", "borderColor": "#059669", "labelSize": 13 },
+    { "id": "req-host",    "label": "Host: example.com",                                  "x": 10, "y": 283, "width": 435, "height": 34, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "req-agent",   "label": "User-Agent: Mozilla/5.0 Chrome/120",                 "x": 449,"y": 283, "width": 441, "height": 34, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "req-accept",  "label": "Accept: text/html, application/json",                "x": 10, "y": 321, "width": 435, "height": 34, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "req-cookie",  "label": "Cookie: session_id=abc123 (state via cookie)",       "x": 449,"y": 321, "width": 441, "height": 34, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "req-body",    "label": "Body: (empty for GET) / JSON/FormData for POST",     "x": 10, "y": 359, "width": 880, "height": 34, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12 },
+
+    {
+      "id": "resp-header",
+      "label": "HTTP Response Structure",
+      "x": 10, "y": 405, "width": 880, "height": 36,
+      "color": "#1D4ED8", "borderColor": "#1E3A8A", "labelSize": 13
+    },
+    { "id": "resp-status",  "label": "Status Line:  HTTP/1.1 200 OK",                       "x": 10, "y": 445, "width": 880, "height": 34, "color": "#DBEAFE", "borderColor": "#2563EB", "labelSize": 13 },
+    { "id": "resp-type",    "label": "Content-Type: text/html; charset=UTF-8",              "x": 10, "y": 483, "width": 435, "height": 34, "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "resp-length",  "label": "Content-Length: 3421",                                "x": 449,"y": 483, "width": 441, "height": 34, "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "resp-cache",   "label": "Cache-Control: max-age=3600",                         "x": 10, "y": 521, "width": 435, "height": 34, "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "resp-cookie",  "label": "Set-Cookie: session_id=abc123; HttpOnly; Secure",     "x": 449,"y": 521, "width": 441, "height": 34, "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "resp-body",    "label": "Body: <html><head>...</head><body>...</body></html>",  "x": 10, "y": 559, "width": 880, "height": 34, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12 },
+
+    {
+      "id": "methods-box",
+      "label": "HTTP Methods & Common Status Codes",
+      "x": 10, "y": 606, "width": 880, "height": 100,
+      "color": "#F8FAFC", "borderColor": "#94A3B8",
+      "sublabels": [
+        "Methods: GET (retrieve) | POST (create) | PUT/PATCH (update) | DELETE (remove) | HEAD (headers only) | OPTIONS (CORS preflight)",
+        "2xx Success: 200 OK | 201 Created | 204 No Content",
+        "3xx Redirect: 301 Moved Permanently | 302 Found (temp) | 304 Not Modified (cached)",
+        "4xx Client Error: 400 Bad Request | 401 Unauthorized | 403 Forbidden | 404 Not Found | 429 Too Many Requests",
+        "5xx Server Error: 500 Internal Server Error | 502 Bad Gateway | 503 Service Unavailable | 504 Gateway Timeout"
+      ],
+      "labelSize": 11
+    }
+  ],
+  "connections": [
+    { "from": "client-box", "to": "dns-res",  "x1": 210, "y1": 90,  "x2": 260, "y2": 90,  "label": "DNS query" },
+    { "from": "dns-res",    "to": "client-box","x1": 260, "y1": 115, "x2": 210, "y2": 115, "label": "93.184.216.34" },
+    { "from": "client-box", "to": "tcp-box",   "x1": 110, "y1": 185, "x2": 260, "y2": 185, "label": "TCP connect" },
+    { "from": "tcp-box",    "to": "server-box","x1": 420, "y1": 200, "x2": 690, "y2": 120, "label": "TCP established" },
+    { "from": "client-box", "to": "server-box","x1": 210, "y1": 100, "x2": 690, "y2": 100, "label": "HTTP Request →" },
+    { "from": "server-box", "to": "client-box","x1": 690, "y1": 140, "x2": 210, "y2": 140, "label": "← HTTP Response" }
+  ],
+  "theory": "HTTP (HyperText Transfer Protocol) is an application-layer protocol used for web communication. It follows a stateless client-server request-response model over TCP.\n\nKey HTTP Versions:\n- HTTP/1.0: New TCP connection per request (slow — one request at a time).\n- HTTP/1.1: Persistent connections (keep-alive) — multiple requests on same TCP connection. Pipelining (partially). Head-of-line blocking problem.\n- HTTP/2: Binary framing, request multiplexing (multiple requests in parallel on one TCP connection), header compression (HPACK), server push.\n- HTTP/3 (QUIC): Built on UDP with built-in TLS 1.3, eliminates TCP head-of-line blocking, faster connection establishment.\n\nRequest Structure:\n- Request Line: METHOD URL HTTP/version\n- Headers: Key-value metadata (Host, Content-Type, Accept, Cookie, Authorization, etc.)\n- Blank line (CRLF)\n- Body: Optional — present in POST, PUT, PATCH requests.\n\nResponse Structure:\n- Status Line: HTTP/version STATUS_CODE REASON\n- Headers: Content-Type, Content-Length, Cache-Control, Set-Cookie, Location, etc.\n- Blank line\n- Body: HTML, JSON, binary data, etc.\n\nStatelessness: HTTP does not remember previous requests. State is maintained externally via Cookies (client-side), Sessions (server-side), or JWT tokens.",
+  "keyPoints": [
+    "HTTP (port 80) / HTTPS (port 443) — stateless request-response protocol over TCP.",
+    "Request: Method + URL + Headers + Body. Response: Status Code + Headers + Body.",
+    "GET = retrieve, POST = create, PUT/PATCH = update, DELETE = remove.",
+    "Status codes: 1xx Info, 2xx Success, 3xx Redirect, 4xx Client Error, 5xx Server Error.",
+    "HTTP is STATELESS — cookies and sessions maintain state across requests.",
+    "HTTP/2 multiplexes multiple requests in one TCP connection. HTTP/3 uses QUIC (UDP)."
+  ],
+  "useCases": [
+    "Web browser fetching pages from web servers (core of the World Wide Web).",
+    "REST APIs — JSON data exchange using HTTP methods (GET/POST/PUT/DELETE).",
+    "Debugging web applications using browser DevTools Network tab."
+  ]
+}

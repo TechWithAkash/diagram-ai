@@ -60,11 +60,11 @@ export default function SVGEngine({ schema, className = '' }) {
   const { width = 780, height = 560 } = schema.viewBox || {}
 
   return (
-    <div className={`w-full flex items-center justify-center p-4 bg-gray-50 rounded-b-xl overflow-auto ${className}`}>
+    <div className={`w-full flex items-center justify-center p-4 bg-gray-50 rounded-b-xl overflow-x-auto ${className}`}>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         width="100%"
-        style={{ maxWidth: width, maxHeight: '580px', display: 'block' }}
+        style={{ maxWidth: `${width}px`, minHeight: `${Math.min(height, 400)}px`, display: 'block' }}
         role="img"
         aria-label={schema.title}
         xmlns="http://www.w3.org/2000/svg"

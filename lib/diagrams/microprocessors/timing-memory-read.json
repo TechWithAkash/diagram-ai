@@ -1,0 +1,314 @@
+{
+  "id": "timing-memory-read",
+  "type": "block-diagram",
+  "title": "Intel 8085 Memory Read Timing Diagram",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 timing diagram",
+    "memory read timing diagram",
+    "timing diagram memory read",
+    "8085 memory read",
+    "8085 memory read machine cycle",
+    "memory read machine cycle timing",
+    "8085 bus timing diagram"
+  ],
+  "examTip": "The Memory Read cycle is a machine cycle used to read 1 byte of data from memory. It consists of 3 T-states (T1-T3). In T1, ALE is high and the lower address (A0-A7) is placed on AD0-AD7. In T2, the bus floats, RD̄ goes low, and data is placed on AD0-AD7 by memory. In T3, the CPU reads the data and RD̄ goes high, which floats the bus. IO/M̄ stays low throughout the cycle (S1=1, S0=0).",
+  "viewBox": {
+    "width": 800,
+    "height": 480
+  },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "t1-header",
+      "label": "T1 (State 1)",
+      "x": 160,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Address Latching"
+    },
+    {
+      "id": "t2-header",
+      "label": "T2 (State 2)",
+      "x": 290,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Active Read Start"
+    },
+    {
+      "id": "t3-header",
+      "label": "T3 (State 3)",
+      "x": 420,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Data Read & Latch"
+    },
+    {
+      "id": "clk-label",
+      "label": "CLK (Clock)",
+      "x": 30,
+      "y": 100,
+      "width": 110,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#64748B"
+    },
+    {
+      "id": "clk-t1",
+      "label": "T1 Period",
+      "x": 160,
+      "y": 100,
+      "width": 130,
+      "height": 50,
+      "color": "#F1F5F9",
+      "borderColor": "#475569",
+      "note": "1 complete clock cycle"
+    },
+    {
+      "id": "clk-t2",
+      "label": "T2 Period",
+      "x": 290,
+      "y": 100,
+      "width": 130,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "clk-t3",
+      "label": "T3 Period",
+      "x": 420,
+      "y": 100,
+      "width": 130,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "a8-a15-label",
+      "label": "A8 - A15 (Upper)",
+      "x": 30,
+      "y": 150,
+      "width": 110,
+      "height": 42,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A"
+    },
+    {
+      "id": "a8-a15-active",
+      "label": "Higher Address = A8 - A15",
+      "x": 160,
+      "y": 150,
+      "width": 390,
+      "height": 50,
+      "color": "#DCFCE7",
+      "borderColor": "#16A34A",
+      "note": "Stable higher 8 bits of memory address"
+    },
+    {
+      "id": "a8-a15-inactive",
+      "label": "Unspecified",
+      "x": 550,
+      "y": 150,
+      "width": 60,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Changes for next cycle"
+    },
+    {
+      "id": "ad0-ad7-label",
+      "label": "AD0 - AD7 (Lower)",
+      "x": 30,
+      "y": 205,
+      "width": 110,
+      "height": 42,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB"
+    },
+    {
+      "id": "ad0-ad7-address",
+      "label": "Lower Address = A0 - A7",
+      "x": 160,
+      "y": 205,
+      "width": 130,
+      "height": 50,
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "note": "Lower 8 bits of address (Address)"
+    },
+    {
+      "id": "ad0-ad7-float1",
+      "label": "Float",
+      "x": 290,
+      "y": 205,
+      "width": 30,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#E2E8F0",
+      "note": "Hi-Z"
+    },
+    {
+      "id": "ad0-ad7-data",
+      "label": "Data = D0 - D7",
+      "x": 320,
+      "y": 205,
+      "width": 165,
+      "height": 50,
+      "color": "#F0FDF4",
+      "borderColor": "#15803D",
+      "note": "Read from memory"
+    },
+    {
+      "id": "ad0-ad7-float2",
+      "label": "Float (Hi-Z)",
+      "x": 485,
+      "y": 205,
+      "width": 125,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Bus released"
+    },
+    {
+      "id": "ale-label",
+      "label": "ALE (Latch En)",
+      "x": 30,
+      "y": 260,
+      "width": 110,
+      "height": 42,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "ale-high",
+      "label": "ALE = 1 (HIGH)",
+      "x": 160,
+      "y": 260,
+      "width": 130,
+      "height": 50,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706",
+      "note": "Enable latch pulse"
+    },
+    {
+      "id": "ale-low",
+      "label": "ALE = 0 (LOW)",
+      "x": 290,
+      "y": 260,
+      "width": 320,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Address is latched"
+    },
+    {
+      "id": "rd-label",
+      "label": "RD̄ (Active Low)",
+      "x": 30,
+      "y": 310,
+      "width": 110,
+      "height": 42,
+      "color": "#FFFBEB",
+      "borderColor": "#CA8A04"
+    },
+    {
+      "id": "rd-high1",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 160,
+      "y": 310,
+      "width": 130,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1"
+    },
+    {
+      "id": "rd-low",
+      "label": "RD̄ = 0 (LOW)",
+      "x": 290,
+      "y": 310,
+      "width": 195,
+      "height": 50,
+      "color": "#FEE2E2",
+      "borderColor": "#EF4444",
+      "note": "Memory Read Active"
+    },
+    {
+      "id": "rd-high2",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 485,
+      "y": 310,
+      "width": 125,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1"
+    },
+    {
+      "id": "iom-label",
+      "label": "IO/M̄ (Control)",
+      "x": 30,
+      "y": 360,
+      "width": 110,
+      "height": 42,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED"
+    },
+    {
+      "id": "iom-low",
+      "label": "IO/M̄ = 0 (Memory operation)",
+      "x": 160,
+      "y": 360,
+      "width": 450,
+      "height": 50,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED",
+      "note": "Stays low for memory cycle"
+    },
+    {
+      "id": "status-label",
+      "label": "S1, S0 (Status)",
+      "x": 30,
+      "y": 410,
+      "width": 110,
+      "height": 42,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    },
+    {
+      "id": "status-val",
+      "label": "S1 = 1, S0 = 0 (Memory Read Status)",
+      "x": 160,
+      "y": 410,
+      "width": 450,
+      "height": 50,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "note": "Identifies memory read cycle"
+    }
+  ],
+  "connections": [],
+  "theory": "The Memory Read machine cycle is executed by the Intel 8085 microprocessor to fetch 8-bit data from a specified memory location. Unlike the Opcode Fetch cycle which typically has 4 T-states, a standard Memory Read machine cycle requires only 3 clock cycles or states (T1, T2, and T3). During this cycle, the processor addresses the memory device, enables its read buffer, retrieves the data byte, and stores it internally (such as in an accumulator or general-purpose register).\n\nHere is a step-by-step breakdown of the operations performed in each T-state:\n\n1. State T1:\n- The microprocessor places the 16-bit address of the memory location on the buses. The higher-order 8 bits of the address (A8-A15) are placed on the address bus and remain stable throughout T1, T2, and T3.\n- The lower-order 8 bits of the address (A0-A7) are placed on the multiplexed AD0-AD7 bus.\n- The IO/M̄ signal is asserted LOW (0) to specify that the operation is a memory operation (rather than I/O).\n- Status lines S1 and S0 are set to S1 = 1 and S0 = 0, indicating a Memory Read operation.\n- The ALE (Address Latch Enable) signal is pulsed HIGH. The falling edge of the ALE pulse is used by external latch hardware (e.g., a 74LS373 latch) to capture and hold the lower address byte (A0-A7) for the remainder of the cycle.\n\n2. State T2:\n- The microprocessor removes the lower-order address from the multiplexed AD0-AD7 bus, placing the bus in a high-impedance state (floating) to prevent bus contention (turnaround) before the memory device asserts data.\n- The CPU asserts the RD̄ (Read) control signal LOW. This active-low signal enables the read output buffers of the selected memory chip.\n- The memory chip decodes the latched address and places the stored data byte (D0-D7) onto the AD0-AD7 bus.\n\n3. State T3:\n- The data byte (D0-D7) remains stable on the AD0-AD7 bus.\n- The CPU reads the data byte from the AD0-AD7 bus on the rising edge of the clock (T3) and loads it into the appropriate internal register.\n- The CPU pulls the RD̄ control signal back HIGH. This disables the memory chip's output buffers, releasing the AD0-AD7 bus which returns to a high-impedance (floating) state.",
+  "keyPoints": [
+    "The Memory Read cycle of the Intel 8085 microprocessor consists of 3 T-states: T1, T2, and T3.",
+    "Higher-order address A8-A15 remains stable on the address bus during all three T-states.",
+    "ALE is pulsed HIGH in T1; its falling edge latches the lower address A0-A7 from the AD0-AD7 bus.",
+    "AD0-AD7 carries the lower-order address during T1, floats during the early part of T2, carries valid read data during T2-T3, and floats again after the read concludes.",
+    "RD̄ goes LOW during T2 and goes HIGH in T3; the data is read by the CPU on the rising edge of the clock in T3.",
+    "IO/M̄ remains LOW (0) throughout the cycle, and status signals S1=1, S0=0 uniquely identify a Memory Read cycle."
+  ],
+  "useCases": [
+    "Analyzing bus transfers and timing constraints when interfacing static RAM (SRAM) or EPROM memory to the 8085 CPU.",
+    "Verifying data setup and hold times on the multiplexed data bus using logic analyzers or oscilloscopes.",
+    "Understanding the execution flow of instructions that fetch operands from memory, such as MOV r, M, LDAX, or LHLD."
+  ]
+}

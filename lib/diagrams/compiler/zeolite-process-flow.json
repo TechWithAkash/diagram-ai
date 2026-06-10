@@ -1,7 +1,7 @@
 {
   "id": "zeolite-process-flow",
   "complexity": "Intermediate",
-  "type": "sequential-flow",
+  "type": "graph",
   "title": "Zeolite Water Softening Process Flow",
   "description": "A process flow diagram showcasing the Zeolite (Permutit) method for water softening, including the hard water inlet, zeolite bed tank, NaCl regeneration cycle, and softened water outlet.",
   "category": "Chemical Engineering",

@@ -206,6 +206,427 @@
     "isStub": false
   },
   {
+    "id": "t-flipflop",
+    "title": "T Flip-Flop from JK Flip-Flop Conversion",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 4: Sequential Logic Circuits (Flip-Flop Conversions)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6, Page 221",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Convert JK flip-flop to T flip-flop and verify the conversion with truth table (Dec 2023).",
+        "Explain the working of T Flip-Flop. How is it constructed from a JK Flip-Flop? (May 2024)."
+      ]
+    },
+    "theory": "A T (Toggle) Flip-Flop is a synchronous sequential circuit element that changes its output state (toggles) on each clock edge if its control input T is high (T = 1). If T is low (T = 0), the flip-flop maintains its current state. T Flip-Flops are commonly implemented by converting existing JK Flip-Flops. The conversion is achieved by tying the J and K inputs of the JK Flip-Flop together to a single terminal labeled T. The characteristic equation of the JK flip-flop is Q(next) = J·Q̄ + K̄·Q; substituting J = K = T yields the characteristic equation of the T flip-flop: Q(next) = T·Q̄ + T̄·Q.",
+    "key_points": [
+      "Formed by connecting the J and K inputs of a JK flip-flop to a common terminal T.",
+      "Characteristic equation: Q(next) = T·Q̄ + T̄·Q.",
+      "When T = 0, the flip-flop holds its previous state (Q(next) = Q).",
+      "When T = 1, the flip-flop toggles its output on each active clock edge (Q(next) = Q̄).",
+      "Simplest of all flip-flop conversions, requiring no logic gates."
+    ],
+    "use_cases": [
+      "Binary counters and ripple counters where state toggling is required.",
+      "Frequency division circuits to divide clock frequency by two."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 550,
+        "height": 300
+      },
+      "blocks": [
+        {
+          "id": "t-input",
+          "label": "T (Input)",
+          "x": 40,
+          "y": 110,
+          "width": 80,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "clk-input",
+          "label": "CLK",
+          "x": 40,
+          "y": 200,
+          "width": 80,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "jkff-block",
+          "label": "JK Flip-Flop",
+          "x": 240,
+          "y": 60,
+          "width": 140,
+          "height": 180,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "J = T",
+            "K = T",
+            "CLK (>)"
+          ]
+        },
+        {
+          "id": "q-out",
+          "label": "Q",
+          "x": 440,
+          "y": 80,
+          "width": 70,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "qbar-out",
+          "label": "Q̄",
+          "x": 440,
+          "y": 180,
+          "width": 70,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "equation-label",
+          "label": "Equations: J = K = T",
+          "x": 60,
+          "y": 260,
+          "width": 430,
+          "height": 28,
+          "color": "#FFE4E6",
+          "borderColor": "#E11D48",
+          "sublabels": [
+            "Q(next) = T·Q̄ + T̄·Q  (Hold if T = 0, Toggle if T = 1)"
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "from": "t-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "J = T",
+          "x1": 120,
+          "y1": 130,
+          "x2": 240,
+          "y2": 90
+        },
+        {
+          "from": "t-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "K = T",
+          "x1": 120,
+          "y1": 130,
+          "x2": 240,
+          "y2": 210
+        },
+        {
+          "from": "clk-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "CLK",
+          "x1": 120,
+          "y1": 220,
+          "x2": 240,
+          "y2": 150
+        },
+        {
+          "from": "jkff-block",
+          "to": "q-out",
+          "type": "unidirectional",
+          "label": "Q",
+          "x1": 380,
+          "y1": 100,
+          "x2": 440,
+          "y2": 100
+        },
+        {
+          "from": "jkff-block",
+          "to": "qbar-out",
+          "type": "unidirectional",
+          "label": "Q̄",
+          "x1": 380,
+          "y1": 200,
+          "x2": 440,
+          "y2": 200
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "shift-register",
+    "title": "4-Bit Serial-In Serial-Out (SISO) Shift Register",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 5: Registers and Counters (Shift Registers)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6 (Registers and Counters), Page 255",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the working of 4-bit Serial-In Serial-Out (SISO) shift register with a neat diagram and timing waveform (Dec 2023).",
+        "Draw the block diagram of a 4-bit shift register using D flip-flops and show serial transfer of data (May 2024)."
+      ]
+    },
+    "theory": "A Shift Register is a synchronous sequential circuit designed to store and shift binary data. It is composed of flip-flops connected in series, where the output of each flip-flop is linked to the input of the next stage. A common clock signal is supplied to all flip-flops to synchronize data movement. In a 4-Bit Serial-In Serial-Out (SISO) Shift Register, four D Flip-Flops are cascaded. Serial input data is fed into the first flip-flop (FF0). With each clock pulse, the data bit moves one step to the right through the register until it emerges from the output of the final stage (FF3) as serial output. For an N-bit shift register, N clock cycles are needed to load N bits of data serially, and N-1 additional cycles are needed to read the data completely.",
+    "key_points": [
+      "Formed by cascading four D flip-flops in series (FF0 to FF3).",
+      "Uses a common clock input for synchronous shifting of all bits.",
+      "Serial Input (SI) connects to the input of the first stage, Serial Output (SO) is taken from the last stage.",
+      "Data transfers by one position to the right with each active clock edge.",
+      "Requires N clock cycles to load N bits, and another N-1 clock cycles to fully shift out the data.",
+      "Serves as the basis for temporary data storage, digital delays, and serial communication."
+    ],
+    "use_cases": [
+      "Temporal delay generation in digital communication lines.",
+      "Serial communication links and data transmitters/receivers.",
+      "First-In, First-Out (FIFO) buffers in microprocessor systems."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 860,
+        "height": 300
+      },
+      "blocks": [
+        {
+          "id": "serial-in",
+          "label": "Serial Input (SI)",
+          "x": 30,
+          "y": 95,
+          "width": 110,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "ff0",
+          "label": "FF0 (MSB)",
+          "x": 190,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "D-FF",
+            "Stage 1"
+          ]
+        },
+        {
+          "id": "ff1",
+          "label": "FF1",
+          "x": 330,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "D-FF",
+            "Stage 2"
+          ]
+        },
+        {
+          "id": "ff2",
+          "label": "FF2",
+          "x": 470,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "D-FF",
+            "Stage 3"
+          ]
+        },
+        {
+          "id": "ff3",
+          "label": "FF3 (LSB)",
+          "x": 610,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "D-FF",
+            "Stage 4"
+          ]
+        },
+        {
+          "id": "serial-out",
+          "label": "Serial Output (SO)",
+          "x": 750,
+          "y": 95,
+          "width": 90,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "clk-in",
+          "label": "Common CLK",
+          "x": 30,
+          "y": 220,
+          "width": 110,
+          "height": 40,
+          "color": "#FFF7ED",
+          "borderColor": "#EA580C",
+          "sublabels": [
+            "Synchronous Input"
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "from": "serial-in",
+          "to": "ff0",
+          "x1": 140,
+          "y1": 115,
+          "x2": 190,
+          "y2": 115,
+          "label": "SI / D₀"
+        },
+        {
+          "from": "ff0",
+          "to": "ff1",
+          "x1": 290,
+          "y1": 115,
+          "x2": 330,
+          "y2": 115,
+          "label": "Q₀ / D₁"
+        },
+        {
+          "from": "ff1",
+          "to": "ff2",
+          "x1": 430,
+          "y1": 115,
+          "x2": 470,
+          "y2": 115,
+          "label": "Q₁ / D₂"
+        },
+        {
+          "from": "ff2",
+          "to": "ff3",
+          "x1": 570,
+          "y1": 115,
+          "x2": 610,
+          "y2": 115,
+          "label": "Q₂ / D₃"
+        },
+        {
+          "from": "ff3",
+          "to": "serial-out",
+          "x1": 710,
+          "y1": 115,
+          "x2": 750,
+          "y2": 115,
+          "label": "SO / Q₃"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff0",
+          "x1": 140,
+          "y1": 240,
+          "x2": 660,
+          "y2": 240,
+          "label": "Common Clock Bus"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff0",
+          "x1": 240,
+          "y1": 240,
+          "x2": 240,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff1",
+          "x1": 380,
+          "y1": 240,
+          "x2": 380,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff2",
+          "x1": 520,
+          "y1": 240,
+          "x2": 520,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff3",
+          "x1": 660,
+          "y1": 240,
+          "x2": 660,
+          "y2": 170,
+          "label": "CLK"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "ring-counter",
+    "title": "4-Bit Ring Counter (Circulating Register)",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 5: Registers and Counters (Ring Counter)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6, Page 262",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain the working of a 4-bit Ring Counter using D flip-flops. Draw its timing diagram (Dec 2023).",
+        "What is a Ring Counter? How does it differ from a Ripple Counter? Draw a 4-bit ring counter circuit (May 2023)."
+      ]
+    },
+    "theory": "A Ring Counter is a specialized shift register with a feedback path from the output of the last stage (FF3) back to the input of the first stage (FF0). It circulates a single '1' (or a pattern) continuously around the ring of flip-flops. For a 4-bit ring counter, only 4 of the 16 possible states are used (0001, 0010, 0100, 1000). It requires an initial 'preset' or 'load' operation to inject the circulating '1'. Unlike a ripple (asynchronous) counter, a ring counter is a synchronous sequential circuit — all flip-flops share a common clock.",
+    "key_points": [
+      "Output of the last flip-flop (FF3.Q) is fed back to the input of the first flip-flop (FF0.D).",
+      "For a 4-bit ring counter, the sequence is: 1000 → 0100 → 0010 → 0001 → 1000...",
+      "Only N states are used for an N-bit ring counter (not 2^N), making it self-decoding — no extra decoding logic is needed.",
+      "Requires initial loading of a '1' into one stage via preset/clear; all other stages must be '0'.",
+      "Uses N flip-flops to count N states, compared to ⌈log₂N⌉ flip-flops in a binary counter."
+    ],
+    "use_cases": [
+      "Generating non-overlapping clock phases for sequencing operations in control units.",
+      "State sequencers in synchronous finite state machines.",
+      "Round-robin scheduling hardware in digital control systems."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester III",
+    "isStub": true
+  },
+  {
     "id": "three-schema",
     "title": "Three-Schema Database Architecture",
     "type": "layered-stack",
@@ -359,6 +780,1146 @@
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester IV",
     "isStub": false
+  },
+  {
+    "id": "process-7state-cycle",
+    "title": "7-State Process Transition Model",
+    "type": "state-machine",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 2: Process Management (Process States & Swapping)",
+    "textbook_reference": "William Stallings, Operating Systems: Internals and Design Principles, Chapter 3, Page 118",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the 7-state process transition model in Operating Systems with a neat diagram. Highlight why suspended states are necessary (Dec 2023).",
+        "Describe process swapping. Explain the transition from Blocked/Suspend to Ready/Suspend (May 2023)."
+      ]
+    },
+    "theory": "The 7-state process transition model extends the standard 5-state model by introducing two suspended states to manage main memory (RAM) limitations in multitasking operating systems. When physical memory is saturated and all active processes are waiting for I/O, the CPU remains idle. To solve this, the Medium-Term Scheduler (MTS) swaps blocked processes out of RAM to secondary storage (disk), freeing memory for other processes. The two suspended states are: (1) Blocked/Suspend: The process is in secondary memory and is waiting for an I/O event to occur; and (2) Ready/Suspend: The process is in secondary memory but is ready to run as soon as it is swapped back into main memory.",
+    "key_points": [
+      "Ready/Suspend: Ready process swapped out of RAM to disk to free space.",
+      "Blocked/Suspend: Blocked process swapped out of RAM to disk.",
+      "Medium-Term Scheduler (MTS): Manages process swapping and state transitions between memory and disk.",
+      "I/O Completion on Disk: Transports Blocked/Suspend process to Ready/Suspend state directly in secondary storage.",
+      "Memory Optimization: Prevents trashing and ensures CPU utilization is maximized during high-concurrency tasks."
+    ],
+    "use_cases": [
+      "Swapping mechanism implementation in UNIX/Linux systems during high memory usage.",
+      "Designing virtual memory schedulers to manage process images between RAM and swap partition."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 960,
+        "height": 520
+      },
+      "states": [
+        {
+          "id": "new",
+          "label": "New",
+          "x": 80,
+          "y": 130
+        },
+        {
+          "id": "ready",
+          "label": "Ready",
+          "x": 310,
+          "y": 130
+        },
+        {
+          "id": "running",
+          "label": "Running",
+          "x": 590,
+          "y": 130
+        },
+        {
+          "id": "blocked",
+          "label": "Blocked",
+          "x": 590,
+          "y": 290
+        },
+        {
+          "id": "terminated",
+          "label": "Terminated",
+          "x": 870,
+          "y": 130
+        },
+        {
+          "id": "ready_suspended",
+          "label": "Ready/Suspend",
+          "x": 310,
+          "y": 450
+        },
+        {
+          "id": "blocked_suspended",
+          "label": "Blocked/Suspend",
+          "x": 590,
+          "y": 450
+        }
+      ],
+      "transitions": [
+        {
+          "from": "new",
+          "to": "ready",
+          "label": "Admitted (RAM Available)"
+        },
+        {
+          "from": "new",
+          "to": "ready_suspended",
+          "label": "Admitted (RAM Full)"
+        },
+        {
+          "from": "ready",
+          "to": "running",
+          "label": "Scheduler Dispatch"
+        },
+        {
+          "from": "running",
+          "to": "ready",
+          "label": "Time Slice Expired"
+        },
+        {
+          "from": "running",
+          "to": "terminated",
+          "label": "Exit / Terminate"
+        },
+        {
+          "from": "running",
+          "to": "blocked",
+          "label": "I/O or Event Wait"
+        },
+        {
+          "from": "blocked",
+          "to": "ready",
+          "label": "I/O or Event Complete"
+        },
+        {
+          "from": "blocked",
+          "to": "blocked_suspended",
+          "label": "Suspend (Swap Out)"
+        },
+        {
+          "from": "blocked_suspended",
+          "to": "blocked",
+          "label": "Activate (Swap In)"
+        },
+        {
+          "from": "blocked_suspended",
+          "to": "ready_suspended",
+          "label": "I/O or Event Complete"
+        },
+        {
+          "from": "ready",
+          "to": "ready_suspended",
+          "label": "Suspend (Swap Out)"
+        },
+        {
+          "from": "ready_suspended",
+          "to": "ready",
+          "label": "Activate (Swap In)"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "paging-hardware",
+    "title": "Paging Hardware Memory Mapping",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Paging Hardware)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, 9th Edition, Chapter 8, Page 356",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain paging hardware with a neat memory mapping diagram. (Dec 2023)",
+        "What is paging? Explain paging hardware with translation mechanism. (May 2024)"
+      ]
+    },
+    "theory": "Paging is a memory management scheme that eliminates the need for contiguous allocation of physical memory. The process's logical address space can be non-contiguous, and the physical memory is divided into fixed-size blocks called frames. The logical memory is divided into blocks of the same size called pages. Every address generated by the CPU is divided into two parts: Page Number (p) and Page Offset (d). The page number (p) is used as an index into a page table. The page table contains the base address of each page in physical memory (the frame number f). The frame number (f) is combined with the page offset (d) to form the Physical Address (f, d), which points to the exact byte in the Physical Memory.",
+    "key_points": [
+      "Logical Address is divided into Page Number (p) and Page Offset (d).",
+      "Page Table maps the Page Number (p) to the Physical Frame Number (f).",
+      "Page Offset (d) is copied directly to the Physical Address without any translation.",
+      "Physical Address consists of the Frame Number (f) and Page Offset (d).",
+      "Paging avoids external fragmentation and allows sharing of common code pages."
+    ],
+    "use_cases": [
+      "Modern virtual memory systems implementing paging in Windows, Linux, and macOS.",
+      "Hardware-level address translation handled by the Memory Management Unit (MMU).",
+      "Enabling processes to run even when their virtual memory space is larger than physical RAM."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": true
+  },
+  {
+    "id": "segmentation-hardware",
+    "title": "Segmentation Memory Mapping Hardware",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Segmentation)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, 10th Edition, Chapter 9 (Main Memory)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the concept of segmentation. Describe with a neat diagram the hardware support for segmentation.",
+        "Draw and explain the address translation mechanism in a segmented memory system."
+      ]
+    },
+    "theory": "Segmentation is a memory-management scheme that supports a user-programmer's view of memory. Instead of viewing memory as a linear array of bytes (as in paging), memory is divided into variable-sized logical units called segments (e.g., code, stack, heap, data, library functions).\n\nTo map these logical segments into physical memory, hardware support is required in the form of a Segment Table. Each entry in the Segment Table corresponds to a segment and contains two primary values:\n1. Base Address: The starting physical address in memory where the segment resides.\n2. Limit: The exact length or size of that segment.\n\nAddress Translation Process:\n1. The CPU generates a logical address containing a segment number (s) and an offset (d).\n2. The segment number (s) is used to index into the Segment Table.\n3. The hardware retrieves the Limit and Base for segment (s).\n4. The offset (d) is compared against the Limit: d < Limit.\n5. If the offset is invalid (d >= Limit), the hardware generates an interrupt/trap (Segmentation Fault / Access Violation).\n6. If valid, the physical address is calculated as: Physical Address = Base + d.\n7. The physical address is then used to access the appropriate location in physical memory.",
+    "key_points": [
+      "Divides logical memory into variable-length segments reflecting the programmer's structure (Code, Data, Stack).",
+      "Logical Address consists of: Segment number (s) and Offset (d).",
+      "Segment Table entries have two parts: Limit (segment size) and Base (physical starting address).",
+      "Hardware protection: Comparator verifies that offset d is strictly less than Limit (d < Limit).",
+      "Invalid access triggers an addressing error trap (segmentation fault / core dump).",
+      "Valid access translates: Physical Address = Base + d."
+    ],
+    "use_cases": [
+      "Process memory segmentation: Dividing a running process into text, data, heap, and stack segments.",
+      "Memory Protection: Tagging segments (e.g., Code as read-only and executable, Stack as non-executable).",
+      "Shared Memory: Allowing multiple processes to share common code libraries or shared memory segments for IPC."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 900,
+        "height": 420
+      },
+      "blocks": [
+        {
+          "id": "cpu",
+          "label": "CPU / Processor",
+          "x": 30,
+          "y": 20,
+          "width": 130,
+          "height": 50,
+          "color": "#F8FAFC",
+          "borderColor": "#64748B"
+        },
+        {
+          "id": "logical_addr",
+          "label": "Logical Address",
+          "x": 30,
+          "y": 100,
+          "width": 130,
+          "height": 110,
+          "color": "#F1F5F9",
+          "borderColor": "#94A3B8",
+          "children": [
+            {
+              "id": "s",
+              "label": "s",
+              "x": 45,
+              "y": 145,
+              "width": 45,
+              "height": 45,
+              "color": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "note": "Segment #"
+            },
+            {
+              "id": "d",
+              "label": "d",
+              "x": 100,
+              "y": 145,
+              "width": 45,
+              "height": 45,
+              "color": "#DBEAFE",
+              "borderColor": "#3B82F6",
+              "note": "Offset"
+            }
+          ]
+        },
+        {
+          "id": "segment_table",
+          "label": "Segment Table",
+          "x": 240,
+          "y": 100,
+          "width": 180,
+          "height": 125,
+          "color": "#FFFBEB",
+          "borderColor": "#D97706",
+          "children": [
+            {
+              "id": "limit_col",
+              "label": "Limit",
+              "x": 255,
+              "y": 145,
+              "width": 70,
+              "height": 65,
+              "color": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "note": "Segment size"
+            },
+            {
+              "id": "base_col",
+              "label": "Base",
+              "x": 335,
+              "y": 145,
+              "width": 70,
+              "height": 65,
+              "color": "#FEF3C7",
+              "borderColor": "#F59E0B",
+              "note": "Start addr"
+            }
+          ]
+        },
+        {
+          "id": "comparator",
+          "label": "d < Limit?",
+          "x": 480,
+          "y": 130,
+          "width": 80,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#EF4444"
+        },
+        {
+          "id": "trap",
+          "label": "Trap: Addressing Error",
+          "note": "(Segmentation Fault)",
+          "x": 610,
+          "y": 135,
+          "width": 150,
+          "height": 50,
+          "color": "#FEF2F2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "adder",
+          "label": "+",
+          "note": "Adder",
+          "x": 500,
+          "y": 310,
+          "width": 60,
+          "height": 60,
+          "color": "#ECFDF5",
+          "borderColor": "#10B981"
+        },
+        {
+          "id": "physical_memory",
+          "label": "Physical Memory",
+          "x": 780,
+          "y": 80,
+          "width": 100,
+          "height": 320,
+          "color": "#F0F9FF",
+          "borderColor": "#0284C7",
+          "children": [
+            {
+              "id": "mem_segment",
+              "label": "Segment Memory",
+              "note": "(Base + Offset)",
+              "x": 790,
+              "y": 180,
+              "width": 80,
+              "height": 80,
+              "color": "#E0F2FE",
+              "borderColor": "#0EA5E9"
+            }
+          ]
+        }
+      ],
+      "connections": [
+        {
+          "from": "cpu",
+          "to": "logical_addr",
+          "x1": 95,
+          "y1": 70,
+          "x2": 95,
+          "y2": 100,
+          "label": "Logical Address"
+        },
+        {
+          "from": "s",
+          "to": "segment_table",
+          "x1": 90,
+          "y1": 167.5,
+          "x2": 240,
+          "y2": 167.5,
+          "label": "s (Index)"
+        },
+        {
+          "x1": 122.5,
+          "y1": 145,
+          "x2": 122.5,
+          "y2": 60
+        },
+        {
+          "x1": 122.5,
+          "y1": 60,
+          "x2": 510,
+          "y2": 60,
+          "label": "Offset (d)"
+        },
+        {
+          "x1": 510,
+          "y1": 60,
+          "x2": 510,
+          "y2": 130
+        },
+        {
+          "from": "limit_col",
+          "to": "comparator",
+          "x1": 325,
+          "y1": 177.5,
+          "x2": 480,
+          "y2": 160,
+          "label": "Limit"
+        },
+        {
+          "x1": 370,
+          "y1": 210,
+          "x2": 370,
+          "y2": 280
+        },
+        {
+          "x1": 370,
+          "y1": 280,
+          "x2": 530,
+          "y2": 280,
+          "label": "Base"
+        },
+        {
+          "x1": 530,
+          "y1": 280,
+          "x2": 530,
+          "y2": 310
+        },
+        {
+          "from": "comparator",
+          "to": "trap",
+          "x1": 560,
+          "y1": 160,
+          "x2": 610,
+          "y2": 160,
+          "label": "No (d >= Limit)"
+        },
+        {
+          "from": "comparator",
+          "to": "adder",
+          "x1": 510,
+          "y1": 190,
+          "x2": 510,
+          "y2": 310,
+          "label": "Yes (d < Limit)"
+        },
+        {
+          "x1": 122.5,
+          "y1": 190,
+          "x2": 122.5,
+          "y2": 340
+        },
+        {
+          "x1": 122.5,
+          "y1": 340,
+          "x2": 500,
+          "y2": 340,
+          "label": "Offset (d)"
+        },
+        {
+          "x1": 560,
+          "y1": 340,
+          "x2": 740,
+          "y2": 340
+        },
+        {
+          "x1": 740,
+          "y1": 340,
+          "x2": 740,
+          "y2": 220
+        },
+        {
+          "x1": 740,
+          "y1": 220,
+          "x2": 780,
+          "y2": 220,
+          "label": "Physical Address"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "tlb-hardware",
+    "title": "TLB Hardware Paging Cache Memory Mapping",
+    "type": "block-diagram",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Memory Management (Paging, TLB)",
+    "textbook_reference": "Abraham Silberschatz, Peter B. Galvin & Greg Gagne, Operating System Concepts, Chapter 8 (Main Memory), Page 360",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "What is Translation Lookaside Buffer (TLB)? Explain the hardware support for paging with a neat block diagram (Dec 2023).",
+        "Describe the paging scheme with TLB. Explain hit ratio and effective access time calculations (May 2024)."
+      ]
+    },
+    "theory": "A Translation Lookaside Buffer (TLB) is a high-speed associative hardware cache memory helper used to reduce the memory access latency of paging. When the CPU generates a logical address containing a Page Number (p) and an Offset (d), it must convert the Page Number (p) to a physical Frame Number (f). In simple paging, this requires searching the Page Table in main memory, costing an extra memory cycle. To speed this up, the TLB stores a small subset of recently used page-table entries (typically 64 to 1024 entries). The Page Number (p) is looked up in the TLB in parallel (associative search). On a TLB Hit, the Frame Number (f) is retrieved instantly. On a TLB Miss, the CPU must access the Page Table in main memory, retrieve the Frame Number, and update the TLB with the new page-frame pair for subsequent accesses.",
+    "key_points": [
+      "TLB is an associative, high-speed cache memory implemented in hardware.",
+      "Parallel Search: TLB lookup of Page Number (p) takes less than 1 nanosecond.",
+      "TLB Hit: Retrieves Frame Number (f) immediately, avoiding a Page Table memory access.",
+      "TLB Miss: Retrieves Frame Number from the Page Table in memory, causing a latency penalty.",
+      "Effective Access Time (EAT) = (Hit Ratio * Hit Time) + (Miss Ratio * Miss Time).",
+      "TLB entries are flushed or tagged with an Address Space Identifier (ASID) during a process context switch."
+    ],
+    "use_cases": [
+      "Hardware-based address translation acceleration in modern MMUs (Memory Management Units).",
+      "Evaluating CPU architecture performance using TLB hit/miss profiling tools."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 800,
+        "height": 500
+      },
+      "blocks": [
+        {
+          "id": "cpu",
+          "label": "CPU",
+          "x": 40,
+          "y": 40,
+          "width": 90,
+          "height": 60,
+          "color": "#DBEAFE",
+          "borderColor": "#2563EB"
+        },
+        {
+          "id": "logical_p",
+          "label": "Page No. (p)",
+          "x": 180,
+          "y": 40,
+          "width": 90,
+          "height": 60,
+          "color": "#DCFCE7",
+          "borderColor": "#16A34A"
+        },
+        {
+          "id": "logical_d",
+          "label": "Offset (d)",
+          "x": 270,
+          "y": 40,
+          "width": 70,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "tlb",
+          "label": "TLB\n(Translation Lookaside Buffer)",
+          "x": 155,
+          "y": 170,
+          "width": 140,
+          "height": 80,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706"
+        },
+        {
+          "id": "page_table",
+          "label": "Page Table\n(Main Memory)",
+          "x": 410,
+          "y": 170,
+          "width": 130,
+          "height": 80,
+          "color": "#F3E8FF",
+          "borderColor": "#7C3AED"
+        },
+        {
+          "id": "physical_f",
+          "label": "Frame No. (f)",
+          "x": 410,
+          "y": 350,
+          "width": 80,
+          "height": 60,
+          "color": "#DCFCE7",
+          "borderColor": "#16A34A"
+        },
+        {
+          "id": "physical_d",
+          "label": "Offset (d)",
+          "x": 490,
+          "y": 350,
+          "width": 70,
+          "height": 60,
+          "color": "#FEE2E2",
+          "borderColor": "#DC2626"
+        },
+        {
+          "id": "physical_mem",
+          "label": "Physical\nMemory\n(RAM)",
+          "x": 650,
+          "y": 260,
+          "width": 110,
+          "height": 180,
+          "color": "#EFF6FF",
+          "borderColor": "#3B82F6"
+        }
+      ],
+      "connections": [
+        {
+          "from": "cpu",
+          "to": "logical_p",
+          "x1": 130,
+          "y1": 70,
+          "x2": 180,
+          "y2": 70,
+          "label": "Logical Addr"
+        },
+        {
+          "from": "logical_p",
+          "to": "tlb",
+          "x1": 225,
+          "y1": 100,
+          "x2": 225,
+          "y2": 170,
+          "label": "Lookup p"
+        },
+        {
+          "from": "tlb",
+          "to": "page_table",
+          "x1": 295,
+          "y1": 210,
+          "x2": 410,
+          "y2": 210,
+          "label": "TLB Miss"
+        },
+        {
+          "from": "tlb",
+          "to": "physical_f",
+          "x1": 225,
+          "y1": 250,
+          "x2": 225,
+          "y2": 380,
+          "label": "TLB Hit"
+        },
+        {
+          "from": "tlb",
+          "to": "physical_f",
+          "x1": 225,
+          "y1": 380,
+          "x2": 410,
+          "y2": 380,
+          "label": "f (Frame)"
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 305,
+          "y1": 100,
+          "x2": 580,
+          "y2": 100
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 580,
+          "y1": 100,
+          "x2": 580,
+          "y2": 310
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 580,
+          "y1": 310,
+          "x2": 525,
+          "y2": 310
+        },
+        {
+          "from": "logical_d",
+          "to": "physical_d",
+          "x1": 525,
+          "y1": 310,
+          "x2": 525,
+          "y2": 350,
+          "label": "d (Bypass)"
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 475,
+          "y1": 250,
+          "x2": 475,
+          "y2": 310
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 475,
+          "y1": 310,
+          "x2": 450,
+          "y2": 310
+        },
+        {
+          "from": "page_table",
+          "to": "physical_f",
+          "x1": 450,
+          "y1": 310,
+          "x2": 450,
+          "y2": 350,
+          "label": "Frame f"
+        },
+        {
+          "from": "page_table",
+          "to": "tlb",
+          "x1": 475,
+          "y1": 300,
+          "x2": 260,
+          "y2": 300
+        },
+        {
+          "from": "page_table",
+          "to": "tlb",
+          "x1": 260,
+          "y1": 300,
+          "x2": 260,
+          "y2": 250,
+          "label": "Update"
+        },
+        {
+          "from": "physical_d",
+          "to": "physical_mem",
+          "x1": 560,
+          "y1": 380,
+          "x2": 650,
+          "y2": 380,
+          "label": "Access"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "deadlock-rag",
+    "title": "Resource Allocation Graph (RAG) — Deadlock State",
+    "type": "graph",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 4: Deadlocks (Resource Allocation Graph)",
+    "textbook_reference": "Abraham Silberschatz & Peter Galvin, Operating System Concepts, Chapter 7, Page 294",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "What is a Resource Allocation Graph (RAG)? Draw the RAG representing a deadlock state (May 2024).",
+        "Explain deadlock detection using Resource Allocation Graph with a neat sketch (Dec 2023)."
+      ]
+    },
+    "theory": "A Resource Allocation Graph (RAG) is a directed graph used to represent the state of resource allocation in an operating system. It consists of processes and resources, and is used to detect the presence of a deadlock. Process nodes are represented as circles, and resource nodes are represented as rectangles/squares, with small dots representing resource instances. Directed edges from processes to resources represent requests, and directed edges from resource instances to processes represent allocations. A cycle in a single-instance RAG indicates a deadlock state.",
+    "key_points": [
+      "Process nodes are circles; Resource nodes are rectangles/squares containing instance dots.",
+      "Request edges point from process to resource; Assignment edges point from resource instance to process.",
+      "If all resources are single-instance, any cycle in the RAG guarantees a deadlock.",
+      "If resources have multiple instances, a cycle is a necessary but not sufficient condition for deadlock.",
+      "RAG is used by deadlock detection algorithms to identify if the system is in an unsafe/deadlocked state."
+    ],
+    "use_cases": [
+      "Deadlock Detection in Operating Systems: Handled by the OS scheduler to track resource claims.",
+      "Database Transaction Management: Identifying lock contention and deadlock cycles in database engines."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": {
+        "width": 800,
+        "height": 400
+      },
+      "nodes": [
+        {
+          "id": "P1",
+          "label": "Process\nP1",
+          "x": 180,
+          "y": 260,
+          "type": "process"
+        },
+        {
+          "id": "P2",
+          "label": "Process\nP2",
+          "x": 480,
+          "y": 140,
+          "type": "process"
+        },
+        {
+          "id": "P3",
+          "label": "Process\nP3",
+          "x": 480,
+          "y": 320,
+          "type": "process"
+        },
+        {
+          "id": "R1",
+          "label": "Resource R1",
+          "x": 330,
+          "y": 140,
+          "type": "resource",
+          "instances": 1
+        },
+        {
+          "id": "R2",
+          "label": "Resource R2",
+          "x": 330,
+          "y": 260,
+          "type": "resource",
+          "instances": 2
+        },
+        {
+          "id": "R3",
+          "label": "Resource R3",
+          "x": 630,
+          "y": 230,
+          "type": "resource",
+          "instances": 1
+        },
+        {
+          "id": "R4",
+          "label": "Resource R4",
+          "x": 630,
+          "y": 80,
+          "type": "resource",
+          "instances": 3
+        }
+      ],
+      "connections": [
+        {
+          "from": "P1",
+          "to": "R1"
+        },
+        {
+          "from": "R1",
+          "to": "P2"
+        },
+        {
+          "from": "P2",
+          "to": "R3"
+        },
+        {
+          "from": "R3",
+          "to": "P3"
+        },
+        {
+          "from": "P3",
+          "to": "R2"
+        },
+        {
+          "from": "R2",
+          "to": "P1"
+        },
+        {
+          "from": "R2",
+          "to": "P2"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "er-notation-table",
+    "title": "ER Diagram Notation Reference Table",
+    "type": "table",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 2: Entity-Relationship Model (ER Notation)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 2 (Entity-Relationship Model)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "List and explain the notation symbols used in ER diagram (Dec 2022).",
+        "Draw symbols for weak entity, multi-valued attribute, identifying relationship, and key attribute in ER model (May 2023)."
+      ]
+    },
+    "theory": "The Entity-Relationship (ER) model uses specific graphic representations to model database schemas. These symbols represent entities, attributes, and relationships. Standard notations include: (1) Rectangles for entity sets, (2) Ellipses for attributes, (3) Diamonds for relationship sets, (4) Double Rectangles for weak entity sets, (5) Double Ellipses for multi-valued attributes, (6) Dashed Ellipses for derived attributes, (7) Underlined text inside an ellipse for primary key attributes, and (8) Double Diamonds for identifying relationship sets of weak entities. Cardinaility and participation (total vs partial) constraints are also represented using directed/undirected lines and double lines.",
+    "key_points": [
+      "Rectangles denote Entity Sets, which are real-world objects with distinct existence.",
+      "Diamonds denote Relationship Sets, representing associations between entity sets.",
+      "Ellipses denote Attributes, representing properties of entities.",
+      "Double shapes indicate 'Weak' or dependent components (Weak Entity, Identifying Relationship, Multi-valued Attribute).",
+      "Dashed/Dotted lines or ellipses denote derived or calculated values.",
+      "Underlining key attributes signifies the primary identifier constraint."
+    ],
+    "use_cases": [
+      "Creating logical database design diagrams prior to SQL table creation.",
+      "Documenting database schemas for communication with system developers."
+    ],
+    "columns": [
+      {
+        "label": "Notation Symbol",
+        "color": "#1E3A8A"
+      },
+      {
+        "label": "Shape/Representation",
+        "color": "#0D9488"
+      },
+      {
+        "label": "Description",
+        "color": "#4F46E5"
+      }
+    ],
+    "rows": [
+      [
+        {
+          "value": "Strong Entity Set"
+        },
+        {
+          "value": "Rectangle"
+        },
+        {
+          "value": "Represents a principal, independent object type"
+        }
+      ],
+      [
+        {
+          "value": "Weak Entity Set"
+        },
+        {
+          "value": "Double Rectangle"
+        },
+        {
+          "value": "Dependent on a strong identifying entity set"
+        }
+      ],
+      [
+        {
+          "value": "Relationship Set"
+        },
+        {
+          "value": "Diamond"
+        },
+        {
+          "value": "Represents an association between entity sets"
+        }
+      ],
+      [
+        {
+          "value": "Identifying Relationship"
+        },
+        {
+          "value": "Double Diamond"
+        },
+        {
+          "value": "Links a weak entity to its owner entity set"
+        }
+      ],
+      [
+        {
+          "value": "Base Attribute"
+        },
+        {
+          "value": "Ellipse"
+        },
+        {
+          "value": "Represents a basic property of an entity"
+        }
+      ],
+      [
+        {
+          "value": "Key Attribute"
+        },
+        {
+          "value": "Underlined Ellipse",
+          "highlight": true
+        },
+        {
+          "value": "Uniquely identifies each entity (Primary Key)"
+        }
+      ],
+      [
+        {
+          "value": "Multivalued Attribute"
+        },
+        {
+          "value": "Double Ellipse"
+        },
+        {
+          "value": "Can store multiple values (e.g., Phone Number)"
+        }
+      ],
+      [
+        {
+          "value": "Derived Attribute"
+        },
+        {
+          "value": "Dashed Ellipse"
+        },
+        {
+          "value": "Computed from other attributes (e.g., Age from DOB)"
+        }
+      ]
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": true
+  },
+  {
+    "id": "dbms-transaction-state",
+    "title": "DBMS Transaction State Transition Diagram",
+    "type": "state-machine",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 5: Transaction Management (Transaction States)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 14 (Transactions)",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain transaction states with a neat transition diagram. (Dec 2023)",
+        "Draw and explain the state transition diagram of a transaction. (May 2024)"
+      ]
+    },
+    "theory": "A transaction in a DBMS is a logical unit of processing that transitions through various states during its execution. These states are: (1) Active: The initial state where the transaction executes read and write operations; (2) Partially Committed: Reached after executing the final statement, where modifications are in volatile buffers but not yet on disk; (3) Committed: Reached after database updates are successfully and permanently written to disk; (4) Failed: Entered if normal execution cannot proceed due to hardware or logical errors; and (5) Aborted: Entered after rolling back changes and restoring the database to its pre-transaction state. Rollback ensures the Atomicity property of the database.",
+    "key_points": [
+      "Active: Initial state during read/write execution.",
+      "Partially Committed: Execution is complete, but data remains in volatile RAM buffers.",
+      "Committed: Data is permanently written to disk, achieving durability.",
+      "Failed: Entered upon system crash or logical errors during execution.",
+      "Aborted: Entered after database rollback completes, ensuring atomicity."
+    ],
+    "use_cases": [
+      "Transaction management and crash recovery (e.g. ARIES protocol).",
+      "Concurrency control to maintain isolation levels during transaction execution."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 960,
+        "height": 400
+      },
+      "states": [
+        {
+          "id": "active",
+          "label": "Active",
+          "x": 160,
+          "y": 200,
+          "r": 54,
+          "color": "#DBEAFE",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A8A",
+          "description": "Initial state; transaction is executing read/write operations"
+        },
+        {
+          "id": "partially_committed",
+          "label": "Partially\nCommitted",
+          "x": 480,
+          "y": 90,
+          "r": 54,
+          "color": "#FEF3C7",
+          "borderColor": "#D97706",
+          "textColor": "#78350F",
+          "description": "After final statement is executed; updates in memory buffers"
+        },
+        {
+          "id": "committed",
+          "label": "Committed",
+          "x": 800,
+          "y": 90,
+          "r": 54,
+          "color": "#D1FAE5",
+          "borderColor": "#10B981",
+          "textColor": "#065F46",
+          "description": "Successfully completed; updates permanently written to disk"
+        },
+        {
+          "id": "failed",
+          "label": "Failed",
+          "x": 480,
+          "y": 310,
+          "r": 54,
+          "color": "#FEE2E2",
+          "borderColor": "#EF4444",
+          "textColor": "#991B1B",
+          "description": "Error detected; normal execution can no longer proceed"
+        },
+        {
+          "id": "aborted",
+          "label": "Aborted",
+          "x": 800,
+          "y": 310,
+          "r": 54,
+          "color": "#F3F4F6",
+          "borderColor": "#4B5563",
+          "textColor": "#1F2937",
+          "description": "Transaction rolled back; database restored to prior state"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "active",
+          "to": "partially_committed",
+          "label": "Read / Write\nCompleted\n(Final Statement)",
+          "curve": "straight"
+        },
+        {
+          "from": "active",
+          "to": "failed",
+          "label": "Hardware / Logical\nError Detected",
+          "curve": "straight"
+        },
+        {
+          "from": "partially_committed",
+          "to": "committed",
+          "label": "Commit Operations\nCompleted (Write to Disk)",
+          "curve": "straight"
+        },
+        {
+          "from": "partially_committed",
+          "to": "failed",
+          "label": "System Crash\n/ Disk Failure\nduring commit",
+          "curve": "straight"
+        },
+        {
+          "from": "failed",
+          "to": "aborted",
+          "label": "Rollback\nCompleted",
+          "curve": "straight"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "bplus-tree",
+    "title": "B+ Tree Structure — Index & Leaf Node Layout",
+    "type": "block-diagram",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 4: Indexing and Hashing (B+ Tree Index)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 11 (Indexing), Page 481",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the structure of a B+ tree. How is it used for indexing in databases? Explain insertion and deletion with examples (Dec 2023).",
+        "What is a B+ tree? Differentiate between a B-tree and B+ tree. Draw a B+ tree of order 3 for keys 5, 8, 10, 15, 20, 22, 25, 28, 40, 45, 55, 60 (May 2024)."
+      ]
+    },
+    "theory": "A B+ Tree is a self-balancing tree data structure commonly used in database systems and file systems for efficient storage and retrieval of sorted data. Unlike a B-tree, all data values (key + record pointer) are stored exclusively in the leaf nodes. The internal (index) nodes contain only separator keys to guide the search. The leaf nodes are linked in a sorted linked list, enabling efficient sequential scans and range queries. For a B+ tree of order n, internal nodes have at most n child pointers and n-1 keys; leaf nodes have at most n-1 key-pointer pairs. The tree is always height-balanced: all leaves reside at the same depth.",
+    "key_points": [
+      "All actual data records are stored ONLY in leaf nodes; internal nodes hold only keys for routing.",
+      "Leaf nodes are linked in a sorted sequential linked list for efficient range queries.",
+      "Order-n B+ tree: internal nodes have at most n-1 keys and n child pointers.",
+      "Guaranteed O(log n) search, insert, and delete operations.",
+      "B+ tree is the default index structure in MySQL InnoDB, PostgreSQL, Oracle, and SQL Server.",
+      "Splits propagate upward on insert; borrows or merges occur on delete underflow."
+    ],
+    "use_cases": [
+      "Primary and secondary indexing in relational database management systems.",
+      "File system directory indexing (e.g., NTFS directory index).",
+      "Efficient range-query processing in data warehouses and OLAP systems."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": true
   },
   {
     "id": "osi-model",
@@ -681,6 +2242,943 @@
     "isStub": false
   },
   {
+    "id": "tcp-ip-model",
+    "title": "TCP/IP Model — 4 Layers",
+    "type": "layered-stack",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 1: Reference Models (TCP/IP Reference Model)",
+    "textbook_reference": "Andrew S. Tanenbaum, Computer Networks, Prentice Hall, Chapter 1, Page 44",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Compare OSI reference model and TCP/IP reference model. (Dec 2023, May 2022)",
+        "Explain different layers of TCP/IP reference model with a diagram. (Dec 2022)"
+      ]
+    },
+    "theory": "The TCP/IP Model (also called the Internet Model or DoD Model) is the practical network model developed by DARPA in the 1970s that forms the foundation of the modern Internet. Unlike the OSI model's 7 layers, TCP/IP uses 4 layers, and it defines the protocols actually implemented on computers worldwide.\n\nLayer 4 — Application Layer: Combines the functions of OSI layers 5 (Session), 6 (Presentation), and 7 (Application). Provides application-level protocols for end-user services: HTTP/HTTPS for web browsing, FTP for file transfer, SMTP/POP3/IMAP for email, DNS for domain resolution, SSH for secure remote access.\n\nLayer 3 — Transport Layer: Equivalent to OSI Layer 4. Provides end-to-end communication between host processes identified by port numbers. TCP (Transmission Control Protocol) provides reliable, ordered, error-checked delivery via the three-way handshake, flow control (sliding window), and congestion control. UDP (User Datagram Protocol) provides fast, connectionless, unreliable delivery for applications like DNS, video streaming, and VoIP.\n\nLayer 2 — Internet Layer: Equivalent to OSI Layer 3. Handles logical addressing and routing. IP (Internet Protocol) assigns unique IP addresses to hosts and routes packets across networks. IPv4 uses 32-bit addresses (4.3 billion); IPv6 uses 128-bit addresses. ICMP handles error messages (used by ping, traceroute). ARP maps IP addresses to MAC addresses.\n\nLayer 1 — Network Access Layer: Combines OSI Layers 1 (Physical) and 2 (Data Link). Handles transmission of data frames over the physical network medium — Ethernet, Wi-Fi, fiber optic cable. Handles MAC addressing, framing, and error detection at the hardware level.\n\nKey Difference from OSI: TCP/IP is descriptive (describes existing protocols); OSI is prescriptive (a theoretical standard). TCP/IP is the model that actually runs the Internet.",
+    "key_points": [
+      "TCP/IP has 4 layers: Application, Transport, Internet, Network Access (vs OSI's 7 layers)",
+      "Application layer combines OSI Session + Presentation + Application layers",
+      "TCP = reliable, connection-oriented (handshake); UDP = fast, connectionless (no handshake)",
+      "Internet layer (IP) provides logical addressing; Network Access provides physical addressing (MAC)",
+      "TCP/IP is the actual protocol suite used on the Internet; OSI is the theoretical reference model"
+    ],
+    "use_cases": [
+      "The entire Internet — all web browsing, email, streaming, and cloud services run on TCP/IP",
+      "Corporate LANs and WANs — TCP/IP is the universal standard for modern networking",
+      "IoT devices — embedded devices use TCP/IP (especially UDP) for lightweight communication"
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "dns-resolution",
+    "title": "DNS Resolution Process",
+    "type": "sequential-flow",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 6: Application Layer Protocols (Domain Name System - DNS)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, Chapter 25, Page 782",
+    "exam_relevance": {
+      "frequency": "Medium",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain DNS resolution process with a neat diagram. (Dec 2023)",
+        "What are recursive and iterative queries in DNS? Explain with an example. (May 2024)"
+      ]
+    },
+    "theory": "DNS (Domain Name System) is the internet's distributed hierarchical naming system that translates human-readable domain names (like www.google.com) into machine-readable IP addresses (like 142.250.80.46). Without DNS, users would have to memorize IP addresses for every website. DNS is often described as the 'phone book of the internet.'\n\nDNS Hierarchy: The DNS namespace is organized as an inverted tree with four levels. The root zone ('.') is at the top, managed by ICANN. Below it are Top-Level Domains (TLDs) like .com, .org, .net, country-code TLDs (.uk, .in). Below TLDs are Second-Level Domains (google, amazon) and below those are subdomains (www, mail, ftp). Reading a fully qualified domain name (FQDN) right-to-left follows this hierarchy: www.example.com. = subdomain.domain.TLD.root.\n\nRecursive vs Iterative Queries: The client OS makes a recursive query to the resolver — asking the resolver to do all the work and return a final answer. The resolver then makes iterative queries to root and TLD servers — each returns a referral (not the final answer). This distinction is key: the resolver does the 'legwork' so the client doesn't have to.\n\nDNS Caching and TTL: Every DNS record has a TTL (Time-To-Live) value in seconds. Once a resolver caches a result, it serves that cached answer for the TTL duration without querying again. Common TTLs: 3600s (1 hour), 86400s (24 hours). Low TTL allows rapid DNS changes (useful during migrations). High TTL reduces DNS query load. Negative caching (RFC 2308) also caches 'not found' responses.\n\nDNS Record Types: A (IPv4 address), AAAA (IPv6 address), CNAME (alias/canonical name), MX (mail exchange), NS (name server), TXT (text — used for SPF, DKIM email validation), PTR (reverse DNS lookup — IP to name), SOA (Start of Authority — zone metadata). Understanding these record types is critical for network administration and troubleshooting.\n\nDNS Security: DNS was designed without authentication, creating vulnerabilities. DNSSEC (DNS Security Extensions) adds cryptographic signatures to DNS records. DNS over HTTPS (DoH) and DNS over TLS (DoT) encrypt DNS queries to prevent eavesdropping. DNS cache poisoning (Kaminsky attack) involves injecting forged DNS responses into a resolver's cache to redirect users to malicious sites.",
+    "key_points": [
+      "DNS resolution follows a hierarchy: Browser cache → Hosts file → Recursive resolver → Root NS → TLD NS → Authoritative NS",
+      "Recursive resolver (ISP's DNS) does all the iterative queries — the client only talks to the resolver",
+      "13 root name server clusters (a-m.root-servers.net) — each is actually many anycast servers worldwide",
+      "TTL controls how long DNS responses are cached; lower TTL = faster propagation of changes but higher DNS load",
+      "DNS uses UDP port 53 for queries (faster, no connection overhead); switches to TCP port 53 for responses >512 bytes or zone transfers",
+      "Key record types: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), NS (nameserver), TXT (verification)"
+    ],
+    "use_cases": [
+      "Web browsing — every URL typed in a browser triggers DNS resolution to find the server's IP address",
+      "Email routing — DNS MX records direct email to the correct mail server for a domain",
+      "Load balancing and failover — multiple A records or low-TTL DNS enables traffic distribution and rapid failover to backup servers"
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "arp-protocol",
+    "title": "ARP Protocol — Address Resolution Process",
+    "type": "sequence",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 3: Network Layer Protocols (Address Resolution Protocol)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, Chapter 19, Page 588",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the working of Address Resolution Protocol (ARP) with a sequence diagram. (May 2024)",
+        "Write short note on ARP, Proxy ARP and Gratuitous ARP. (Dec 2023)"
+      ]
+    },
+    "theory": "ARP (Address Resolution Protocol), defined in RFC 826 (1982), is a network communication protocol used to discover the hardware (MAC) address of a device from its known IP address within a local network. ARP operates at the boundary of Layer 2 (Data Link) and Layer 3 (Network) of the OSI model.\n\nWhy ARP is Needed: IP addresses (Layer 3) are logical addresses used for routing across networks. However, actual data frame delivery on a local network (LAN) requires Layer 2 MAC addresses. When a host knows the IP address of the destination but not its MAC address, it uses ARP to discover it. Without ARP, Ethernet frames cannot be correctly addressed for local delivery.\n\nARP Request — Broadcast: The requesting host constructs an ARP Request packet with its own IP and MAC as the sender fields, and the target IP address as the destination. Since the target MAC is unknown, the Ethernet frame is broadcast to FF:FF:FF:FF:FF:FF — every device on the LAN receives and processes this. The ARP packet contains opcode 1 (Request).\n\nARP Reply — Unicast: The host that owns the target IP address sends an ARP Reply directly (unicast) back to the requester. The reply contains the sender's MAC address. All other hosts simply discard the broadcast. The ARP packet contains opcode 2 (Reply).\n\nARP Cache: To avoid repeating ARP lookups for every packet, hosts maintain an ARP cache (ARP table) — a temporary mapping of IP addresses to MAC addresses. Dynamic entries typically expire after 20 minutes (varies by OS). The command `arp -a` displays the current ARP table. Static ARP entries can be configured manually for security.\n\nSpecial ARP Types: Gratuitous ARP — a host broadcasts an ARP reply of its own IP-to-MAC mapping, used after IP address changes or NIC replacement to update neighbors' ARP caches. Proxy ARP — a router responds to ARP requests for hosts on other subnets, enabling inter-subnet communication without the host knowing.\n\nARP Security Issues: ARP has no authentication mechanism, making it vulnerable to ARP Spoofing (ARP Poisoning) attacks where an attacker sends forged ARP replies to associate their MAC with another host's IP, enabling Man-in-the-Middle (MITM) attacks. Defenses include Dynamic ARP Inspection (DAI) on managed switches and static ARP entries for critical hosts.",
+    "key_points": [
+      "ARP maps Layer 3 IP addresses to Layer 2 MAC addresses within a local subnet",
+      "ARP Request is BROADCAST (FF:FF:FF:FF:FF:FF) — all hosts on subnet receive it",
+      "ARP Reply is UNICAST — only the requesting host receives the reply",
+      "ARP cache stores IP→MAC mappings temporarily (default ~20 min) to reduce broadcast traffic",
+      "Gratuitous ARP: host broadcasts its own IP→MAC mapping to update neighbors' caches proactively",
+      "ARP Spoofing is a common MITM attack; Dynamic ARP Inspection (DAI) on switches prevents it"
+    ],
+    "use_cases": [
+      "Local network communication — any time two hosts on the same subnet communicate, ARP resolves IP to MAC",
+      "Default gateway resolution — end devices use ARP to find the MAC address of their router/gateway",
+      "Network troubleshooting — ARP table inspection (`arp -a`) helps diagnose Layer 2 connectivity issues and detect ARP spoofing attacks"
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "csma-cd-protocol",
+    "title": "CSMA/CD — Carrier Sense Multiple Access with Collision Detection",
+    "type": "sequential-flow",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 2: Media Access Control (CSMA/CD access method)",
+    "textbook_reference": "Andrew S. Tanenbaum, Computer Networks, Prentice Hall, Chapter 4, Page 254",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain CSMA/CD protocol with a neat flow chart. (May 2024)",
+        "What is binary exponential backoff algorithm in CSMA/CD? Explain. (Dec 2023)"
+      ]
+    },
+    "theory": "CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is the Media Access Control (MAC) protocol used in traditional wired Ethernet networks (IEEE 802.3). It governs how multiple stations share a single communication channel (the shared Ethernet bus or hub-based network) without a central controller.\n\nThree Key Concepts: (1) Carrier Sense (CS) — before transmitting, a station 'listens' to the medium to detect if it's already in use. If the channel is busy, the station defers transmission. (2) Multiple Access (MA) — multiple stations share the same communication medium (the Ethernet bus). Any station can transmit when the channel appears idle. (3) Collision Detection (CD) — while transmitting, a station simultaneously monitors the channel. If the transmitted signal differs from what's expected (voltage level increases due to signal superposition), a collision is detected immediately.\n\nCollision and Jam Signal: A collision occurs when two stations sense an idle channel at nearly the same moment and begin transmitting simultaneously. Due to propagation delay, neither station detects the other's signal immediately. The colliding signals corrupt each other. Upon detecting a collision, all transmitting stations stop data transmission and broadcast a 32-bit jam signal to guarantee every station on the network is aware of the collision.\n\nBinary Exponential Backoff Algorithm: After a collision, each involved station independently computes a random backoff delay using the formula: wait = random(0, 2^min(k, 10) − 1) × slot_time, where k is the collision count for this frame. The slot time for 10Mbps Ethernet is 51.2 microseconds (the time for a signal to travel the maximum network diameter and return). After the first collision (k=1), each station waits 0 or 1 slot times. After k=2, the range is 0–3 slots. After k=10+, the range is 0–1023. This exponential expansion makes repeated collisions less likely because the probability of two stations choosing the same random wait decreases as the range grows.\n\nMaximum Retransmission Limit: If a frame has collided 16 times, the station abandons transmission and reports an error to the higher layer. This prevents a single frame from indefinitely consuming bandwidth and allows upper-layer protocols (like TCP) to handle recovery.\n\nCSMA/CD vs CSMA/CA: CSMA/CD (collision detect) is used in wired Ethernet (IEEE 802.3) because the collision signal is detectable as a voltage anomaly on the wire. CSMA/CA (Collision Avoidance) is used in WiFi (IEEE 802.11) because in wireless transmission, a station cannot transmit and receive simultaneously — it cannot detect its own collision. Wi-Fi instead uses RTS/CTS (Ready to Send/Clear to Send) and random backoff before transmission to avoid collisions.\n\nModern Relevance: CSMA/CD is largely obsolete in modern networks. Full-duplex switched Ethernet (using network switches instead of hubs) eliminates collisions entirely because each link is a dedicated point-to-point connection. CSMA/CD knowledge remains essential for understanding legacy networks and Ethernet fundamentals.",
+    "key_points": [
+      "CSMA/CD: Carrier Sense (listen before talk) + Multiple Access (shared medium) + Collision Detection (abort on collision)",
+      "Jam signal = 32 bits — ensures all stations detect the collision despite propagation delay",
+      "Binary Exponential Backoff: after k collisions, wait random(0, 2^min(k,10)−1) × 51.2μs (for 10Mbps)",
+      "Maximum 16 retransmission attempts — after 16 failures, frame is aborted and error reported to upper layer",
+      "CSMA/CD used in IEEE 802.3 (wired Ethernet); CSMA/CA used in IEEE 802.11 (WiFi)",
+      "Full-duplex switched Ethernet eliminates collisions — CSMA/CD is only relevant in half-duplex/hub-based LANs"
+    ],
+    "use_cases": [
+      "Legacy Ethernet LANs using hubs — CSMA/CD managed contention on the shared half-duplex bus",
+      "Understanding IEEE 802.3 standard — CSMA/CD is the foundational MAC mechanism for all Ethernet history",
+      "Comparing wireless vs wired access methods — CSMA/CA (WiFi) vs CSMA/CD (Ethernet) is a common exam topic"
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "ethernet-frame",
+    "title": "Ethernet Frame Structure (IEEE 802.3)",
+    "type": "table",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 2: Data Link Layer Standards (Ethernet Frame structure)",
+    "textbook_reference": "Andrew S. Tanenbaum, Computer Networks, Prentice Hall, Chapter 4, Page 272",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the frame format of IEEE 802.3 Ethernet. (Dec 2023)",
+        "What is the importance of minimum frame size in Ethernet? (May 2023)"
+      ]
+    },
+    "theory": "An Ethernet frame is the Protocol Data Unit (PDU) at the Data Link Layer (Layer 2) of the OSI model. Defined by IEEE 802.3, it is the fundamental unit of data transmission on Ethernet networks. Every frame has a fixed structure with well-defined fields that enable addressing, error detection, and protocol identification.\n\nPreamble and SFD: The 7-byte Preamble consists of alternating 1s and 0s (10101010 repeated). This pattern allows the receiving network interface card (NIC) to synchronize its clock with the incoming bit stream — a process called clock recovery. The 1-byte Start Frame Delimiter (SFD = 10101011) immediately follows and signals that the actual frame data begins in the very next byte. Note: The Preamble and SFD are added by the physical layer and are NOT counted in the official 64–1518 byte frame size.\n\nMAC Addresses — Destination and Source: Each field is 6 bytes (48 bits) long, typically expressed in hexadecimal (e.g., AA:BB:CC:DD:EE:FF). The Destination MAC tells the switch/NIC which device should receive this frame. The Source MAC identifies the sender. Special MAC addresses: FF:FF:FF:FF:FF:FF is the broadcast address (all devices on the LAN accept it). A MAC address with LSB of the first byte = 1 is a multicast address. LSB = 0 indicates unicast.\n\nEtherType / Length Field: This 2-byte field has dual purpose. If the value is greater than 1500 (0x05DC), it specifies the Layer 3 protocol type encapsulated in the payload: 0x0800 = IPv4, 0x0806 = ARP, 0x86DD = IPv6, 0x8100 = VLAN tagged (IEEE 802.1Q). If the value is 1500 or less, it specifies the length of the payload in bytes (used in the original 802.3 format).\n\nData / Payload: Contains the encapsulated higher-layer protocol data (usually an IP packet). The minimum payload size is 46 bytes — if the data is smaller, the frame is padded with zeros to meet the minimum. This minimum ensures the frame is at least 64 bytes long, which is required for CSMA/CD collision detection to work correctly at 10Mbps Ethernet.\n\nFCS — Frame Check Sequence: The 4-byte FCS field contains a CRC-32 (Cyclic Redundancy Check) value computed over the Destination MAC, Source MAC, EtherType/Length, and Data fields. The sender calculates the CRC and appends it. The receiver recalculates the CRC over the received data and compares it with the FCS field. If they match, the frame is assumed error-free. If they differ, the frame is silently discarded (Layer 2 does NOT request retransmission — that's TCP's job at Layer 4).\n\nFrame Size Constraints: Minimum frame = 64 bytes (excluding preamble+SFD). This ensures that in a 10Mbps network with the maximum cable length, a transmitting station has not finished sending before a collision signal returns. Maximum frame = 1518 bytes (1500 bytes data + 18 bytes overhead: 6+6+2+4). Exceeding the maximum produces a 'giant' frame, which is discarded. Jumbo frames (up to 9000 bytes payload) are a non-standard extension supported by some Gigabit Ethernet equipment to improve throughput.\n\nKey Difference from OSI: The IEEE 802.3 standard divides the OSI Data Link Layer into two sublayers: the Logical Link Control (LLC) sublayer and the Media Access Control (MAC) sublayer. The LLC sublayer handles multiplexing and flow control, while the MAC sublayer handles the actual frame framing and CSMA/CD protocol.",
+    "key_points": [
+      "Ethernet frame structure: Preamble(7B) + SFD(1B) + Dst MAC(6B) + Src MAC(6B) + EtherType(2B) + Data(46–1500B) + FCS(4B)",
+      "Minimum frame = 64 bytes — ensures collision detection works at 10Mbps before transmission ends",
+      "Maximum frame = 1518 bytes (1500B data + 18B overhead); Preamble+SFD (8B) not counted in size limit",
+      "EtherType >1500: protocol ID (0x0800=IPv4, 0x0806=ARP, 0x86DD=IPv6); EtherType ≤1500: payload length",
+      "FCS uses CRC-32 for error detection — corrupt frames are silently dropped at Layer 2",
+      "Broadcast MAC = FF:FF:FF:FF:FF:FF; Multicast has first byte LSB=1; Unicast has first byte LSB=0"
+    ],
+    "use_cases": [
+      "LAN communication — every data exchange on Ethernet uses this frame structure at the Data Link layer",
+      "Network protocol analysis — tools like Wireshark dissect Ethernet frames to show each field for troubleshooting",
+      "Switch operation — switches read Destination MAC from frames to make forwarding decisions via CAM table lookup"
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "ipv4-header",
+    "title": "IPv4 Header Format",
+    "type": "table",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 3: Network Layer (IPv4 Protocol)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, Chapter 19, Page 567",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the header format of IPv4. (May 2024)",
+        "Explain the functions of various fields in the IPv4 header. (Dec 2023)"
+      ]
+    },
+    "theory": "The IPv4 (Internet Protocol Version 4) header is a structured format that precedes the payload of an IPv4 packet, containing essential metadata required for routing, fragmentation, delivery, and error checking across networks. In the Mumbai University Computer Networks syllabus (sem 5, Computer Engineering), the IPv4 header is a critical topic usually referenced from Behrouz A. Forouzan's 'Data Communications and Networking' textbook (Chapter 19, Network Layer).\n\nAn IPv4 header has a variable size of 20 to 60 bytes, depending on the presence of the Options field. The header consists of the following components:\n\n1. Version (4 bits): Defines the IP version, which is 4 (0100 in binary).\n\n2. Internet Header Length (IHL - 4 bits): Specifies the header length in 32-bit (4-byte) words. Since it is 4 bits, the value ranges from 5 (representing 20 bytes) to 15 (representing 60 bytes). If IHL is greater than 5, options are present.\n\n3. Differentiated Services (DSCP/ECN - 8 bits): Historically known as the Type of Service (TOS) byte, it is now divided into DSCP (Differentiated Services Code Point, 6 bits) for Quality of Service (QoS) classification and ECN (Explicit Congestion Notification, 2 bits) for network congestion notification without dropping packets.\n\n4. Total Length (16 bits): Defines the total size of the IP packet (header + payload) in bytes. The maximum size is 65,535 bytes, though the physical layer limits this (via MTU).\n\n5. Identification (16 bits): Used to uniquely identify fragments of an original IP packet during fragmentation.\n\n6. Flags (3 bits): Control and identify fragments. Bit 0 is reserved (must be 0). Bit 1 is Don't Fragment (DF) — if set to 1, fragmentation is disallowed. Bit 2 is More Fragments (MF) — if set to 1, it indicates more fragments follow; if 0, this is the last fragment.\n\n7. Fragment Offset (13 bits): Indicates where in the original packet this fragment belongs, measured in units of 8-byte blocks (called scale factor of 8).\n\n8. Time to Live (TTL - 8 bits): Prevents packets from circulating indefinitely in loops. Decremented by 1 at each router. If TTL reaches 0, the packet is discarded and an ICMP Time Exceeded message is sent back to the sender.\n\n9. Protocol (8 bits): Identifies the upper-layer protocol that should receive the encapsulated data (e.g., 6 for TCP, 17 for UDP, 1 for ICMP, 89 for OSPF).\n\n10. Header Checksum (16 bits): Used for error detection over the header fields only. Recalculated and modified at each router because TTL changes.\n\n11. Source and Destination IP Addresses (32 bits each): The logical IPv4 addresses of the sender and receiver.\n\n12. Options (0 to 40 bytes): Optional fields for network testing, debugging, routing paths (Record Route, Source Routing), and security.",
+    "key_points": [
+      "The IPv4 header has a variable length: Minimum is 20 bytes (IHL = 5) and Maximum is 60 bytes (IHL = 15)",
+      "IHL (Internet Header Length) represents length in 32-bit (4-byte) words; multiply IHL by 4 to get header size in bytes",
+      "Total Length field is 16 bits, allowing a maximum packet size of 65,535 bytes (including header and data)",
+      "Flags (3 bits) are Reserved, DF (Don't Fragment), and MF (More Fragments), which control packet fragmentation",
+      "Fragment Offset (13 bits) specifies the position of a fragment in the packet, measured in 8-byte units",
+      "Time to Live (TTL) is an 8-bit counter decremented by each hop router to prevent infinite routing loops",
+      "Protocol field (8 bits) defines the encapsulated payload type: 1 = ICMP, 6 = TCP, 17 = UDP, 89 = OSPF",
+      "Header Checksum is 16 bits and is recalculated at every hop router because the TTL field changes"
+    ],
+    "use_cases": [
+      "Logical Routing: Routers inspect the Destination IP Address field to forward packets across networks using routing tables.",
+      "Packet Fragmentation: Routers split packets exceeding the next hop's MTU (Maximum Transmission Unit) using Identification, Flags, and Fragment Offset.",
+      "Quality of Service (QoS): Switched networks prioritize voice, video, or data traffic based on the DSCP bits.",
+      "Loop Prevention: The TTL field ensures lost packets don't circulate forever, saving network bandwidth."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "dhcp-dora",
+    "title": "DHCP DORA Process",
+    "type": "sequence",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 6: Application Layer Protocols (Dynamic Host Configuration Protocol - DHCP)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, McGraw Hill, Chapter 25, Page 790",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the operation of DHCP with a neat sequence diagram showing DORA process (May 2024).",
+        "How does a client obtain an IP address dynamically? Explain DORA process in DHCP (Dec 2023)."
+      ]
+    },
+    "theory": "Dynamic Host Configuration Protocol (DHCP) is an Application Layer protocol that dynamically assigns IP addresses and other network configuration parameters (subnet mask, default gateway, DNS servers) to devices on a network. It operates on a client-server model using UDP ports 67 (server) and 68 (client).\n\nThe DORA process is the four-step handshake used by a DHCP client to acquire network configurations:\n\n1. Discover (Broadcast): The client, having no IP address, broadcasts a DHCPDISCOVER message on the local network (destination IP: 255.255.255.255, source IP: 0.0.0.0, destination MAC: FF:FF:FF:FF:FF:FF) searching for any active DHCP server.\n\n2. Offer (Unicast/Broadcast): Any DHCP server receiving the Discover message responds with a DHCPOFFER message. This contains an available IP address from the server's pool (scope), subnet mask, lease duration, default gateway IP, and DNS server IPs.\n\n3. Request (Broadcast): The client selects one offer (typically the first received) and broadcasts a DHCPREQUEST message. This informs the selected server of acceptance and implicitly notifies other DHCP servers to release their offered IPs back to their pools.\n\n4. Acknowledge (Broadcast/Unicast): The selected server receives the Request and responds with a DHCPACK message, committing the IP binding and configuration parameters to the client. Upon receiving the ACK, the client configures its network interface and transitions to the BOUND state.",
+    "key_points": [
+      "DHCP is based on BOOTP and works automatically to configure IP, gateway, and DNS on hosts.",
+      "Uses UDP port 67 for server and UDP port 68 for client communications.",
+      "DORA stands for: Discover (Client to Server), Offer (Server to Client), Request (Client to Server), Ack (Server to Client).",
+      "Discover and Request are always broadcast because the client does not yet have an assigned IP address.",
+      "Offer and Ack can be unicast or broadcast depending on the server configuration and client flags.",
+      "Addresses are leased rather than permanently assigned, requiring renewal before the lease expires (T1 timer at 50% lease time)."
+    ],
+    "use_cases": [
+      "Automatic IP assignment in enterprise LANs, home Wi-Fi networks, and public hotspots.",
+      "Simplifying network administration by centralizing IP address management (preventing IP conflicts)."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "pin-8086",
+    "title": "Intel 8086 Pin Diagram (40-Pin DIP)",
+    "type": "block-diagram",
+    "subject": "Microprocessors",
+    "syllabus_reference": "Module 3: 8086 Microprocessor Hardware Specifications (Pin Diagram and Min/Max Modes)",
+    "textbook_reference": "Douglas V. Hall, Microprocessors and Interfacing, McGraw Hill, Chapter 9, Page 270",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the pin diagram of 8086 microprocessor in detail (Dec 2023).",
+        "Explain minimum and maximum modes of 8086 microprocessor. Compare the signals (May 2024).",
+        "Draw and explain 8086 pin configuration showing multiplexed pins and min/max mode signals (Dec 2022)."
+      ]
+    },
+    "theory": "The Intel 8086 is a 40-pin Dual In-line Package (DIP) 16-bit microprocessor. Due to physical package constraints, many of its pins are multiplexed to carry different signals depending on the current bus state or the mode of operation. The most important pin-configuration aspect of the 8086 is the MN/MX̄ (Minimum/Maximum Mode) pin 33. When connected to VCC (+5V), it puts the CPU in Minimum Mode, where it behaves as a standalone controller and generates all control signals (like ALE, RD̄, WR̄, M/IŌ, DEN̄, DT/R̄) directly. When connected to GND (0V), it puts the CPU in Maximum Mode, where it is used in multi-processor configurations with co-processors (like the 8087 Numeric Data Processor). In Maximum Mode, control signals are generated by an external 8288 Bus Controller which decodes the status lines S0̄, S1̄, and S2̄ from the CPU. To save pins, the 8086 also multiplexes the 16-bit address and data bus (AD0-AD15), requiring external latching via ALE during the first T-state (T1), and multiplexes high-order address lines with status lines (A16/S3 to A19/S6, and BHĒ/S7).",
+    "key_points": [
+      "8086 is a 40-pin DIP chip requiring a +5V power supply (VCC at pin 40, GND at pins 1 & 20).",
+      "MN/MX̄ (Pin 33) is a strap pin that determines the mode: High for Minimum Mode, Low for Maximum Mode.",
+      "Pins 24 to 31 have dual functions depending on the MN/MX̄ mode selection.",
+      "Address and data buses are multiplexed (AD0-AD15) to minimize physical pin count, using ALE to latch addresses.",
+      "High-order address lines are multiplexed with status lines (A16/S3-A19/S6) and bus high enable with status (BHĒ/S7).",
+      "Maximum mode offloads control signal generation to the 8288 Bus Controller, which decodes the S0̄, S1̄, S2̄ status outputs."
+    ],
+    "use_cases": [
+      "Designing standalone, cost-sensitive 8086 systems using Minimum Mode.",
+      "Designing high-performance multi-processor architectures using 8086 with 8087 Math Co-processor and 8288 Bus Controller in Maximum Mode.",
+      "Understanding bus cycles, multiplexing, and memory interfacing in undergraduate hardware courses."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "timing-opcode-fetch",
+    "title": "8085 Opcode Fetch Timing Diagram",
+    "type": "block-diagram",
+    "subject": "Microprocessors",
+    "syllabus_reference": "Module 2: Intel 8085 Microprocessor Architecture (Instruction Cycles, Machine Cycles, and Timing Diagrams)",
+    "textbook_reference": "Ramesh S. Gaonkar, Microprocessor Architecture, Programming, and Applications with the 8085, Penram International Publishing, Chapter 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the timing diagram of Opcode Fetch machine cycle in 8085 (May 2024).",
+        "Draw the timing diagram for opcode fetch cycle and explain the role of ALE, RD̄, and WR̄ signals (Dec 2023).",
+        "Explain Opcode Fetch machine cycle with timing diagram for 8085 (May 2023)."
+      ]
+    },
+    "theory": "The Opcode Fetch cycle is the first machine cycle of every instruction in the Intel 8085 microprocessor. It consists of 4 clock cycles (T1 to T4) or 6 clock cycles depending on the instruction. During this cycle, the processor fetches the 8-bit instruction opcode from a memory location pointed to by the Program Counter (PC) and loads it into the Instruction Register (IR).\n\nSignal-by-signal breakdown of the Opcode Fetch cycle:\n\n1. CLK (Clock): Synchronizes all internal operations. One complete cycle consists of 4 states: T1, T2, T3, and T4.\n\n2. Higher-order Address Bus (A8-A15): The microprocessor places the higher 8-bits of the memory address (Program Counter High, PCH) on the A8-A15 lines. This address remains stable on the bus throughout T1, T2, and T3 states.\n\n3. Multiplexed Address/Data Bus (AD0-AD7): To reduce pin count, the 8085 multiplexes the lower-order address and the data bus. During T1, the lower-order 8-bits of the address (Program Counter Low, PCL) are placed on AD0-AD7. During T2 and T3, this bus carries the opcode (data) fetched from memory. During T4, it goes to High Impedance (Hi-Z).\n\n4. ALE (Address Latch Enable): A positive-going pulse generated by the CPU at the beginning of T1. It goes high during T1 and goes low at the start of T2. An external latch (like 74LS373) uses this falling edge to demultiplex the address and capture the lower-order address (PCL).\n\n5. RD̄ (Read - Active Low): Goes low during T2 and stays low through T3. This signal enables the memory read buffer, placing the opcode on the AD0-AD7 bus. It goes high in T4, terminating the read operation.\n\n6. IO/M̄ (Input-Output / Memory): Distinguishes between Memory and I/O cycles. Since opcode fetch is a memory read, IO/M̄ stays low (0) throughout the cycle.\n\n7. S1 and S0 (Status Signals): Define the type of machine cycle. For Opcode Fetch, both S1 and S0 are high (S1 = 1, S0 = 1).",
+    "key_points": [
+      "Opcode Fetch cycle typically takes 4 T-states (T1-T4) to fetch, decode, and execute the opcode.",
+      "ALE is high only during T1 and its falling edge latches the lower address bits (A0-A7).",
+      "RD̄ is active low during T2-T3, causing the memory to put the instruction opcode on the AD0-AD7 bus.",
+      "AD0-AD7 carries PCL address during T1 and Opcode data during T2-T3, and floats (Hi-Z) in T4.",
+      "A8-A15 carries PCH address during T1-T3 and is unspecified during T4.",
+      "IO/M̄ is low (0) for memory access, and status signals S1=1, S0=1 specify an Opcode Fetch cycle."
+    ],
+    "use_cases": [
+      "Understanding machine cycle execution and instruction execution flow in microprocessors.",
+      "Designing memory interfacing circuits using 8085 control signals (ALE, RD̄, WR̄).",
+      "Analyzing system bus timing using logic analyzers during embedded systems debugging."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "pin-8085",
+    "title": "Intel 8085 Pin Diagram (40-Pin DIP)",
+    "type": "block-diagram",
+    "subject": "Microprocessors",
+    "syllabus_reference": "Module 2: Intel 8085 Microprocessor Architecture (Pin Diagram and Signal Description)",
+    "textbook_reference": "Ramesh S. Gaonkar, Microprocessor Architecture, Programming, and Applications with the 8085, Penram International Publishing, Chapter 3",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the pin diagram of 8085 microprocessor in detail. (May 2024)",
+        "Classify the signals of 8085 microprocessor into functional groups and explain them with a neat pinout diagram. (Dec 2023)",
+        "Draw the pin configuration of 8085 and write short notes on ALE, READY, and HOLD signals. (May 2023)"
+      ]
+    },
+    "theory": "The Intel 8085 is a 40-pin Dual In-line Package (DIP) 8-bit microprocessor. Due to physical package constraints, its 40 pins are divided into seven functional groups to handle address, data, control, status, power, interrupts, and DMA request operations. The 16-bit address bus is split: the upper 8-bits A8-A15 are dedicated output pins, whereas the lower 8-bits AD0-AD7 are multiplexed address/data lines that carry address during the T1 state (synchronized by a high ALE pulse) and bidirectional data during the T2 and T3 states. Control signals include RD̄ (Read), WR̄ (Write), and ALE (Address Latch Enable), while status signals S0, S1, and IO/M̄ define the current machine cycle. Five hardware interrupts (TRAP, RST 7.5, RST 6.5, RST 5.5, INTR) provide external prioritization, and DMA is facilitated via HOLD and HLDA lines. Power is supplied via VCC (+5V at pin 40) and VSS (GND at pin 20), with X1 and X2 (pins 1, 2) connecting the external crystal oscillator to set the system clock frequency.",
+    "key_points": [
+      "40-pin Dual In-line Package (DIP) operating at a standard +5V DC power supply.",
+      "Multiplexed AD0-AD7 (pins 12-19) carries address on ALE=1 (T1) and data on ALE=0 (T2-T3).",
+      "Dedicated A8-A15 (pins 21-28) lines carry the upper 8 bits of the memory address.",
+      "Status signals S1, S0, and IO/M̄ define the type of bus transfer operation in progress.",
+      "Supports five hardware interrupts: TRAP (non-maskable, highest priority), RST 7.5, RST 6.5, RST 5.5, and INTR (maskable, lowest).",
+      "Uses HOLD and HLDA signals for Direct Memory Access (DMA) transactions."
+    ],
+    "use_cases": [
+      "Drawing a complete pin layout diagram in undergraduate examinations for 10-mark questions.",
+      "Interfacing external memory devices (RAM, EPROM) and I/O devices to 8085 using address demultiplexing.",
+      "Understanding bus control timing, signal synchronization, and DMA controller interfacing."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "timing-memory-write",
+    "title": "8085 Memory Write Timing Diagram",
+    "type": "block-diagram",
+    "subject": "Microprocessors",
+    "syllabus_reference": "Module 2: Intel 8085 Microprocessor Architecture (Instruction Cycles, Machine Cycles, and Timing Diagrams)",
+    "textbook_reference": "Ramesh S. Gaonkar, Microprocessor Architecture, Programming, and Applications with the 8085, Penram International Publishing, Chapter 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the timing diagram of Memory Write machine cycle in 8085 (Dec 2023).",
+        "Draw the timing diagram for memory write cycle and explain the role of WR̄, ALE and status signals. (May 2024).",
+        "Draw the bus timing diagram of the memory write machine cycle and write the operations performed in each T-state. (May 2023)"
+      ]
+    },
+    "theory": "The Memory Write machine cycle is executed by the Intel 8085 microprocessor to write 8-bit data into a specified memory location. This cycle consists of 3 clock cycles/states: T1, T2, and T3. During T1, the CPU places the higher 8-bits of the memory address (A8-A15) on the upper address bus, and the lower 8-bits of the address (A0-A7) on the multiplexed AD0-AD7 bus. ALE is pulsed high to enable latching of the lower address. In T2, the CPU places the data byte on the AD0-AD7 bus and asserts the WR̄ (Write) signal low. The memory device latches this data on the rising edge of the WR̄ signal, which occurs in the middle of the T3 state. IO/M̄ is held low (0) throughout to indicate a memory operation, and status lines are set to S1=0, S0=1 to signify a write transfer.",
+    "key_points": [
+      "The Memory Write cycle of the Intel 8085 microprocessor occupies 3 T-states (T1, T2, T3).",
+      "In T1, ALE (Address Latch Enable) is high, and the multiplexed AD0-AD7 bus carries the lower-order address (A0-A7).",
+      "In T2, the CPU places write data (D0-D7) on the AD0-AD7 bus, and asserts the WR̄ (Write) control signal low.",
+      "The WR̄ signal goes high during T3, executing the write operation on its rising edge.",
+      "A8-A15 carries the higher-order address (A8-A15) and remains stable throughout T1, T2, and T3.",
+      "IO/M̄ stays low (0) for memory access, and status signals S1=0, S0=1 define a Write machine cycle."
+    ],
+    "use_cases": [
+      "Analyzing the bus activity of the 8085 microprocessor during write instructions like MOV M, A or SHLD.",
+      "Interfacing SRAM/DRAM write-enable inputs with the 8085 WR̄ control signal.",
+      "Designing and testing memory write cycles using timing diagrams in academic exams and logic analyzers."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "timing-memory-read",
+    "title": "8085 Memory Read Timing Diagram",
+    "type": "block-diagram",
+    "subject": "Microprocessors",
+    "syllabus_reference": "Module 2: Intel 8085 Microprocessor Architecture (Instruction Cycles, Machine Cycles, and Timing Diagrams)",
+    "textbook_reference": "Ramesh S. Gaonkar, Microprocessor Architecture, Programming, and Applications with the 8085, Penram International Publishing, Chapter 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the timing diagram of Memory Read machine cycle in 8085 (May 2024).",
+        "Draw the timing diagram for memory read cycle and explain the role of RD̄, ALE and status signals. (Dec 2023).",
+        "Draw the bus timing diagram of the memory read machine cycle and write the operations performed in each T-state. (May 2023)"
+      ]
+    },
+    "theory": "The Memory Read machine cycle is executed by the Intel 8085 microprocessor to read 8-bit data from a specified memory location. This cycle consists of 3 clock cycles/states: T1, T2, and T3. During T1, the CPU places the higher 8-bits of the memory address (A8-A15) on the upper address bus, and the lower 8-bits of the address (A0-A7) on the multiplexed AD0-AD7 bus. ALE is pulsed high to enable latching of the lower address. In T2, the lower address is removed, the bus floats, and the CPU asserts the RD̄ (Read) signal low. The memory device places the data byte on the AD0-AD7 bus. In T3, the CPU reads the data on the rising edge of the CLK, and pulls the RD̄ signal high. This disables the memory chip's output buffer and floats the bus. IO/M̄ is held low (0) throughout to indicate a memory operation, and status lines are set to S1=1, S0=0 to signify a read transfer.",
+    "key_points": [
+      "The Memory Read cycle of the Intel 8085 microprocessor occupies 3 T-states (T1, T2, T3).",
+      "In T1, ALE (Address Latch Enable) is high, and the multiplexed AD0-AD7 bus carries the lower-order address (A0-A7).",
+      "In T2, the CPU asserts the RD̄ (Read) control signal low, enabling the selected memory device to output data.",
+      "The RD̄ signal goes high during T3, and the CPU reads the data on the rising edge of the CLK.",
+      "A8-A15 carries the higher-order address (A8-A15) and remains stable throughout T1, T2, and T3.",
+      "IO/M̄ stays low (0) for memory access, and status signals S1=1, S0=0 define a Read machine cycle."
+    ],
+    "use_cases": [
+      "Analyzing the bus activity of the 8085 microprocessor during read instructions like MOV A, M or LDA.",
+      "Interfacing SRAM/EPROM read-enable inputs with the 8085 RD̄ control signal.",
+      "Designing and testing memory read cycles using timing diagrams in academic exams and logic analyzers."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "pin-8051",
+    "title": "Intel 8051 Microcontroller Pin Configuration (40-Pin DIP)",
+    "type": "block-diagram",
+    "subject": "Microprocessors (MP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 4: 8051 Microcontroller (Architecture & Pin Description)",
+    "textbook_reference": "Muhammad Ali Mazidi, The 8051 Microcontroller and Embedded Systems, Pearson, Chapter 1, Page 18",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the pin diagram of 8051 microcontroller (Dec 2023).",
+        "Describe the functions of Port 0, Port 3, EA, ALE, and PSEN pins of the 8051 (May 2024)."
+      ]
+    },
+    "theory": "The Intel 8051 is a complete single-chip 8-bit microcontroller with 4KB ROM, 128B RAM, 4 I/O ports, 2 timers, and a full-duplex UART in a 40-pin DIP package. Port 0 (pins 32-39) is a multiplexed address/data bus; Port 3 (pins 10-17) has dual-function pins for serial I/O, external interrupts, and memory control signals.",
+    "key_points": [
+      "40-pin DIP package with Harvard architecture.",
+      "Port 0 is open-drain multiplexed AD0-AD7 (requires external pull-ups).",
+      "Port 3 provides alternate functions: RXD, TXD, INT0, INT1, T0, T1, WR, RD.",
+      "EA pin: HIGH for internal ROM, LOW for external ROM execution.",
+      "ALE pulses once per machine cycle; PSEN pulses twice during external code fetch.",
+      "XTAL1 and XTAL2 connect to a crystal oscillator for the on-chip clock."
+    ],
+    "use_cases": [
+      "Embedded system design and control applications.",
+      "Industrial automation and robotics.",
+      "Educational platform for learning microcontroller architecture."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "signal-flow-graph",
+    "title": "Signal Flow Graph (SFG) — Mason's Gain Formula",
+    "type": "graph",
+    "subject": "Control Systems (CS)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 3: Signal Flow Graph and Mason's Gain Formula",
+    "textbook_reference": "Ogata, Modern Control Engineering, Pearson, Chapter 2, Page 76",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Find the transfer function using Mason's Gain Formula for the given signal flow graph (Dec 2023).",
+        "Construct the signal flow graph for a given block diagram and find the overall transfer function (May 2024)."
+      ]
+    },
+    "theory": "A Signal Flow Graph (SFG) is a graphical representation of a set of simultaneous linear algebraic equations describing a system. Nodes represent variables/signals, and directed branches (with transmittances) represent dependencies. Mason's Gain Formula gives the overall transfer function T = Σ(Mk·Δk)/Δ, where Mk is the gain of the k-th forward path, Δ is the graph determinant, and Δk is the co-factor of the k-th path.",
+    "key_points": [
+      "Nodes represent variables; directed branches carry transmittances (gains).",
+      "Forward path: directed path from source to sink with no repeated nodes.",
+      "Loop gain: product of transmittances around a closed loop.",
+      "Δ (graph determinant) = 1 - Σ(loop gains) + Σ(product of non-touching loop gains) - ...",
+      "Δk = value of Δ with all loops touching the k-th forward path removed.",
+      "Equivalent in power to block diagram algebra but often simpler for complex systems."
+    ],
+    "use_cases": [
+      "Computing overall transfer functions for complex multi-loop control systems.",
+      "Analyzing feedback amplifier circuits in electronics.",
+      "Modeling state equations for dynamic systems in modern control theory."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "fft-butterfly-dif",
+    "title": "8-Point FFT — Decimation-In-Frequency (DIF) Butterfly Diagram",
+    "type": "block-diagram",
+    "subject": "Digital Signal Processing (DSP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 5: Fast Fourier Transform (DIF-FFT Algorithm)",
+    "textbook_reference": "Proakis & Manolakis, Digital Signal Processing, Pearson, Chapter 8, Page 486",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw the butterfly diagram for 8-point DIF-FFT. Compare DIF-FFT with DIT-FFT (Dec 2023).",
+        "Explain the Decimation-In-Frequency FFT algorithm with the signal flow graph for N=8 (May 2024)."
+      ]
+    },
+    "theory": "DIF-FFT (Decimation-In-Frequency) computes the N-point DFT with O((N/2)log₂N) complex multiplications instead of O(N²). The input is in natural order; the output is in bit-reversed order. Each DIF butterfly: top = A+B, bottom = (A-B)×W_N^k — twiddle factor applied AFTER the butterfly operation. This is opposite to DIT-FFT where twiddle is applied before.",
+    "key_points": [
+      "Input: natural order; Output: bit-reversed order (opposite of DIT).",
+      "DIF butterfly: top = A+B, bottom = (A-B)×W_N^k (twiddle AFTER subtraction).",
+      "log₂(N) stages, N/2 butterflies per stage.",
+      "Total complex multiplications: (N/2)log₂(N) — e.g., 12 for N=8 vs 64 for direct DFT.",
+      "Twiddle factor: W_N^k = e^(-j2πk/N)."
+    ],
+    "use_cases": [
+      "Digital signal processing — spectrum analysis and digital filtering.",
+      "OFDM modulation/demodulation in 4G/5G wireless communications.",
+      "Audio and image compression algorithms (FFT-based)."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "pin-8255",
+    "title": "Intel 8255A Programmable Peripheral Interface — 40-Pin DIP",
+    "type": "block-diagram",
+    "subject": "Microprocessors (MP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 5: Programmable Peripheral Interface 8255 (Pin Description)",
+    "textbook_reference": "Muhammad Ali Mazidi, The 8051 Microcontroller and Embedded Systems, Pearson, Chapter 14; Gaonkar, Microprocessor Architecture, Pearson, Chapter 14, Page 412",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the pin diagram of 8255A PPI (Dec 2023).",
+        "Describe the function of each pin group of 8255A. Explain how ports are selected using A0 and A1 (May 2024)."
+      ]
+    },
+    "theory": "The Intel 8255A is a 40-pin DIP Programmable Peripheral Interface with 3 ports (A, B, C) providing 24 I/O lines. CS̄, RD̄, WR̄ control data transfers; A0/A1 select the port or control register.",
+    "key_points": [
+      "Port A (PA0-PA7): Pins 1-4 and 37-40, 8-bit bidirectional, Modes 0/1/2.",
+      "Port B (PB0-PB7): Pins 18-20 and 21-25, Modes 0/1.",
+      "Port C (PC0-PC7): Pins 14-17 (lower) and 10-13 (upper), used as I/O or handshake signals.",
+      "D0-D7 (Pins 27-34): Bidirectional data bus to system.",
+      "CS̄ (Pin 6) must be LOW for any operation; RESET (Pin 35, active HIGH) forces all ports to input."
+    ],
+    "use_cases": [
+      "Interfacing keyboards, LED displays, and printers to 8085/8086 systems.",
+      "ADC/DAC interfacing for embedded data acquisition.",
+      "Handshake I/O control using 8255A Mode 1 strobed I/O."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "timing-io-read",
+    "title": "8085 I/O Read Timing Diagram (IN Instruction)",
+    "type": "block-diagram",
+    "subject": "Microprocessors (MP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 2: 8085 Timing Diagrams (I/O Read Machine Cycle)",
+    "textbook_reference": "R.S. Gaonkar, Microprocessor Architecture, Programming and Applications, Pearson, Chapter 4, Page 102",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the I/O Read timing diagram of the 8085 microprocessor (Dec 2023).",
+        "Differentiate between Memory Read and I/O Read machine cycles of the 8085 (May 2024)."
+      ]
+    },
+    "theory": "The I/O Read cycle (IN instruction) has 3 T-states. IO/M̄=1 distinguishes it from memory read. The 8-bit port address is duplicated on both A8-A15 and AD0-AD7 in T1. RD̄ goes LOW in T2; CPU reads data from peripheral in T3. Status S1=1, S0=1.",
+    "key_points": [
+      "IO/M̄ = 1 (HIGH) throughout — key difference from Memory Read (IO/M̄=0).",
+      "8-bit I/O port address duplicated on both A8-A15 and AD0-AD7 in T1.",
+      "Status: S1=1, S0=1 for I/O Read; S1=1, S0=0 for Memory Read.",
+      "3 T-states (T1, T2, T3) — same duration as Memory Read cycle."
+    ],
+    "use_cases": [
+      "Reading data from a peripheral (e.g., 8255 Port A, ADC) via the IN instruction.",
+      "Analyzing timing constraints when interfacing I/O devices to the 8085.",
+      "Understanding I/O vs memory-mapped I/O distinction."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "timing-io-write",
+    "title": "8085 I/O Write Timing Diagram (OUT Instruction)",
+    "type": "block-diagram",
+    "subject": "Microprocessors (MP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 2: 8085 Timing Diagrams (I/O Write Machine Cycle)",
+    "textbook_reference": "R.S. Gaonkar, Microprocessor Architecture, Programming and Applications, Pearson, Chapter 4, Page 106",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw and explain the I/O Write timing diagram of the 8085 microprocessor (Dec 2023).",
+        "Compare Memory Write and I/O Write machine cycles of 8085 with timing diagrams (May 2024)."
+      ]
+    },
+    "theory": "The I/O Write cycle (OUT instruction) has 3 T-states. IO/M̄=1 throughout. In T1, port address is duplicated on A8-A15 and AD0-AD7, ALE goes HIGH. In T2, CPU places data on AD0-AD7 and WR̄ goes LOW. WR̄ rising edge in T3 writes data to peripheral. Status S1=0, S0=1.",
+    "key_points": [
+      "IO/M̄ = 1 (HIGH) throughout — key difference from Memory Write (IO/M̄=0).",
+      "8-bit port address duplicated on A8-A15 and AD0-AD7 in T1.",
+      "WR̄ rising edge (mid-T3) triggers the peripheral to latch the data byte.",
+      "Status: S1=0, S0=1 identifies I/O Write (same code as Memory Write, distinguished by IO/M̄)."
+    ],
+    "use_cases": [
+      "Sending data to a peripheral (e.g., 8255 output port, DAC) via the OUT instruction.",
+      "Analyzing WR̄ timing for peripheral write-enable interface design.",
+      "Exam questions on comparing all 5 8085 machine cycles."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "5-stage-pipeline",
+    "title": "5-Stage Instruction Pipeline — Staircase Execution Diagram",
+    "type": "block-diagram",
+    "subject": "Computer Organization & Architecture (COA)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 3: Pipelining (5-Stage Instruction Pipeline, Throughput, Speedup)",
+    "textbook_reference": "Carl Hamacher, Computer Organization, McGraw-Hill, Chapter 8; Patterson & Hennessy, Computer Organization and Design, Chapter 4, Page 289",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw the staircase diagram for execution of 7 instructions in a 5-stage pipeline. Calculate speedup (Dec 2023).",
+        "Explain the 5 stages of an instruction pipeline. How many clock cycles are required to execute n instructions? (May 2024)."
+      ]
+    },
+    "theory": "A 5-stage pipeline overlaps execution of multiple instructions across IF, ID, EX, MEM, WB stages. For n=7 instructions and k=5 stages: Total cycles = k+(n-1) = 11 (vs 35 without pipelining). Speedup ≈ 3.18×.",
+    "key_points": [
+      "5 stages: IF (Fetch) → ID (Decode) → EX (ALU) → MEM (Memory) → WB (Write Back).",
+      "Total cycles = k + (n-1) where k = stages, n = instructions.",
+      "7 instructions, 5 stages: 5 + 6 = 11 cycles; sequential: 7×5 = 35 cycles.",
+      "Speedup = (n×k)/(k+n-1); ideal speedup = k for very large n.",
+      "Pipeline is fully utilized from cycle k onward."
+    ],
+    "use_cases": [
+      "RISC processor design (MIPS, ARM, RISC-V architecture).",
+      "Throughput and CPI calculation problems in exams.",
+      "Comparing pipelined vs non-pipelined execution performance."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "pipeline-hazards",
+    "title": "Pipeline Hazards — Structural, Data (RAW/WAR/WAW) & Control",
+    "type": "block-diagram",
+    "subject": "Computer Organization & Architecture (COA)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 3: Pipelining Hazards (Data, Structural, Control Hazards)",
+    "textbook_reference": "Patterson & Hennessy, Computer Organization and Design, Chapter 4, Page 298; Hamacher, Computer Organization, Chapter 8",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the three types of pipeline hazards with examples and solutions (Dec 2023).",
+        "What is data forwarding? How does it resolve RAW hazards? (May 2024)."
+      ]
+    },
+    "theory": "3 types: Structural (hardware resource conflict), Data (RAW/WAR/WAW register dependency), Control (branch changes PC). Solved by stalling, data forwarding, and branch prediction respectively.",
+    "key_points": [
+      "Structural: Two instructions need same hardware simultaneously — solved by Harvard architecture.",
+      "Data RAW: Instruction reads register before previous instruction writes it — solved by forwarding.",
+      "Data WAR/WAW: Rare in in-order pipelines — solved by register renaming in out-of-order processors.",
+      "Control: Branch creates wrong-path instructions — solved by prediction + flushing.",
+      "Each stall cycle inserts a NOP bubble and wastes 1 clock cycle."
+    ],
+    "use_cases": [
+      "Analyzing performance penalties in modern pipelined processors.",
+      "Designing forwarding/bypassing units in processor microarchitecture.",
+      "Understanding compiler-level optimizations like instruction reordering."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "cache-direct-mapping",
+    "title": "Cache Memory — Direct Mapping Organization",
+    "type": "block-diagram",
+    "subject": "Computer Organization & Architecture (COA)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 4: Cache Memory — Direct Mapping (Tag, Line, Word fields)",
+    "textbook_reference": "Carl Hamacher, Computer Organization, McGraw-Hill, Chapter 8; Patterson & Hennessy, Computer Organization and Design, Chapter 5",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain direct mapping cache with address format. Given cache size 256 lines, block 64B, 32-bit address — find tag, line, word field sizes (Dec 2023).",
+        "What are conflict misses? How does direct mapping cause them? (May 2024)."
+      ]
+    },
+    "theory": "In direct mapping, each memory block maps to exactly one cache line: Line = Block# mod (Cache Lines). Address split: Tag | Line Index | Word Offset. Fast but suffers from conflict misses.",
+    "key_points": [
+      "Cache Line = Memory Block# mod (Total Cache Lines).",
+      "Address fields: Tag | Line Index (log₂ of cache lines) | Word Offset (log₂ of block size).",
+      "HIT: tag match + valid=1. MISS: tag mismatch or valid=0.",
+      "Conflict misses: two blocks mapping to same line thrash each other — solved by set-associative."
+    ],
+    "use_cases": [
+      "L1 instruction caches in processors where access patterns are predictable.",
+      "Exam problems: calculating tag/index/offset bit widths from cache parameters.",
+      "Baseline comparison against fully associative and set associative cache."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "cache-set-associative",
+    "title": "Cache Memory — N-Way Set Associative Mapping",
+    "type": "block-diagram",
+    "subject": "Computer Organization & Architecture (COA)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 4: Cache Memory — N-way Set Associative Mapping (LRU replacement)",
+    "textbook_reference": "Carl Hamacher, Computer Organization, Chapter 8; Patterson & Hennessy, Chapter 5, Page 447",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain 2-way set associative cache with a worked example. Compare with direct mapping (Dec 2023).",
+        "Given 4-way set associative cache with 64 sets, find the tag/set-index/offset bits for a 32-bit address (May 2024)."
+      ]
+    },
+    "theory": "N-way set associative divides cache into S sets × N ways. Block maps to Set = Block# mod S. Within the set, any of the N ways can hold the block. N parallel comparators check all N tags. LRU replacement on miss.",
+    "key_points": [
+      "Set = Block# mod (Number of Sets S). Block can go to ANY way within that set.",
+      "Address: Tag | Set Index (log₂S bits) | Word Offset.",
+      "N parallel comparators — HIT if any way's tag matches + valid=1.",
+      "Eliminates conflict misses of direct mapping. Modern CPUs use 4-way (L1) and 8-way (L2)."
+    ],
+    "use_cases": [
+      "L1/L2/L3 cache design in modern CPUs — the industry standard approach.",
+      "Cache hit-rate analysis with varying associativity levels.",
+      "Exam problems on LRU replacement sequences and miss rate calculations."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "cache-associative-mapping",
+    "title": "Cache Memory — Fully Associative Mapping",
+    "type": "block-diagram",
+    "subject": "Computer Organization & Architecture (COA)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 4: Cache Memory — Fully Associative Mapping (CAM, replacement policies)",
+    "textbook_reference": "Carl Hamacher, Computer Organization, Chapter 8; Patterson & Hennessy, Chapter 5",
+    "exam_relevance": {
+      "frequency": "Medium",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Compare all three cache mapping techniques — direct, set-associative, and fully associative (Dec 2023).",
+        "Explain the hardware required for fully associative cache lookup (May 2024)."
+      ]
+    },
+    "theory": "In fully associative mapping, any block can go to any cache line. Address has only Tag | Word Offset. All C tags compared simultaneously using CAM hardware. No conflict misses. Used in TLBs.",
+    "key_points": [
+      "Any block can go to any cache line — no fixed mapping formula.",
+      "Address: only 2 fields — Tag (large) | Word Offset.",
+      "C parallel comparators (CAM) needed — one per cache line.",
+      "Best cache efficiency but expensive hardware. Used in TLBs (16–128 entries)."
+    ],
+    "use_cases": [
+      "TLB (Translation Lookaside Buffer) — fully associative with 16–512 entries.",
+      "Victim caches — small fully-associative buffer to catch L1 evictions.",
+      "Theoretical analysis using Belady's OPT replacement algorithm."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "memory-interfacing",
+    "title": "Memory Interfacing with 8085 Microprocessor",
+    "type": "block-diagram",
+    "subject": "Microprocessors (MP)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 5: Memory Interfacing — ROM and RAM with 8085, Address Decoding",
+    "textbook_reference": "R.S. Gaonkar, Microprocessor Architecture, Programming and Applications, Pearson, Chapter 12, Page 312",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw the circuit to interface 2764 ROM and 6264 RAM with 8085. Show address decoding (Dec 2023).",
+        "Explain the role of 74LS373 latch and 74LS138 decoder in 8085 memory interfacing (May 2024)."
+      ]
+    },
+    "theory": "Memory interfacing connects ROM/RAM chips to 8085's multiplexed bus using 74LS373 (address latch) and 74LS138 (decoder). Lower address bits wire to chip address pins; upper bits decode to chip select signals.",
+    "key_points": [
+      "74LS373 latch demultiplexes AD0-AD7 — captures A0-A7 on ALE falling edge.",
+      "74LS138 3-to-8 decoder uses A15-A13 + IO/M̄=0 to generate CS̄0-CS̄7.",
+      "OE̊ of all chips connected to MEMR̄. WE̊ of RAM only connected to MEMW̄.",
+      "Memory block size = 2^(chip address pins). Example: 2764 has 13 pins → 8KB."
+    ],
+    "use_cases": [
+      "Designing ROM/RAM memory maps for 8085 embedded systems.",
+      "Calculating chip address ranges from decoder truth tables.",
+      "Drawing complete memory interfacing circuits in exam questions."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "csma-ca-flowchart",
+    "title": "CSMA/CA Protocol Flowchart — IEEE 802.11 WiFi",
+    "type": "block-diagram",
+    "subject": "Computer Networks (CN)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 3: MAC Protocols — CSMA/CA, IEEE 802.11 WiFi",
+    "textbook_reference": "Forouzan, Data Communications and Networking, McGraw-Hill, Chapter 12; Tanenbaum, Computer Networks, Chapter 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the CSMA/CA protocol with flowchart. Why is CSMA/CD not used in wireless? (Dec 2023).",
+        "What is the hidden node problem? How does RTS/CTS solve it? (May 2024)."
+      ]
+    },
+    "theory": "CSMA/CA avoids collisions in wireless using DIFS wait, random backoff, RTS/CTS handshake, and ACK confirmation. NAV (virtual carrier sense) solves the hidden node problem.",
+    "key_points": [
+      "Used in IEEE 802.11 WiFi — collision AVOIDANCE (not detection) because wireless TX+RX simultaneously is impossible.",
+      "DIFS wait + random backoff before each transmission attempt.",
+      "RTS/CTS optional handshake reserves channel and sets NAV on all neighbours.",
+      "ACK confirms delivery; no ACK = collision assumed → double CW → retry."
+    ],
+    "use_cases": [
+      "WiFi network medium access control (802.11 a/b/g/n/ac/ax).",
+      "Understanding overhead difference between wireless and wired Ethernet.",
+      "Exam comparison: CSMA/CA vs CSMA/CD mechanisms and use cases."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "nat-translation",
+    "title": "NAT — Network Address Translation Diagram",
+    "type": "block-diagram",
+    "subject": "Computer Networks (CN)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 5: Network Layer — NAT, IP Addressing, NAPT/PAT",
+    "textbook_reference": "Forouzan, Data Communications and Networking, Chapter 19; Tanenbaum, Computer Networks, Chapter 5",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain NAT with a diagram. What is the NAT translation table? (Dec 2023).",
+        "How does NAPT allow multiple hosts to share one public IP using port numbers? (May 2024)."
+      ]
+    },
+    "theory": "NAT maps private IPs (192.168.x.x, 10.x.x.x) to a single public IP using NAPT/PAT port multiplexing. NAT table stores {Private IP:Port} ↔ {Public IP:Mapped Port} mappings.",
+    "key_points": [
+      "NAPT/PAT: many private hosts share one public IP using different port numbers.",
+      "NAT table: {Private IP:Port} ↔ {Public IP:Mapped Port} for each active connection.",
+      "Outbound: router rewrites source IP:Port. Inbound: router rewrites destination IP:Port.",
+      "RFC 1918 private ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16."
+    ],
+    "use_cases": [
+      "Home/office routers sharing a single ISP-assigned public IP.",
+      "IPv4 address conservation — entire LAN behind one public address.",
+      "Network design and firewall configuration in enterprise environments."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "smtp-flow",
+    "title": "SMTP Email Flow — Mail Transfer Architecture",
+    "type": "block-diagram",
+    "subject": "Computer Networks (CN)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 6: Application Layer — Email (SMTP, POP3, IMAP)",
+    "textbook_reference": "Forouzan, Data Communications and Networking, Chapter 22; Tanenbaum, Computer Networks, Chapter 7",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the SMTP email delivery process from sender to recipient (Dec 2023).",
+        "List SMTP commands. What is an MTA? Compare POP3 and IMAP (May 2024)."
+      ]
+    },
+    "theory": "SMTP (port 25/587) sends email. DNS MX record lookup finds recipient's MTA. Command sequence: EHLO, MAIL FROM, RCPT TO, DATA, QUIT. POP3 (110) downloads; IMAP (143) syncs.",
+    "key_points": [
+      "SMTP = sending (port 25 inter-MTA, 587 client submission). POP3 = download (110). IMAP = sync (143).",
+      "SMTP commands: EHLO → MAIL FROM → RCPT TO → DATA → QUIT.",
+      "DNS MX record resolves recipient domain to mail server IP.",
+      "Response codes: 2xx = OK, 4xx = retry, 5xx = permanent error."
+    ],
+    "use_cases": [
+      "Email delivery troubleshooting and mail server configuration.",
+      "Understanding MUA → MTA → DNS → MTA → MDA → MUA delivery chain.",
+      "Exam port number and protocol questions on application layer protocols."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "http-request-response",
+    "title": "HTTP Request-Response Cycle — Web Communication",
+    "type": "block-diagram",
+    "subject": "Computer Networks (CN)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 6: Application Layer — HTTP/HTTPS, Web Protocols",
+    "textbook_reference": "Forouzan, Data Communications and Networking, Chapter 23; Tanenbaum, Computer Networks, Chapter 7",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the HTTP request-response model. List the HTTP methods (Dec 2023).",
+        "What is HTTP status code 404? Compare HTTP/1.1 and HTTP/2 (May 2024)."
+      ]
+    },
+    "theory": "HTTP (port 80) / HTTPS (port 443): stateless request-response over TCP. Request: Method + URL + Headers + Body. Response: Status Code + Headers + Body. HTTP/2 multiplexes requests. HTTP/3 uses QUIC/UDP.",
+    "key_points": [
+      "HTTP stateless: each request independent. Cookies/sessions maintain state.",
+      "Methods: GET, POST, PUT/PATCH, DELETE, HEAD, OPTIONS.",
+      "Status codes: 2xx OK, 3xx Redirect, 4xx Client Error, 5xx Server Error.",
+      "HTTP/2: multiplexing on one TCP. HTTP/3: QUIC (UDP) — faster connection setup."
+    ],
+    "use_cases": [
+      "Web browser-server communication — core of the World Wide Web.",
+      "REST API design using HTTP methods for CRUD operations.",
+      "Web debugging using browser DevTools Network tab."
+    ],
+    "isStub": true
+  },
+  {
+    "id": "routing-algorithms",
+    "title": "Routing Algorithms — Distance Vector vs Link State",
+    "type": "block-diagram",
+    "subject": "Computer Networks (CN)",
+    "department": "CMPN",
+    "semester": 5,
+    "syllabus_reference": "Module 4: Network Layer — Routing Algorithms (RIP, OSPF, Bellman-Ford, Dijkstra)",
+    "textbook_reference": "Forouzan, Data Communications and Networking, Chapter 20; Tanenbaum, Computer Networks, Chapter 5",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Compare Distance Vector and Link State routing algorithms (Dec 2023).",
+        "Explain the count-to-infinity problem. How is it solved? (May 2024)."
+      ]
+    },
+    "theory": "DVR (RIP/Bellman-Ford): shares FULL table with neighbours, slow convergence, count-to-infinity problem. LSR (OSPF/Dijkstra): floods local link info to all, fast convergence, hierarchical areas.",
+    "key_points": [
+      "DVR: Bellman-Ford, shares full table with neighbours, slow, count-to-infinity problem.",
+      "LSR: Dijkstra SPF, floods local link state to ALL, fast convergence, more CPU/memory.",
+      "RIP max hops = 15. OSPF uses bandwidth metric, no hop limit, supports areas.",
+      "Count-to-infinity fixed by split horizon, route poisoning, hold-down timers."
+    ],
+    "use_cases": [
+      "Configuring RIP (small networks) vs OSPF (enterprise, ISP networks).",
+      "Dijkstra's algorithm execution and routing table calculation in exams.",
+      "Understanding BGP (path vector routing) between autonomous systems."
+    ],
+    "isStub": true
+  },
+  {
     "id": "compiler-phases",
     "title": "Phases of a Compiler",
     "type": "block-diagram",
@@ -747,6 +3245,70 @@
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester VI",
+    "isStub": true
+  },
+  {
+    "id": "parse-tree",
+    "title": "Parse Tree for id + id * id",
+    "type": "block-diagram",
+    "subject": "System Programming & Compiler Construction (SPCC)",
+    "syllabus_reference": "Module 4: Syntax Analysis (Parsers, Parse Trees)",
+    "textbook_reference": "Alfred V. Aho, Monica S. Lam, Ravi Sethi & Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools (Dragon Book), 2nd Edition, Chapter 2, Section 2.2",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Construct a parse tree for the expression id + id * id using suitable grammar (Dec 2023).",
+        "Define parse tree. Draw parse tree and syntax tree for string id + id * id (May 2024)."
+      ]
+    },
+    "theory": "A parse tree (or concrete syntax tree) is a graphical representation of the hierarchical syntactic structure of a sentence derived from a context-free grammar (CFG). During the syntax analysis phase of a compiler, the parser processes the token stream generated by the lexical analyzer and structures it hierarchically according to the grammar rules. In the standard arithmetic grammar (E -> E + T | T, T -> T * F | F, F -> id), the parse tree for the expression 'id + id * id' structures the multiplication '*' deeper in the tree under 'T', thereby naturally enforcing the mathematical precedence of multiplication over addition.",
+    "key_points": [
+      "A parse tree shows the concrete syntactic derivation of a string from the grammar's start symbol.",
+      "The root of the tree is the start symbol (E), and leaf nodes (terminals) read left-to-right yield the parsed expression.",
+      "Operator precedence is represented by nesting higher-precedence operators (*) lower (deeper) in the tree structure.",
+      "Useful for verifying grammatical correctness and forms the basis for constructing the Abstract Syntax Tree (AST)."
+    ],
+    "use_cases": [
+      "Syntax validation in parsers for compilers and interpreters.",
+      "Translation schemas for syntax-directed translation (SDT) and semantic analysis.",
+      "Expression evaluation in domain-specific languages and calculations engines."
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester VI",
+    "isStub": true
+  },
+  {
+    "id": "dfa-automata",
+    "title": "Deterministic Finite Automaton (DFA) — Strings Ending in '01'",
+    "type": "state-machine",
+    "subject": "Theory of Computation (TOC)",
+    "department": "CMPN",
+    "semester": 6,
+    "syllabus_reference": "Module 1: Finite Automata (Deterministic Finite Automata)",
+    "textbook_reference": "John E. Hopcroft, Jeffrey D. Ullman, Rajeev Motwani, Introduction to Automata Theory, Languages and Computation, Pearson, Chapter 2, Page 48",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Design a DFA to accept all strings over {0,1} ending with '01'. Show transition table and diagram (Dec 2023).",
+        "Explain DFA with a suitable example. Define the 5-tuple for the DFA that accepts strings ending in '01' (May 2024)."
+      ]
+    },
+    "theory": "A DFA is a 5-tuple (Q, Σ, δ, q0, F) where δ is a total function. For strings over {0,1} ending in '01': Q={q0,q1,q2}, Σ={0,1}, start state q0, F={q2}. State q0: last symbol was '1' or start; q1: last symbol was '0'; q2: last two symbols were '01' (accepting).",
+    "key_points": [
+      "DFA 5-tuple: (Q, Σ, δ, q0, F) — δ is total (defined for every state-symbol pair).",
+      "q2 is the only accepting state — reached when last two symbols were '01'.",
+      "On reading '0': q0→q1, q1→q1, q2→q1.",
+      "On reading '1': q0→q0, q1→q2, q2→q0.",
+      "DFAs are equivalent in power to NFAs (Rabin-Scott theorem) and regular expressions.",
+      "Language L = {w ∈ {0,1}* | w ends in '01'} is a regular language."
+    ],
+    "use_cases": [
+      "Lexical analysis (tokenization) in compiler front-ends.",
+      "Pattern matching and regular expression evaluation.",
+      "Network protocol state machines and traffic filtering."
+    ],
     "isStub": true
   },
   {
@@ -2354,6 +4916,292 @@
           "to": "j4",
           "label": "Member CD",
           "style": "solid"
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "ac-rlc-circuit",
+    "title": "AC Series RLC Circuit Schematic",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 3: AC Circuits (Series RLC Circuits)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 385",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "An AC voltage v = 282.8 sin(314t) is applied to a series RLC circuit with R = 10Ω, L = 0.1H, and C = 100μF. Calculate impedance, current, power factor, and active power (Dec 2023).",
+        "Explain the phenomenon of resonance in a series RLC circuit. Derive the expression for resonant frequency and band-width (May 2024)."
+      ]
+    },
+    "theory": "An AC Series RLC Circuit consists of a resistor of resistance R (ohms), an inductor of self-inductance L (henrys), and a capacitor of capacitance C (farads) connected in series across an alternating voltage source. When an AC voltage v = Vm*sin(wt) is applied, a common alternating current I flows through all three elements. The voltage drop across R (Vr = I*R) is in phase with I. The voltage drop across L (Vl = I*Xl) leads the current by 90 degrees. The voltage drop across C (Vc = I*Xc) lags the current by 90 degrees. The total impedance is Z = sqrt(R^2 + (Xl - Xc)^2), and the phase angle is theta = arctan((Xl - Xc)/R). Depending on whether Xl > Xc or Xc > Xl, the circuit behaves as inductive (lagging pf) or capacitive (leading pf). At resonance, Xl = Xc, meaning the circuit is purely resistive, impedance is minimum (Z = R), current is maximum, and the power factor is unity.",
+    "key_points": [
+      "Series connection means current is the same through the resistor, inductor, and capacitor.",
+      "Resistor voltage drop (Vr = I*R) is in phase with current.",
+      "Inductor voltage (Vl = I*Xl) leads current by 90°, Capacitor voltage (Vc = I*Xc) lags current by 90°.",
+      "Total impedance Z = R + j(Xl - Xc); magnitude Z = sqrt(R^2 + (Xl - Xc)^2).",
+      "Power factor cos(theta) = R / Z. Lagging if Xl > Xc (inductive), leading if Xc > Xl (capacitive), unity if Xl = Xc (resonance).",
+      "Resonant frequency fr = 1 / (2 * pi * sqrt(L * C))."
+    ],
+    "use_cases": [
+      "Tuning circuits in radio and television receivers to select specific frequencies.",
+      "Bandpass and bandstop filters for signal processing.",
+      "Impedance matching networks in communication systems.",
+      "Oscillator circuits and pulse generators."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 600,
+        "height": 360
+      },
+      "components": [
+        {
+          "id": "VS1",
+          "symbol": "ac-source",
+          "label": "Vs(t)",
+          "x": 100,
+          "y": 180,
+          "rotation": 0
+        },
+        {
+          "id": "R1",
+          "symbol": "resistor",
+          "label": "R",
+          "x": 200,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "L1",
+          "symbol": "inductor",
+          "label": "L",
+          "x": 320,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "C1",
+          "symbol": "capacitor",
+          "label": "C",
+          "x": 440,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "GND1",
+          "symbol": "ground",
+          "x": 300,
+          "y": 272,
+          "rotation": 0
+        }
+      ],
+      "wires": [
+        {
+          "x1": 100,
+          "y1": 154,
+          "x2": 100,
+          "y2": 100,
+          "comment": "AC source top terminal to top-left corner"
+        },
+        {
+          "x1": 100,
+          "y1": 100,
+          "x2": 172,
+          "y2": 100,
+          "comment": "Top rail to resistor left lead"
+        },
+        {
+          "x1": 228,
+          "y1": 100,
+          "x2": 292,
+          "y2": 100,
+          "comment": "Resistor right lead to inductor left lead"
+        },
+        {
+          "x1": 348,
+          "y1": 100,
+          "x2": 426,
+          "y2": 100,
+          "comment": "Inductor right lead to capacitor left lead"
+        },
+        {
+          "x1": 454,
+          "y1": 100,
+          "x2": 500,
+          "y2": 100,
+          "comment": "Capacitor right lead to top-right corner"
+        },
+        {
+          "x1": 500,
+          "y1": 100,
+          "x2": 500,
+          "y2": 260,
+          "comment": "Right rail down to bottom-right corner"
+        },
+        {
+          "x1": 100,
+          "y1": 206,
+          "x2": 100,
+          "y2": 260,
+          "comment": "AC source bottom terminal to bottom-left corner"
+        },
+        {
+          "x1": 100,
+          "y1": 260,
+          "x2": 500,
+          "y2": 260,
+          "comment": "Bottom rail completes the loop"
+        },
+        {
+          "x1": 300,
+          "y1": 260,
+          "x2": 300,
+          "y2": 260,
+          "comment": "Marker for ground tap"
+        }
+      ],
+      "junctions": [
+        {
+          "x": 300,
+          "y": 260,
+          "comment": "Ground junction"
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "norton-equivalent",
+    "title": "Norton's Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Norton's Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 125",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State Norton's Theorem and explain steps to find Norton's equivalent network across terminals AB (May 2024).",
+        "Determine the current flowing through RL using Norton's Theorem (Dec 2023)."
+      ]
+    },
+    "theory": "Norton's Theorem simplifies a complex linear, active, bilateral network containing independent sources and resistors into a simple equivalent circuit. This equivalent consists of a single independent current source, called the Norton equivalent current (IN) or short-circuit current (Isc), connected in parallel with an equivalent resistance, called the Norton equivalent resistance (RN) or equivalent resistance (Req). The load resistor (RL) is then connected in parallel across the output terminals of this equivalent network. The current through the load is determined using the current division formula: IL = IN * RN / (RN + RL).",
+    "key_points": [
+      "IN is the short-circuit current across terminals A and B with the load removed and replaced by a short circuit.",
+      "RN is the equivalent resistance looking back through terminals A and B with all independent voltage sources short-circuited and current sources open-circuited.",
+      "RN is identical to the Thevenin equivalent resistance (Rth).",
+      "Useful for analyzing circuits under variable load conditions or circuits with dominant parallel paths.",
+      "Source transformation can convert a Norton equivalent circuit to a Thevenin equivalent circuit and vice-versa."
+    ],
+    "use_cases": [
+      "Current division analysis in parallel load networks and power distribution subsystems.",
+      "Small-signal modeling of transistor circuits (such as BJT and FET hybrid-pi models)."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "in",
+          "type": "current-source",
+          "label": "IN",
+          "x": 120,
+          "y": 150,
+          "rotation": 0
+        },
+        {
+          "id": "rn",
+          "type": "resistor",
+          "label": "RN",
+          "x": 250,
+          "y": 150,
+          "rotation": 90
+        },
+        {
+          "id": "rl",
+          "type": "resistor",
+          "label": "RL (Load)",
+          "x": 380,
+          "y": 150,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "from": "in",
+          "to": "rn",
+          "points": [
+            {
+              "x": 120,
+              "y": 80
+            },
+            {
+              "x": 250,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rn",
+          "to": "rl",
+          "points": [
+            {
+              "x": 250,
+              "y": 80
+            },
+            {
+              "x": 380,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "in",
+          "to": "rn",
+          "points": [
+            {
+              "x": 120,
+              "y": 220
+            },
+            {
+              "x": 250,
+              "y": 220
+            }
+          ]
+        },
+        {
+          "from": "rn",
+          "to": "rl",
+          "points": [
+            {
+              "x": 250,
+              "y": 220
+            },
+            {
+              "x": 380,
+              "y": 220
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 250,
+          "y": 80
+        },
+        {
+          "x": 250,
+          "y": 220
         }
       ]
     },

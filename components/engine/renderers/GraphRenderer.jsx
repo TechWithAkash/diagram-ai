@@ -182,8 +182,62 @@ export default function GraphRenderer({ schema }) {
         if (isSpiral) return null
 
         const isDouble = node.accepting || node.type === 'accepting'
+        const isResource = node.type === 'resource'
         const lines = (node.label || '').split('\n')
         const yStart = node.y - (lines.length - 1) * 6 + 3
+
+        if (isResource) {
+          // Render resource nodes as rectangles with instance dots inside
+          const instances = parseInt(node.instances || 0, 10)
+          let dotPositions = []
+          if (instances === 1) {
+            dotPositions = [{ dx: 0, dy: 0 }]
+          } else if (instances === 2) {
+            dotPositions = [{ dx: -8, dy: 0 }, { dx: 8, dy: 0 }]
+          } else if (instances === 3) {
+            dotPositions = [{ dx: -10, dy: 6 }, { dx: 10, dy: 6 }, { dx: 0, dy: -8 }]
+          } else if (instances === 4) {
+            dotPositions = [{ dx: -8, dy: -8 }, { dx: 8, dy: -8 }, { dx: -8, dy: 8 }, { dx: 8, dy: 8 }]
+          }
+
+          return (
+            <g key={node.id}>
+              {/* Square resource box */}
+              <rect
+                x={node.x - r}
+                y={node.y - r}
+                width={r * 2}
+                height={r * 2}
+                fill={color}
+                stroke={stroke}
+                strokeWidth={2}
+                rx={4}
+              />
+              {/* Instance dots */}
+              {dotPositions.map((pos, idx) => (
+                <circle
+                  key={idx}
+                  cx={node.x + pos.dx}
+                  cy={node.y + pos.dy}
+                  r={4}
+                  fill="#334155"
+                />
+              ))}
+              {/* Label above the box */}
+              <text
+                x={node.x}
+                y={node.y - r - 8}
+                textAnchor="middle"
+                fontSize={10}
+                fontWeight="700"
+                fill={text}
+                fontFamily="Poppins, Inter, sans-serif"
+              >
+                {node.label}
+              </text>
+            </g>
+          )
+        }
 
         return (
           <g key={node.id}>

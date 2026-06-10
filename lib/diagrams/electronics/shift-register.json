@@ -1,0 +1,203 @@
+{
+  "id": "shift-register",
+  "title": "4-Bit Serial-In Serial-Out (SISO) Shift Register",
+  "aliases": [
+    "4-bit siso shift register",
+    "siso shift register",
+    "siso register",
+    "4-bit shift register",
+    "serial-in serial-out register"
+  ],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 860, "height": 300 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "For an N-bit SISO Shift Register, it requires N clock cycles to load a word serially, and N-1 clock cycles to fully shift out/unload the data (making a total of 2N-1 clock pulses for complete write-and-read operation). Make sure to draw the common clock line connecting to all flip-flops synchronously.",
+  "blocks": [
+    {
+      "id": "serial-in",
+      "label": "Serial Input (SI)",
+      "x": 30,
+      "y": 95,
+      "width": 110,
+      "height": 40,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "sublabels": []
+    },
+    {
+      "id": "ff0",
+      "label": "FF0 (MSB)",
+      "x": 190,
+      "y": 60,
+      "width": 100,
+      "height": 110,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "sublabels": ["D-FF", "Stage 1"]
+    },
+    {
+      "id": "ff1",
+      "label": "FF1",
+      "x": 330,
+      "y": 60,
+      "width": 100,
+      "height": 110,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "sublabels": ["D-FF", "Stage 2"]
+    },
+    {
+      "id": "ff2",
+      "label": "FF2",
+      "x": 470,
+      "y": 60,
+      "width": 100,
+      "height": 110,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "sublabels": ["D-FF", "Stage 3"]
+    },
+    {
+      "id": "ff3",
+      "label": "FF3 (LSB)",
+      "x": 610,
+      "y": 60,
+      "width": 100,
+      "height": 110,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB",
+      "sublabels": ["D-FF", "Stage 4"]
+    },
+    {
+      "id": "serial-out",
+      "label": "Serial Output (SO)",
+      "x": 750,
+      "y": 95,
+      "width": 90,
+      "height": 40,
+      "color": "#FDF4FF",
+      "borderColor": "#9333EA",
+      "sublabels": []
+    },
+    {
+      "id": "clk-in",
+      "label": "Common CLK",
+      "x": 30,
+      "y": 220,
+      "width": 110,
+      "height": 40,
+      "color": "#FFF7ED",
+      "borderColor": "#EA580C",
+      "sublabels": ["Synchronous Input"]
+    }
+  ],
+  "connections": [
+    {
+      "from": "serial-in",
+      "to": "ff0",
+      "x1": 140,
+      "y1": 115,
+      "x2": 190,
+      "y2": 115,
+      "label": "SI / D₀"
+    },
+    {
+      "from": "ff0",
+      "to": "ff1",
+      "x1": 290,
+      "y1": 115,
+      "x2": 330,
+      "y2": 115,
+      "label": "Q₀ / D₁"
+    },
+    {
+      "from": "ff1",
+      "to": "ff2",
+      "x1": 430,
+      "y1": 115,
+      "x2": 470,
+      "y2": 115,
+      "label": "Q₁ / D₂"
+    },
+    {
+      "from": "ff2",
+      "to": "ff3",
+      "x1": 570,
+      "y1": 115,
+      "x2": 610,
+      "y2": 115,
+      "label": "Q₂ / D₃"
+    },
+    {
+      "from": "ff3",
+      "to": "serial-out",
+      "x1": 710,
+      "y1": 115,
+      "x2": 750,
+      "y2": 115,
+      "label": "SO / Q₃"
+    },
+    {
+      "from": "clk-in",
+      "to": "ff0",
+      "x1": 140,
+      "y1": 240,
+      "x2": 660,
+      "y2": 240,
+      "label": "Common Clock Bus"
+    },
+    {
+      "from": "clk-in",
+      "to": "ff0",
+      "x1": 240,
+      "y1": 240,
+      "x2": 240,
+      "y2": 170,
+      "label": "CLK"
+    },
+    {
+      "from": "clk-in",
+      "to": "ff1",
+      "x1": 380,
+      "y1": 240,
+      "x2": 380,
+      "y2": 170,
+      "label": "CLK"
+    },
+    {
+      "from": "clk-in",
+      "to": "ff2",
+      "x1": 520,
+      "y1": 240,
+      "x2": 520,
+      "y2": 170,
+      "label": "CLK"
+    },
+    {
+      "from": "clk-in",
+      "to": "ff3",
+      "x1": 660,
+      "y1": 240,
+      "x2": 660,
+      "y2": 170,
+      "label": "CLK"
+    }
+  ],
+  "theory": "A Shift Register is a sequential logic circuit used for storing and shifting digital data. It is constructed by cascading multiple flip-flops in series, where the output of one flip-flop is connected to the input of the next. All flip-flops share a common clock signal, making the shift register a synchronous circuit.\n\nSerial-In Serial-Out (SISO) Shift Register:\nThe SISO shift register accepts data serially (one bit at a time on a single line) and produces data serially. This configuration is the simplest shift register design.\n\nStructure:\n- D Flip-Flops: 4 edge-triggered D flip-flops (FF0 to FF3) are connected in series.\n- Data path: The Serial Input (SI) is applied to the D input of the first flip-flop (FF0). The Q output of each stage is connected to the D input of the succeeding stage (Q0 to D1, Q1 to D2, and Q2 to D3). The final output (Q3) serves as the Serial Output (SO).\n- Clock path: A common Clock (CLK) is routed to all flip-flops simultaneously, triggering state changes on the active edge (e.g., positive edge).\n\nWorking and Operation:\nTo load a 4-bit word (e.g., 1011) into the register, 4 clock pulses are required:\n1. Bit 1 (LSB, i.e., 1) is applied to SI. At the first rising clock edge, this bit is transferred to Q0.\n2. Bit 2 (1) is applied to SI. At the second rising edge, the bit at Q0 shifts to Q1, and the new SI bit is loaded into Q0.\n3. Bit 3 (0) is applied to SI. At the third rising edge, the bits shift right: Q1 -> Q2, Q0 -> Q1, and SI -> Q0.\n4. Bit 4 (MSB, i.e., 1) is applied to SI. At the fourth rising edge, the bits shift right: Q2 -> Q3, Q1 -> Q2, Q0 -> Q1, and SI -> Q0. The 4-bit data is now fully loaded into the register.\n\nTo retrieve (unload) the data serially, another 3 (or 4) clock pulses are needed to shift the bits out of the Serial Output (SO) terminal while applying 0s (or other data) at the input. For an n-bit SISO register, it takes n clock cycles to write the data and (n-1) cycles to read the data if we count the initial bit already available at the output, or n cycles to fully clear the register.",
+  "keyPoints": [
+    "Consists of 4 D Flip-Flops (FF0 to FF3) connected in cascade.",
+    "Shares a common clock (CLK) signal for synchronous operation.",
+    "Serial Input (SI) is connected to D0, and Serial Output (SO) is taken from Q3.",
+    "Data shifts by one position to the right on each active clock edge.",
+    "For a 4-bit register, loading requires 4 clock cycles, and reading/unloading requires 4 clock cycles.",
+    "Primarily used for temporal delay line generation, serial communication, and data storage."
+  ],
+  "useCases": [
+    "Temporal signal delay line (generating a delay of 'N' clock cycles).",
+    "Serial-to-serial communication and data buffering in communication interfaces.",
+    "Hardware queue (First-In, First-Out) implementation in digital logic controllers.",
+    "Scramblers and descramblers in digital transmission systems."
+  ]
+}

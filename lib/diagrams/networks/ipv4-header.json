@@ -1,0 +1,82 @@
+{
+  "id": "ipv4-header",
+  "type": "table",
+  "title": "IPv4 Header Format (32-bit Grid)",
+  "category": "Networks",
+  "aliases": [
+    "ipv4 header",
+    "ipv4 packet format",
+    "ipv4 header format",
+    "ip header",
+    "ipv4 grid",
+    "ipv4 diagram"
+  ],
+  "examTip": "Minimum IPv4 header is 20 bytes (IHL = 5). Maximum is 60 bytes (IHL = 15). IHL specifies length in 32-bit words, so multiply IHL by 4 to get bytes. Total length includes header and data. Fragment offset is measured in units of 8 bytes.",
+  "viewBox": {
+    "width": 800,
+    "height": 450
+  },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "columns": [
+    { "label": "Bit 0 - 7 (Byte 0)", "color": "#1E3A8A" },
+    { "label": "Bit 8 - 15 (Byte 1)", "color": "#0D9488" },
+    { "label": "Bit 16 - 23 (Byte 2)", "color": "#4F46E5" },
+    { "label": "Bit 24 - 31 (Byte 3)", "color": "#7C3AED" }
+  ],
+  "rows": [
+    [
+      { "value": "Version (4 bits) | IHL (4 bits)", "highlight": true },
+      { "value": "DSCP (6 bits) | ECN (2 bits) [TOS]" },
+      { "value": "Total Length (16 bits) - High Byte" },
+      { "value": "Total Length (16 bits) - Low Byte" }
+    ],
+    [
+      { "value": "Identification (16 bits) - High Byte" },
+      { "value": "Identification (16 bits) - Low Byte" },
+      { "value": "Flags (3 bits) | Fragment Offset [Bits 0-4]", "highlight": true },
+      { "value": "Fragment Offset (13 bits) [Bits 5-12]", "highlight": true }
+    ],
+    [
+      { "value": "Time to Live (TTL) (8 bits)" },
+      { "value": "Protocol (8 bits)" },
+      { "value": "Header Checksum (16 bits) - High Byte", "highlight": true },
+      { "value": "Header Checksum (16 bits) - Low Byte", "highlight": true }
+    ],
+    [
+      { "value": "Source IP Address (32 bits) - Byte 1", "color": "#E2F1FF", "textColor": "#1E3A8A" },
+      { "value": "Source IP Address (32 bits) - Byte 2", "color": "#E2F1FF", "textColor": "#1E3A8A" },
+      { "value": "Source IP Address (32 bits) - Byte 3", "color": "#E2F1FF", "textColor": "#1E3A8A" },
+      { "value": "Source IP Address (32 bits) - Byte 4", "color": "#E2F1FF", "textColor": "#1E3A8A" }
+    ],
+    [
+      { "value": "Destination IP Address (32 bits) - Byte 1", "color": "#E6FBF0", "textColor": "#0D5C3A" },
+      { "value": "Destination IP Address (32 bits) - Byte 2", "color": "#E6FBF0", "textColor": "#0D5C3A" },
+      { "value": "Destination IP Address (32 bits) - Byte 3", "color": "#E6FBF0", "textColor": "#0D5C3A" },
+      { "value": "Destination IP Address (32 bits) - Byte 4", "color": "#E6FBF0", "textColor": "#0D5C3A" }
+    ],
+    [
+      { "value": "Options & Padding (0 - 40 bytes) [Variable]", "color": "#F3E8FF", "textColor": "#6B21A8" },
+      { "value": "Options & Padding (0 - 40 bytes) [Variable]", "color": "#F3E8FF", "textColor": "#6B21A8" },
+      { "value": "Options & Padding (0 - 40 bytes) [Variable]", "color": "#F3E8FF", "textColor": "#6B21A8" },
+      { "value": "Options & Padding (0 - 40 bytes) [Variable]", "color": "#F3E8FF", "textColor": "#6B21A8" }
+    ]
+  ],
+  "theory": "The IPv4 (Internet Protocol Version 4) header is a structured format that precedes the payload of an IPv4 packet, containing essential metadata required for routing, fragmentation, delivery, and error checking across networks. In the Mumbai University Computer Networks syllabus (sem 5, Computer Engineering), the IPv4 header is a critical topic usually referenced from Behrouz A. Forouzan's 'Data Communications and Networking' textbook (Chapter 19, Network Layer).\n\nAn IPv4 header has a variable size of 20 to 60 bytes, depending on the presence of the Options field. The header consists of the following components:\n\n1. Version (4 bits): Defines the IP version, which is 4 (0100 in binary).\n\n2. Internet Header Length (IHL - 4 bits): Specifies the header length in 32-bit (4-byte) words. Since it is 4 bits, the value ranges from 5 (representing 20 bytes) to 15 (representing 60 bytes). If IHL is greater than 5, options are present.\n\n3. Differentiated Services (DSCP/ECN - 8 bits): Historically known as the Type of Service (TOS) byte, it is now divided into DSCP (Differentiated Services Code Point, 6 bits) for Quality of Service (QoS) classification and ECN (Explicit Congestion Notification, 2 bits) for network congestion notification without dropping packets.\n\n4. Total Length (16 bits): Defines the total size of the IP packet (header + payload) in bytes. The maximum size is 65,535 bytes, though the physical layer limits this (via MTU).\n\n5. Identification (16 bits): Used to uniquely identify fragments of an original IP packet during fragmentation.\n\n6. Flags (3 bits): Control and identify fragments. Bit 0 is reserved (must be 0). Bit 1 is Don't Fragment (DF) — if set to 1, fragmentation is disallowed. Bit 2 is More Fragments (MF) — if set to 1, it indicates more fragments follow; if 0, this is the last fragment.\n\n7. Fragment Offset (13 bits): Indicates where in the original packet this fragment belongs, measured in units of 8-byte blocks (called scale factor of 8).\n\n8. Time to Live (TTL - 8 bits): Prevents packets from circulating indefinitely in loops. Decremented by 1 at each router. If TTL reaches 0, the packet is discarded and an ICMP Time Exceeded message is sent back to the sender.\n\n9. Protocol (8 bits): Identifies the upper-layer protocol that should receive the encapsulated data (e.g., 6 for TCP, 17 for UDP, 1 for ICMP, 89 for OSPF).\n\n10. Header Checksum (16 bits): Used for error detection over the header fields only. Recalculated and modified at each router because TTL changes.\n\n11. Source and Destination IP Addresses (32 bits each): The logical IPv4 addresses of the sender and receiver.\n\n12. Options (0 to 40 bytes): Optional fields for network testing, debugging, routing paths (Record Route, Source Routing), and security.",
+  "keyPoints": [
+    "The IPv4 header has a variable length: Minimum is 20 bytes (IHL = 5) and Maximum is 60 bytes (IHL = 15)",
+    "IHL (Internet Header Length) represents length in 32-bit (4-byte) words; multiply IHL by 4 to get header size in bytes",
+    "Total Length field is 16 bits, allowing a maximum packet size of 65,535 bytes (including header and data)",
+    "Flags (3 bits) are Reserved, DF (Don't Fragment), and MF (More Fragments), which control packet fragmentation",
+    "Fragment Offset (13 bits) specifies the position of a fragment in the packet, measured in 8-byte units",
+    "Time to Live (TTL) is an 8-bit counter decremented by each hop router to prevent infinite routing loops",
+    "Protocol field (8 bits) defines the encapsulated payload type: 1 = ICMP, 6 = TCP, 17 = UDP, 89 = OSPF",
+    "Header Checksum is 16 bits and is recalculated at every hop router because the TTL field changes"
+  ],
+  "useCases": [
+    "Logical Routing: Routers inspect the Destination IP Address field to forward packets across networks using routing tables.",
+    "Packet Fragmentation: Routers split packets exceeding the next hop's MTU (Maximum Transmission Unit) using Identification, Flags, and Fragment Offset.",
+    "Quality of Service (QoS): Switched networks prioritize voice, video, or data traffic based on the DSCP bits.",
+    "Loop Prevention: The TTL field ensures lost packets don't circulate forever, saving network bandwidth."
+  ]
+}

@@ -63,6 +63,15 @@ export default function StateCircle({ state }) {
         stroke={borderColor}
         strokeWidth={2.5}
       />
+      {/* Inner circle for accepting state (DFA/NFA double circle) */}
+      {type === 'accepting' && (
+        <circle
+          cx={x} cy={y} r={r - 4}
+          fill="none"
+          stroke={borderColor}
+          strokeWidth={1.5}
+        />
+      )}
       {/* Label */}
       <text
         x={x} y={labelY}

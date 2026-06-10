@@ -5,7 +5,7 @@
   "category": "Networks",
   "aliases": ["csma cd", "collision detection", "ethernet access method", "carrier sense multiple access", "csma collision"],
   "examTip": "CSMA/CD used in wired Ethernet (IEEE 802.3). Jam signal: 32 bits sent to ensure all stations detect collision. Backoff: random(0, 2^min(k,10)-1) × 51.2μs (slot time for 10Mbps). After 16 attempts → abort and report to upper layer. CSMA/CA (avoid, not detect) used in WiFi (IEEE 802.11) since wireless can't detect collisions.",
-  "viewBox": { "width": 680, "height": 860 },
+  "viewBox": { "width": 680, "height": 1000 },
   "complexity": "Intermediate",
   "subject_category": "Networks",
   "phases": [

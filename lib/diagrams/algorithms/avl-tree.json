@@ -1,0 +1,58 @@
+{
+  "id": "avl-tree",
+  "type": "graph",
+  "title": "AVL Tree — Structure & Balance Factors",
+  "category": "Algorithms",
+  "aliases": ["avl tree", "avl", "self balancing binary search tree", "self-balancing search tree", "balanced tree", "avl rotations"],
+  "examTip": "AVL Tree is a self-balancing binary search tree. For every node, Balance Factor (BF) = height(left subtree) - height(right subtree). A node is balanced if BF is -1, 0, or +1. If BF becomes -2 or +2, rotations are required (LL, RR, LR, RL) to rebalance. AVL tree search, insertion, and deletion all take O(log n) time in both average and worst cases.",
+  "viewBox": { "width": 640, "height": 380 },
+  "complexity": "Intermediate",
+  "subject_category": "Algorithms",
+  "nodes": [
+    { "id": "n45", "label": "45\n[BF=0]", "x": 320, "y": 50, "r": 28, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "n30", "label": "30\n[BF=+1]", "x": 180, "y": 130, "r": 28, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "n70", "label": "70\n[BF=+1]", "x": 460, "y": 130, "r": 28, "color": "#F3E8FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "n15", "label": "15\n[BF=0]", "x": 100, "y": 210, "r": 28, "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12" },
+    { "id": "n35", "label": "35\n[BF=0]", "x": 260, "y": 210, "r": 28, "color": "#FEF9C3", "borderColor": "#CA8A04", "textColor": "#713F12" },
+    { "id": "n50", "label": "50\n[BF=-1]", "x": 380, "y": 210, "r": 28, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "n80", "label": "80\n[BF=0]", "x": 540, "y": 210, "r": 28, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "n10", "label": "10\n[BF=0]", "x": 60, "y": 290, "r": 28, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+    { "id": "n20", "label": "20\n[BF=0]", "x": 140, "y": 290, "r": 28, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+    { "id": "n55", "label": "55\n[BF=0]", "x": 420, "y": 290, "r": 28, "color": "#FDF4FF", "borderColor": "#C084FC", "textColor": "#6B21A8" }
+  ],
+  "edges": [
+    { "from": "n45", "to": "n30", "noArrow": true },
+    { "from": "n45", "to": "n70", "noArrow": true },
+    { "from": "n30", "to": "n15", "noArrow": true },
+    { "from": "n30", "to": "n35", "noArrow": true },
+    { "from": "n70", "to": "n50", "noArrow": true },
+    { "from": "n70", "to": "n80", "noArrow": true },
+    { "from": "n15", "to": "n10", "noArrow": true },
+    { "from": "n15", "to": "n20", "noArrow": true },
+    { "from": "n50", "to": "n55", "noArrow": true }
+  ],
+  "connections": [
+    { "from": "n45", "to": "n30" },
+    { "from": "n45", "to": "n70" },
+    { "from": "n30", "to": "n15" },
+    { "from": "n30", "to": "n35" },
+    { "from": "n70", "to": "n50" },
+    { "from": "n70", "to": "n80" },
+    { "from": "n15", "to": "n10" },
+    { "from": "n15", "to": "n20" },
+    { "from": "n50", "to": "n55" }
+  ],
+  "theory": "An AVL Tree (named after inventors Adelson-Velsky and Landis) is a self-balancing binary search tree (BST) where the heights of the two child subtrees of any node differ by at most one. If at any time they differ by more than one, rebalancing is done to restore this property.\n\nBalance Factor (BF):\nFor each node in an AVL tree, the Balance Factor is defined as:\nBF = Height(Left Subtree) - Height(Right Subtree)\nFor a tree to remain balanced, the BF of every node must be either -1, 0, or +1. If a node's BF becomes -2 or +2, the tree is unbalanced and must be rebalanced using rotations.\n\nAVL Rotations:\nFour types of rotations are used to rebalance an AVL tree depending on where the insertion/deletion occurred:\n1. Single Left Rotation (RR Rotation): Applied when a new node is inserted into the right subtree of the right child.\n2. Single Right Rotation (LL Rotation): Applied when a new node is inserted into the left subtree of the left child.\n3. Double Left-Right Rotation (LR Rotation): Rebalances a left-heavy node with a right-heavy child. A left rotation on the child followed by a right rotation on the parent.\n4. Double Right-Left Rotation (RL Rotation): Rebalances a right-heavy node with a left-heavy child. A right rotation on the child followed by a left rotation on the parent.\n\nComplexity:\n- Search: O(log n) worst and average case.\n- Insertion: O(log n) worst and average case.\n- Deletion: O(log n) worst and average case.\nThis is a significant improvement over standard Binary Search Trees, which can degrade to O(n) worst-case time complexity when elements are inserted in sorted order (skewed tree).",
+  "keyPoints": [
+    "Self-balancing binary search tree where height difference of subtrees (balance factor) is at most 1.",
+    "Balance Factor (BF) = Height(Left Subtree) - Height(Right Subtree). Valid BFs are -1, 0, +1.",
+    "Rotations (LL, RR, LR, RL) are performed to rebalance the tree whenever BF exceeds +/-1.",
+    "Guarantees O(log n) time complexity for Search, Insert, and Delete operations in both average and worst cases.",
+    "More rigidly balanced than Red-Black trees, leading to faster lookups but slightly slower insertions due to rotations."
+  ],
+  "useCases": [
+    "In-memory sorted sets and dictionaries where lookups are much more frequent than insertions/deletions.",
+    "Database indexing systems where query performance must remain strictly bound to O(log n).",
+    "High-performance software libraries requiring fast, sorted order maintenance of dynamic data."
+  ]
+}

@@ -5,7 +5,7 @@
   "category": "Networks",
   "aliases": ["dns lookup", "dns resolution", "domain name system", "how dns works", "dns query", "dns hierarchy"],
   "examTip": "DNS uses a hierarchical distributed database. Recursive resolver does all the work for the client. 13 root server clusters worldwide. TTL (Time-To-Live) controls cache duration. DNS uses UDP port 53 for queries, TCP for zone transfers (>512 bytes). Round-robin DNS provides basic load balancing.",
-  "viewBox": { "width": 680, "height": 720 },
+  "viewBox": { "width": 680, "height": 820 },
   "complexity": "Intermediate",
   "subject_category": "Networks",
   "phases": [

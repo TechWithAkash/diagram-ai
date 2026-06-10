@@ -1,0 +1,82 @@
+{
+  "id": "er-notation-table",
+  "type": "table",
+  "title": "ER Diagram Notation Reference Table",
+  "category": "Database",
+  "aliases": [
+    "er notation",
+    "er diagram symbols",
+    "entity relationship symbols",
+    "weak entity symbol",
+    "er diagram table",
+    "erd notation table"
+  ],
+  "examTip": "A strong entity is drawn with a single rectangle, whereas a weak entity has a double rectangle. Its identifying relationship is drawn as a double diamond. A key attribute is underlined, a multi-valued attribute is a double ellipse, and a derived attribute is a dashed ellipse.",
+  "viewBox": {
+    "width": 800,
+    "height": 400
+  },
+  "complexity": "Beginner",
+  "subject_category": "Database",
+  "columns": [
+    { "label": "Notation Symbol", "color": "#1E3A8A" },
+    { "label": "Shape/Representation", "color": "#0D9488" },
+    { "label": "Description", "color": "#4F46E5" }
+  ],
+  "rows": [
+    [
+      { "value": "Strong Entity Set" },
+      { "value": "Rectangle" },
+      { "value": "Represents a principal, independent object type" }
+    ],
+    [
+      { "value": "Weak Entity Set" },
+      { "value": "Double Rectangle" },
+      { "value": "Dependent on a strong identifying entity set" }
+    ],
+    [
+      { "value": "Relationship Set" },
+      { "value": "Diamond" },
+      { "value": "Represents an association between entity sets" }
+    ],
+    [
+      { "value": "Identifying Relationship" },
+      { "value": "Double Diamond" },
+      { "value": "Links a weak entity to its owner entity set" }
+    ],
+    [
+      { "value": "Base Attribute" },
+      { "value": "Ellipse" },
+      { "value": "Represents a basic property of an entity" }
+    ],
+    [
+      { "value": "Key Attribute" },
+      { "value": "Underlined Ellipse", "highlight": true },
+      { "value": "Uniquely identifies each entity (Primary Key)" }
+    ],
+    [
+      { "value": "Multivalued Attribute" },
+      { "value": "Double Ellipse" },
+      { "value": "Can store multiple values (e.g., Phone Number)" }
+    ],
+    [
+      { "value": "Derived Attribute" },
+      { "value": "Dashed Ellipse" },
+      { "value": "Computed from other attributes (e.g., Age from DOB)" }
+    ]
+  ],
+  "theory": "The Entity-Relationship (ER) model uses a standardized set of graphical symbols to model conceptual schemas. In Mumbai University and major database textbooks (e.g., Silberschatz, Korth, Sudarshan), the standard Chen notation is used.\n\n1. Entities:\n- Strong (Regular) Entity: An object with a distinct, independent existence. Drawn as a single rectangle.\n- Weak Entity: An entity that does not possess a primary key and depends on a strong identifying entity set. Drawn as a double rectangle. It must have a partial key (discriminator) represented with a dashed underline.\n\n2. Relationships:\n- Regular Relationship: Connects independent entity sets. Drawn as a diamond.\n- Identifying Relationship: Connects a weak entity set to its strong owner entity set. Drawn as a double diamond.\n- Participation: Total participation is shown by double lines connecting the entity to the relationship; partial participation is shown by a single line.\n\n3. Attributes:\n- Base Attribute: A property or characteristic of an entity. Drawn as an ellipse.\n- Key Attribute: The primary key of the entity, uniquely identifying each instance. Represented by an ellipse containing underlined text.\n- Multivalued Attribute: An attribute that can have more than one value for a single entity (e.g., phone numbers, skillsets). Represented by a double ellipse.\n- Derived Attribute: An attribute whose value is computed dynamically from other stored attributes (e.g., calculating Age from Date of Birth). Drawn as a dashed ellipse.\n- Composite Attribute: An attribute divided into sub-attributes (e.g., Name divided into First Name, Last Name). Drawn as branches extending from the parent ellipse.",
+  "keyPoints": [
+    "Rectangles represent Entities (single = strong, double = weak)",
+    "Diamonds represent Relationships (single = regular, double = identifying for weak entities)",
+    "Ellipses represent Attributes (single = base, underlined = key, double = multivalued, dashed = derived)",
+    "Chen's notation is the standard representation for conceptual database design in exams",
+    "Participation: single line indicates partial participation, double line indicates total participation",
+    "Cardinality constraints are labeled on lines (e.g., 1:1, 1:N, M:N or using arrows)"
+  ],
+  "useCases": [
+    "Logical Database Design: Creating ER diagrams before mapping to relational database tables",
+    "Database Documentation: Presenting logical schemas to application developers and stakeholders",
+    "Academic Exams: Drawing notations to model student-course, hospital, or library management systems"
+  ]
+}

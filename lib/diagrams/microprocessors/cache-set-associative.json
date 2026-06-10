@@ -1,0 +1,158 @@
+{
+  "id": "cache-set-associative",
+  "type": "block-diagram",
+  "title": "Cache Memory — N-Way Set Associative Mapping",
+  "category": "Computer Organization",
+  "aliases": [
+    "set associative cache",
+    "cache set associative mapping",
+    "n-way set associative",
+    "2-way set associative cache",
+    "4-way set associative cache"
+  ],
+  "examTip": "Set Associative is the best-of-both-worlds between Direct Mapping and Fully Associative. The cache is divided into S sets, each containing N lines (N-way). A memory block can go to any line within its mapped set. Address = Tag | Set Index | Word Offset. HIT: find the set using Set Index, then compare tag against ALL N lines in that set using N comparators in parallel. Most modern CPUs use 4-way or 8-way set associative L1/L2 caches.",
+  "viewBox": { "width": 900, "height": 720 },
+  "complexity": "Advanced",
+  "subject_category": "Computer Organization",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "N-Way Set Associative Cache — 2-Way Example (4 Sets, 2 Ways)",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 14
+    },
+    {
+      "id": "addr-label",
+      "label": "Memory Address Structure",
+      "x": 10, "y": 60, "width": 880, "height": 32,
+      "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 13
+    },
+    {
+      "id": "addr-tag",
+      "label": "TAG (30 bits)",
+      "x": 10, "y": 100, "width": 480, "height": 50,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Compared against BOTH ways in the mapped set",
+      "labelSize": 14
+    },
+    {
+      "id": "addr-set",
+      "label": "SET INDEX (2 bits)",
+      "x": 498, "y": 100, "width": 220, "height": 50,
+      "color": "#BBF7D0", "borderColor": "#16A34A",
+      "note": "Selects which set (0, 1, 2, or 3)",
+      "labelSize": 14
+    },
+    {
+      "id": "addr-word",
+      "label": "WORD (0 bits)",
+      "x": 726, "y": 100, "width": 164, "height": 50,
+      "color": "#FEF08A", "borderColor": "#CA8A04",
+      "note": "Offset within block",
+      "labelSize": 14
+    },
+    {
+      "id": "formula",
+      "label": "Set Index = Block# mod (Number of Sets S)    |    Block can go to ANY line within its Set",
+      "x": 10, "y": 162, "width": 880, "height": 36,
+      "color": "#ECFDF5", "borderColor": "#059669", "labelSize": 12
+    },
+    {
+      "id": "cache-header",
+      "label": "CACHE (2-Way Set Associative: 4 Sets × 2 Ways = 8 Lines Total)",
+      "x": 10, "y": 210, "width": 880, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    {
+      "id": "col-set",  "label": "Set",      "x": 10,  "y": 250, "width": 60,  "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "col-w0-tag",  "label": "Way 0 — Tag",   "x": 74,  "y": 250, "width": 170, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "col-w0-data", "label": "Way 0 — Data Block", "x": 248, "y": 250, "width": 180, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "col-w1-tag",  "label": "Way 1 — Tag",   "x": 432, "y": 250, "width": 170, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "col-w1-data", "label": "Way 1 — Data Block", "x": 606, "y": 250, "width": 284, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+
+    { "id": "s0",  "label": "Set 0", "x": 10,  "y": 288, "width": 60,  "height": 38, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "s0w0t","label": "Tag=0xA1", "x": 74, "y": 288, "width": 170, "height": 38, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "s0w0d","label": "Block A (valid)", "x": 248,"y": 288, "width": 180, "height": 38, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "s0w1t","label": "Tag=0xC3", "x": 432,"y": 288, "width": 170, "height": 38, "color": "#EDE9FE", "borderColor": "#7C3AED", "labelSize": 12 },
+    { "id": "s0w1d","label": "Block B (valid)", "x": 606,"y": 288, "width": 284, "height": 38, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 11 },
+
+    { "id": "s1",  "label": "Set 1", "x": 10,  "y": 330, "width": 60,  "height": 38, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "s1w0t","label": "Tag=0x2B", "x": 74, "y": 330, "width": 170, "height": 38, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "s1w0d","label": "Block C (valid)", "x": 248,"y": 330, "width": 180, "height": 38, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "s1w1t","label": "EMPTY",    "x": 432,"y": 330, "width": 170, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 12 },
+    { "id": "s1w1d","label": "— (invalid)",     "x": 606,"y": 330, "width": 284, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 11 },
+
+    { "id": "s2",  "label": "Set 2", "x": 10,  "y": 372, "width": 60,  "height": 38, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "s2w0t","label": "EMPTY",    "x": 74, "y": 372, "width": 170, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 12 },
+    { "id": "s2w0d","label": "— (invalid)",     "x": 248,"y": 372, "width": 180, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "s2w1t","label": "EMPTY",    "x": 432,"y": 372, "width": 170, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 12 },
+    { "id": "s2w1d","label": "— (invalid)",     "x": 606,"y": 372, "width": 284, "height": 38, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 11 },
+
+    { "id": "s3",  "label": "Set 3", "x": 10,  "y": 414, "width": 60,  "height": 38, "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "s3w0t","label": "Tag=0xF0", "x": 74, "y": 414, "width": 170, "height": 38, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 12 },
+    { "id": "s3w0d","label": "Block D (valid)", "x": 248,"y": 414, "width": 180, "height": 38, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "s3w1t","label": "Tag=0x12", "x": 432,"y": 414, "width": 170, "height": 38, "color": "#EDE9FE", "borderColor": "#7C3AED", "labelSize": 12 },
+    { "id": "s3w1d","label": "Block E (valid)", "x": 606,"y": 414, "width": 284, "height": 38, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 11 },
+
+    {
+      "id": "lookup-box",
+      "label": "Cache Lookup Process (on every memory access)",
+      "x": 10, "y": 466, "width": 880, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    {
+      "id": "step1", "label": "Step 1: Extract Set Index from address → select the set row",
+      "x": 10, "y": 506, "width": 880, "height": 38,
+      "color": "#ECFDF5", "borderColor": "#059669", "labelSize": 12
+    },
+    {
+      "id": "step2", "label": "Step 2: Compare address TAG against Way-0 tag AND Way-1 tag simultaneously (parallel comparators)",
+      "x": 10, "y": 548, "width": 880, "height": 38,
+      "color": "#DBEAFE", "borderColor": "#2563EB", "labelSize": 12
+    },
+    {
+      "id": "step3-hit", "label": "HIT ✅: A tag matches → MUX selects the matching way → return data immediately",
+      "x": 10, "y": 590, "width": 435, "height": 38,
+      "color": "#D1FAE5", "borderColor": "#059669", "labelSize": 12
+    },
+    {
+      "id": "step3-miss", "label": "MISS ❌: No tag matches → fetch block from memory → place in set using LRU/FIFO replacement",
+      "x": 452, "y": 590, "width": 438, "height": 38,
+      "color": "#FEE2E2", "borderColor": "#DC2626", "labelSize": 12
+    },
+    {
+      "id": "compare-box",
+      "label": "Comparison: Direct vs Set Associative vs Fully Associative",
+      "x": 10, "y": 642, "width": 880, "height": 65,
+      "color": "#F8FAFC", "borderColor": "#94A3B8",
+      "sublabels": [
+        "Direct Mapped (1-way): 1 comparator, fastest hardware, highest conflict miss rate.",
+        "N-way Set Associative: N comparators per set, N-way freedom within set — balances speed and miss rate. Used in modern CPUs (L1=4-way, L2=8-way, L3=16-way).",
+        "Fully Associative: C comparators (one per line), no conflict misses, most expensive hardware. Used in TLBs."
+      ],
+      "labelSize": 12
+    }
+  ],
+  "connections": [
+    { "from": "addr-set", "to": "s0", "x1": 608, "y1": 150, "x2": 40, "y2": 288, "label": "Select Set" },
+    { "from": "addr-tag", "to": "s0w0t", "x1": 250, "y1": 150, "x2": 159, "y2": 288, "label": "Compare" }
+  ],
+  "theory": "N-Way Set Associative Mapping combines the advantages of Direct Mapping (hardware simplicity) and Fully Associative Mapping (flexibility). The cache is divided into S sets, with each set containing N lines (called 'ways'). A memory block maps to a specific set (using modulo), but within that set it can occupy ANY of the N lines.\n\nAddress Structure: Tag | Set Index | Word Offset\n- Set Index bits: log₂(S), directly selects the set.\n- Tag bits: compared simultaneously against all N ways in the selected set.\n\nLookup Process:\n1. Use Set Index bits to select the set.\n2. In parallel, compare the address tag with all N tag registers in that set.\n3. If any comparator matches AND Valid=1 → HIT → MUX selects that way's data.\n4. If no comparator matches → MISS → fetch from memory, use replacement policy (LRU/FIFO).\n\nReplacement Policies (on miss when set is full):\n- LRU (Least Recently Used): Replace the way not accessed for the longest time. Best practical performance.\n- FIFO (First In, First Out): Replace the oldest loaded line.\n- Random: Simple, avoids worst-case patterns.\n\nIndustry Usage:\n- L1 Cache: typically 4-way set associative.\n- L2 Cache: typically 8-way set associative.\n- L3 Cache: typically 16-way set associative.\n- TLB: typically Fully Associative (small, high-priority).",
+  "keyPoints": [
+    "Cache divided into S sets × N ways; total lines = S × N.",
+    "Block maps to Set = Block# mod S; within the set, any of the N ways can hold the block.",
+    "Address fields: Tag | Set Index (log₂S bits) | Word Offset.",
+    "N parallel comparators check all N tags in the selected set simultaneously.",
+    "HIT: tag match + valid=1 in any way. MISS: no match → fetch from memory → LRU/FIFO replacement.",
+    "4-way and 8-way are the industry standard for L1/L2 caches in modern CPUs."
+  ],
+  "useCases": [
+    "L1, L2, L3 cache design in modern CPUs (Intel, AMD, ARM).",
+    "Cache performance analysis — calculating hit rate with set associativity.",
+    "Exam problems: calculating number of sets, tag/index/offset bits, LRU replacement sequences."
+  ]
+}

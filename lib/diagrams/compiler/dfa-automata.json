@@ -1,0 +1,81 @@
+{
+  "id": "dfa-automata",
+  "type": "state-machine",
+  "title": "Deterministic Finite Automaton (DFA) — Strings Ending in '01'",
+  "category": "Theory of Computation",
+  "aliases": [
+    "DFA diagram",
+    "finite automata",
+    "deterministic finite automata",
+    "DFA for strings ending in 01",
+    "finite state machine",
+    "DFA example",
+    "theory of computation DFA",
+    "automata diagram"
+  ],
+  "examTip": "This DFA accepts all strings over {0,1} that end in '01'. It has 3 states: q0 (start, neither 0 nor 1 read as prefix), q1 (last symbol was '0'), and q2 (last two symbols were '01', accepting state). The transition function δ is total — every state has exactly one outgoing transition for each input symbol in Σ={0,1}.",
+  "viewBox": { "width": 760, "height": 360 },
+  "complexity": "Intermediate",
+  "subject_category": "Computer Science",
+  "states": [
+    {
+      "id": "q0",
+      "label": "q₀",
+      "x": 80,
+      "y": 160,
+      "r": 35,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "isInitial": true,
+      "isAccepting": false,
+      "sublabel": "Start"
+    },
+    {
+      "id": "q1",
+      "label": "q₁",
+      "x": 360,
+      "y": 160,
+      "r": 35,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A",
+      "isInitial": false,
+      "isAccepting": false,
+      "sublabel": "Saw '0'"
+    },
+    {
+      "id": "q2",
+      "label": "q₂",
+      "x": 640,
+      "y": 160,
+      "r": 35,
+      "color": "#FDF4FF",
+      "borderColor": "#9333EA",
+      "isInitial": false,
+      "isAccepting": true,
+      "sublabel": "Accept"
+    }
+  ],
+  "transitions": [
+    { "from": "q0", "to": "q1", "label": "0", "curved": false },
+    { "from": "q0", "to": "q0", "label": "1", "curved": true, "selfLoop": true, "loopDirection": "top" },
+    { "from": "q1", "to": "q1", "label": "0", "curved": true, "selfLoop": true, "loopDirection": "top" },
+    { "from": "q1", "to": "q2", "label": "1", "curved": false },
+    { "from": "q2", "to": "q1", "label": "0", "curved": true, "offset": -40 },
+    { "from": "q2", "to": "q0", "label": "1", "curved": true, "offset": -80 }
+  ],
+  "theory": "A Deterministic Finite Automaton (DFA) is a mathematical model of computation used in the theory of computation, compiler design (lexical analysis), and pattern matching. It consists of a 5-tuple M = (Q, Σ, δ, q0, F) where:\n- Q: A finite, non-empty set of states. Here Q = {q0, q1, q2}.\n- Σ: The input alphabet (finite set of symbols). Here Σ = {0, 1}.\n- δ: The transition function (Q × Σ → Q). It is total — defined for every (state, symbol) pair.\n- q0: The start (initial) state. Here q0.\n- F: The set of accepting (final) states. Here F = {q2}.\n\nThis DFA Accepts: L = {w ∈ {0,1}* | w ends with '01'}\n\nState Descriptions:\n- q0 (Start state): The DFA is in this state when the last symbol read was '1', or no symbols have been read yet. The string read so far does NOT end in '0' or '01'.\n- q1 (Intermediate state): The DFA is in this state when the last symbol read was '0'. The string read so far ends in '0' but not in '01'.\n- q2 (Accepting/Final state): The DFA is in this state when the last two symbols read were '0' then '1' (i.e., the string ends in '01'). Any string accepted by the DFA ends here.\n\nTransition Function δ:\n| State | Input 0 | Input 1 |\n|-------|---------|---------|\n| q0    | q1      | q0      |\n| q1    | q1      | q2      |\n| q2    | q1      | q0      |\n\nExample Trace (Input: 1001):\n1. Start: q0. Read '1' → δ(q0, 1) = q0. Stay in q0.\n2. State: q0. Read '0' → δ(q0, 0) = q1. Move to q1.\n3. State: q1. Read '0' → δ(q1, 0) = q1. Stay in q1.\n4. State: q1. Read '1' → δ(q1, 1) = q2. Move to q2 (Accepted!).\nResult: The string '1001' ends in '01', so it is ACCEPTED.\n\nExample Trace (Input: 101):\n1. Start: q0. Read '1' → q0.\n2. State: q0. Read '0' → q1.\n3. State: q1. Read '1' → q2. (ACCEPTED)\nResult: '101' ends in '01', ACCEPTED.\n\nExample Trace (Input: 100):\n1. Start: q0. Read '1' → q0.\n2. State: q0. Read '0' → q1.\n3. State: q1. Read '0' → q1.\nResult: Ends in q1 (not accepting). '100' does NOT end in '01', REJECTED.",
+  "keyPoints": [
+    "DFA is a 5-tuple (Q, Σ, δ, q0, F) where δ is a total transition function.",
+    "Every state must have exactly one outgoing transition for each symbol in Σ.",
+    "A string is accepted if and only if the DFA is in an accepting state (F) after reading the entire input.",
+    "State q2 is the only accepting state; it is reached when the last two symbols read were '0' then '1'.",
+    "DFAs and NFAs have equivalent computational power (Rabin-Scott theorem); DFAs are generally faster to simulate.",
+    "Regular languages (like L above) can always be recognized by a DFA."
+  ],
+  "useCases": [
+    "Lexical analysis (tokenization) in compilers — recognizing keywords, identifiers, and literals.",
+    "Pattern matching and regular expression evaluation.",
+    "Network protocol state machines and traffic filtering.",
+    "Text processing and string searching algorithms."
+  ]
+}

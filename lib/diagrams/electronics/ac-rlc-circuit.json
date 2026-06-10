@@ -1,0 +1,109 @@
+{
+  "id": "ac-rlc-circuit",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "title": "AC Series RLC Circuit",
+  "description": "A fundamental AC circuit schematic representing the series connection of an alternating voltage source, a resistor, an inductor, and a capacitor, complete with phase formulas and resonance parameters.",
+  "category": "Basic Electrical Engineering",
+  "aliases": [
+    "ac rlc circuit",
+    "series rlc circuit",
+    "rlc circuit",
+    "ac series rlc",
+    "rlc schematic",
+    "series resonance circuit",
+    "resonance in rlc",
+    "BEE"
+  ],
+  "viewBox": { "width": 600, "height": 360 },
+
+  "theory": "An AC Series RLC Circuit contains a resistor of resistance R, an inductor of inductance L, and a capacitor of capacitance C connected in series across an alternating voltage source. The current (I) is identical at all points in the circuit. The voltage drops across the components are: V_R = I * R (in phase with current), V_L = I * X_L (leads current by 90 degrees), and V_C = I * X_C (lags current by 90 degrees). The net reactive voltage is (V_L - V_C), which leads or lags the current depending on whether X_L > X_C or X_C > X_L. The total impedance is Z = R + j(X_L - X_C) = sqrt(R^2 + (X_L - X_C)^2) with phase angle θ = arctan((X_L - X_C)/R). At the resonant frequency f_r = 1 / (2π√LC), the inductive and capacitive reactances cancel out (X_L = X_C), minimizing impedance to Z = R, maximizing current, and forcing a unity power factor.",
+
+  "keyPoints": [
+    "Series Connection: The same alternating current i(t) flows through R, L, and C.",
+    "Resistor Voltage: V_R is in phase with the current i(t).",
+    "Inductor Voltage: V_L leads the current i(t) by 90 degrees.",
+    "Capacitor Voltage: V_C lags the current i(t) by 90 degrees.",
+    "Impedance: Z = sqrt(R^2 + (X_L - X_C)^2) where X_L = 2πfL and X_C = 1/(2πfC).",
+    "Resonance: Occurs when X_L = X_C, resulting in minimum impedance Z = R and maximum current.",
+    "Power Factor: cos(θ) = R / Z. Lagging for inductive circuits, leading for capacitive circuits, and unity at resonance."
+  ],
+
+  "examTip": "In a series RLC circuit, resonance occurs when X_L = X_C. At resonance: Impedance is minimum (Z = R), Current is maximum, Power factor is unity (cos(θ) = 1), and Resonant frequency is f_r = 1 / (2π√LC). Remember that V_L and V_C are 180° out of phase, so they oppose each other directly.",
+
+  "useCases": [
+    "Tuning circuits in radio receivers and television tuners to select desired stations.",
+    "Filter networks (bandpass, bandstop, highpass, lowpass) in signal processing.",
+    "Impedance matching networks to maximize power transfer in RF transmitters.",
+    "Induction heating and wireless power transfer systems.",
+    "Transient protection and snubber networks in power electronics."
+  ],
+
+  "components": [
+    {
+      "id": "VS1",
+      "symbol": "ac-source",
+      "x": 100,
+      "y": 180,
+      "rotation": 0,
+      "label": "Vs(t)"
+    },
+    {
+      "id": "R1",
+      "symbol": "resistor",
+      "x": 200,
+      "y": 100,
+      "rotation": 0,
+      "label": "R"
+    },
+    {
+      "id": "L1",
+      "symbol": "inductor",
+      "x": 320,
+      "y": 100,
+      "rotation": 0,
+      "label": "L"
+    },
+    {
+      "id": "C1",
+      "symbol": "capacitor",
+      "x": 440,
+      "y": 100,
+      "rotation": 0,
+      "label": "C"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 300,
+      "y": 272,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 100, "y1": 154, "x2": 100, "y2": 100, "comment": "AC source top terminal to top-left corner" },
+    { "x1": 100, "y1": 100, "x2": 172, "y2": 100, "comment": "Top rail to resistor left lead" },
+    { "x1": 228, "y1": 100, "x2": 292, "y2": 100, "comment": "Resistor right lead to inductor left lead" },
+    { "x1": 348, "y1": 100, "x2": 426, "y2": 100, "comment": "Inductor right lead to capacitor left lead" },
+    { "x1": 454, "y1": 100, "x2": 500, "y2": 100, "comment": "Capacitor right lead to top-right corner" },
+    { "x1": 500, "y1": 100, "x2": 500, "y2": 260, "comment": "Right rail down to bottom-right corner" },
+    { "x1": 100, "y1": 206, "x2": 100, "y2": 260, "comment": "AC source bottom terminal to bottom-left corner" },
+    { "x1": 100, "y1": 260, "x2": 500, "y2": 260, "comment": "Bottom rail completes the loop" },
+    { "x1": 300, "y1": 260, "x2": 300, "y2": 260, "comment": "Marker for ground tap" }
+  ],
+
+  "junctions": [
+    { "x": 300, "y": 260, "comment": "Ground junction" }
+  ],
+
+  "labels": [
+    { "text": "i(t) →", "x": 135, "y": 90, "fontSize": 11, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "+ Vr -", "x": 200, "y": 75, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "+ Vl -", "x": 320, "y": 75, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "+ Vc -", "x": 440, "y": 75, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "Z = R + j(X_L - X_C)", "x": 300, "y": 160, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "X_L = 2πfL   |   X_C = 1 / (2πfC)", "x": 300, "y": 185, "fontSize": 11, "fontWeight": "600", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "At Resonance: f_r = 1 / (2π√LC)", "x": 300, "y": 210, "fontSize": 11, "fontWeight": "700", "fill": "#15803d", "textAnchor": "middle" }
+  ]
+}

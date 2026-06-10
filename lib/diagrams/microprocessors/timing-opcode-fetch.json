@@ -1,0 +1,335 @@
+{
+  "id": "timing-opcode-fetch",
+  "type": "block-diagram",
+  "title": "Intel 8085 Opcode Fetch Timing Diagram",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 timing diagram",
+    "opcode fetch timing diagram",
+    "timing diagram opcode fetch",
+    "8085 opcode fetch",
+    "8085 opcode fetch machine cycle",
+    "opcode fetch machine cycle timing",
+    "8085 bus timing diagram"
+  ],
+  "examTip": "The Opcode Fetch cycle is the first machine cycle of any instruction. It has 4 T-states (T1-T4). Memory access occurs in T1-T3. In T1: ALE=1 and lower address (A0-A7) is placed on AD0-AD7. In T2: ALE=0, RD̄ goes LOW, and lower address is latched while data (opcode) is read. IO/M̄ is LOW throughout because it is a memory operation. S1=1, S0=1 specify Opcode Fetch.",
+  "viewBox": {
+    "width": 800,
+    "height": 480
+  },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "t1-header",
+      "label": "T1 (State 1)",
+      "x": 160,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Address Latching"
+    },
+    {
+      "id": "t2-header",
+      "label": "T2 (State 2)",
+      "x": 290,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Active Read"
+    },
+    {
+      "id": "t3-header",
+      "label": "T3 (State 3)",
+      "x": 420,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Opcode Fetch"
+    },
+    {
+      "id": "t4-header",
+      "label": "T4 (State 4)",
+      "x": 550,
+      "y": 50,
+      "width": 130,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Decode & Execute"
+    },
+    {
+      "id": "clk-label",
+      "label": "CLK (Clock)",
+      "x": 30,
+      "y": 100,
+      "width": 110,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#64748B"
+    },
+    {
+      "id": "clk-t1",
+      "label": "T1 Period",
+      "x": 160,
+      "y": 100,
+      "width": 130,
+      "height": 50,
+      "color": "#F1F5F9",
+      "borderColor": "#475569",
+      "note": "1 complete clock cycle"
+    },
+    {
+      "id": "clk-t2",
+      "label": "T2 Period",
+      "x": 290,
+      "y": 100,
+      "width": 130,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "clk-t3",
+      "label": "T3 Period",
+      "x": 420,
+      "y": 100,
+      "width": 130,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "clk-t4",
+      "label": "T4 Period",
+      "x": 550,
+      "y": 100,
+      "width": 130,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "a8-a15-label",
+      "label": "A8 - A15 (Upper)",
+      "x": 30,
+      "y": 150,
+      "width": 110,
+      "height": 42,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A"
+    },
+    {
+      "id": "a8-a15-active",
+      "label": "Higher Address = PCH",
+      "x": 160,
+      "y": 150,
+      "width": 390,
+      "height": 50,
+      "color": "#DCFCE7",
+      "borderColor": "#16A34A",
+      "note": "Higher 8 bits of PC (Stable)"
+    },
+    {
+      "id": "a8-a15-inactive",
+      "label": "Unspecified/Next PC",
+      "x": 550,
+      "y": 150,
+      "width": 130,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Changes for next cycle"
+    },
+    {
+      "id": "ad0-ad7-label",
+      "label": "AD0 - AD7 (Lower)",
+      "x": 30,
+      "y": 205,
+      "width": 110,
+      "height": 42,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB"
+    },
+    {
+      "id": "ad0-ad7-address",
+      "label": "Lower Address = PCL",
+      "x": 160,
+      "y": 205,
+      "width": 130,
+      "height": 50,
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "note": "Lower 8 bits of PC (Address)"
+    },
+    {
+      "id": "ad0-ad7-float1",
+      "label": "Float",
+      "x": 290,
+      "y": 205,
+      "width": 30,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#E2E8F0",
+      "note": "Hi-Z"
+    },
+    {
+      "id": "ad0-ad7-data",
+      "label": "Opcode (Data) = D0 - D7",
+      "x": 320,
+      "y": 205,
+      "width": 230,
+      "height": 50,
+      "color": "#F0FDF4",
+      "borderColor": "#15803D",
+      "note": "Read from memory"
+    },
+    {
+      "id": "ad0-ad7-float2",
+      "label": "High-Impedance (Hi-Z)",
+      "x": 550,
+      "y": 205,
+      "width": 130,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Bus released"
+    },
+    {
+      "id": "ale-label",
+      "label": "ALE (Latch En)",
+      "x": 30,
+      "y": 260,
+      "width": 110,
+      "height": 42,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "ale-high",
+      "label": "ALE = 1 (HIGH)",
+      "x": 160,
+      "y": 260,
+      "width": 130,
+      "height": 50,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706",
+      "note": "Enable latch pulse"
+    },
+    {
+      "id": "ale-low",
+      "label": "ALE = 0 (LOW)",
+      "x": 290,
+      "y": 260,
+      "width": 390,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Address is latched"
+    },
+    {
+      "id": "rd-label",
+      "label": "RD̄ (Active Low)",
+      "x": 30,
+      "y": 310,
+      "width": 110,
+      "height": 42,
+      "color": "#FFFBEB",
+      "borderColor": "#CA8A04"
+    },
+    {
+      "id": "rd-high1",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 160,
+      "y": 310,
+      "width": 130,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1"
+    },
+    {
+      "id": "rd-low",
+      "label": "RD̄ = 0 (LOW)",
+      "x": 290,
+      "y": 310,
+      "width": 260,
+      "height": 50,
+      "color": "#FEE2E2",
+      "borderColor": "#EF4444",
+      "note": "Memory Read Active"
+    },
+    {
+      "id": "rd-high2",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 550,
+      "y": 310,
+      "width": 130,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1"
+    },
+    {
+      "id": "iom-label",
+      "label": "IO/M̄ (Control)",
+      "x": 30,
+      "y": 360,
+      "width": 110,
+      "height": 42,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED"
+    },
+    {
+      "id": "iom-low",
+      "label": "IO/M̄ = 0 (LOW - Memory operation)",
+      "x": 160,
+      "y": 360,
+      "width": 520,
+      "height": 50,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED",
+      "note": "Stays low for opcode fetch cycle"
+    },
+    {
+      "id": "status-label",
+      "label": "S1, S0 (Status)",
+      "x": 30,
+      "y": 410,
+      "width": 110,
+      "height": 42,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    },
+    {
+      "id": "status-val",
+      "label": "S1 = 1, S0 = 1 (Opcode Fetch Status)",
+      "x": 160,
+      "y": 410,
+      "width": 520,
+      "height": 50,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "note": "Identifies opcode fetch cycle"
+    }
+  ],
+  "connections": [],
+  "theory": "The Opcode Fetch cycle is the primary machine cycle of the Intel 8085 microprocessor. It occupies the first four clock periods (T1, T2, T3, and T4) of any instruction cycle. In this cycle, the 8-bit instruction code (opcode) is fetched from a specific memory address and loaded into the Instruction Register (IR) inside the CPU. The address is pointed to by the 16-bit Program Counter (PC).\n\nHere is the step-by-step operation across the T-states:\n\n1. State T1:\n- The CPU places the 16-bit memory address on the buses: the high-order address byte (PCH) on the A8-A15 bus, and the low-order address byte (PCL) on the multiplexed AD0-AD7 bus.\n- The IO/M̄ signal is set LOW to indicate a memory operation.\n- Status lines S1 and S0 are set to HIGH (S1 = 1, S0 = 1) to indicate that this is an Opcode Fetch machine cycle.\n- The ALE (Address Latch Enable) signal is pulsed HIGH. The falling edge of this pulse is used by an external latch (e.g., 74LS373) to capture and hold the low-order address (A0-A7).\n\n2. State T2:\n- The low-order address is removed from the multiplexed AD0-AD7 bus to prepare it for data transfer (the bus is put in a float/turnaround state).\n- The CPU asserts the RD̄ (Read) line LOW. This active-low read control enables the selected memory chip's output buffer.\n- Memory uses the address latched in T1 to locate the instruction and begins placing the 8-bit opcode byte onto the AD0-AD7 bus.\n\n3. State T3:\n- The opcode data remains stable on the AD0-AD7 bus.\n- The microprocessor reads the opcode byte from the AD0-AD7 bus on the rising edge of the CLK at T3 and transfers it to the internal Instruction Register (IR).\n- The CPU de-asserts the RD̄ line (goes back HIGH), which signals the memory device to disable its data output buffers and release the bus.\n\n4. State T4:\n- The microprocessor decodes the opcode stored in the Instruction Register and encodes internal actions.\n- If the instruction is simple (e.g., ADD B, MOV A, B), the execution is completed during T4, and the cycle ends. If the instruction requires further memory or I/O operations (like LDA, STA, MVI), the CPU schedules additional machine cycles (Memory Read, Memory Write, etc.) to complete it.",
+  "keyPoints": [
+    "Opcode Fetch cycle takes 4 T-states (T1-T4) for instruction fetch, decode, and initial execution.",
+    "ALE (Address Latch Enable) is high only during T1 to indicate address availability on multiplexed pins AD0-AD7.",
+    "RD̄ (Read) is active low during T2 and T3 to enable the memory device's read buffers to place the opcode on the bus.",
+    "AD0-AD7 carries lower address PCL (A0-A7) during T1 and Opcode data (D0-D7) during T2-T3, then floats (Hi-Z) in T4.",
+    "A8-A15 carries upper address PCH (A8-A15) which stays stable throughout T1, T2, and T3.",
+    "IO/M̄ is low (0) because it is a memory access, and status signals S1=1, S0=1 specify that it is an Opcode Fetch cycle."
+  ],
+  "useCases": [
+    "Analyzing microprocessor bus activities during instruction execution cycles in digital systems.",
+    "Designing address decoding and demultiplexing logic using external latches like 74LS373.",
+    "Troubleshooting system bus operations and timing parameters using a digital storage oscilloscope (DSO) or logic analyzer."
+  ]
+}

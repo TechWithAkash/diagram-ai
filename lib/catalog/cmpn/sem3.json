@@ -94,5 +94,322 @@
         { "from": "n12", "to": "n36" }
       ]
     }
+  },
+  {
+    "id": "t-flipflop",
+    "title": "T Flip-Flop from JK Flip-Flop Conversion",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 4: Sequential Logic Circuits (Flip-Flop Conversions)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6, Page 221",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Convert JK flip-flop to T flip-flop and verify the conversion with truth table (Dec 2023).",
+        "Explain the working of T Flip-Flop. How is it constructed from a JK Flip-Flop? (May 2024)."
+      ]
+    },
+    "theory": "A T (Toggle) Flip-Flop is a synchronous sequential circuit element that changes its output state (toggles) on each clock edge if its control input T is high (T = 1). If T is low (T = 0), the flip-flop maintains its current state. T Flip-Flops are commonly implemented by converting existing JK Flip-Flops. The conversion is achieved by tying the J and K inputs of the JK Flip-Flop together to a single terminal labeled T. The characteristic equation of the JK flip-flop is Q(next) = J·Q̄ + K̄·Q; substituting J = K = T yields the characteristic equation of the T flip-flop: Q(next) = T·Q̄ + T̄·Q.",
+    "key_points": [
+      "Formed by connecting the J and K inputs of a JK flip-flop to a common terminal T.",
+      "Characteristic equation: Q(next) = T·Q̄ + T̄·Q.",
+      "When T = 0, the flip-flop holds its previous state (Q(next) = Q).",
+      "When T = 1, the flip-flop toggles its output on each active clock edge (Q(next) = Q̄).",
+      "Simplest of all flip-flop conversions, requiring no logic gates."
+    ],
+    "use_cases": [
+      "Binary counters and ripple counters where state toggling is required.",
+      "Frequency division circuits to divide clock frequency by two."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 550, "height": 300 },
+      "blocks": [
+        {
+          "id": "t-input",
+          "label": "T (Input)",
+          "x": 40, "y": 110, "width": 80, "height": 40,
+          "color": "#F0FDF4", "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "clk-input",
+          "label": "CLK",
+          "x": 40, "y": 200, "width": 80, "height": 40,
+          "color": "#F0FDF4", "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "jkff-block",
+          "label": "JK Flip-Flop",
+          "x": 240, "y": 60, "width": 140, "height": 180,
+          "color": "#EFF6FF", "borderColor": "#2563EB",
+          "sublabels": ["J = T", "K = T", "CLK (>)"]
+        },
+        {
+          "id": "q-out",
+          "label": "Q",
+          "x": 440, "y": 80, "width": 70, "height": 40,
+          "color": "#FDF4FF", "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "qbar-out",
+          "label": "Q̄",
+          "x": 440, "y": 180, "width": 70, "height": 40,
+          "color": "#FDF4FF", "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "equation-label",
+          "label": "Equations: J = K = T",
+          "x": 60, "y": 260, "width": 430, "height": 28,
+          "color": "#FFE4E6", "borderColor": "#E11D48",
+          "sublabels": ["Q(next) = T·Q̄ + T̄·Q  (Hold if T = 0, Toggle if T = 1)"]
+        }
+      ],
+      "connections": [
+        { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "J = T", "x1": 120, "y1": 130, "x2": 240, "y2": 90 },
+        { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "K = T", "x1": 120, "y1": 130, "x2": 240, "y2": 210 },
+        { "from": "clk-input", "to": "jkff-block", "type": "unidirectional", "label": "CLK", "x1": 120, "y1": 220, "x2": 240, "y2": 150 },
+        { "from": "jkff-block", "to": "q-out", "type": "unidirectional", "label": "Q", "x1": 380, "y1": 100, "x2": 440, "y2": 100 },
+        { "from": "jkff-block", "to": "qbar-out", "type": "unidirectional", "label": "Q̄", "x1": 380, "y1": 200, "x2": 440, "y2": 200 }
+      ]
+    }
+  },
+  {
+    "id": "shift-register",
+    "title": "4-Bit Serial-In Serial-Out (SISO) Shift Register",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 5: Registers and Counters (Shift Registers)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6 (Registers and Counters), Page 255",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the working of 4-bit Serial-In Serial-Out (SISO) shift register with a neat diagram and timing waveform (Dec 2023).",
+        "Draw the block diagram of a 4-bit shift register using D flip-flops and show serial transfer of data (May 2024)."
+      ]
+    },
+    "theory": "A Shift Register is a synchronous sequential circuit designed to store and shift binary data. It is composed of flip-flops connected in series, where the output of each flip-flop is linked to the input of the next stage. A common clock signal is supplied to all flip-flops to synchronize data movement. In a 4-Bit Serial-In Serial-Out (SISO) Shift Register, four D Flip-Flops are cascaded. Serial input data is fed into the first flip-flop (FF0). With each clock pulse, the data bit moves one step to the right through the register until it emerges from the output of the final stage (FF3) as serial output. For an N-bit shift register, N clock cycles are needed to load N bits of data serially, and N-1 additional cycles are needed to read the data completely.",
+    "key_points": [
+      "Formed by cascading four D flip-flops in series (FF0 to FF3).",
+      "Uses a common clock input for synchronous shifting of all bits.",
+      "Serial Input (SI) connects to the input of the first stage, Serial Output (SO) is taken from the last stage.",
+      "Data transfers by one position to the right with each active clock edge.",
+      "Requires N clock cycles to load N bits, and another N-1 clock cycles to fully shift out the data.",
+      "Serves as the basis for temporary data storage, digital delays, and serial communication."
+    ],
+    "use_cases": [
+      "Temporal delay generation in digital communication lines.",
+      "Serial communication links and data transmitters/receivers.",
+      "First-In, First-Out (FIFO) buffers in microprocessor systems."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 860, "height": 300 },
+      "blocks": [
+        {
+          "id": "serial-in",
+          "label": "Serial Input (SI)",
+          "x": 30,
+          "y": 95,
+          "width": 110,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
+          "sublabels": []
+        },
+        {
+          "id": "ff0",
+          "label": "FF0 (MSB)",
+          "x": 190,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": ["D-FF", "Stage 1"]
+        },
+        {
+          "id": "ff1",
+          "label": "FF1",
+          "x": 330,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": ["D-FF", "Stage 2"]
+        },
+        {
+          "id": "ff2",
+          "label": "FF2",
+          "x": 470,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": ["D-FF", "Stage 3"]
+        },
+        {
+          "id": "ff3",
+          "label": "FF3 (LSB)",
+          "x": 610,
+          "y": 60,
+          "width": 100,
+          "height": 110,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": ["D-FF", "Stage 4"]
+        },
+        {
+          "id": "serial-out",
+          "label": "Serial Output (SO)",
+          "x": 750,
+          "y": 95,
+          "width": 90,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
+          "sublabels": []
+        },
+        {
+          "id": "clk-in",
+          "label": "Common CLK",
+          "x": 30,
+          "y": 220,
+          "width": 110,
+          "height": 40,
+          "color": "#FFF7ED",
+          "borderColor": "#EA580C",
+          "sublabels": ["Synchronous Input"]
+        }
+      ],
+      "connections": [
+        {
+          "from": "serial-in",
+          "to": "ff0",
+          "x1": 140,
+          "y1": 115,
+          "x2": 190,
+          "y2": 115,
+          "label": "SI / D₀"
+        },
+        {
+          "from": "ff0",
+          "to": "ff1",
+          "x1": 290,
+          "y1": 115,
+          "x2": 330,
+          "y2": 115,
+          "label": "Q₀ / D₁"
+        },
+        {
+          "from": "ff1",
+          "to": "ff2",
+          "x1": 430,
+          "y1": 115,
+          "x2": 470,
+          "y2": 115,
+          "label": "Q₁ / D₂"
+        },
+        {
+          "from": "ff2",
+          "to": "ff3",
+          "x1": 570,
+          "y1": 115,
+          "x2": 610,
+          "y2": 115,
+          "label": "Q₂ / D₃"
+        },
+        {
+          "from": "ff3",
+          "to": "serial-out",
+          "x1": 710,
+          "y1": 115,
+          "x2": 750,
+          "y2": 115,
+          "label": "SO / Q₃"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff0",
+          "x1": 140,
+          "y1": 240,
+          "x2": 660,
+          "y2": 240,
+          "label": "Common Clock Bus"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff0",
+          "x1": 240,
+          "y1": 240,
+          "x2": 240,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff1",
+          "x1": 380,
+          "y1": 240,
+          "x2": 380,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff2",
+          "x1": 520,
+          "y1": 240,
+          "x2": 520,
+          "y2": 170,
+          "label": "CLK"
+        },
+        {
+          "from": "clk-in",
+          "to": "ff3",
+          "x1": 660,
+          "y1": 240,
+          "x2": 660,
+          "y2": 170,
+          "label": "CLK"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ring-counter",
+    "title": "4-Bit Ring Counter (Circulating Register)",
+    "type": "block-diagram",
+    "subject": "Digital Logic & Computer Architecture (DLCA)",
+    "syllabus_reference": "Module 5: Registers and Counters (Ring Counter)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 6, Page 262",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain the working of a 4-bit Ring Counter using D flip-flops. Draw its timing diagram (Dec 2023).",
+        "What is a Ring Counter? How does it differ from a Ripple Counter? Draw a 4-bit ring counter circuit (May 2023)."
+      ]
+    },
+    "theory": "A Ring Counter is a specialized shift register with a feedback path from the output of the last stage (FF3) back to the input of the first stage (FF0). It circulates a single '1' (or a pattern) continuously around the ring of flip-flops. For a 4-bit ring counter, only 4 of the 16 possible states are used (0001, 0010, 0100, 1000). It requires an initial 'preset' or 'load' operation to inject the circulating '1'. Unlike a ripple (asynchronous) counter, a ring counter is a synchronous sequential circuit — all flip-flops share a common clock.",
+    "key_points": [
+      "Output of the last flip-flop (FF3.Q) is fed back to the input of the first flip-flop (FF0.D).",
+      "For a 4-bit ring counter, the sequence is: 1000 → 0100 → 0010 → 0001 → 1000...",
+      "Only N states are used for an N-bit ring counter (not 2^N), making it self-decoding — no extra decoding logic is needed.",
+      "Requires initial loading of a '1' into one stage via preset/clear; all other stages must be '0'.",
+      "Uses N flip-flops to count N states, compared to ⌈log₂N⌉ flip-flops in a binary counter."
+    ],
+    "use_cases": [
+      "Generating non-overlapping clock phases for sequencing operations in control units.",
+      "State sequencers in synchronous finite state machines.",
+      "Round-robin scheduling hardware in digital control systems."
+    ]
   }
 ]

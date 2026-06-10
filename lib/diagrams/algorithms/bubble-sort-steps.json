@@ -5,7 +5,7 @@
   "category": "Algorithms",
   "aliases": ["bubble sort", "sorting algorithm", "compare and swap", "exchange sort", "bubble sort flowchart", "bubble sort algorithm"],
   "examTip": "Bubble Sort: Time O(n²) avg/worst, O(n) best (with early exit if no swaps in a pass). Space O(1) in-place. Stable sort. n=5: 4 passes max, 4+3+2+1=10 comparisons worst case. Called 'bubble' because largest elements bubble up to the end with each pass. Rarely used in practice — replaced by Merge Sort O(n log n) or Tim Sort.",
-  "viewBox": { "width": 680, "height": 940 },
+  "viewBox": { "width": 680, "height": 1100 },
   "complexity": "Beginner",
   "subject_category": "Algorithms",
   "phases": [

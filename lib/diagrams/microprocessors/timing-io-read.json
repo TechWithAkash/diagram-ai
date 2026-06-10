@@ -1,0 +1,206 @@
+{
+  "id": "timing-io-read",
+  "type": "block-diagram",
+  "title": "Intel 8085 I/O Read Timing Diagram (IN Instruction)",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 IO read timing",
+    "8085 input timing",
+    "IO read timing diagram",
+    "8085 IN instruction timing",
+    "8085 I/O read machine cycle",
+    "8085 peripheral read timing",
+    "IN instruction 8085"
+  ],
+  "examTip": "The I/O Read cycle is similar to the Memory Read cycle, but IO/M̄ is HIGH (1) instead of LOW. It consists of 3 T-states (T1-T3). In T1, the 8-bit I/O port address is sent on BOTH A8-A15 AND AD0-AD7 (duplicated), and ALE goes high. In T2, RD̄ goes low. In T3, the CPU reads data from the peripheral on the AD0-AD7 bus. Status: S1=1, S0=1 (IO Read). IO/M̄ = 1 throughout.",
+  "viewBox": { "width": 780, "height": 590 },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "t1-header",
+      "label": "T1 (State 1)",
+      "x": 160, "y": 10, "width": 175, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "Address + ALE", "labelSize": 13
+    },
+    {
+      "id": "t2-header",
+      "label": "T2 (State 2)",
+      "x": 340, "y": 10, "width": 175, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "RD̄ Active", "labelSize": 13
+    },
+    {
+      "id": "t3-header",
+      "label": "T3 (State 3)",
+      "x": 520, "y": 10, "width": 240, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "Data Read", "labelSize": 13
+    },
+    {
+      "id": "clk-label",
+      "label": "CLK (Clock)",
+      "x": 10, "y": 68, "width": 140, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#64748B", "labelSize": 12
+    },
+    {
+      "id": "clk-t1",
+      "label": "T1 Period",
+      "x": 160, "y": 68, "width": 175, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569",
+      "note": "1 clock cycle", "labelSize": 12
+    },
+    {
+      "id": "clk-t2",
+      "label": "T2 Period",
+      "x": 340, "y": 68, "width": 175, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569", "labelSize": 12
+    },
+    {
+      "id": "clk-t3",
+      "label": "T3 Period",
+      "x": 520, "y": 68, "width": 240, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569", "labelSize": 12
+    },
+    {
+      "id": "a8-a15-label",
+      "label": "A8 - A15 (Upper)",
+      "x": 10, "y": 126, "width": 140, "height": 52,
+      "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 11
+    },
+    {
+      "id": "a8-a15-io-addr",
+      "label": "I/O Port Address (Duplicated)",
+      "x": 160, "y": 126, "width": 530, "height": 52,
+      "color": "#DCFCE7", "borderColor": "#16A34A",
+      "note": "Same 8-bit address on A8-A15 AND AD0-AD7", "labelSize": 13
+    },
+    {
+      "id": "ad0-ad7-label",
+      "label": "AD0 - AD7 (Mux)",
+      "x": 10, "y": 188, "width": 140, "height": 52,
+      "color": "#EFF6FF", "borderColor": "#2563EB", "labelSize": 11
+    },
+    {
+      "id": "ad0-ad7-addr",
+      "label": "I/O Port Address",
+      "x": 160, "y": 188, "width": 175, "height": 52,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Port address on lower bus", "labelSize": 12
+    },
+    {
+      "id": "ad0-ad7-float",
+      "label": "Hi-Z",
+      "x": 340, "y": 188, "width": 40, "height": 52,
+      "color": "#F8FAFC", "borderColor": "#E2E8F0",
+      "note": "Float", "labelSize": 10
+    },
+    {
+      "id": "ad0-ad7-data",
+      "label": "Input Data D0-D7",
+      "x": 385, "y": 188, "width": 245, "height": 52,
+      "color": "#F0FDF4", "borderColor": "#15803D",
+      "note": "Peripheral places data on bus", "labelSize": 12
+    },
+    {
+      "id": "ad0-ad7-float2",
+      "label": "Float (Hi-Z)",
+      "x": 635, "y": 188, "width": 125, "height": 52,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1",
+      "note": "Bus released", "labelSize": 11
+    },
+    {
+      "id": "ale-label",
+      "label": "ALE (Latch En)",
+      "x": 10, "y": 250, "width": 140, "height": 48,
+      "color": "#FEF3C7", "borderColor": "#D97706", "labelSize": 11
+    },
+    {
+      "id": "ale-high",
+      "label": "ALE = 1 (HIGH)",
+      "x": 160, "y": 250, "width": 175, "height": 48,
+      "color": "#FEF3C7", "borderColor": "#D97706",
+      "note": "Latches port address", "labelSize": 12
+    },
+    {
+      "id": "ale-low",
+      "label": "ALE = 0 (LOW)",
+      "x": 340, "y": 250, "width": 420, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1",
+      "note": "Address latched by external latch", "labelSize": 12
+    },
+    {
+      "id": "rd-label",
+      "label": "RD̄ (Active Low)",
+      "x": 10, "y": 308, "width": 140, "height": 48,
+      "color": "#FFFBEB", "borderColor": "#CA8A04", "labelSize": 11
+    },
+    {
+      "id": "rd-high1",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 160, "y": 308, "width": 175, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12
+    },
+    {
+      "id": "rd-low",
+      "label": "RD̄ = 0 (LOW) — I/O Read Active",
+      "x": 340, "y": 308, "width": 245, "height": 48,
+      "color": "#FEE2E2", "borderColor": "#EF4444",
+      "note": "Peripheral enabled for output", "labelSize": 11
+    },
+    {
+      "id": "rd-high2",
+      "label": "RD̄ = 1 (HIGH)",
+      "x": 590, "y": 308, "width": 170, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12
+    },
+    {
+      "id": "iom-label",
+      "label": "IO/M̄ (Control)",
+      "x": 10, "y": 366, "width": 140, "height": 52,
+      "color": "#F5F3FF", "borderColor": "#7C3AED", "labelSize": 11
+    },
+    {
+      "id": "iom-high",
+      "label": "IO/M̄ = 1 (HIGH — I/O operation, not memory)",
+      "x": 160, "y": 366, "width": 600, "height": 52,
+      "color": "#EDE9FE", "borderColor": "#7C3AED",
+      "note": "HIGH distinguishes I/O from Memory Read", "labelSize": 12
+    },
+    {
+      "id": "status-label",
+      "label": "S1, S0 (Status)",
+      "x": 10, "y": 428, "width": 140, "height": 52,
+      "color": "#ECFDF5", "borderColor": "#10B981", "labelSize": 11
+    },
+    {
+      "id": "status-val",
+      "label": "S1 = 1, S0 = 1 (I/O Read Status)",
+      "x": 160, "y": 428, "width": 600, "height": 52,
+      "color": "#ECFDF5", "borderColor": "#10B981",
+      "note": "S1=1 S0=1 uniquely identifies I/O Read cycle", "labelSize": 12
+    },
+    {
+      "id": "key-diff",
+      "label": "Key Difference from Memory Read: IO/M̄ = 1 (HIGH) vs IO/M̄ = 0 (LOW). Port address 8-bit duplicated on A8-A15 and AD0-AD7. Status: S1=1, S0=1.",
+      "x": 10, "y": 492, "width": 750, "height": 86,
+      "color": "#FFFBEB", "borderColor": "#D97706", "labelSize": 11
+    }
+  ],
+  "connections": [],
+  "theory": "The I/O Read machine cycle (executed by the 8085's IN instruction) reads one byte of data from a specified 8-bit I/O port address. It is structurally similar to the Memory Read cycle, but differs in two critical ways: (1) IO/M̄ is HIGH instead of LOW, and (2) the 8-bit port address is duplicated on both the upper address bus (A8-A15) and the lower multiplexed bus (AD0-AD7).\n\nStep-by-Step Operation:\n\n1. State T1:\n- The 8-bit I/O port address (from the IN instruction operand) is placed simultaneously on both A8-A15 (upper address bus) and AD0-AD7 (lower multiplexed bus). This duplication means the full 16-bit bus carries the same 8-bit address on both halves.\n- IO/M̄ is set HIGH to distinguish this as an I/O cycle (not a memory cycle).\n- Status bits S1=1, S0=1 identify this as an I/O Read operation.\n- ALE (Address Latch Enable) pulses HIGH. The falling edge of ALE causes an external latch (e.g., 74LS373) to capture the 8-bit port address from AD0-AD7.\n\n2. State T2:\n- The multiplexed AD0-AD7 bus releases the port address and briefly floats (Hi-Z turnaround period).\n- The CPU asserts RD̄ LOW, enabling the output buffers of the addressed I/O port device.\n- The peripheral device places its 8-bit data onto the AD0-AD7 bus.\n\n3. State T3:\n- Data from the peripheral remains stable on AD0-AD7.\n- The CPU samples and latches this data into the Accumulator on the rising clock edge.\n- RD̄ returns HIGH, disabling the peripheral's output buffers. The bus returns to Hi-Z.",
+  "keyPoints": [
+    "The 8085 I/O Read cycle (IN instruction) consists of exactly 3 T-states: T1, T2, T3.",
+    "IO/M̄ = 1 (HIGH) throughout — this is the key difference from Memory Read (IO/M̄ = 0).",
+    "The 8-bit I/O port address is duplicated: placed on both A8-A15 AND AD0-AD7 simultaneously in T1.",
+    "ALE pulses HIGH in T1, latching the port address into an external decoder/latch.",
+    "RD̄ goes LOW in T2 (activates peripheral output); data is read by CPU in T3; RD̄ goes HIGH again.",
+    "Status bits S1=1, S0=1 uniquely identify the I/O Read machine cycle."
+  ],
+  "useCases": [
+    "Analyzing bus timing when reading data from a peripheral IC connected to the 8085.",
+    "Understanding the execution of the IN instruction in 8085 assembly language.",
+    "Distinguishing I/O and memory operations using IO/M̄ and status signals."
+  ]
+}

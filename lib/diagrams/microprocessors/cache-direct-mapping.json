@@ -1,0 +1,158 @@
+{
+  "id": "cache-direct-mapping",
+  "type": "block-diagram",
+  "title": "Cache Memory — Direct Mapping Organization",
+  "category": "Computer Organization",
+  "aliases": [
+    "cache direct mapping",
+    "direct mapped cache",
+    "cache organization",
+    "cache memory direct mapping",
+    "direct mapping cache diagram"
+  ],
+  "examTip": "In Direct Mapping, each main memory block maps to exactly one cache line. Cache line index = (Block number) mod (Number of cache lines). The memory address is split into 3 fields: Tag | Line | Word. A cache HIT occurs when the tag bits of the requested address match the tag stored in that line. A MISS replaces the entire cache line with the new block.",
+  "viewBox": { "width": 900, "height": 720 },
+  "complexity": "Intermediate",
+  "subject_category": "Computer Organization",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "Direct Mapping — Cache Memory Organization",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 15
+    },
+    {
+      "id": "addr-label",
+      "label": "Memory Address Structure (32-bit example)",
+      "x": 10, "y": 60, "width": 880, "height": 32,
+      "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 13
+    },
+    {
+      "id": "addr-tag",
+      "label": "TAG (20 bits)",
+      "x": 10, "y": 100, "width": 360, "height": 50,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Identifies which block is in the cache line",
+      "labelSize": 14
+    },
+    {
+      "id": "addr-line",
+      "label": "LINE INDEX (8 bits)",
+      "x": 378, "y": 100, "width": 260, "height": 50,
+      "color": "#BBF7D0", "borderColor": "#16A34A",
+      "note": "Selects which cache line to check",
+      "labelSize": 14
+    },
+    {
+      "id": "addr-word",
+      "label": "WORD OFFSET (4 bits)",
+      "x": 646, "y": 100, "width": 244, "height": 50,
+      "color": "#FEF08A", "borderColor": "#CA8A04",
+      "note": "Selects byte within a cache line block",
+      "labelSize": 14
+    },
+    {
+      "id": "formula",
+      "label": "Mapping Formula: Cache Line = Memory Block# mod (Total Cache Lines)",
+      "x": 10, "y": 162, "width": 880, "height": 36,
+      "color": "#ECFDF5", "borderColor": "#059669", "labelSize": 13
+    },
+    {
+      "id": "cache-header",
+      "label": "CACHE MEMORY (256 lines)",
+      "x": 10, "y": 210, "width": 420, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    {
+      "id": "cache-col-valid",  "label": "V",      "x": 10,  "y": 250, "width": 40,  "height": 32, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "cache-col-tag",   "label": "Tag (20b)", "x": 55, "y": 250, "width": 120, "height": 32, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    {
+      "id": "cache-col-data",  "label": "Data Block (64 bytes / 16 words)", "x": 180, "y": 250, "width": 250, "height": 32, "color": "#374151", "borderColor": "#1F2937", "labelSize": 11 },
+
+    { "id": "line-0", "label": "Line 0",   "x": 10, "y": 286, "width": 40, "height": 32, "color": "#F0FDF4", "borderColor": "#BBF7D0", "labelSize": 11 },
+    { "id": "tag-0",  "label": "0x3A2F1B", "x": 55, "y": 286, "width": 120,"height": 32, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 11 },
+    { "id": "dat-0",  "label": "Block from Memory Address 0x3A2F1B00", "x": 180, "y": 286, "width": 250, "height": 32, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 10 },
+
+    { "id": "line-1", "label": "Line 1",   "x": 10, "y": 322, "width": 40, "height": 32, "color": "#F0FDF4", "borderColor": "#BBF7D0", "labelSize": 11 },
+    { "id": "tag-1",  "label": "0x00A100", "x": 55, "y": 322, "width": 120,"height": 32, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 11 },
+    { "id": "dat-1",  "label": "Block from Memory Address 0x00A10100", "x": 180, "y": 322, "width": 250, "height": 32, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 10 },
+
+    { "id": "line-2", "label": "Line 2",   "x": 10, "y": 358, "width": 40, "height": 32, "color": "#F0FDF4", "borderColor": "#BBF7D0", "labelSize": 11 },
+    { "id": "tag-2",  "label": "EMPTY",    "x": 55, "y": 358, "width": 120,"height": 32, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "dat-2",  "label": "— (invalid)",                              "x": 180, "y": 358, "width": 250, "height": 32, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 10 },
+
+    { "id": "line-dots", "label": "... (Lines 3 – 253) ...", "x": 10, "y": 394, "width": 420, "height": 28, "color": "#F8FAFC", "borderColor": "#E2E8F0", "labelSize": 11 },
+
+    { "id": "line-254", "label": "Line 254", "x": 10, "y": 426, "width": 40, "height": 32, "color": "#F0FDF4", "borderColor": "#BBF7D0", "labelSize": 10 },
+    { "id": "tag-254",  "label": "0xFFA220", "x": 55, "y": 426, "width": 120,"height": 32, "color": "#DBEAFE", "borderColor": "#3B82F6", "labelSize": 11 },
+    { "id": "dat-254",  "label": "Block from Memory Address 0xFFA220FE", "x": 180, "y": 426, "width": 250, "height": 32, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 10 },
+
+    { "id": "line-255", "label": "Line 255", "x": 10, "y": 462, "width": 40, "height": 32, "color": "#F0FDF4", "borderColor": "#BBF7D0", "labelSize": 10 },
+    { "id": "tag-255",  "label": "EMPTY",    "x": 55, "y": 462, "width": 120,"height": 32, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 11 },
+    { "id": "dat-255",  "label": "— (invalid)",                              "x": 180, "y": 462, "width": 250, "height": 32, "color": "#F1F5F9", "borderColor": "#CBD5E1", "labelSize": 10 },
+
+    {
+      "id": "main-mem",
+      "label": "MAIN MEMORY",
+      "x": 530, "y": 210, "width": 360, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    { "id": "mm-0",  "label": "Block 0   → Line 0",   "x": 530, "y": 250, "width": 360, "height": 32, "color": "#DCFCE7", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "mm-1",  "label": "Block 1   → Line 1",   "x": 530, "y": 286, "width": 360, "height": 32, "color": "#DCFCE7", "borderColor": "#16A34A", "labelSize": 12 },
+    { "id": "mm-2",  "label": "Block 2   → Line 2",   "x": 530, "y": 322, "width": 360, "height": 32, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12 },
+    { "id": "mm-dots","label": "... (Blocks 3–254) ...", "x": 530, "y": 358, "width": 360, "height": 28, "color": "#F8FAFC", "borderColor": "#E2E8F0", "labelSize": 11 },
+    { "id": "mm-255", "label": "Block 255 → Line 255",  "x": 530, "y": 390, "width": 360, "height": 32, "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12 },
+    { "id": "mm-256", "label": "Block 256 → Line 0  (SAME as Block 0!)", "x": 530, "y": 426, "width": 360, "height": 32, "color": "#FEE2E2", "borderColor": "#DC2626", "labelSize": 11 },
+    { "id": "mm-257", "label": "Block 257 → Line 1  (SAME as Block 1!)", "x": 530, "y": 462, "width": 360, "height": 32, "color": "#FEE2E2", "borderColor": "#DC2626", "labelSize": 11 },
+
+    {
+      "id": "props-box",
+      "label": "Direct Mapping Properties",
+      "x": 10, "y": 510, "width": 420, "height": 195,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "sublabels": [
+        "✅ Simple hardware — only 1 comparator needed (1 tag only).",
+        "✅ Fast lookup — line index computed directly from address bits.",
+        "❌ Conflict misses — 2 blocks mapping to same line thrash each other.",
+        "❌ No flexibility — each block maps to ONLY one specific cache line.",
+        "Formula: Line = Block# mod 256 (for 256-line cache, 64B blocks)."
+      ],
+      "labelSize": 13
+    },
+    {
+      "id": "hit-miss-box",
+      "label": "Hit / Miss Logic",
+      "x": 450, "y": 510, "width": 440, "height": 195,
+      "color": "#ECFDF5", "borderColor": "#059669",
+      "sublabels": [
+        "HIT: Tag in cache[LineIdx] == address Tag AND Valid = 1.",
+        "MISS (Cold): Valid=0 — first time this block is accessed.",
+        "MISS (Conflict): Different block occupies the same cache line.",
+        "On MISS: Full block fetched from RAM, replaces current line.",
+        "Fix conflicts: use N-Way Set Associative or Fully Associative cache."
+      ],
+      "labelSize": 13
+    }
+  ],
+  "connections": [
+    { "from": "addr-tag",  "to": "cache-col-tag",  "x1": 190, "y1": 150, "x2": 115, "y2": 250, "label": "Compare tag" },
+    { "from": "addr-line", "to": "cache-col-valid", "x1": 508, "y1": 150, "x2": 30,  "y2": 250, "label": "Select line" },
+    { "from": "mm-0",  "to": "dat-0",   "x1": 530, "y1": 266, "x2": 430, "y2": 302, "label": "" },
+    { "from": "mm-256","to": "dat-0",   "x1": 530, "y1": 442, "x2": 430, "y2": 302, "label": "Conflict!" }
+  ],
+  "theory": "Direct Mapping is the simplest cache organization technique. Each block in main memory maps to exactly one specific cache line, determined by the formula: Cache Line = Block Number mod (Number of Cache Lines).\n\nAddress Decomposition:\nA 32-bit memory address is split into three fields:\n1. Tag (most significant bits): Identifies WHICH memory block is currently occupying a given cache line. Stored alongside the data in the cache.\n2. Line Index (middle bits): Directly selects which cache line to check. For 256 lines, log₂(256) = 8 bits are used.\n3. Word Offset (least significant bits): Selects the specific byte or word within the cache block.\n\nCache Hit: The CPU computes the line index from the address, looks up that cache line, and compares the address's tag bits against the tag stored in that line. If they match AND the valid bit is 1, it's a HIT — the data is returned directly from cache.\n\nCache Miss: If the tags don't match or the valid bit is 0, it's a MISS. The processor must fetch the entire block from main memory, which replaces the current occupant of the cache line.\n\nConflict Miss Problem: Since every block can only go to one specific line, two frequently used blocks that map to the SAME line will constantly evict each other — causing thrashing. For example, blocks 0 and 256 both map to Line 0 in a 256-line cache.",
+  "keyPoints": [
+    "Each memory block maps to exactly one cache line: Line = Block# mod (Cache Size).",
+    "Address divided into Tag | Line Index | Word Offset fields.",
+    "HIT: Tag matches + Valid=1. MISS: Tag mismatch or Valid=0.",
+    "Advantage: Simple hardware — only one comparator needed.",
+    "Disadvantage: Conflict misses — two blocks mapping to same line thrash each other.",
+    "Conflict misses are the main drawback; solved by N-way Set Associative cache."
+  ],
+  "useCases": [
+    "Used in L1 instruction caches in processors where speed is critical and access patterns are predictable.",
+    "Exam calculation: given address and cache size, determine tag/index/offset bit widths.",
+    "Baseline for comparing against Fully Associative and Set Associative cache performance."
+  ]
+}

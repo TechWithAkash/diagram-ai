@@ -1,0 +1,87 @@
+{
+  "id": "dhcp-dora",
+  "type": "sequence",
+  "title": "DHCP DORA Process",
+  "category": "Networks",
+  "aliases": [
+    "dhcp dora",
+    "dhcp",
+    "dynamic host configuration protocol",
+    "dora process",
+    "dhcp process",
+    "discover offer request ack",
+    "dhcp handshake"
+  ],
+  "examTip": "DHCP uses UDP ports 67 (server) and 68 (client). DORA is: Discover (Broadcast) -> Offer (Unicast/Broadcast) -> Request (Broadcast) -> Ack (Unicast/Broadcast). Source IP is 0.0.0.0 during Discover and Request because the client has no IP assigned yet.",
+  "viewBox": { "width": 800, "height": 550 },
+  "complexity": "Intermediate",
+  "subject_category": "Networks",
+  "theme": "textbook",
+  "slanted": true,
+  "hideActivation": true,
+  "bottomTitle": "DHCP DORA (Discover, Offer, Request, Acknowledge) Process Flow",
+  "participants": [
+    { "id": "client", "label": "DHCP Client (Port 68)", "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "server", "label": "DHCP Server (Port 67)", "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" }
+  ],
+  "messages": [
+    {
+      "from": "client",
+      "to": "server",
+      "label": "1. DHCP DISCOVER (Broadcast)",
+      "color": "#EF4444",
+      "fromNote": "Src IP: 0.0.0.0\nDst IP: 255.255.255.255\nSrc MAC: Client_MAC\nDst MAC: FF:FF:FF:FF:FF:FF",
+      "toNote": "Listens on UDP 67\nReceives Discover\nfrom Client MAC",
+      "type": "request",
+      "state": "State: INIT (Searching for servers)"
+    },
+    {
+      "from": "server",
+      "to": "client",
+      "label": "2. DHCP OFFER (Unicast/Broadcast)",
+      "color": "#3B82F6",
+      "fromNote": "Selects IP: 192.168.1.100\nSubnet Mask: 255.255.255.0\nGateway: 192.168.1.1\nLease Time: 8 Hours",
+      "toNote": "Src IP: 192.168.1.1\nDst IP: 192.168.1.100 / 255.255.255.255\nSrc MAC: Server_MAC\nDst MAC: Client_MAC / FF:FF:FF:FF:FF:FF",
+      "type": "response",
+      "state": "State: SELECTING (Evaluating offers)"
+    },
+    {
+      "from": "client",
+      "to": "server",
+      "label": "3. DHCP REQUEST (Broadcast)",
+      "color": "#FBBF24",
+      "fromNote": "Src IP: 0.0.0.0\nDst IP: 255.255.255.255\nRequests 192.168.1.100\nIdentifies Server IP",
+      "toNote": "Verifies IP allocation;\nprepares final lease bind\nfor Client MAC",
+      "type": "request",
+      "state": "State: REQUESTING (Requesting offered IP)"
+    },
+    {
+      "from": "server",
+      "to": "client",
+      "label": "4. DHCP ACK (Unicast/Broadcast)",
+      "color": "#10B981",
+      "fromNote": "Commits IP lease\nSends final confirmation\nwith options",
+      "toNote": "Src IP: 192.168.1.1\nDst IP: 192.168.1.100 / 255.255.255.255\nApplies IP config\nState: BOUND",
+      "type": "response",
+      "state": "State: BOUND (Configured successfully)"
+    }
+  ],
+  "notes": [
+    "DHCP (Dynamic Host Configuration Protocol) operates over UDP on ports 67 (server) and 68 (client).",
+    "Discover and Request messages must be broadcasted because the client has no assigned IP address yet.",
+    "Offer and Ack messages can be unicast or broadcast depending on the network stack and client hardware capabilities.",
+    "Lease Renewal: At 50% of the lease duration (T1 timer), client sends unicast DHCPREQUEST to renew. If no response, at 87.5 (T2 timer) it broadcasts to find any server."
+  ],
+  "theory": "Dynamic Host Configuration Protocol (DHCP) is an Application Layer protocol that dynamically assigns IP addresses and other network configuration parameters (subnet mask, default gateway, DNS servers) to devices on a network. It operates on a client-server model using UDP ports 67 (server) and 68 (client).\n\nThe DORA process is the four-step handshake used by a DHCP client to acquire network configurations:\n\n1. Discover (Broadcast): The client, having no IP address, broadcasts a DHCPDISCOVER message on the local network (destination IP: 255.255.255.255, source IP: 0.0.0.0, destination MAC: FF:FF:FF:FF:FF:FF) searching for any active DHCP server.\n\n2. Offer (Unicast/Broadcast): Any DHCP server receiving the Discover message responds with a DHCPOFFER message. This contains an available IP address from the server's pool (scope), subnet mask, lease duration, default gateway IP, and DNS server IPs.\n\n3. Request (Broadcast): The client selects one offer (typically the first received) and broadcasts a DHCPREQUEST message. This informs the selected server of acceptance and implicitly notifies other DHCP servers to release their offered IPs back to their pools.\n\n4. Acknowledge (Broadcast/Unicast): The selected server receives the Request and responds with a DHCPACK message, committing the IP binding and configuration parameters to the client. Upon receiving the ACK, the client configures its network interface and transitions to the BOUND state.",
+  "keyPoints": [
+    "DHCP dynamically configures TCP/IP settings: IP, subnet mask, default gateway, and DNS servers.",
+    "Uses client-server architecture with UDP port 67 (server) and UDP port 68 (client).",
+    "Four-step DORA process: Discover (Broadcast), Offer (Unicast/Broadcast), Request (Broadcast), Ack (Unicast/Broadcast).",
+    "Lease model: IP addresses are rented for a lease time; client must renew using T1 (50%) and T2 (87.5%) timers.",
+    "DHCP relay agents allow a single DHCP server to service multiple subnets by forwarding broadcast traffic as unicast."
+  ],
+  "useCases": [
+    "Automating IP configuration in home and corporate networks to prevent administrative overhead and IP conflicts.",
+    "Mobile client management in public hotspots (cafes, airports) where users connect and disconnect frequently."
+  ]
+}

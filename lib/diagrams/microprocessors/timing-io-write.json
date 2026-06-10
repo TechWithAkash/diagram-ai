@@ -1,0 +1,193 @@
+{
+  "id": "timing-io-write",
+  "type": "block-diagram",
+  "title": "Intel 8085 I/O Write Timing Diagram (OUT Instruction)",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 IO write timing",
+    "8085 output timing",
+    "IO write timing diagram",
+    "8085 OUT instruction timing",
+    "8085 I/O write machine cycle",
+    "8085 peripheral write timing",
+    "OUT instruction 8085"
+  ],
+  "examTip": "The I/O Write cycle is similar to the Memory Write cycle, but IO/M̄ is HIGH (1). It consists of 3 T-states (T1-T3). In T1, the 8-bit I/O port address is sent on BOTH A8-A15 AND AD0-AD7 (duplicated), and ALE goes high. In T2, the CPU places write data on AD0-AD7, and WR̄ goes LOW. In T3, WR̄ goes HIGH, writing data into the peripheral. Status: S1=0, S0=1 (IO Write). IO/M̄ = 1 throughout.",
+  "viewBox": { "width": 780, "height": 590 },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "t1-header",
+      "label": "T1 (State 1)",
+      "x": 160, "y": 10, "width": 195, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "Address + ALE", "labelSize": 13
+    },
+    {
+      "id": "t2-header",
+      "label": "T2 (State 2)",
+      "x": 360, "y": 10, "width": 195, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "WR̄ Active + Data", "labelSize": 13
+    },
+    {
+      "id": "t3-header",
+      "label": "T3 (State 3)",
+      "x": 560, "y": 10, "width": 208, "height": 48,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "note": "Write Executed", "labelSize": 13
+    },
+    {
+      "id": "clk-label",
+      "label": "CLK (Clock)",
+      "x": 10, "y": 68, "width": 140, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#64748B", "labelSize": 12
+    },
+    {
+      "id": "clk-t1",
+      "label": "T1 Period",
+      "x": 160, "y": 68, "width": 195, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569",
+      "note": "1 clock cycle", "labelSize": 12
+    },
+    {
+      "id": "clk-t2",
+      "label": "T2 Period",
+      "x": 360, "y": 68, "width": 195, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569", "labelSize": 12
+    },
+    {
+      "id": "clk-t3",
+      "label": "T3 Period",
+      "x": 560, "y": 68, "width": 208, "height": 48,
+      "color": "#F1F5F9", "borderColor": "#475569", "labelSize": 12
+    },
+    {
+      "id": "a8-a15-label",
+      "label": "A8 - A15 (Upper)",
+      "x": 10, "y": 126, "width": 140, "height": 52,
+      "color": "#F0FDF4", "borderColor": "#16A34A", "labelSize": 11
+    },
+    {
+      "id": "a8-a15-io-addr",
+      "label": "I/O Port Address (Duplicated on upper bus)",
+      "x": 160, "y": 126, "width": 608, "height": 52,
+      "color": "#DCFCE7", "borderColor": "#16A34A",
+      "note": "Stable throughout all 3 T-states", "labelSize": 12
+    },
+    {
+      "id": "ad0-ad7-label",
+      "label": "AD0 - AD7 (Mux)",
+      "x": 10, "y": 188, "width": 140, "height": 52,
+      "color": "#EFF6FF", "borderColor": "#2563EB", "labelSize": 11
+    },
+    {
+      "id": "ad0-ad7-addr",
+      "label": "I/O Port Address (8-bit)",
+      "x": 160, "y": 188, "width": 195, "height": 52,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Same port address on lower bus T1", "labelSize": 12
+    },
+    {
+      "id": "ad0-ad7-data",
+      "label": "Write Data D0-D7 (from Accumulator)",
+      "x": 360, "y": 188, "width": 408, "height": 52,
+      "color": "#FEE2E2", "borderColor": "#EF4444",
+      "note": "CPU places data from Accumulator", "labelSize": 12
+    },
+    {
+      "id": "ale-label",
+      "label": "ALE (Latch En)",
+      "x": 10, "y": 250, "width": 140, "height": 48,
+      "color": "#FEF3C7", "borderColor": "#D97706", "labelSize": 11
+    },
+    {
+      "id": "ale-high",
+      "label": "ALE = 1 (HIGH)",
+      "x": 160, "y": 250, "width": 195, "height": 48,
+      "color": "#FEF3C7", "borderColor": "#D97706",
+      "note": "Latches port address", "labelSize": 12
+    },
+    {
+      "id": "ale-low",
+      "label": "ALE = 0 (LOW)",
+      "x": 360, "y": 250, "width": 408, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1",
+      "note": "Address latched by external decoder", "labelSize": 12
+    },
+    {
+      "id": "wr-label",
+      "label": "WR̄ (Active Low)",
+      "x": 10, "y": 308, "width": 140, "height": 48,
+      "color": "#FFFBEB", "borderColor": "#CA8A04", "labelSize": 11
+    },
+    {
+      "id": "wr-high1",
+      "label": "WR̄ = 1 (HIGH)",
+      "x": 160, "y": 308, "width": 195, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1", "labelSize": 12
+    },
+    {
+      "id": "wr-low",
+      "label": "WR̄ = 0 (LOW) — I/O Write Active",
+      "x": 360, "y": 308, "width": 300, "height": 48,
+      "color": "#FEE2E2", "borderColor": "#EF4444",
+      "note": "Peripheral latches data on rising edge", "labelSize": 11
+    },
+    {
+      "id": "wr-high2",
+      "label": "WR̄ = 1 (HIGH)",
+      "x": 665, "y": 308, "width": 103, "height": 48,
+      "color": "#F8FAFC", "borderColor": "#CBD5E1",
+      "note": "Rising edge writes to port", "labelSize": 10
+    },
+    {
+      "id": "iom-label",
+      "label": "IO/M̄ (Control)",
+      "x": 10, "y": 366, "width": 140, "height": 52,
+      "color": "#F5F3FF", "borderColor": "#7C3AED", "labelSize": 11
+    },
+    {
+      "id": "iom-high",
+      "label": "IO/M̄ = 1 (HIGH — I/O operation, not memory)",
+      "x": 160, "y": 366, "width": 608, "height": 52,
+      "color": "#EDE9FE", "borderColor": "#7C3AED",
+      "note": "HIGH throughout — I/O write (not memory write)", "labelSize": 12
+    },
+    {
+      "id": "status-label",
+      "label": "S1, S0 (Status)",
+      "x": 10, "y": 428, "width": 140, "height": 52,
+      "color": "#ECFDF5", "borderColor": "#10B981", "labelSize": 11
+    },
+    {
+      "id": "status-val",
+      "label": "S1 = 0, S0 = 1 (I/O Write Status)",
+      "x": 160, "y": 428, "width": 608, "height": 52,
+      "color": "#ECFDF5", "borderColor": "#10B981",
+      "note": "S1=0 S0=1 uniquely identifies I/O Write cycle", "labelSize": 12
+    },
+    {
+      "id": "key-diff",
+      "label": "Key Difference from Memory Write: IO/M̄ = 1 (HIGH) vs IO/M̄ = 0 (LOW). Port address 8-bit duplicated on A8-A15 and AD0-AD7. WR̄ rising edge in T3 writes data into peripheral.",
+      "x": 10, "y": 492, "width": 758, "height": 86,
+      "color": "#FFFBEB", "borderColor": "#D97706", "labelSize": 11
+    }
+  ],
+  "connections": [],
+  "theory": "The I/O Write machine cycle (executed by the 8085's OUT instruction) sends one byte of data from the Accumulator to a specified 8-bit I/O port. It is structurally identical to the Memory Write cycle except that IO/M̄ is HIGH (1) instead of LOW (0).\n\nStep-by-Step Operation:\n\n1. State T1:\n- The 8-bit I/O port address is placed simultaneously on both A8-A15 and AD0-AD7.\n- IO/M̄ is set HIGH to identify this as an I/O operation.\n- Status bits S1=0, S0=1 identify this as an I/O Write operation.\n- ALE pulses HIGH; falling edge latches the port address in the external decoder.\n\n2. State T2:\n- The CPU replaces the port address on AD0-AD7 with the write data byte (from the Accumulator).\n- The CPU asserts WR̄ LOW, enabling the write-input of the addressed I/O device.\n- The data byte remains stable on AD0-AD7 while WR̄ is LOW.\n\n3. State T3:\n- Write data continues to be held stable on AD0-AD7.\n- WR̄ returns HIGH mid-T3. The rising edge causes the I/O peripheral to latch the data byte.\n- The CPU de-asserts status signals and ends the machine cycle.",
+  "keyPoints": [
+    "The 8085 I/O Write cycle (OUT instruction) consists of exactly 3 T-states: T1, T2, T3.",
+    "IO/M̄ = 1 (HIGH) throughout — key difference from Memory Write (IO/M̄ = 0).",
+    "The 8-bit I/O port address is duplicated: placed on BOTH A8-A15 AND AD0-AD7 in T1.",
+    "ALE pulses HIGH in T1; its falling edge latches the port address in the external decoder.",
+    "In T2, the CPU places write data (from Accumulator) on AD0-AD7 and asserts WR̄ LOW.",
+    "WR̄ goes HIGH mid-T3; the rising edge writes data into the peripheral. Status: S1=0, S0=1."
+  ],
+  "useCases": [
+    "Analyzing bus timing when sending data to a peripheral connected to the 8085.",
+    "Understanding the execution of the OUT instruction in 8085 assembly language.",
+    "Distinguishing I/O Write from Memory Write using IO/M̄ and status signals."
+  ]
+}

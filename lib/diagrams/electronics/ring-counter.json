@@ -1,0 +1,82 @@
+{
+  "id": "ring-counter",
+  "title": "4-Bit Ring Counter",
+  "aliases": ["ring counter", "4 bit ring counter", "4-bit ring counter", "circular shift register", "ring counter circuit"],
+  "category": "Digital Electronics",
+  "type": "block-diagram",
+  "viewBox": { "width": 600, "height": 420 },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "examTip": "A 4-bit ring counter has 4 states (n states for n flip-flops). To start the counter, it must be initialized (usually to 1000) using Preset and Clear inputs. If initialized to 1000, the output sequence is 1000 -> 0100 -> 0010 -> 0001 -> 1000. It requires no decoding logic but is highly inefficient in flip-flop utilization compared to binary counters.",
+  "blocks": [
+    {
+      "id": "dff0",
+      "label": "D Flip-Flop 0 (FF0)",
+      "x": 80, "y": 40, "width": 140, "height": 110,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["Input: D0 = Q3 (Feedback)", "Output: Q0", "Initial State: 1 (Preset)"]
+    },
+    {
+      "id": "dff1",
+      "label": "D Flip-Flop 1 (FF1)",
+      "x": 380, "y": 40, "width": 140, "height": 110,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["Input: D1 = Q0", "Output: Q1", "Initial State: 0 (Cleared)"]
+    },
+    {
+      "id": "dff2",
+      "label": "D Flip-Flop 2 (FF2)",
+      "x": 380, "y": 270, "width": 140, "height": 110,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["Input: D2 = Q1", "Output: Q2", "Initial State: 0 (Cleared)"]
+    },
+    {
+      "id": "dff3",
+      "label": "D Flip-Flop 3 (FF3)",
+      "x": 80, "y": 270, "width": 140, "height": 110,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": ["Input: D3 = Q2", "Output: Q3 (Feedback Out)", "Initial State: 0 (Cleared)"]
+    },
+    {
+      "id": "clk-source",
+      "label": "Common Clock",
+      "x": 240, "y": 185, "width": 120, "height": 50,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": ["Synchronous CLK"]
+    },
+    {
+      "id": "init-source",
+      "label": "PR / CLR Control",
+      "x": 240, "y": 10, "width": 120, "height": 25,
+      "color": "#FFF7ED", "borderColor": "#EA580C",
+      "sublabels": []
+    }
+  ],
+  "connections": [
+    { "from": "dff0", "to": "dff1", "type": "unidirectional", "label": "Q0 → D1", "x1": 220, "y1": 95, "x2": 380, "y2": 95 },
+    { "from": "dff1", "to": "dff2", "type": "unidirectional", "label": "Q1 → D2", "x1": 450, "y1": 150, "x2": 450, "y2": 270 },
+    { "from": "dff2", "to": "dff3", "type": "unidirectional", "label": "Q2 → D3", "x1": 380, "y1": 325, "x2": 220, "y2": 325 },
+    { "from": "dff3", "to": "dff0", "type": "unidirectional", "label": "Q3 → D0 (Feedback)", "x1": 150, "y1": 270, "x2": 150, "y2": 150 },
+    { "from": "clk-source", "to": "dff0", "type": "unidirectional", "label": "CLK", "x1": 240, "y1": 210, "x2": 200, "y2": 150 },
+    { "from": "clk-source", "to": "dff1", "type": "unidirectional", "label": "CLK", "x1": 360, "y1": 210, "x2": 400, "y2": 150 },
+    { "from": "clk-source", "to": "dff2", "type": "unidirectional", "label": "CLK", "x1": 360, "y1": 210, "x2": 400, "y2": 270 },
+    { "from": "clk-source", "to": "dff3", "type": "unidirectional", "label": "CLK", "x1": 240, "y1": 210, "x2": 200, "y2": 270 },
+    { "from": "init-source", "to": "dff0", "type": "unidirectional", "label": "Preset (1)", "x1": 240, "y1": 22, "x2": 150, "y2": 40 },
+    { "from": "init-source", "to": "dff1", "type": "unidirectional", "label": "Clear (0)", "x1": 360, "y1": 22, "x2": 450, "y2": 40 }
+  ],
+  "theory": "A Ring Counter is a synchronous sequential logic circuit in which the output of the last flip-flop is connected back as the input to the first flip-flop, forming a circular shift register. In a 4-bit Ring Counter, 4 D Flip-Flops are cascaded in series. \n\nStarting and Initialization:\nTo operate as a ring counter, a specific initial state must be loaded. The most common starting pattern is a single '1' (logic HIGH) followed by '0's (logic LOWs), representing the state 1000 (Q0=1, Q1=0, Q2=0, Q3=0). This is achieved using the asynchronous Preset (PR) line of FF0 and the Clear (CLR) lines of FF1, FF2, and FF3. When the initialization pulse is applied, FF0 is forced to 1 while FF1, FF2, FF3 are forced to 0.\n\nWorking and Operation:\nSince all flip-flops share a common clock line (synchronous operation), they transition simultaneously on the active clock edge. At each clock pulse, the logic 1 shifts circular-wise to the next stage:\n1. Initial State: 1000 (Q0=1)\n2. 1st Clock Pulse: 0100 (Q1=1)\n3. 2nd Clock Pulse: 0010 (Q2=1)\n4. 3rd Clock Pulse: 0001 (Q3=1)\n5. 4th Clock Pulse: 1000 (Q0=1 - feedback loops back)\n\nComparison and Efficiency:\nFor an n-bit counter, the number of distinct states is n. This is highly inefficient in terms of flip-flop utilization compared to a binary counter (which can represent 2^n states). However, a major advantage of the ring counter is that it requires no external decoding gates to identify the state — each state is uniquely represented by which flip-flop is high, making it ideal for phase generators and timing sequence controllers.",
+  "keyPoints": [
+    "Circular Feedback: Output of the last D flip-flop (Q3) is connected to the input of the first (D0).",
+    "Synchronous Clocking: All flip-flops share a common, simultaneous clock pulse.",
+    "Initialization Required: Must be preset to 1000 or another non-zero pattern to begin shifting.",
+    "State Count: An n-bit ring counter has exactly n states (4 states for 4-bits).",
+    "No Decoding Logic: Output states are directly available from flip-flop outputs without logic gates.",
+    "Self-Starting Issue: If noise or power-on causes an invalid state (like 0000 or 1111), the counter will circulate it unless self-correcting logic is added."
+  ],
+  "useCases": [
+    "Timing signal generation and phase sequencing in microprocessors.",
+    "Frequency division (divides clock frequency by N).",
+    "Digital sequence generators and multi-phase clock generators.",
+    "Traffic light controllers and simple state machines."
+  ]
+}

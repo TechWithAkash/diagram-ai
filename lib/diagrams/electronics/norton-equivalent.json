@@ -1,0 +1,90 @@
+{
+  "id": "norton-equivalent",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "title": "Norton's Theorem Equivalent Circuit",
+  "description": "A simplified equivalent circuit representation of Norton's Theorem containing an equivalent current source (IN) in parallel with an equivalent Norton resistance (RN) connected to a load resistor (RL).",
+  "category": "Electrical Engineering",
+  "aliases": ["norton theorem", "norton equivalent", "norton circuit", "nortons theorem", "nortons equivalent circuit", "Norton's Equivalent Circuit (BEE)", "BEE"],
+  "viewBox": { "width": 640, "height": 380 },
+
+  "theory": "Norton's Theorem is a fundamental circuit analysis theorem that states that any linear, active, bilateral network containing one or more independent voltage or current sources and resistors can be replaced across any pair of terminals by an equivalent circuit consisting of a single independent current source in parallel with a single resistor. The equivalent current source is known as the Norton equivalent current (IN), which is the short-circuit current flowing through the load terminals (A-B) when they are shorted. The parallel resistor is known as the Norton equivalent resistance (RN), representing the equivalent resistance looking back into the terminals with all independent voltage sources replaced by short circuits and independent current sources replaced by open circuits.\n\nNorton's Theorem is the dual of Thevenin's Theorem. The two equivalent circuits are related by source transformation: IN = Vth / Rth and RN = Rth. The load current flowing through a load resistor RL connected across the terminals is given by the current divider formula: IL = IN * [RN / (RN + RL)].",
+
+  "keyPoints": [
+    "Simplifies any linear, active, bilateral network into a single parallel current source and resistor.",
+    "IN (Norton Current) is the short-circuit current flowing between terminals A and B when they are directly connected.",
+    "RN (Norton Resistance) is the equivalent resistance between terminals A and B with all independent sources deactivated (short-circuit voltage sources, open-circuit current sources).",
+    "RN is mathematically equal to the Thevenin resistance (Rth).",
+    "Load current is calculated using the current divider rule: IL = IN * RN / (RN + RL)."
+  ],
+
+  "examTip": "To find IN, short-circuit the load terminals A and B and calculate the short-circuit current Isc. To find RN, remove the load, deactivate all independent sources (short voltage, open current), and calculate the equivalent resistance looking back. The load current is then IL = IN * RN / (RN + RL).",
+
+  "useCases": [
+    "Analyzing circuits with parallel branches and current-source models like transistor amplifiers.",
+    "Power system analysis for short-circuit faults and protection coordination.",
+    "Designing current biasing networks in analog integrated circuits.",
+    "Simplifying multi-source networks using Norton-Thevenin source transformations.",
+    "Modeling practical current sources such as photovoltaic cells and transducers."
+  ],
+
+  "components": [
+    {
+      "id": "IN",
+      "symbol": "current-source",
+      "x": 150,
+      "y": 200,
+      "rotation": 0,
+      "label": "IN"
+    },
+    {
+      "id": "RN",
+      "symbol": "resistor",
+      "x": 320,
+      "y": 200,
+      "rotation": 90,
+      "label": "RN"
+    },
+    {
+      "id": "RL",
+      "symbol": "resistor",
+      "x": 480,
+      "y": 200,
+      "rotation": 90,
+      "label": "RL"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 150,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 150, "y1": 174, "x2": 150, "y2": 120, "comment": "IN top lead to top rail" },
+    { "x1": 150, "y1": 120, "x2": 480, "y2": 120, "comment": "Top parallel rail linking IN, RN, and RL" },
+    { "x1": 320, "y1": 120, "x2": 320, "y2": 172, "comment": "Top rail to RN top lead" },
+    { "x1": 320, "y1": 228, "x2": 320, "y2": 280, "comment": "RN bottom lead to bottom rail" },
+    { "x1": 480, "y1": 120, "x2": 480, "y2": 172, "comment": "Top rail to RL top lead (Terminal A)" },
+    { "x1": 480, "y1": 228, "x2": 480, "y2": 280, "comment": "RL bottom lead to bottom rail (Terminal B)" },
+    { "x1": 150, "y1": 226, "x2": 150, "y2": 280, "comment": "IN bottom lead to bottom rail" },
+    { "x1": 150, "y1": 280, "x2": 480, "y2": 280, "comment": "Bottom return rail" },
+    { "x1": 150, "y1": 280, "x2": 150, "y2": 300, "comment": "Ground tap connection" }
+  ],
+
+  "junctions": [
+    { "x": 320, "y": 120, "comment": "Top rail junction for RN" },
+    { "x": 320, "y": 280, "comment": "Bottom rail junction for RN" },
+    { "x": 150, "y": 280, "comment": "Bottom rail junction for GND/IN" }
+  ],
+
+  "labels": [
+    { "text": "A", "x": 495, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "B", "x": 495, "y": 284, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "IL ↓", "x": 500, "y": 204, "fontSize": 11, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "start" },
+    { "text": "IN = Isc", "x": 150, "y": 250, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "RN = Req", "x": 320, "y": 250, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" }
+  ]
+}

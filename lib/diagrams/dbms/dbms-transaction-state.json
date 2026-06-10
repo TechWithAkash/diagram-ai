@@ -1,0 +1,46 @@
+{
+  "id": "dbms-transaction-state",
+  "type": "state-machine",
+  "title": "DBMS Transaction State Transition Diagram",
+  "category": "DBMS",
+  "aliases": [
+    "transaction state diagram",
+    "dbms transaction states",
+    "transaction lifecycle",
+    "active partially committed committed failed aborted",
+    "transaction state transition diagram",
+    "korth transaction states"
+  ],
+  "examTip": "A transaction must end in either Committed (successful) or Aborted (rolled back). Active is the starting state. Partially Committed means execution is complete but updates are in buffers, not yet on disk. System crashes here cause transition to Failed.",
+  "viewBox": { "width": 960, "height": 400 },
+  "complexity": "Intermediate",
+  "subject_category": "Database Management Systems (DBMS)",
+  "states": [
+    { "id": "active", "label": "Active", "x": 160, "y": 200, "r": 54, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A8A", "description": "Initial state; transaction is executing read/write operations" },
+    { "id": "partially_committed", "label": "Partially\nCommitted", "x": 480, "y": 90, "r": 54, "color": "#FEF3C7", "borderColor": "#D97706", "textColor": "#78350F", "description": "After final statement is executed; updates in memory buffers" },
+    { "id": "committed", "label": "Committed", "x": 800, "y": 90, "r": 54, "color": "#D1FAE5", "borderColor": "#10B981", "textColor": "#065F46", "description": "Successfully completed; updates permanently written to disk" },
+    { "id": "failed", "label": "Failed", "x": 480, "y": 310, "r": 54, "color": "#FEE2E2", "borderColor": "#EF4444", "textColor": "#991B1B", "description": "Error detected; normal execution can no longer proceed" },
+    { "id": "aborted", "label": "Aborted", "x": 800, "y": 310, "r": 54, "color": "#F3F4F6", "borderColor": "#4B5563", "textColor": "#1F2937", "description": "Transaction rolled back; database restored to prior state" }
+  ],
+  "transitions": [
+    { "from": "active", "to": "partially_committed", "label": "Read / Write\nCompleted\n(Final Statement)", "curve": "straight" },
+    { "from": "active", "to": "failed", "label": "Hardware / Logical\nError Detected", "curve": "straight" },
+    { "from": "partially_committed", "to": "committed", "label": "Commit Operations\nCompleted (Write to Disk)", "curve": "straight" },
+    { "from": "partially_committed", "to": "failed", "label": "System Crash\n/ Disk Failure\nduring commit", "curve": "straight" },
+    { "from": "failed", "to": "aborted", "label": "Rollback\nCompleted", "curve": "straight" }
+  ],
+  "theory": "In a database management system (DBMS), a transaction is a logical unit of work that performs read and write operations. To ensure database integrity, consistency, and crash recovery (ACID properties), a transaction moves through a series of distinct execution states, as formalized in Silberschatz, Korth & Sudarshan's Database System Concepts:\n\n1. Active: This is the starting state of any transaction. It remains in the Active state while it executes its read and write operations, altering data in the local memory buffers.\n\n2. Partially Committed: The transaction enters the Partially Committed state immediately after its final statement has been executed. At this point, all operations are complete, but modified data is still resident in the volatile memory buffers (RAM) and has not yet been safely flushed to the non-volatile storage (disk).\n\n3. Committed: Once all the log records and modified data blocks are successfully and permanently written to disk (stable storage), the transaction transitions into the Committed state. At this stage, the transaction is complete, and its changes become permanent and visible to other transactions.\n\n4. Failed: If the transaction cannot continue normal execution due to a logical programming error, hardware failure, deadlock, or resource limitation, or if a crash occurs while it is in the Active or Partially Committed state, it transitions to the Failed state.\n\n5. Aborted: After a transaction enters the Failed state, the database recovery manager must perform rollback operations to undo all changes made by the transaction, restoring the database to its consistent state prior to the start of the transaction. Once the rollback is complete, the transaction enters the Aborted state.\n\nFollowing abortion, the system has two courses of action: it can restart the transaction (if the failure was due to a transient issue like hardware or concurrent conflict) or kill the transaction (if the failure was due to an internal logical error).",
+  "keyPoints": [
+    "Active state is the initial execution phase where read and write operations take place.",
+    "Partially Committed means all code has run, but changes are not yet written to stable storage.",
+    "Committed state is reached only after changes are successfully flushed to disk (ensuring Durability).",
+    "Failed state is reached upon hardware, logical, or concurrent execution errors.",
+    "Aborted state is reached after the system rolls back all incomplete changes to ensure Atomicity.",
+    "Once aborted, transactions are either restarted (with a new ID) or killed/terminated."
+  ],
+  "useCases": [
+    "Recovery Manager (ARIES protocol) — using transaction state to decide whether to Redo (committed) or Undo (aborted) changes during system crash recovery.",
+    "Concurrency Control — tracking transaction status to manage locks, timestamps, and isolation levels.",
+    "Distributed Databases — implementing Two-Phase Commit (2PC) protocol where nodes coordinate to transition from partially committed to committed state."
+  ]
+}

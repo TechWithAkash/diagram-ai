@@ -1,0 +1,245 @@
+{
+  "id": "tlb-hardware",
+  "complexity": "Intermediate",
+  "type": "block-diagram",
+  "title": "TLB Hardware Paging Cache Memory Mapping",
+  "description": "A block diagram showing the translation of a logical address (Page p, Offset d) to a physical address (Frame f, Offset d) using a Translation Lookaside Buffer (TLB) cache hit/miss resolution flow.",
+  "category": "Operating Systems (OS)",
+  "aliases": [
+    "tlb hardware",
+    "tlb paging",
+    "tlb cache mapping",
+    "hardware support paging",
+    "tlb block diagram",
+    "tlb memory mapping",
+    "tlb hit miss flow"
+  ],
+  "viewBox": { "width": 800, "height": 500 },
+  "theory": "A Translation Lookaside Buffer (TLB) is a high-speed associative hardware cache memory helper used to reduce the memory access latency of paging. When the CPU generates a logical address containing a Page Number (p) and an Offset (d), it must convert the Page Number (p) to a physical Frame Number (f). In simple paging, this requires searching the Page Table in main memory, costing an extra memory cycle. To speed this up, the TLB stores a small subset of recently used page-table entries (typically 64 to 1024 entries). The Page Number (p) is looked up in the TLB in parallel (associative search). On a TLB Hit, the Frame Number (f) is retrieved instantly. On a TLB Miss, the CPU must access the Page Table in main memory, retrieve the Frame Number, and update the TLB with the new page-frame pair for subsequent accesses.",
+  "keyPoints": [
+    "TLB is an associative, high-speed cache memory implemented in hardware.",
+    "Parallel Search: TLB lookup of Page Number (p) takes less than 1 nanosecond.",
+    "TLB Hit: Retrieves Frame Number (f) immediately, avoiding a Page Table memory access.",
+    "TLB Miss: Retrieves Frame Number from the Page Table in memory, causing a latency penalty.",
+    "Effective Access Time (EAT) = (Hit Ratio * Hit Time) + (Miss Ratio * Miss Time).",
+    "TLB entries are flushed or tagged with an Address Space Identifier (ASID) during a process context switch."
+  ],
+  "examTip": "TLB hit ratio is the percentage of times that a particular page number is found in the TLB. Effective Access Time (EAT) is a common exam problem: EAT = alpha * (TLB_access + Memory_access) + (1 - alpha) * (TLB_access + 2 * Memory_access) where alpha is the hit ratio.",
+  "useCases": [
+    "Hardware-based address translation acceleration in modern MMUs (Memory Management Units).",
+    "Evaluating CPU architecture performance using TLB hit/miss profiling tools."
+  ],
+  "blocks": [
+    {
+      "id": "cpu",
+      "label": "CPU",
+      "x": 40,
+      "y": 40,
+      "width": 90,
+      "height": 60,
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB"
+    },
+    {
+      "id": "logical_p",
+      "label": "Page No. (p)",
+      "x": 180,
+      "y": 40,
+      "width": 90,
+      "height": 60,
+      "color": "#DCFCE7",
+      "borderColor": "#16A34A"
+    },
+    {
+      "id": "logical_d",
+      "label": "Offset (d)",
+      "x": 270,
+      "y": 40,
+      "width": 70,
+      "height": 60,
+      "color": "#FEE2E2",
+      "borderColor": "#DC2626"
+    },
+    {
+      "id": "tlb",
+      "label": "TLB\n(Translation Lookaside Buffer)",
+      "x": 155,
+      "y": 170,
+      "width": 140,
+      "height": 80,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "page_table",
+      "label": "Page Table\n(Main Memory)",
+      "x": 410,
+      "y": 170,
+      "width": 130,
+      "height": 80,
+      "color": "#F3E8FF",
+      "borderColor": "#7C3AED"
+    },
+    {
+      "id": "physical_f",
+      "label": "Frame No. (f)",
+      "x": 410,
+      "y": 350,
+      "width": 80,
+      "height": 60,
+      "color": "#DCFCE7",
+      "borderColor": "#16A34A"
+    },
+    {
+      "id": "physical_d",
+      "label": "Offset (d)",
+      "x": 490,
+      "y": 350,
+      "width": 70,
+      "height": 60,
+      "color": "#FEE2E2",
+      "borderColor": "#DC2626"
+    },
+    {
+      "id": "physical_mem",
+      "label": "Physical\nMemory\n(RAM)",
+      "x": 650,
+      "y": 260,
+      "width": 110,
+      "height": 180,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    }
+  ],
+  "connections": [
+    {
+      "from": "cpu",
+      "to": "logical_p",
+      "x1": 130,
+      "y1": 70,
+      "x2": 180,
+      "y2": 70,
+      "label": "Logical Addr"
+    },
+    {
+      "from": "logical_p",
+      "to": "tlb",
+      "x1": 225,
+      "y1": 100,
+      "x2": 225,
+      "y2": 170,
+      "label": "Lookup p"
+    },
+    {
+      "from": "tlb",
+      "to": "page_table",
+      "x1": 295,
+      "y1": 210,
+      "x2": 410,
+      "y2": 210,
+      "label": "TLB Miss"
+    },
+    {
+      "from": "tlb",
+      "to": "physical_f",
+      "x1": 225,
+      "y1": 250,
+      "x2": 225,
+      "y2": 380,
+      "label": "TLB Hit"
+    },
+    {
+      "from": "tlb",
+      "to": "physical_f",
+      "x1": 225,
+      "y1": 380,
+      "x2": 410,
+      "y2": 380,
+      "label": "f (Frame)"
+    },
+    {
+      "from": "logical_d",
+      "to": "physical_d",
+      "x1": 305,
+      "y1": 100,
+      "x2": 580,
+      "y2": 100
+    },
+    {
+      "from": "logical_d",
+      "to": "physical_d",
+      "x1": 580,
+      "y1": 100,
+      "x2": 580,
+      "y2": 310
+    },
+    {
+      "from": "logical_d",
+      "to": "physical_d",
+      "x1": 580,
+      "y1": 310,
+      "x2": 525,
+      "y2": 310
+    },
+    {
+      "from": "logical_d",
+      "to": "physical_d",
+      "x1": 525,
+      "y1": 310,
+      "x2": 525,
+      "y2": 350,
+      "label": "d (Bypass)"
+    },
+    {
+      "from": "page_table",
+      "to": "physical_f",
+      "x1": 475,
+      "y1": 250,
+      "x2": 475,
+      "y2": 310
+    },
+    {
+      "from": "page_table",
+      "to": "physical_f",
+      "x1": 475,
+      "y1": 310,
+      "x2": 450,
+      "y2": 310
+    },
+    {
+      "from": "page_table",
+      "to": "physical_f",
+      "x1": 450,
+      "y1": 310,
+      "x2": 450,
+      "y2": 350,
+      "label": "Frame f"
+    },
+    {
+      "from": "page_table",
+      "to": "tlb",
+      "x1": 475,
+      "y1": 300,
+      "x2": 260,
+      "y2": 300
+    },
+    {
+      "from": "page_table",
+      "to": "tlb",
+      "x1": 260,
+      "y1": 300,
+      "x2": 260,
+      "y2": 250,
+      "label": "Update"
+    },
+    {
+      "from": "physical_d",
+      "to": "physical_mem",
+      "x1": 560,
+      "y1": 380,
+      "x2": 650,
+      "y2": 380,
+      "label": "Access"
+    }
+  ]
+}

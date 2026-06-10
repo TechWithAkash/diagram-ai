@@ -33,7 +33,7 @@ https://github.com/user-attachments/assets/79ef7a57-297c-4fb4-98ea-5a7d0205e09c
 - 📖 **Comprehensive Educational Theory:** Each diagram is accompanied by a ~150-word synthesis, highlighting key points and real-world use cases.
 - 💾 **Session History:** Keeps track of your last 8 generations in memory so you can hop back and forth instantly.
 - 📦 **Export-Ready Output:** Copy raw Mermaid syntax or download production-ready SVGs with a single click.
-- 📚 **Static Syllabus Library:** Matches queries against 23 syllabus-aligned engineering diagrams compiled at build-time. Statically matches verified templates with 100% textbook accuracy.
+- 📚 **Static Syllabus Library:** Matches queries against 28 syllabus-aligned engineering diagrams compiled at build-time. Statically matches verified templates with 100% textbook accuracy.
 - 🛠️ **Custom SVGEngine:** A premium SVG rendering layer supporting custom types (logic gates, circuit schematics, block diagrams, tree layouts, etc.) with pixel-perfect coordinates.
 - 🔗 **Standalone Embed Mode:** Fullscreen embed support for integrating diagrams into external systems (e.g. `/?id=spiral-model&embed=true` is completely chrome-free).
 
@@ -43,7 +43,7 @@ https://github.com/user-attachments/assets/79ef7a57-297c-4fb4-98ea-5a7d0205e09c
 
 To support the Mumbai University engineering curriculum with 100% textbook-accurate diagrams, DiagramAI includes a compiled index of syllabus-aligned diagrams. These are matched instantly using [Fuse.js](https://fusejs.io) based on aliases, course keywords, and textbook names.
 
-The following **23 pre-verified diagrams** are loaded statically from the [lib/catalog/](file:///Users/akashvishwakarma/Downloads/diagramai/lib/catalog) database:
+The following **28 pre-verified diagrams** are loaded statically from the [lib/catalog/](file:///Users/akashvishwakarma/Downloads/diagramai/lib/catalog) database:
 
 ### 🎒 First Year Engineering (FE)
 *   **Semester I:**
@@ -73,7 +73,12 @@ The following **23 pre-verified diagrams** are loaded statically from the [lib/c
 *   **Semester V:**
     *   **Computer Networks (CN):**
         *   [OSI Reference Model (7 Layers)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/osi-model.json) (`osi-model`)
+        *   [TCP/IP Model — 4 Layers](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/tcp-ip-model.json) (`tcp-ip-model`)
         *   [TCP 3-Way Handshake Connection Establishment](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/tcp-handshake.json) (`tcp-handshake`)
+        *   [DNS Resolution Process](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/dns-resolution.json) (`dns-resolution`)
+        *   [ARP Protocol — Address Resolution Process](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/arp-protocol.json) (`arp-protocol`)
+        *   [CSMA/CD Flow Chart](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/csma-cd-protocol.json) (`csma-cd-protocol`)
+        *   [Ethernet Frame Structure (IEEE 802.3)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/ethernet-frame.json) (`ethernet-frame`)
     *   **Software Engineering (SE):**
         *   [DFD Level 0 & Level 1 — Library Management System](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/se/dfd-library-l0-l1.json) (`dfd-library-l0-l1`)
 *   **Semester VI:**

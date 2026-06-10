@@ -1,0 +1,935 @@
+{
+  "id": "pin-8085",
+  "type": "block-diagram",
+  "title": "Intel 8085 Microprocessor Pin Configuration",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 pin diagram",
+    "8085 pinout",
+    "8085 pin configuration",
+    "intel 8085 pinout",
+    "8085 40 pin DIP",
+    "8085 pins"
+  ],
+  "examTip": "8085 is a 40-pin IC in a DIP package. Remember that pins 12-19 are multiplexed address/data lines AD0-AD7 (bidirectional), pins 21-28 are dedicated upper address lines A8-A15 (outputs), and pins 40 (Vcc) and 20 (Vss) are power supply pins.",
+  "viewBox": {
+    "width": 800,
+    "height": 950
+  },
+  "complexity": "Intermediate",
+  "subject_category": "Electronics",
+  "blocks": [
+    {
+      "id": "chip-body",
+      "label": "INTEL 8085A",
+      "x": 260,
+      "y": 30,
+      "width": 280,
+      "height": 890,
+      "color": "#F8FAFC",
+      "borderColor": "#475569",
+      "sublabels": [
+        "8-Bit Microprocessor",
+        "40-Pin Dual In-line Package",
+        "Power: +5V Vcc, 0V Vss",
+        "Frequency: 3 MHz to 6 MHz"
+      ]
+    },
+    {
+      "id": "pin-1",
+      "label": "1 - X1",
+      "x": 70,
+      "y": 50,
+      "width": 150,
+      "height": 30,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": [
+        "Crystal Input"
+      ]
+    },
+    {
+      "id": "pin-2",
+      "label": "2 - X2",
+      "x": 70,
+      "y": 94,
+      "width": 150,
+      "height": 30,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": [
+        "Crystal Input"
+      ]
+    },
+    {
+      "id": "pin-3",
+      "label": "3 - RESET OUT",
+      "x": 70,
+      "y": 138,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Reset Peripherals"
+      ]
+    },
+    {
+      "id": "pin-4",
+      "label": "4 - SOD",
+      "x": 70,
+      "y": 182,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Serial Output Data"
+      ]
+    },
+    {
+      "id": "pin-5",
+      "label": "5 - SID",
+      "x": 70,
+      "y": 226,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Serial Input Data"
+      ]
+    },
+    {
+      "id": "pin-6",
+      "label": "6 - TRAP",
+      "x": 70,
+      "y": 270,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Non-Maskable Interrupt"
+      ]
+    },
+    {
+      "id": "pin-7",
+      "label": "7 - RST 7.5",
+      "x": 70,
+      "y": 314,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Vectored Interrupt"
+      ]
+    },
+    {
+      "id": "pin-8",
+      "label": "8 - RST 6.5",
+      "x": 70,
+      "y": 358,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Vectored Interrupt"
+      ]
+    },
+    {
+      "id": "pin-9",
+      "label": "9 - RST 5.5",
+      "x": 70,
+      "y": 402,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Vectored Interrupt"
+      ]
+    },
+    {
+      "id": "pin-10",
+      "label": "10 - INTR",
+      "x": 70,
+      "y": 446,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Interrupt Request"
+      ]
+    },
+    {
+      "id": "pin-11",
+      "label": "11 - INTĀ",
+      "x": 70,
+      "y": 490,
+      "width": 150,
+      "height": 30,
+      "color": "#FEF9C3",
+      "borderColor": "#EAB308",
+      "sublabels": [
+        "Interrupt Acknowledge"
+      ]
+    },
+    {
+      "id": "pin-12",
+      "label": "12 - AD0",
+      "x": 70,
+      "y": 534,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data LSB"
+      ]
+    },
+    {
+      "id": "pin-13",
+      "label": "13 - AD1",
+      "x": 70,
+      "y": 578,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-14",
+      "label": "14 - AD2",
+      "x": 70,
+      "y": 622,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-15",
+      "label": "15 - AD3",
+      "x": 70,
+      "y": 666,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-16",
+      "label": "16 - AD4",
+      "x": 70,
+      "y": 710,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-17",
+      "label": "17 - AD5",
+      "x": 70,
+      "y": 754,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-18",
+      "label": "18 - AD6",
+      "x": 70,
+      "y": 798,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data"
+      ]
+    },
+    {
+      "id": "pin-19",
+      "label": "19 - AD7",
+      "x": 70,
+      "y": 842,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address/Data MSB"
+      ]
+    },
+    {
+      "id": "pin-20",
+      "label": "20 - VSS",
+      "x": 70,
+      "y": 886,
+      "width": 150,
+      "height": 30,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": [
+        "Ground (0V)"
+      ]
+    },
+    {
+      "id": "pin-21",
+      "label": "A8 - 21",
+      "x": 580,
+      "y": 886,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 8)"
+      ]
+    },
+    {
+      "id": "pin-22",
+      "label": "A9 - 22",
+      "x": 580,
+      "y": 842,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 9)"
+      ]
+    },
+    {
+      "id": "pin-23",
+      "label": "A10 - 23",
+      "x": 580,
+      "y": 798,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 10)"
+      ]
+    },
+    {
+      "id": "pin-24",
+      "label": "A11 - 24",
+      "x": 580,
+      "y": 754,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 11)"
+      ]
+    },
+    {
+      "id": "pin-25",
+      "label": "A12 - 25",
+      "x": 580,
+      "y": 710,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 12)"
+      ]
+    },
+    {
+      "id": "pin-26",
+      "label": "A13 - 26",
+      "x": 580,
+      "y": 666,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 13)"
+      ]
+    },
+    {
+      "id": "pin-27",
+      "label": "A14 - 27",
+      "x": 580,
+      "y": 622,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 14)"
+      ]
+    },
+    {
+      "id": "pin-28",
+      "label": "A15 - 28",
+      "x": 580,
+      "y": 578,
+      "width": 150,
+      "height": 30,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E",
+      "sublabels": [
+        "Address Bus (Bit 15)"
+      ]
+    },
+    {
+      "id": "pin-29",
+      "label": "S0 - 29",
+      "x": 580,
+      "y": 534,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Status Signal 0"
+      ]
+    },
+    {
+      "id": "pin-30",
+      "label": "ALE - 30",
+      "x": 580,
+      "y": 490,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Address Latch Enable"
+      ]
+    },
+    {
+      "id": "pin-31",
+      "label": "WR̄ - 31",
+      "x": 580,
+      "y": 446,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Write Output (Active Low)"
+      ]
+    },
+    {
+      "id": "pin-32",
+      "label": "RD̄ - 32",
+      "x": 580,
+      "y": 402,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Read Output (Active Low)"
+      ]
+    },
+    {
+      "id": "pin-33",
+      "label": "S1 - 33",
+      "x": 580,
+      "y": 358,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Status Signal 1"
+      ]
+    },
+    {
+      "id": "pin-34",
+      "label": "IO/M̄ - 34",
+      "x": 580,
+      "y": 314,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "IO or Memory Select"
+      ]
+    },
+    {
+      "id": "pin-35",
+      "label": "READY - 35",
+      "x": 580,
+      "y": 270,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Wait State Request"
+      ]
+    },
+    {
+      "id": "pin-36",
+      "label": "RESET IN̄ - 36",
+      "x": 580,
+      "y": 226,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Reset CPU"
+      ]
+    },
+    {
+      "id": "pin-37",
+      "label": "CLK (OUT) - 37",
+      "x": 580,
+      "y": 182,
+      "width": 150,
+      "height": 30,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": [
+        "System Clock Output"
+      ]
+    },
+    {
+      "id": "pin-38",
+      "label": "HLDA - 38",
+      "x": 580,
+      "y": 138,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "Hold Acknowledge"
+      ]
+    },
+    {
+      "id": "pin-39",
+      "label": "HOLD - 39",
+      "x": 580,
+      "y": 94,
+      "width": 150,
+      "height": 30,
+      "color": "#FDF2F8",
+      "borderColor": "#EC4899",
+      "sublabels": [
+        "DMA Request Input"
+      ]
+    },
+    {
+      "id": "pin-40",
+      "label": "VCC - 40",
+      "x": 580,
+      "y": 50,
+      "width": 150,
+      "height": 30,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "sublabels": [
+        "Power Supply (+5V)"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "pin-1",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 65,
+      "x2": 260,
+      "y2": 65,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-2",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 109,
+      "x2": 260,
+      "y2": 109,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-3",
+      "x1": 260,
+      "y1": 153,
+      "x2": 220,
+      "y2": 153,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-4",
+      "x1": 260,
+      "y1": 197,
+      "x2": 220,
+      "y2": 197,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-5",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 241,
+      "x2": 260,
+      "y2": 241,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-6",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 285,
+      "x2": 260,
+      "y2": 285,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-7",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 329,
+      "x2": 260,
+      "y2": 329,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-8",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 373,
+      "x2": 260,
+      "y2": 373,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-9",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 417,
+      "x2": 260,
+      "y2": 417,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-10",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 461,
+      "x2": 260,
+      "y2": 461,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-11",
+      "x1": 260,
+      "y1": 505,
+      "x2": 220,
+      "y2": 505,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-12",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 549,
+      "x2": 260,
+      "y2": 549,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-13",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 593,
+      "x2": 260,
+      "y2": 593,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-14",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 637,
+      "x2": 260,
+      "y2": 637,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-15",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 681,
+      "x2": 260,
+      "y2": 681,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-16",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 725,
+      "x2": 260,
+      "y2": 725,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-17",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 769,
+      "x2": 260,
+      "y2": 769,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-18",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 813,
+      "x2": 260,
+      "y2": 813,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-19",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 857,
+      "x2": 260,
+      "y2": 857,
+      "type": "bidirectional"
+    },
+    {
+      "from": "pin-20",
+      "to": "chip-body",
+      "x1": 220,
+      "y1": 901,
+      "x2": 260,
+      "y2": 901,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-21",
+      "x1": 540,
+      "y1": 901,
+      "x2": 580,
+      "y2": 901,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-22",
+      "x1": 540,
+      "y1": 857,
+      "x2": 580,
+      "y2": 857,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-23",
+      "x1": 540,
+      "y1": 813,
+      "x2": 580,
+      "y2": 813,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-24",
+      "x1": 540,
+      "y1": 769,
+      "x2": 580,
+      "y2": 769,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-25",
+      "x1": 540,
+      "y1": 725,
+      "x2": 580,
+      "y2": 725,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-26",
+      "x1": 540,
+      "y1": 681,
+      "x2": 580,
+      "y2": 681,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-27",
+      "x1": 540,
+      "y1": 637,
+      "x2": 580,
+      "y2": 637,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-28",
+      "x1": 540,
+      "y1": 593,
+      "x2": 580,
+      "y2": 593,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-29",
+      "x1": 540,
+      "y1": 549,
+      "x2": 580,
+      "y2": 549,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-30",
+      "x1": 540,
+      "y1": 505,
+      "x2": 580,
+      "y2": 505,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-31",
+      "x1": 540,
+      "y1": 461,
+      "x2": 580,
+      "y2": 461,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-32",
+      "x1": 540,
+      "y1": 417,
+      "x2": 580,
+      "y2": 417,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-33",
+      "x1": 540,
+      "y1": 373,
+      "x2": 580,
+      "y2": 373,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-34",
+      "x1": 540,
+      "y1": 329,
+      "x2": 580,
+      "y2": 329,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-35",
+      "to": "chip-body",
+      "x1": 580,
+      "y1": 285,
+      "x2": 540,
+      "y2": 285,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-36",
+      "to": "chip-body",
+      "x1": 580,
+      "y1": 241,
+      "x2": 540,
+      "y2": 241,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-37",
+      "x1": 540,
+      "y1": 197,
+      "x2": 580,
+      "y2": 197,
+      "type": "unidirectional"
+    },
+    {
+      "from": "chip-body",
+      "to": "pin-38",
+      "x1": 540,
+      "y1": 153,
+      "x2": 580,
+      "y2": 153,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-39",
+      "to": "chip-body",
+      "x1": 580,
+      "y1": 109,
+      "x2": 540,
+      "y2": 109,
+      "type": "unidirectional"
+    },
+    {
+      "from": "pin-40",
+      "to": "chip-body",
+      "x1": 580,
+      "y1": 65,
+      "x2": 540,
+      "y2": 65,
+      "type": "unidirectional"
+    }
+  ],
+  "theory": "The Intel 8085 is a 40-pin Dual In-line Package (DIP) 8-bit microprocessor. The 40 pins can be classified into six functional groups:\n\n1. Address Bus:\n- Pins 21 to 28 (A8 to A15): Upper 8 bits of the address bus. These are output pins and carry the most significant 8 bits of memory/IO address. They remain active during the entire machine cycle.\n\n2. Multiplexed Address/Data Bus:\n- Pins 12 to 19 (AD0 to AD7): Lower 8 bits of the address bus multiplexed with the 8-bit data bus. During the T1 state of a machine cycle, these lines carry the lower 8 bits of address (synchronized with ALE = 1). During T2 and T3 states, they serve as the bidirectional data bus.\n\n3. Control and Status Signals:\n- ALE (Address Latch Enable): Pin 30. A positive pulse sent by the CPU to indicate that AD0-AD7 carry a valid address. It is used to latch the address into external registers (e.g., 74LS373).\n- RD̄ (Read): Pin 32. Output, active-low. Indicates that the selected memory or I/O device is to be read.\n- WR̄ (Write): Pin 31. Output, active-low. Indicates that data on the data bus is to be written into the selected memory or I/O location.\n- IO/M̄: Pin 34. Output status line. High indicates an I/O operation, and Low indicates a memory operation.\n- S1 and S0: Pins 33 and 29. Status signals that define the current machine cycle state (e.g., Opcode Fetch: S1=1, S0=1; Memory Read: S1=1, S0=0; Memory Write: S1=0, S0=1; Halt: S1=0, S0=0).\n\n4. Power Supply and Clock Signals:\n- VCC: Pin 40. +5V power supply input.\n- VSS: Pin 20. Ground reference (0V).\n- X1 and X2: Pins 1 and 2. Crystal inputs. A crystal oscillator or RC network is connected here to set the internal clock frequency (the internal frequency is half of the crystal frequency, e.g., a 6 MHz crystal yields a 3 MHz CPU clock).\n- CLK (OUT): Pin 37. System clock output to synchronize other peripheral devices with the processor.\n\n5. Interrupts and Peripheral Signals:\n- TRAP: Pin 6. Highest priority, non-maskable vectored interrupt (edge and level triggered).\n- RST 7.5: Pin 7. Maskable vectored interrupt (rising edge triggered).\n- RST 6.5: Pin 8. Maskable vectored interrupt (high level triggered).\n- RST 5.5: Pin 9. Maskable vectored interrupt (high level triggered).\n- INTR: Pin 10. Maskable general-purpose interrupt request.\n- INTĀ: Pin 11. Interrupt acknowledge output (active low), used to read the opcode/vector from the interrupting device.\n\n6. DMA (Direct Memory Access) Signals:\n- HOLD: Pin 39. Input requesting DMA controller to gain control of address and data buses.\n- HLDA (Hold Acknowledge): Pin 38. Output indicating the CPU has released the buses for DMA.\n\n7. Reset Signals:\n- RESET IN̄: Pin 36. Input, active-low. Resets the Program Counter to 0000H and clears interrupts.\n- RESET OUT: Pin 3. Output, active-high. Indicates the CPU is being reset and can reset other system components.",
+  "keyPoints": [
+    "40-pin Dual In-line Package (DIP) chip.",
+    "Multiplexed AD0-AD7 (pins 12-19) carries address on ALE=1 and data on ALE=0.",
+    "Dedicated A8-A15 (pins 21-28) carries high-order address.",
+    "Vcc (pin 40) is +5V, Vss (pin 20) is ground (0V).",
+    "Crystal oscillator connects to X1 and X2 (pins 1, 2) to supply the internal clock.",
+    "Status signals S1, S0, and IO/M̄ define the type of bus transfer operation in progress."
+  ],
+  "useCases": [
+    "Drawing a complete pin layout diagram in examinations for typical 10-mark questions.",
+    "Understanding input/output directional flow of processor control and address lines.",
+    "Designing peripheral interfaces (latch, memory, I/O ports) using ALE, RD̄, WR̄, and IO/M̄."
+  ]
+}

@@ -28,26 +28,132 @@
     ],
     "schema_template": {
       "type": "circuit-schematic",
-      "viewBox": { "width": 560, "height": 340 },
+      "viewBox": {
+        "width": 560,
+        "height": 340
+      },
       "components": [
-        { "id": "v1", "type": "dc-source", "label": "V1 = 20V", "x": 100, "y": 180, "rotation": 0 },
-        { "id": "r1", "type": "resistor", "label": "R1 = 4Ω", "x": 200, "y": 100, "rotation": 0 },
-        { "id": "r2", "type": "resistor", "label": "R2 = 6Ω", "x": 360, "y": 100, "rotation": 0 },
-        { "id": "r3", "type": "resistor", "label": "R3 = 10Ω", "x": 280, "y": 180, "rotation": 90 },
-        { "id": "v2", "type": "dc-source", "label": "V2 = 10V", "x": 460, "y": 180, "rotation": 180 },
-        { "id": "gnd", "type": "ground", "x": 280, "y": 280 }
+        {
+          "id": "v1",
+          "type": "dc-source",
+          "label": "V1 = 20V",
+          "x": 100,
+          "y": 180,
+          "rotation": 0
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1 = 4Ω",
+          "x": 200,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "r2",
+          "type": "resistor",
+          "label": "R2 = 6Ω",
+          "x": 360,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "r3",
+          "type": "resistor",
+          "label": "R3 = 10Ω",
+          "x": 280,
+          "y": 180,
+          "rotation": 90
+        },
+        {
+          "id": "v2",
+          "type": "dc-source",
+          "label": "V2 = 10V",
+          "x": 460,
+          "y": 180,
+          "rotation": 180
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 280,
+          "y": 280
+        }
       ],
       "wires": [
-        { "from": "v1", "to": "r1", "points": [ { "x": 100, "y": 100 } ] },
-        { "from": "r1", "to": "r3", "points": [ { "x": 280, "y": 100 } ] },
-        { "from": "r3", "to": "r2", "points": [] },
-        { "from": "r2", "to": "v2", "points": [ { "x": 460, "y": 100 } ] },
-        { "from": "v1", "to": "gnd", "points": [ { "x": 100, "y": 260 }, { "x": 280, "y": 260 } ] },
-        { "from": "v2", "to": "gnd", "points": [ { "x": 460, "y": 260 }, { "x": 280, "y": 260 } ] }
+        {
+          "from": "v1",
+          "to": "r1",
+          "points": [
+            {
+              "x": 100,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "r3",
+          "points": [
+            {
+              "x": 280,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "r3",
+          "to": "r2",
+          "points": []
+        },
+        {
+          "from": "r2",
+          "to": "v2",
+          "points": [
+            {
+              "x": 460,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "v1",
+          "to": "gnd",
+          "points": [
+            {
+              "x": 100,
+              "y": 260
+            },
+            {
+              "x": 280,
+              "y": 260
+            }
+          ]
+        },
+        {
+          "from": "v2",
+          "to": "gnd",
+          "points": [
+            {
+              "x": 460,
+              "y": 260
+            },
+            {
+              "x": 280,
+              "y": 260
+            }
+          ]
+        }
       ],
       "junctions": [
-        { "x": 280, "y": 100 },
-        { "x": 280, "y": 260 }
+        {
+          "x": 280,
+          "y": 100
+        },
+        {
+          "x": 280,
+          "y": 260
+        }
       ]
     }
   },
@@ -80,16 +186,71 @@
     ],
     "schema_template": {
       "type": "circuit-schematic",
-      "viewBox": { "width": 500, "height": 300 },
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
       "components": [
-        { "id": "vth", "type": "dc-source", "label": "Vth", "x": 120, "y": 150, "rotation": 0 },
-        { "id": "rth", "type": "resistor", "label": "Rth", "x": 240, "y": 80, "rotation": 0 },
-        { "id": "rl", "type": "resistor", "label": "RL (Load)", "x": 380, "y": 150, "rotation": 90 }
+        {
+          "id": "vth",
+          "type": "dc-source",
+          "label": "Vth",
+          "x": 120,
+          "y": 150,
+          "rotation": 0
+        },
+        {
+          "id": "rth",
+          "type": "resistor",
+          "label": "Rth",
+          "x": 240,
+          "y": 80,
+          "rotation": 0
+        },
+        {
+          "id": "rl",
+          "type": "resistor",
+          "label": "RL (Load)",
+          "x": 380,
+          "y": 150,
+          "rotation": 90
+        }
       ],
       "wires": [
-        { "from": "vth", "to": "rth", "points": [ { "x": 120, "y": 80 } ] },
-        { "from": "rth", "to": "rl", "points": [ { "x": 380, "y": 80 } ] },
-        { "from": "vth", "to": "rl", "points": [ { "x": 120, "y": 220 }, { "x": 380, "y": 220 } ] }
+        {
+          "from": "vth",
+          "to": "rth",
+          "points": [
+            {
+              "x": 120,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rth",
+          "to": "rl",
+          "points": [
+            {
+              "x": 380,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "vth",
+          "to": "rl",
+          "points": [
+            {
+              "x": 120,
+              "y": 220
+            },
+            {
+              "x": 380,
+              "y": 220
+            }
+          ]
+        }
       ],
       "junctions": []
     }
@@ -123,32 +284,182 @@
     ],
     "schema_template": {
       "type": "circuit-schematic",
-      "viewBox": { "width": 640, "height": 320 },
+      "viewBox": {
+        "width": 640,
+        "height": 320
+      },
       "components": [
-        { "id": "ac", "type": "ac-source", "label": "V1 (Supply)", "x": 80, "y": 160 },
-        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 80 },
-        { "id": "x1", "type": "resistor", "label": "jX1", "x": 260, "y": 80 },
-        { "id": "rc", "type": "resistor", "label": "Rc", "x": 340, "y": 160, "rotation": 90 },
-        { "id": "xm", "type": "resistor", "label": "jXm", "x": 400, "y": 160, "rotation": 90 },
-        { "id": "r2", "type": "resistor", "label": "R2'", "x": 480, "y": 80 },
-        { "id": "x2", "type": "resistor", "label": "jX2'", "x": 560, "y": 80 }
+        {
+          "id": "ac",
+          "type": "ac-source",
+          "label": "V1 (Supply)",
+          "x": 80,
+          "y": 160
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 80
+        },
+        {
+          "id": "x1",
+          "type": "resistor",
+          "label": "jX1",
+          "x": 260,
+          "y": 80
+        },
+        {
+          "id": "rc",
+          "type": "resistor",
+          "label": "Rc",
+          "x": 340,
+          "y": 160,
+          "rotation": 90
+        },
+        {
+          "id": "xm",
+          "type": "resistor",
+          "label": "jXm",
+          "x": 400,
+          "y": 160,
+          "rotation": 90
+        },
+        {
+          "id": "r2",
+          "type": "resistor",
+          "label": "R2'",
+          "x": 480,
+          "y": 80
+        },
+        {
+          "id": "x2",
+          "type": "resistor",
+          "label": "jX2'",
+          "x": 560,
+          "y": 80
+        }
       ],
       "wires": [
-        { "from": "ac", "to": "r1", "points": [ { "x": 80, "y": 80 } ] },
-        { "from": "r1", "to": "x1", "points": [] },
-        { "from": "x1", "to": "rc", "points": [ { "x": 340, "y": 80 } ] },
-        { "from": "rc", "to": "xm", "points": [ { "x": 340, "y": 80 }, { "x": 400, "y": 80 } ] },
-        { "from": "xm", "to": "r2", "points": [ { "x": 400, "y": 80 } ] },
-        { "from": "r2", "to": "x2", "points": [] },
-        { "from": "ac", "to": "rc", "points": [ { "x": 80, "y": 240 }, { "x": 340, "y": 240 } ] },
-        { "from": "rc", "to": "xm", "points": [ { "x": 340, "y": 240 }, { "x": 400, "y": 240 } ] },
-        { "from": "xm", "to": "x2", "points": [ { "x": 400, "y": 240 }, { "x": 560, "y": 240 }, { "x": 560, "y": 90 } ] }
+        {
+          "from": "ac",
+          "to": "r1",
+          "points": [
+            {
+              "x": 80,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "x1",
+          "points": []
+        },
+        {
+          "from": "x1",
+          "to": "rc",
+          "points": [
+            {
+              "x": 340,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rc",
+          "to": "xm",
+          "points": [
+            {
+              "x": 340,
+              "y": 80
+            },
+            {
+              "x": 400,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "xm",
+          "to": "r2",
+          "points": [
+            {
+              "x": 400,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "r2",
+          "to": "x2",
+          "points": []
+        },
+        {
+          "from": "ac",
+          "to": "rc",
+          "points": [
+            {
+              "x": 80,
+              "y": 240
+            },
+            {
+              "x": 340,
+              "y": 240
+            }
+          ]
+        },
+        {
+          "from": "rc",
+          "to": "xm",
+          "points": [
+            {
+              "x": 340,
+              "y": 240
+            },
+            {
+              "x": 400,
+              "y": 240
+            }
+          ]
+        },
+        {
+          "from": "xm",
+          "to": "x2",
+          "points": [
+            {
+              "x": 400,
+              "y": 240
+            },
+            {
+              "x": 560,
+              "y": 240
+            },
+            {
+              "x": 560,
+              "y": 90
+            }
+          ]
+        }
       ],
       "junctions": [
-        { "x": 340, "y": 80 },
-        { "x": 400, "y": 80 },
-        { "x": 340, "y": 240 },
-        { "x": 400, "y": 240 }
+        {
+          "x": 340,
+          "y": 80
+        },
+        {
+          "x": 400,
+          "y": 80
+        },
+        {
+          "x": 340,
+          "y": 240
+        },
+        {
+          "x": 400,
+          "y": 240
+        }
       ]
     }
   },
@@ -181,19 +492,362 @@
     ],
     "schema_template": {
       "type": "block-diagram",
-      "viewBox": { "width": 500, "height": 300 },
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
       "blocks": [
-        { "id": "w", "label": "Vertical Support Wall", "x": 50, "y": 50, "width": 40, "height": 200, "color": "#E2E8F0" },
-        { "id": "j1", "label": "Joint A", "x": 90, "y": 80, "width": 20, "height": 20, "color": "#EF4444" },
-        { "id": "j2", "label": "Joint B", "x": 90, "y": 200, "width": 20, "height": 20, "color": "#EF4444" },
-        { "id": "j3", "label": "Joint C", "x": 220, "y": 140, "width": 20, "height": 20, "color": "#3B82F6" },
-        { "id": "j4", "label": "Joint D", "x": 350, "y": 140, "width": 20, "height": 20, "color": "#3B82F6" }
+        {
+          "id": "w",
+          "label": "Vertical Support Wall",
+          "x": 50,
+          "y": 50,
+          "width": 40,
+          "height": 200,
+          "color": "#E2E8F0"
+        },
+        {
+          "id": "j1",
+          "label": "Joint A",
+          "x": 90,
+          "y": 80,
+          "width": 20,
+          "height": 20,
+          "color": "#EF4444"
+        },
+        {
+          "id": "j2",
+          "label": "Joint B",
+          "x": 90,
+          "y": 200,
+          "width": 20,
+          "height": 20,
+          "color": "#EF4444"
+        },
+        {
+          "id": "j3",
+          "label": "Joint C",
+          "x": 220,
+          "y": 140,
+          "width": 20,
+          "height": 20,
+          "color": "#3B82F6"
+        },
+        {
+          "id": "j4",
+          "label": "Joint D",
+          "x": 350,
+          "y": 140,
+          "width": 20,
+          "height": 20,
+          "color": "#3B82F6"
+        }
       ],
       "connections": [
-        { "from": "j1", "to": "j3", "label": "Member AC", "style": "solid" },
-        { "from": "j2", "to": "j3", "label": "Member BC", "style": "solid" },
-        { "from": "j1", "to": "j2", "label": "Member AB", "style": "solid" },
-        { "from": "j3", "to": "j4", "label": "Member CD", "style": "solid" }
+        {
+          "from": "j1",
+          "to": "j3",
+          "label": "Member AC",
+          "style": "solid"
+        },
+        {
+          "from": "j2",
+          "to": "j3",
+          "label": "Member BC",
+          "style": "solid"
+        },
+        {
+          "from": "j1",
+          "to": "j2",
+          "label": "Member AB",
+          "style": "solid"
+        },
+        {
+          "from": "j3",
+          "to": "j4",
+          "label": "Member CD",
+          "style": "solid"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ac-rlc-circuit",
+    "title": "AC Series RLC Circuit Schematic",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 3: AC Circuits (Series RLC Circuits)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 385",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "An AC voltage v = 282.8 sin(314t) is applied to a series RLC circuit with R = 10Ω, L = 0.1H, and C = 100μF. Calculate impedance, current, power factor, and active power (Dec 2023).",
+        "Explain the phenomenon of resonance in a series RLC circuit. Derive the expression for resonant frequency and band-width (May 2024)."
+      ]
+    },
+    "theory": "An AC Series RLC Circuit consists of a resistor of resistance R (ohms), an inductor of self-inductance L (henrys), and a capacitor of capacitance C (farads) connected in series across an alternating voltage source. When an AC voltage v = Vm*sin(wt) is applied, a common alternating current I flows through all three elements. The voltage drop across R (Vr = I*R) is in phase with I. The voltage drop across L (Vl = I*Xl) leads the current by 90 degrees. The voltage drop across C (Vc = I*Xc) lags the current by 90 degrees. The total impedance is Z = sqrt(R^2 + (Xl - Xc)^2), and the phase angle is theta = arctan((Xl - Xc)/R). Depending on whether Xl > Xc or Xc > Xl, the circuit behaves as inductive (lagging pf) or capacitive (leading pf). At resonance, Xl = Xc, meaning the circuit is purely resistive, impedance is minimum (Z = R), current is maximum, and the power factor is unity.",
+    "key_points": [
+      "Series connection means current is the same through the resistor, inductor, and capacitor.",
+      "Resistor voltage drop (Vr = I*R) is in phase with current.",
+      "Inductor voltage (Vl = I*Xl) leads current by 90°, Capacitor voltage (Vc = I*Xc) lags current by 90°.",
+      "Total impedance Z = R + j(Xl - Xc); magnitude Z = sqrt(R^2 + (Xl - Xc)^2).",
+      "Power factor cos(theta) = R / Z. Lagging if Xl > Xc (inductive), leading if Xc > Xl (capacitive), unity if Xl = Xc (resonance).",
+      "Resonant frequency fr = 1 / (2 * pi * sqrt(L * C))."
+    ],
+    "use_cases": [
+      "Tuning circuits in radio and television receivers to select specific frequencies.",
+      "Bandpass and bandstop filters for signal processing.",
+      "Impedance matching networks in communication systems.",
+      "Oscillator circuits and pulse generators."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 600,
+        "height": 360
+      },
+      "components": [
+        {
+          "id": "VS1",
+          "symbol": "ac-source",
+          "label": "Vs(t)",
+          "x": 100,
+          "y": 180,
+          "rotation": 0
+        },
+        {
+          "id": "R1",
+          "symbol": "resistor",
+          "label": "R",
+          "x": 200,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "L1",
+          "symbol": "inductor",
+          "label": "L",
+          "x": 320,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "C1",
+          "symbol": "capacitor",
+          "label": "C",
+          "x": 440,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "GND1",
+          "symbol": "ground",
+          "x": 300,
+          "y": 272,
+          "rotation": 0
+        }
+      ],
+      "wires": [
+        {
+          "x1": 100,
+          "y1": 154,
+          "x2": 100,
+          "y2": 100,
+          "comment": "AC source top terminal to top-left corner"
+        },
+        {
+          "x1": 100,
+          "y1": 100,
+          "x2": 172,
+          "y2": 100,
+          "comment": "Top rail to resistor left lead"
+        },
+        {
+          "x1": 228,
+          "y1": 100,
+          "x2": 292,
+          "y2": 100,
+          "comment": "Resistor right lead to inductor left lead"
+        },
+        {
+          "x1": 348,
+          "y1": 100,
+          "x2": 426,
+          "y2": 100,
+          "comment": "Inductor right lead to capacitor left lead"
+        },
+        {
+          "x1": 454,
+          "y1": 100,
+          "x2": 500,
+          "y2": 100,
+          "comment": "Capacitor right lead to top-right corner"
+        },
+        {
+          "x1": 500,
+          "y1": 100,
+          "x2": 500,
+          "y2": 260,
+          "comment": "Right rail down to bottom-right corner"
+        },
+        {
+          "x1": 100,
+          "y1": 206,
+          "x2": 100,
+          "y2": 260,
+          "comment": "AC source bottom terminal to bottom-left corner"
+        },
+        {
+          "x1": 100,
+          "y1": 260,
+          "x2": 500,
+          "y2": 260,
+          "comment": "Bottom rail completes the loop"
+        },
+        {
+          "x1": 300,
+          "y1": 260,
+          "x2": 300,
+          "y2": 260,
+          "comment": "Marker for ground tap"
+        }
+      ],
+      "junctions": [
+        {
+          "x": 300,
+          "y": 260,
+          "comment": "Ground junction"
+        }
+      ]
+    }
+  },
+  {
+    "id": "norton-equivalent",
+    "title": "Norton's Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Norton's Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 125",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State Norton's Theorem and explain steps to find Norton's equivalent network across terminals AB (May 2024).",
+        "Determine the current flowing through RL using Norton's Theorem (Dec 2023)."
+      ]
+    },
+    "theory": "Norton's Theorem simplifies a complex linear, active, bilateral network containing independent sources and resistors into a simple equivalent circuit. This equivalent consists of a single independent current source, called the Norton equivalent current (IN) or short-circuit current (Isc), connected in parallel with an equivalent resistance, called the Norton equivalent resistance (RN) or equivalent resistance (Req). The load resistor (RL) is then connected in parallel across the output terminals of this equivalent network. The current through the load is determined using the current division formula: IL = IN * RN / (RN + RL).",
+    "key_points": [
+      "IN is the short-circuit current across terminals A and B with the load removed and replaced by a short circuit.",
+      "RN is the equivalent resistance looking back through terminals A and B with all independent voltage sources short-circuited and current sources open-circuited.",
+      "RN is identical to the Thevenin equivalent resistance (Rth).",
+      "Useful for analyzing circuits under variable load conditions or circuits with dominant parallel paths.",
+      "Source transformation can convert a Norton equivalent circuit to a Thevenin equivalent circuit and vice-versa."
+    ],
+    "use_cases": [
+      "Current division analysis in parallel load networks and power distribution subsystems.",
+      "Small-signal modeling of transistor circuits (such as BJT and FET hybrid-pi models)."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "in",
+          "type": "current-source",
+          "label": "IN",
+          "x": 120,
+          "y": 150,
+          "rotation": 0
+        },
+        {
+          "id": "rn",
+          "type": "resistor",
+          "label": "RN",
+          "x": 250,
+          "y": 150,
+          "rotation": 90
+        },
+        {
+          "id": "rl",
+          "type": "resistor",
+          "label": "RL (Load)",
+          "x": 380,
+          "y": 150,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "from": "in",
+          "to": "rn",
+          "points": [
+            {
+              "x": 120,
+              "y": 80
+            },
+            {
+              "x": 250,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rn",
+          "to": "rl",
+          "points": [
+            {
+              "x": 250,
+              "y": 80
+            },
+            {
+              "x": 380,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "in",
+          "to": "rn",
+          "points": [
+            {
+              "x": 120,
+              "y": 220
+            },
+            {
+              "x": 250,
+              "y": 220
+            }
+          ]
+        },
+        {
+          "from": "rn",
+          "to": "rl",
+          "points": [
+            {
+              "x": 250,
+              "y": 220
+            },
+            {
+              "x": 380,
+              "y": 220
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 250,
+          "y": 80
+        },
+        {
+          "x": 250,
+          "y": 220
+        }
       ]
     }
   }

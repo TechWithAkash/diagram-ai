@@ -1,0 +1,143 @@
+{
+  "id": "cache-associative-mapping",
+  "type": "block-diagram",
+  "title": "Cache Memory — Fully Associative Mapping",
+  "category": "Computer Organization",
+  "aliases": [
+    "fully associative cache",
+    "associative cache mapping",
+    "fully associative mapping",
+    "cache associative mapping",
+    "content addressable cache"
+  ],
+  "examTip": "In Fully Associative Mapping, any memory block can be placed in ANY cache line. There is NO line index field in the address — the full remaining bits form the tag. On lookup, the CPU must compare the tag against ALL cache line tags simultaneously using parallel comparators (CAM — Content Addressable Memory). This gives the best hit rate (no conflict misses) but requires the most expensive hardware. Used in small, critical structures like TLBs.",
+  "viewBox": { "width": 900, "height": 660 },
+  "complexity": "Advanced",
+  "subject_category": "Computer Organization",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "Fully Associative Cache — Any Block → Any Line",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 15
+    },
+    {
+      "id": "addr-label",
+      "label": "Memory Address Structure — Only 2 Fields (No Set Index!)",
+      "x": 10, "y": 60, "width": 880, "height": 32,
+      "color": "#EFF6FF", "borderColor": "#3B82F6", "labelSize": 13
+    },
+    {
+      "id": "addr-tag",
+      "label": "TAG (28 bits) — compared against ALL cache lines simultaneously",
+      "x": 10, "y": 100, "width": 650, "height": 55,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "note": "Larger tag field — no index bits needed",
+      "labelSize": 14
+    },
+    {
+      "id": "addr-word",
+      "label": "WORD OFFSET (4 bits)",
+      "x": 668, "y": 100, "width": 222, "height": 55,
+      "color": "#FEF08A", "borderColor": "#CA8A04",
+      "note": "Byte offset within block",
+      "labelSize": 14
+    },
+    {
+      "id": "rule",
+      "label": "Rule: Any memory block can occupy any cache line — placement policy determines which line",
+      "x": 10, "y": 168, "width": 880, "height": 36,
+      "color": "#ECFDF5", "borderColor": "#059669", "labelSize": 12
+    },
+    {
+      "id": "cache-header",
+      "label": "CACHE MEMORY (8 Lines — Fully Associative)",
+      "x": 10, "y": 216, "width": 500, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    { "id": "col-v",    "label": "V", "x": 10,  "y": 256, "width": 30,  "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "col-tag",  "label": "Tag (28-bit)", "x": 44, "y": 256, "width": 200, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "col-data", "label": "Data Block", "x": 248, "y": 256, "width": 262, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+
+    { "id": "l0",  "label": "1", "x": 10, "y": 294, "width": 30, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 11 },
+    { "id": "t0",  "label": "0xA3B2C1D", "x": 44,  "y": 294, "width": 200,"height": 34, "color": "#DBEAFE","borderColor": "#3B82F6","labelSize": 12 },
+    { "id": "d0",  "label": "Memory Block 0xA3B2C1D (any block)",  "x": 248, "y": 294, "width": 262,"height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 11 },
+
+    { "id": "l1",  "label": "1", "x": 10, "y": 332, "width": 30, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 11 },
+    { "id": "t1",  "label": "0x00FF2A8", "x": 44,  "y": 332, "width": 200,"height": 34, "color": "#DBEAFE","borderColor": "#3B82F6","labelSize": 12 },
+    { "id": "d1",  "label": "Memory Block 0x00FF2A8 (any block)",  "x": 248, "y": 332, "width": 262,"height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 11 },
+
+    { "id": "l2",  "label": "1", "x": 10, "y": 370, "width": 30, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 11 },
+    { "id": "t2",  "label": "0xFE12345", "x": 44,  "y": 370, "width": 200,"height": 34, "color": "#EDE9FE","borderColor": "#7C3AED","labelSize": 12 },
+    { "id": "d2",  "label": "Memory Block 0xFE12345 (any block)",  "x": 248, "y": 370, "width": 262,"height": 34, "color": "#F8FAFC","borderColor": "#CBD5E1","labelSize": 11 },
+
+    { "id": "ldots","label": "...", "x": 10, "y": 408, "width": 500, "height": 28, "color": "#F8FAFC","borderColor": "#E2E8F0","labelSize": 12 },
+
+    { "id": "l7",  "label": "0", "x": 10, "y": 440, "width": 30, "height": 34, "color": "#F1F5F9","borderColor": "#CBD5E1","labelSize": 11 },
+    { "id": "t7",  "label": "EMPTY",     "x": 44,  "y": 440, "width": 200,"height": 34, "color": "#F1F5F9","borderColor": "#CBD5E1","labelSize": 12 },
+    { "id": "d7",  "label": "— (invalid)",                         "x": 248, "y": 440, "width": 262,"height": 34, "color": "#F1F5F9","borderColor": "#CBD5E1","labelSize": 11 },
+
+    {
+      "id": "cam-box",
+      "label": "Lookup: CAM (Content Addressable Memory) — All Tags Compared in Parallel",
+      "x": 530, "y": 216, "width": 360, "height": 258,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "sublabels": [
+        "All 8 comparators fire simultaneously.",
+        "Each comparator checks: address_tag == stored_tag[i]",
+        "If any match AND valid=1 → HIT → select that line's data.",
+        "If no match → MISS → place block in an empty line or evict one using LRU/FIFO.",
+        "Hardware cost: C comparators (one per line).",
+        "Very expensive for large caches — only feasible for small ones like TLBs (16–64 entries)."
+      ],
+      "labelSize": 12
+    },
+
+    {
+      "id": "props-box",
+      "label": "Fully Associative Properties",
+      "x": 10, "y": 490, "width": 430, "height": 155,
+      "color": "#EFF6FF", "borderColor": "#3B82F6",
+      "sublabels": [
+        "✅ No conflict misses — block goes anywhere.",
+        "✅ Best cache utilization — no wasted slots due to mapping conflicts.",
+        "✅ Optimal with ideal replacement policy (Belady's OPT).",
+        "❌ Most expensive hardware — needs C parallel comparators.",
+        "❌ Power-hungry — all comparators active on every access.",
+        "❌ Only practical for very small caches (TLB: 16–128 entries)."
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "replace-box",
+      "label": "Replacement Policies (when cache is full)",
+      "x": 458, "y": 490, "width": 432, "height": 155,
+      "color": "#ECFDF5", "borderColor": "#059669",
+      "sublabels": [
+        "LRU (Least Recently Used): Evict the line not accessed for the longest time. Best practical performance.",
+        "FIFO (First-In-First-Out): Evict the oldest loaded line. Simple to implement.",
+        "LFU (Least Frequently Used): Evict the line accessed fewest times.",
+        "Random: Pick a random line to evict. Avoids worst-case adversarial patterns.",
+        "OPT (Belady's): Evict the line whose next use is farthest in the future. Theoretical optimal — requires future knowledge."
+      ],
+      "labelSize": 12
+    }
+  ],
+  "connections": [
+    { "from": "addr-tag", "to": "cam-box", "x1": 330, "y1": 155, "x2": 710, "y2": 216, "label": "Compare ALL tags" }
+  ],
+  "theory": "Fully Associative Mapping is the most flexible but most hardware-expensive cache organization. Any block from main memory can be placed in any cache line — there is no restriction based on the block number.\n\nAddress Structure: Tag | Word Offset (only 2 fields — no Set Index)\nSince there's no index field, the tag must be compared against every cache line's tag simultaneously. This requires a special hardware structure called CAM (Content Addressable Memory) where all C tag comparators operate in parallel.\n\nLookup:\n1. Send the tag to all C comparators simultaneously.\n2. If any comparator produces a match AND that line's valid bit=1 → CACHE HIT → retrieve data.\n3. If no match → CACHE MISS → fetch from main memory.\n\nPlacement (on miss):\n- If empty line exists → place block there.\n- If cache is full → apply replacement policy (LRU, FIFO, Random, LFU).\n\nWhere is it used?\n- TLB (Translation Lookaside Buffer): Fully associative, 16–512 entries, extremely fast.\n- Small victim caches (e.g., L1 victim cache in some CPUs).\n- NOT used for main L1/L2 cache — too expensive for hundreds of kilobytes.",
+  "keyPoints": [
+    "Any block can go to any cache line — no fixed mapping formula.",
+    "Address has only 2 fields: Tag (large) | Word Offset (no set index).",
+    "All C tags checked simultaneously with C parallel comparators (CAM hardware).",
+    "No conflict misses — highest cache efficiency possible.",
+    "Hardware cost is O(C) comparators — only practical for small caches (TLB: 16–128 lines).",
+    "Replacement needs explicit policy: LRU (best), FIFO, Random, OPT (theoretical optimal)."
+  ],
+  "useCases": [
+    "TLB (Translation Lookaside Buffer) — fully associative, 16–512 entries.",
+    "Victim caches (small fully-associative buffer to catch lines evicted from L1 direct-mapped cache).",
+    "Theoretical cache analysis — Belady's OPT algorithm and Miss Rate calculations."
+  ]
+}

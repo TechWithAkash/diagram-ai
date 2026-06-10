@@ -1,0 +1,281 @@
+{
+  "id": "timing-memory-write",
+  "type": "block-diagram",
+  "title": "Intel 8085 Memory Write Timing Diagram",
+  "category": "Microprocessors",
+  "aliases": [
+    "8085 memory write timing",
+    "memory write timing diagram",
+    "timing diagram memory write",
+    "8085 memory write",
+    "8085 memory write machine cycle",
+    "8085 bus write timing"
+  ],
+  "examTip": "The Memory Write cycle is a 3 T-state machine cycle (T1-T3). In T1, ALE goes high to latch lower address A0-A7 from AD0-AD7. In T2, CPU places data to be written on AD0-AD7, and WR̄ goes low. At the end/middle of T3, WR̄ goes high, writing data to the addressed memory location. IO/M̄ is low (0), S1=0, S0=1 throughout the cycle.",
+  "viewBox": {
+    "width": 800,
+    "height": 480
+  },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "t1-header",
+      "label": "T1 (State 1)",
+      "x": 160,
+      "y": 50,
+      "width": 160,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Address Latching"
+    },
+    {
+      "id": "t2-header",
+      "label": "T2 (State 2)",
+      "x": 320,
+      "y": 50,
+      "width": 160,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Write Active"
+    },
+    {
+      "id": "t3-header",
+      "label": "T3 (State 3)",
+      "x": 480,
+      "y": 50,
+      "width": 160,
+      "height": 50,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6",
+      "note": "Write Execution"
+    },
+    {
+      "id": "clk-label",
+      "label": "CLK (Clock)",
+      "x": 30,
+      "y": 100,
+      "width": 110,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#64748B"
+    },
+    {
+      "id": "clk-t1",
+      "label": "T1 Period",
+      "x": 160,
+      "y": 100,
+      "width": 160,
+      "height": 50,
+      "color": "#F1F5F9",
+      "borderColor": "#475569",
+      "note": "1 complete clock cycle"
+    },
+    {
+      "id": "clk-t2",
+      "label": "T2 Period",
+      "x": 320,
+      "y": 100,
+      "width": 160,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "clk-t3",
+      "label": "T3 Period",
+      "x": 480,
+      "y": 100,
+      "width": 160,
+      "height": 42,
+      "color": "#F1F5F9",
+      "borderColor": "#475569"
+    },
+    {
+      "id": "a8-a15-label",
+      "label": "A8 - A15 (Upper)",
+      "x": 30,
+      "y": 150,
+      "width": 110,
+      "height": 42,
+      "color": "#F0FDF4",
+      "borderColor": "#16A34A"
+    },
+    {
+      "id": "a8-a15-active",
+      "label": "Higher Address = PCH",
+      "x": 160,
+      "y": 150,
+      "width": 480,
+      "height": 50,
+      "color": "#DCFCE7",
+      "borderColor": "#16A34A",
+      "note": "Higher 8 bits of PC (Stable)"
+    },
+    {
+      "id": "ad0-ad7-label",
+      "label": "AD0 - AD7 (Lower)",
+      "x": 30,
+      "y": 205,
+      "width": 110,
+      "height": 42,
+      "color": "#EFF6FF",
+      "borderColor": "#2563EB"
+    },
+    {
+      "id": "ad0-ad7-address",
+      "label": "Lower Address = PCL",
+      "x": 160,
+      "y": 205,
+      "width": 160,
+      "height": 50,
+      "color": "#DBEAFE",
+      "borderColor": "#2563EB",
+      "note": "Lower 8 bits of PC (Address)"
+    },
+    {
+      "id": "ad0-ad7-data",
+      "label": "Write Data = D0 - D7",
+      "x": 320,
+      "y": 205,
+      "width": 320,
+      "height": 50,
+      "color": "#FEE2E2",
+      "borderColor": "#EF4444",
+      "note": "Placed by CPU on AD0-AD7"
+    },
+    {
+      "id": "ale-label",
+      "label": "ALE (Latch En)",
+      "x": 30,
+      "y": 260,
+      "width": 110,
+      "height": 42,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706"
+    },
+    {
+      "id": "ale-high",
+      "label": "ALE = 1 (HIGH)",
+      "x": 160,
+      "y": 260,
+      "width": 160,
+      "height": 50,
+      "color": "#FEF3C7",
+      "borderColor": "#D97706",
+      "note": "Enable latch pulse"
+    },
+    {
+      "id": "ale-low",
+      "label": "ALE = 0 (LOW)",
+      "x": 320,
+      "y": 260,
+      "width": 320,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Address is latched"
+    },
+    {
+      "id": "wr-label",
+      "label": "WR̄ (Active Low)",
+      "x": 30,
+      "y": 310,
+      "width": 110,
+      "height": 42,
+      "color": "#FFFBEB",
+      "borderColor": "#CA8A04"
+    },
+    {
+      "id": "wr-high1",
+      "label": "WR̄ = 1 (HIGH)",
+      "x": 160,
+      "y": 310,
+      "width": 160,
+      "height": 42,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1"
+    },
+    {
+      "id": "wr-low",
+      "label": "WR̄ = 0 (LOW)",
+      "x": 320,
+      "y": 310,
+      "width": 240,
+      "height": 50,
+      "color": "#FEE2E2",
+      "borderColor": "#EF4444",
+      "note": "Memory Write Active"
+    },
+    {
+      "id": "wr-high2",
+      "label": "WR̄ = 1 (HIGH)",
+      "x": 560,
+      "y": 310,
+      "width": 80,
+      "height": 50,
+      "color": "#F8FAFC",
+      "borderColor": "#CBD5E1",
+      "note": "Rising edge writes data"
+    },
+    {
+      "id": "iom-label",
+      "label": "IO/M̄ (Control)",
+      "x": 30,
+      "y": 360,
+      "width": 110,
+      "height": 42,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED"
+    },
+    {
+      "id": "iom-low",
+      "label": "IO/M̄ = 0 (LOW - Memory)",
+      "x": 160,
+      "y": 360,
+      "width": 480,
+      "height": 50,
+      "color": "#F5F3FF",
+      "borderColor": "#7C3AED",
+      "note": "Stays low for memory operation"
+    },
+    {
+      "id": "status-label",
+      "label": "S1, S0 (Status)",
+      "x": 30,
+      "y": 410,
+      "width": 110,
+      "height": 42,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981"
+    },
+    {
+      "id": "status-val",
+      "label": "S1 = 0, S0 = 1 (Write)",
+      "x": 160,
+      "y": 410,
+      "width": 480,
+      "height": 50,
+      "color": "#ECFDF5",
+      "borderColor": "#10B981",
+      "note": "Identifies memory write cycle"
+    }
+  ],
+  "connections": [],
+  "theory": "The Memory Write machine cycle is executed by the Intel 8085 microprocessor to write 8-bit data into a specified memory location. This cycle consists of 3 clock cycles/states: T1, T2, and T3.\n\nHere is the step-by-step operation across the T-states:\n\n1. State T1:\n- The microprocessor places the 16-bit memory address on the buses: the higher-order 8 bits of the memory address (A8-A15) on the A8-A15 address bus, and the lower-order 8 bits of the address (A0-A7) on the multiplexed AD0-AD7 address/data bus.\n- The IO/M̄ signal is set LOW to indicate a memory operation.\n- Status lines S1 and S0 are set to S1 = 0 and S0 = 1 to indicate a write operation.\n- The ALE (Address Latch Enable) signal goes HIGH. The falling edge of ALE is used by an external latch (e.g., 74LS373) to capture and store the lower-order address (A0-A7).\n\n2. State T2:\n- The microprocessor removes the lower-order address from the AD0-AD7 bus and places the data to be written (D0-D7) on the AD0-AD7 bus.\n- The microprocessor asserts the WR̄ (Write) signal LOW. This active-low control signal enables the write buffer of the selected memory chip.\n\n3. State T3:\n- The data to be written remains stable on the AD0-AD7 bus.\n- During the middle of the T3 state, the WR̄ signal goes back HIGH. The rising edge of this write pulse triggers the memory device to latch/write the data from the AD0-AD7 bus into the addressed memory location.\n- The CPU then removes the data from the AD0-AD7 bus and de-asserts status signals at the end of T3.",
+  "keyPoints": [
+    "The Memory Write cycle of the Intel 8085 microprocessor occupies 3 T-states (T1, T2, T3).",
+    "In T1, ALE (Address Latch Enable) is high, and the multiplexed AD0-AD7 bus carries the lower-order address (A0-A7).",
+    "In T2, the CPU places write data (D0-D7) on the AD0-AD7 bus, and asserts the WR̄ (Write) control signal low.",
+    "The WR̄ signal goes high during T3, executing the write operation on its rising edge.",
+    "A8-A15 carries the higher-order address (A8-A15) and remains stable throughout T1, T2, and T3.",
+    "IO/M̄ stays low (0) for memory access, and status signals S1=0, S0=1 define a Write machine cycle."
+  ],
+  "useCases": [
+    "Analyzing the bus activity of the 8085 microprocessor during write instructions like MOV M, A or SHLD.",
+    "Interfacing SRAM/DRAM write-enable inputs with the 8085 WR̄ control signal.",
+    "Designing and testing memory write cycles using timing diagrams in academic exams and logic analyzers."
+  ]
+}

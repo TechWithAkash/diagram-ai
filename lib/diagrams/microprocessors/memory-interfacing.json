@@ -1,0 +1,171 @@
+{
+  "id": "memory-interfacing",
+  "type": "block-diagram",
+  "title": "Memory Interfacing with 8085 Microprocessor",
+  "category": "Microprocessors",
+  "aliases": [
+    "memory interfacing",
+    "8085 memory interfacing",
+    "memory chip interfacing",
+    "RAM interfacing 8085",
+    "ROM interfacing 8085",
+    "memory address decoding"
+  ],
+  "examTip": "In memory interfacing, the 8085's 16-bit address bus is split: higher-order bits go to a decoder (e.g., 74LS138 3-to-8) to generate chip select signals, while lower-order bits directly drive the memory chip's address pins. IO/M̄ = 0 for memory operations. MEMR̄ and MEMW̄ connect to OE̊ and WE̊ of the RAM chip. Key formula: Memory capacity = 2^(address lines of chip). Chip select = decoded from upper address bits.",
+  "viewBox": { "width": 900, "height": 680 },
+  "complexity": "Advanced",
+  "subject_category": "Microprocessors",
+  "blocks": [
+    {
+      "id": "title",
+      "label": "Memory Interfacing — 8085 with ROM and RAM Chips",
+      "x": 10, "y": 8, "width": 880, "height": 40,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 15
+    },
+    {
+      "id": "cpu-8085",
+      "label": "Intel 8085 CPU",
+      "x": 10, "y": 60, "width": 200, "height": 260,
+      "color": "#EFF6FF", "borderColor": "#2563EB",
+      "sublabels": [
+        "A15-A8 (Upper Address)",
+        "AD7-AD0 (Mux Lower Addr/Data)",
+        "ALE (Address Latch Enable)",
+        "MEMR̄ (Memory Read)",
+        "MEMW̄ (Memory Write)",
+        "IO/M̄ (0 = Memory, 1 = I/O)",
+        "RD̄ (Read Strobe)",
+        "WR̄ (Write Strobe)"
+      ],
+      "labelSize": 14
+    },
+    {
+      "id": "latch-74373",
+      "label": "74LS373 Latch",
+      "x": 260, "y": 60, "width": 150, "height": 80,
+      "color": "#ECFDF5", "borderColor": "#059669",
+      "sublabels": [
+        "Latches A7-A0 from",
+        "AD7-AD0 on ALE↓ edge"
+      ],
+      "labelSize": 13
+    },
+    {
+      "id": "decoder",
+      "label": "74LS138 Decoder (3-to-8)",
+      "x": 260, "y": 160, "width": 150, "height": 160,
+      "color": "#FEF9C3", "borderColor": "#CA8A04",
+      "sublabels": [
+        "Inputs: A15, A14, A13",
+        "Enable: IO/M̄ = 0",
+        "Outputs: CS̄0 to CS̄7",
+        "Each output selects",
+        "one memory chip/bank",
+        "(active LOW)"
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "rom-chip",
+      "label": "ROM / EPROM Chip (e.g., 2764 — 8KB)",
+      "x": 480, "y": 60, "width": 400, "height": 140,
+      "color": "#F0FDF4", "borderColor": "#16A34A",
+      "sublabels": [
+        "A12-A0: 13 address pins → 8K (8192) locations",
+        "D7-D0: 8-bit data pins → connected to system data bus",
+        "CS̄ (Chip Select): from decoder output CS̄0",
+        "OE̊ (Output Enable): connected to MEMR̄ — enables data output on read",
+        "No WE̊ pin — ROM is read-only"
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "ram-chip",
+      "label": "RAM Chip (e.g., 6264 — 8KB Static RAM)",
+      "x": 480, "y": 220, "width": 400, "height": 160,
+      "color": "#DBEAFE", "borderColor": "#2563EB",
+      "sublabels": [
+        "A12-A0: 13 address pins → 8K (8192) locations",
+        "D7-D0: 8-bit bidirectional data bus",
+        "CS̄1 (Chip Select 1): from decoder output CS̄1",
+        "OE̊ (Output Enable): from MEMR̄ — enables data output during read",
+        "WE̊ (Write Enable): from MEMW̄ — latches data into memory during write",
+        "CS2 (Chip Select 2): tied HIGH (+5V) for single chip systems"
+      ],
+      "labelSize": 12
+    },
+    {
+      "id": "addr-decode",
+      "label": "Address Decoding Example (8085 with 2764 ROM at 0000H)",
+      "x": 10, "y": 340, "width": 880, "height": 36,
+      "color": "#1E293B", "borderColor": "#0F172A", "labelSize": 13
+    },
+    {
+      "id": "decode-table-h",
+      "label": "A15",
+      "x": 10,  "y": 380, "width": 60, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12
+    },
+    { "id": "dth-a14",  "label": "A14", "x": 74,  "y": 380, "width": 60, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "dth-a13",  "label": "A13", "x": 138, "y": 380, "width": 60, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "dth-a12",  "label": "A12-A0", "x": 202, "y": 380, "width": 100, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "dth-cs",   "label": "CS̄ Output", "x": 306, "y": 380, "width": 120, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "dth-range","label": "Address Range", "x": 430, "y": 380, "width": 200, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+    { "id": "dth-chip", "label": "Chip Mapped", "x": 634, "y": 380, "width": 256, "height": 34, "color": "#374151", "borderColor": "#1F2937", "labelSize": 12 },
+
+    { "id": "row0-a15","label": "0", "x": 10,  "y": 418, "width": 60, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 12 },
+    { "id": "row0-a14","label": "0", "x": 74,  "y": 418, "width": 60, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 12 },
+    { "id": "row0-a13","label": "0", "x": 138, "y": 418, "width": 60, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 12 },
+    { "id": "row0-a12","label": "0000–1FFF", "x": 202, "y": 418, "width": 100, "height": 34, "color": "#F0FDF4","borderColor": "#16A34A","labelSize": 11 },
+    { "id": "row0-cs", "label": "CS̄0 = LOW", "x": 306, "y": 418, "width": 120, "height": 34, "color": "#FEF9C3","borderColor": "#CA8A04","labelSize": 12 },
+    { "id": "row0-rng","label": "0000H – 1FFFH", "x": 430, "y": 418, "width": 200, "height": 34, "color": "#DCFCE7","borderColor": "#16A34A","labelSize": 12 },
+    { "id": "row0-chp","label": "2764 ROM (8KB)", "x": 634, "y": 418, "width": 256, "height": 34, "color": "#DCFCE7","borderColor": "#16A34A","labelSize": 12 },
+
+    { "id": "row1-a15","label": "0", "x": 10,  "y": 456, "width": 60, "height": 34, "color": "#EFF6FF","borderColor": "#3B82F6","labelSize": 12 },
+    { "id": "row1-a14","label": "0", "x": 74,  "y": 456, "width": 60, "height": 34, "color": "#EFF6FF","borderColor": "#3B82F6","labelSize": 12 },
+    { "id": "row1-a13","label": "1", "x": 138, "y": 456, "width": 60, "height": 34, "color": "#EFF6FF","borderColor": "#3B82F6","labelSize": 12 },
+    { "id": "row1-a12","label": "2000–3FFF", "x": 202, "y": 456, "width": 100, "height": 34, "color": "#EFF6FF","borderColor": "#3B82F6","labelSize": 11 },
+    { "id": "row1-cs", "label": "CS̄1 = LOW", "x": 306, "y": 456, "width": 120, "height": 34, "color": "#FEF9C3","borderColor": "#CA8A04","labelSize": 12 },
+    { "id": "row1-rng","label": "2000H – 3FFFH", "x": 430, "y": 456, "width": 200, "height": 34, "color": "#DBEAFE","borderColor": "#2563EB","labelSize": 12 },
+    { "id": "row1-chp","label": "6264 RAM (8KB)", "x": 634, "y": 456, "width": 256, "height": 34, "color": "#DBEAFE","borderColor": "#2563EB","labelSize": 12 },
+
+    {
+      "id": "key-points",
+      "label": "Memory Interfacing Design Rules",
+      "x": 10, "y": 506, "width": 880, "height": 160,
+      "color": "#F8FAFC", "borderColor": "#94A3B8",
+      "sublabels": [
+        "1. Lower address bits (A0 to An-1) wire directly to memory chip address pins — where 2^n = chip capacity.",
+        "2. Upper address bits (e.g., A15, A14, A13) connect to decoder inputs for chip select generation.",
+        "3. IO/M̄ = 0 enables the decoder's enable input — ensures decoder only activates on memory (not I/O) operations.",
+        "4. MEMR̄ connects to OE̊ (Output Enable) of all memory chips — enables data bus output during read.",
+        "5. MEMW̄ connects to WE̊ (Write Enable) of RAM chips only — writes data into RAM during write cycles.",
+        "6. The 74LS373 latch demultiplexes AD0-AD7: on ALE HIGH, it captures A0-A7; on ALE LOW, AD0-AD7 carries data."
+      ],
+      "labelSize": 12
+    }
+  ],
+  "connections": [
+    { "from": "cpu-8085", "to": "latch-74373", "x1": 210, "y1": 100, "x2": 260, "y2": 100, "label": "AD7-AD0 + ALE" },
+    { "from": "cpu-8085", "to": "decoder",     "x1": 210, "y1": 200, "x2": 260, "y2": 200, "label": "A15-A13 + IO/M̄" },
+    { "from": "latch-74373", "to": "rom-chip", "x1": 410, "y1": 100, "x2": 480, "y2": 100, "label": "A7-A0" },
+    { "from": "latch-74373", "to": "ram-chip", "x1": 410, "y1": 100, "x2": 480, "y2": 280, "label": "A7-A0" },
+    { "from": "decoder", "to": "rom-chip",     "x1": 410, "y1": 180, "x2": 480, "y2": 140, "label": "CS̄0" },
+    { "from": "decoder", "to": "ram-chip",     "x1": 410, "y1": 240, "x2": 480, "y2": 280, "label": "CS̄1" },
+    { "from": "cpu-8085", "to": "rom-chip",    "x1": 210, "y1": 140, "x2": 480, "y2": 150, "label": "MEMR̄ → OE̊" },
+    { "from": "cpu-8085", "to": "ram-chip",    "x1": 210, "y1": 160, "x2": 480, "y2": 340, "label": "MEMR̄→OE̊, MEMW̄→WE̊" }
+  ],
+  "theory": "Memory interfacing refers to the process of connecting external memory chips (ROM, RAM) to a microprocessor's bus system so they can be correctly addressed and accessed. The 8085 uses a 16-bit address bus (A0–A15) capable of addressing 64KB of memory space (2^16 = 65,536 locations).\n\nKey Design Steps:\n1. Determine how many address pins the memory chip has (n pins → 2^n bytes per chip).\n2. Wire the n lower-order address lines (A0 to An-1) directly to the chip's address pins.\n3. Use the remaining higher-order address lines (A15 downto An) as decoder inputs to a 74LS138 (3-to-8 decoder) to generate Chip Select signals.\n4. Enable the decoder only when IO/M̄ = 0 (memory operation, not I/O).\n5. Connect MEMR̄ to each chip's OE̊ (Output Enable) — enables data output during read.\n6. Connect MEMW̄ to RAM's WE̊ (Write Enable) — writes data during write cycle.\n\nThe 74LS373 latch is essential because the 8085 multiplexes the lower address byte (A0–A7) with the data bus (D0–D7) on the same pins (AD0–AD7). ALE (Address Latch Enable) going HIGH indicates these pins carry address; the latch captures A0–A7 on the falling edge of ALE, freeing AD0–AD7 to carry data afterward.",
+  "keyPoints": [
+    "8085 has 16-bit address bus → 64KB addressable space (0000H–FFFFH).",
+    "Multiplexed bus: AD0-AD7 carries address A0-A7 during ALE=1, then data during transfer.",
+    "74LS373 latch demultiplexes AD0-AD7 — captures A0-A7 when ALE goes LOW.",
+    "74LS138 decoder generates active-LOW chip selects from upper address bits (A15-A13).",
+    "IO/M̄=0 enables memory decoder; each CS̄ output selects one memory chip.",
+    "OE̊ connected to MEMR̄ (read), WE̊ connected to MEMW̄ (write, RAM only)."
+  ],
+  "useCases": [
+    "Designing memory maps for 8085-based embedded systems.",
+    "Calculating address ranges of ROM/RAM chips from decoder truth tables.",
+    "Drawing memory interfacing circuit connections in exam questions."
+  ]
+}
