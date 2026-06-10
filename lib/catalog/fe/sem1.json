@@ -1,0 +1,200 @@
+[
+  {
+    "id": "superposition-theorem-circuit",
+    "title": "Superposition Theorem Verification Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Superposition Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 115",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "State and explain Superposition Theorem. Find the current in 5 ohm resistor using Superposition Theorem (Dec 2023).",
+        "Verify Superposition Theorem for the given multi-source active network (May 2022)."
+      ]
+    },
+    "theory": "Superposition Theorem states that in any linear, bilateral network containing two or more independent sources, the response (current or voltage) in any branch is the algebraic sum of the individual responses caused by each independent source acting alone, with all other independent sources replaced by their internal resistances. This means voltage sources are replaced by a short circuit (0V) and current sources by an open circuit (0A). It simplifies multi-source network analysis by breaking it into single-source sub-circuits.",
+    "key_points": [
+      "Applies only to linear, bilateral networks (resistors, inductors, capacitors).",
+      "Active voltage sources are short-circuited (internal resistance = 0).",
+      "Active current sources are open-circuited (internal resistance = infinity).",
+      "Algebraic sum means current directions must be carefully monitored (assigning signs like + and -).",
+      "Power is non-linear (P = I^2 * R) and cannot be calculated directly using superposition."
+    ],
+    "use_cases": [
+      "Analyzing multi-frequency AC circuits where different sources operate at different frequencies.",
+      "Analyzing power grids with multiple generator sources."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 560, "height": 340 },
+      "components": [
+        { "id": "v1", "type": "dc-source", "label": "V1 = 20V", "x": 100, "y": 180, "rotation": 0 },
+        { "id": "r1", "type": "resistor", "label": "R1 = 4Ω", "x": 200, "y": 100, "rotation": 0 },
+        { "id": "r2", "type": "resistor", "label": "R2 = 6Ω", "x": 360, "y": 100, "rotation": 0 },
+        { "id": "r3", "type": "resistor", "label": "R3 = 10Ω", "x": 280, "y": 180, "rotation": 90 },
+        { "id": "v2", "type": "dc-source", "label": "V2 = 10V", "x": 460, "y": 180, "rotation": 180 },
+        { "id": "gnd", "type": "ground", "x": 280, "y": 280 }
+      ],
+      "wires": [
+        { "from": "v1", "to": "r1", "points": [ { "x": 100, "y": 100 } ] },
+        { "from": "r1", "to": "r3", "points": [ { "x": 280, "y": 100 } ] },
+        { "from": "r3", "to": "r2", "points": [] },
+        { "from": "r2", "to": "v2", "points": [ { "x": 460, "y": 100 } ] },
+        { "from": "v1", "to": "gnd", "points": [ { "x": 100, "y": 260 }, { "x": 280, "y": 260 } ] },
+        { "from": "v2", "to": "gnd", "points": [ { "x": 460, "y": 260 }, { "x": 280, "y": 260 } ] }
+      ],
+      "junctions": [
+        { "x": 280, "y": 100 },
+        { "x": 280, "y": 260 }
+      ]
+    }
+  },
+  {
+    "id": "thevenins-theorem-circuit",
+    "title": "Thevenin's Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Thevenin's Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 120",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State Thevenin's Theorem and find the current through the 12Ω resistor using it (May 2024).",
+        "Obtain Thevenin's equivalent circuit across terminals AB for the network shown (Dec 2023)."
+      ]
+    },
+    "theory": "Thevenin's Theorem states that any linear, active, bilateral network containing voltage and current sources can be replaced across its load terminals by a single equivalent voltage source (Vth) in series with a single equivalent resistance (Rth). Vth is the open-circuit voltage across the load terminals after the load resistor is removed. Rth is the equivalent resistance of the network looking back into the open load terminals, with all independent voltage sources short-circuited and current sources open-circuited.",
+    "key_points": [
+      "Vth is the open-circuit voltage across load terminals A-B.",
+      "Rth is calculated looking into terminals A-B with sources deactivated.",
+      "The load current is given by IL = Vth / (Rth + RL).",
+      "Significantly simplifies load analysis where the load resistance (RL) changes frequently.",
+      "Active dependent sources cannot be shut down directly; test voltage method must be used."
+    ],
+    "use_cases": [
+      "Analyzing power grid substations where load connections change dynamically.",
+      "Simplifying complex electronic amplifier coupling networks."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 500, "height": 300 },
+      "components": [
+        { "id": "vth", "type": "dc-source", "label": "Vth", "x": 120, "y": 150, "rotation": 0 },
+        { "id": "rth", "type": "resistor", "label": "Rth", "x": 240, "y": 80, "rotation": 0 },
+        { "id": "rl", "type": "resistor", "label": "RL (Load)", "x": 380, "y": 150, "rotation": 90 }
+      ],
+      "wires": [
+        { "from": "vth", "to": "rth", "points": [ { "x": 120, "y": 80 } ] },
+        { "from": "rth", "to": "rl", "points": [ { "x": 380, "y": 80 } ] },
+        { "from": "vth", "to": "rl", "points": [ { "x": 120, "y": 220 }, { "x": 380, "y": 220 } ] }
+      ],
+      "junctions": []
+    }
+  },
+  {
+    "id": "transformer-equivalent-circuit",
+    "title": "Transformer Equivalent Circuit Model",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 5: Single Phase Transformers",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 2, Page 528",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the exact equivalent circuit of a single-phase transformer referred to primary (Dec 2023).",
+        "Explain the approximate equivalent circuit of a transformer referred to secondary (May 2023)."
+      ]
+    },
+    "theory": "A single-phase transformer's electrical behavior can be modeled using an equivalent circuit referred to either the primary or secondary side. The model includes primary winding resistance (R1) and leakage reactance (X1), secondary winding resistance (R2) and leakage reactance (X2) referred to primary, and a shunt core-loss branch (Rc and Xm) representing core loss and magnetizing current. This model allows engineers to analyze transformer efficiency, voltage regulation, and power factor under varying load conditions.",
+    "key_points": [
+      "R1 and X1 represent primary winding copper loss and leakage flux.",
+      "R2' and X2' represent secondary winding parameters referred to primary.",
+      "Rc represents the core/iron losses (hysteresis and eddy current).",
+      "Xm represents magnetizing reactance drawing magnetizing current.",
+      "Referred values are scaled by the turn ratio squared (K^2)."
+    ],
+    "use_cases": [
+      "Calculating transformer voltage regulation under inductive loads.",
+      "Estimating transformer efficiency in power distribution networks."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 640, "height": 320 },
+      "components": [
+        { "id": "ac", "type": "ac-source", "label": "V1 (Supply)", "x": 80, "y": 160 },
+        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 80 },
+        { "id": "x1", "type": "resistor", "label": "jX1", "x": 260, "y": 80 },
+        { "id": "rc", "type": "resistor", "label": "Rc", "x": 340, "y": 160, "rotation": 90 },
+        { "id": "xm", "type": "resistor", "label": "jXm", "x": 400, "y": 160, "rotation": 90 },
+        { "id": "r2", "type": "resistor", "label": "R2'", "x": 480, "y": 80 },
+        { "id": "x2", "type": "resistor", "label": "jX2'", "x": 560, "y": 80 }
+      ],
+      "wires": [
+        { "from": "ac", "to": "r1", "points": [ { "x": 80, "y": 80 } ] },
+        { "from": "r1", "to": "x1", "points": [] },
+        { "from": "x1", "to": "rc", "points": [ { "x": 340, "y": 80 } ] },
+        { "from": "rc", "to": "xm", "points": [ { "x": 340, "y": 80 }, { "x": 400, "y": 80 } ] },
+        { "from": "xm", "to": "r2", "points": [ { "x": 400, "y": 80 } ] },
+        { "from": "r2", "to": "x2", "points": [] },
+        { "from": "ac", "to": "rc", "points": [ { "x": 80, "y": 240 }, { "x": 340, "y": 240 } ] },
+        { "from": "rc", "to": "xm", "points": [ { "x": 340, "y": 240 }, { "x": 400, "y": 240 } ] },
+        { "from": "xm", "to": "x2", "points": [ { "x": 400, "y": 240 }, { "x": 560, "y": 240 }, { "x": 560, "y": 90 } ] }
+      ],
+      "junctions": [
+        { "x": 340, "y": 80 },
+        { "x": 400, "y": 80 },
+        { "x": 340, "y": 240 },
+        { "x": 400, "y": 240 }
+      ]
+    }
+  },
+  {
+    "id": "truss-cantilever-forces",
+    "title": "Cantilever Truss Force Resolution",
+    "type": "block-diagram",
+    "subject": "Engineering Mechanics (EM)",
+    "syllabus_reference": "Module 3: Trusses & Beams",
+    "textbook_reference": "N.H. Dubey, Engineering Mechanics, Chapter 6, Page 242",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Determine the forces in all members of the cantilever truss loaded as shown, using Method of Joints (May 2024).",
+        "Analyze the given truss and find forces in specified members using Method of Sections (Dec 2023)."
+      ]
+    },
+    "theory": "A truss is a structure composed of slender members joined at their endpoints to form a rigid framework, typically of triangles. A cantilever truss is supported at one end (fixed or pinned to a vertical wall) and extends outward. In Engineering Mechanics, trusses are analyzed assuming all members are two-force members (either in tension or compression) and loads are applied solely at the joints. The Method of Joints uses particle equilibrium equations (sum of Fx = 0, sum of Fy = 0) at each joint sequentially to solve for member forces.",
+    "key_points": [
+      "All truss members are assumed to be in tension (pulling joint) or compression (pushing joint).",
+      "Method of Joints: Solve joints with at most two unknown member forces.",
+      "Method of Sections: Cut the truss through at most three members to analyze rigid body equilibrium.",
+      "Zero-force members can be identified by inspection (e.g. two non-collinear members meeting at an unloaded joint).",
+      "Wall reactions at pinned supports must have both horizontal and vertical components."
+    ],
+    "use_cases": [
+      "Designing bridge structures and roof frameworks.",
+      "Designing construction cranes and industrial gantries."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 500, "height": 300 },
+      "blocks": [
+        { "id": "w", "label": "Vertical Support Wall", "x": 50, "y": 50, "width": 40, "height": 200, "color": "#E2E8F0" },
+        { "id": "j1", "label": "Joint A", "x": 90, "y": 80, "width": 20, "height": 20, "color": "#EF4444" },
+        { "id": "j2", "label": "Joint B", "x": 90, "y": 200, "width": 20, "height": 20, "color": "#EF4444" },
+        { "id": "j3", "label": "Joint C", "x": 220, "y": 140, "width": 20, "height": 20, "color": "#3B82F6" },
+        { "id": "j4", "label": "Joint D", "x": 350, "y": 140, "width": 20, "height": 20, "color": "#3B82F6" }
+      ],
+      "connections": [
+        { "from": "j1", "to": "j3", "label": "Member AC", "style": "solid" },
+        { "from": "j2", "to": "j3", "label": "Member BC", "style": "solid" },
+        { "from": "j1", "to": "j2", "label": "Member AB", "style": "solid" },
+        { "from": "j3", "to": "j4", "label": "Member CD", "style": "solid" }
+      ]
+    }
+  }
+]

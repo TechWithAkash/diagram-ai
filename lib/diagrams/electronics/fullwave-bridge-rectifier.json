@@ -1,4 +1,6 @@
 {
+  "id": "fullwave-bridge-rectifier",
+  "complexity": "Intermediate",
   "type": "circuit-schematic",
   "title": "Full-Wave Bridge Rectifier Circuit",
   "description": "Converts both half-cycles of AC to DC using four diodes in a bridge configuration. Doubles ripple frequency and significantly improves DC output quality.",

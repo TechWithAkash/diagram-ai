@@ -1,0 +1,51 @@
+[
+  {
+    "id": "dc-shunt-motor",
+    "title": "DC Shunt Motor Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Electrical Machines-I",
+    "syllabus_reference": "Module 3: DC Motors (DC Shunt Motor)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 2, Page 830",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Draw the schematic diagram of a DC Shunt Motor. Derive the back EMF and torque equations (Dec 2023).",
+        "A 220V DC shunt motor takes 30A current under full load. Draw its equivalent circuit and find armature current (May 2023)."
+      ]
+    },
+    "theory": "A DC shunt motor is a self-excited DC motor where the field winding (excitation coil) is connected in parallel (shunt) with the armature winding. Both windings are connected across a common DC power supply. The armature winding has low resistance (Ra), while the shunt field winding has high resistance (Rsh) to limit shunt current. When DC voltage (V) is applied, line current (IL) divides into armature current (Ia) and shunt field current (Ish = V / Rsh). As the armature rotates within the magnetic field, it generates a back EMF (Eb) opposing the supply voltage. The armature voltage equation is given by V = Eb + Ia·Ra + Vbrush.",
+    "key_points": [
+      "Field winding is connected in parallel with the armature.",
+      "Armature current equation: Ia = IL - Ish.",
+      "Back EMF equation: Eb = V - Ia·Ra (ignoring brush drop).",
+      "Field flux remains constant under constant supply voltage, making it a constant-speed motor.",
+      "Speed regulation is small (speed drops slightly with increase in load torque)."
+    ],
+    "use_cases": [
+      "Driving constant-speed machinery like lathes, drills, and centrifugal pumps.",
+      "Industrial fans and blowers requiring stable operating speed."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 500, "height": 300 },
+      "components": [
+        { "id": "vdc", "type": "dc-source", "label": "V (DC Line)", "x": 100, "y": 150, "rotation": 0 },
+        { "id": "rsh", "type": "resistor", "label": "Rsh (Field)", "x": 240, "y": 150, "rotation": 90 },
+        { "id": "ra", "type": "resistor", "label": "Ra", "x": 380, "y": 90 },
+        { "id": "eb", "type": "dc-source", "label": "Eb (Armature)", "x": 380, "y": 180, "rotation": 90 }
+      ],
+      "wires": [
+        { "from": "vdc", "to": "rsh", "points": [ { "x": 100, "y": 60 }, { "x": 240, "y": 60 } ] },
+        { "from": "rsh", "to": "ra", "points": [ { "x": 240, "y": 60 }, { "x": 320, "y": 60 } ] },
+        { "from": "ra", "to": "eb", "points": [] },
+        { "from": "vdc", "to": "rsh", "points": [ { "x": 100, "y": 240 }, { "x": 240, "y": 240 } ] },
+        { "from": "rsh", "to": "eb", "points": [ { "x": 240, "y": 240 }, { "x": 380, "y": 240 } ] }
+      ],
+      "junctions": [
+        { "x": 240, "y": 60 },
+        { "x": 240, "y": 240 }
+      ]
+    }
+  }
+]

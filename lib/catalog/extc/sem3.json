@@ -1,0 +1,126 @@
+[
+  {
+    "id": "half-adder-gates",
+    "title": "Half Adder Logic Gate Implementation",
+    "type": "logic-diagram",
+    "subject": "Digital System Design (DSD)",
+    "syllabus_reference": "Module 3: Combinational Logic Circuits (Adders)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 4, Page 125",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Design a Half Adder circuit using basic logic gates (Dec 2023).",
+        "Implement a Full Adder using two Half Adders and an OR gate (May 2023)."
+      ]
+    },
+    "theory": "A Half Adder is a combinational arithmetic circuit that performs the addition of two single-bit binary numbers, producing a Sum bit (S) and a Carry bit (C). It has two inputs, A and B, and two outputs, S and C. The Boolean expression for Sum is the exclusive-OR of the inputs (S = A XOR B), representing the modulo-2 addition. The Boolean expression for Carry is the logical-AND of the inputs (C = A AND B), representing the overflow bit. A half adder cannot handle a carry-in bit from a previous stage of addition, which is why a Full Adder is required for multi-bit additions.",
+    "key_points": [
+      "Performs single-bit binary addition of two inputs.",
+      "Sum (S) expression: S = A ⊕ B (implemented using a 2-input XOR gate).",
+      "Carry (C) expression: C = A · B (implemented using a 2-input AND gate).",
+      "Cannot accommodate a carry bit from a preceding stage.",
+      "Forms the building block of full adders and binary multipliers."
+    ],
+    "use_cases": [
+      "Constructing full adders and ripple carry adders inside ALUs.",
+      "Simple bitwise addition and parity generator circuits."
+    ],
+    "schema_template": {
+      "type": "logic-diagram",
+      "viewBox": { "width": 560, "height": 360 },
+      "inputs": [
+        { "id": "A", "label": "Input A", "x": 80, "y": 100 },
+        { "id": "B", "label": "Input B", "x": 80, "y": 200 }
+      ],
+      "outputs": [
+        { "id": "Sum", "label": "Sum (S)", "x": 480, "y": 100 },
+        { "id": "Carry", "label": "Carry (C)", "x": 480, "y": 240 }
+      ],
+      "gates": [
+        { "id": "g_xor", "type": "XOR", "x": 280, "y": 100, "label": "XOR", "inputsCount": 2 },
+        { "id": "g_and", "type": "AND", "x": 280, "y": 240, "label": "AND", "inputsCount": 2 }
+      ],
+      "connections": [
+        { "from": "A", "to": "g_xor", "toPort": 0, "route": "Z", "midX": 180 },
+        { "from": "B", "to": "g_xor", "toPort": 1, "route": "Z", "midX": 180 },
+        { "from": "A", "to": "g_and", "toPort": 0, "route": "Z", "midX": 140 },
+        { "from": "B", "to": "g_and", "toPort": 1, "route": "Z", "midX": 140 },
+        { "from": "g_xor", "to": "Sum", "route": "straight" },
+        { "from": "g_and", "to": "Carry", "route": "straight" }
+      ],
+      "junctions": [
+        { "x": 140, "y": 100 },
+        { "x": 180, "y": 200 }
+      ]
+    }
+  },
+  {
+    "id": "full-adder-gates",
+    "title": "Full Adder Logic Gate Implementation",
+    "type": "logic-diagram",
+    "subject": "Digital System Design (DSD)",
+    "syllabus_reference": "Module 3: Combinational Logic Circuits (Adders)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 4, Page 128",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Design a Full Adder circuit using basic logic gates and explain its truth table (May 2024).",
+        "Implement a Full Adder using 3-to-8 line Decoder and active-low OR gates (Dec 2023)."
+      ]
+    },
+    "theory": "A Full Adder is a combinational logic circuit that performs the addition of three binary inputs: two significant bits, A and B, and a Carry-in bit (Cin) from a previous lower-order addition stage. It generates two outputs: a Sum (S) and a Carry-out (Cout). The Boolean expression for Sum is the three-input exclusive-OR (S = A XOR B XOR Cin). The Boolean expression for Carry-out is Cout = A·B + B·Cin + Cin·A, representing the majority vote of the inputs. Full adders are cascaded to perform binary addition of multi-bit numbers.",
+    "key_points": [
+      "Performs addition of three bits (two inputs + one carry-in).",
+      "Sum (S) expression: S = A ⊕ B ⊕ Cin.",
+      "Carry-out (Cout) expression: Cout = AB + BCin + ACin.",
+      "Can be built using two 2-input XOR gates, two 2-input AND gates, and one OR gate.",
+      "Cascaded in parallel (ripple carry) to form n-bit adders."
+    ],
+    "use_cases": [
+      "Arithmetic Logic Units (ALUs) for integer operations.",
+      "Binary multipliers and address calculation units inside CPUs."
+    ],
+    "schema_template": {
+      "type": "logic-diagram",
+      "viewBox": { "width": 640, "height": 440 },
+      "inputs": [
+        { "id": "A", "label": "A", "x": 80, "y": 100 },
+        { "id": "B", "label": "B", "x": 80, "y": 180 },
+        { "id": "Cin", "label": "Cin", "x": 80, "y": 280 }
+      ],
+      "outputs": [
+        { "id": "Sum", "label": "Sum (S)", "x": 560, "y": 120 },
+        { "id": "Cout", "label": "Cout", "x": 560, "y": 320 }
+      ],
+      "gates": [
+        { "id": "xor1", "type": "XOR", "x": 240, "y": 120, "label": "XOR 1", "inputsCount": 2 },
+        { "id": "xor2", "type": "XOR", "x": 420, "y": 120, "label": "XOR 2", "inputsCount": 2 },
+        { "id": "and1", "type": "AND", "x": 240, "y": 240, "label": "AND 1", "inputsCount": 2 },
+        { "id": "and2", "type": "AND", "x": 420, "y": 280, "label": "AND 2", "inputsCount": 2 },
+        { "id": "or1", "type": "OR", "x": 500, "y": 320, "label": "OR 1", "inputsCount": 2 }
+      ],
+      "connections": [
+        { "from": "A", "to": "xor1", "toPort": 0, "route": "Z", "midX": 150 },
+        { "from": "B", "to": "xor1", "toPort": 1, "route": "Z", "midX": 150 },
+        { "from": "A", "to": "and1", "toPort": 0, "route": "Z", "midX": 130 },
+        { "from": "B", "to": "and1", "toPort": 1, "route": "Z", "midX": 130 },
+        { "from": "xor1", "to": "xor2", "toPort": 0, "route": "straight" },
+        { "from": "Cin", "to": "xor2", "toPort": 1, "route": "Z", "midX": 300 },
+        { "from": "xor1", "to": "and2", "toPort": 0, "route": "Z", "midX": 340 },
+        { "from": "Cin", "to": "and2", "toPort": 1, "route": "Z", "midX": 280 },
+        { "from": "and1", "to": "or1", "toPort": 1, "route": "Z", "midX": 450 },
+        { "from": "and2", "to": "or1", "toPort": 0, "route": "straight" },
+        { "from": "xor2", "to": "Sum", "route": "straight" },
+        { "from": "or1", "to": "Cout", "route": "straight" }
+      ],
+      "junctions": [
+        { "x": 130, "y": 100 },
+        { "x": 150, "y": 180 },
+        { "x": 300, "y": 280 },
+        { "x": 340, "y": 120 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "compiler-phases",
+    "title": "Phases of a Compiler",
+    "type": "block-diagram",
+    "subject": "System Programming & Compiler Construction (SPCC)",
+    "syllabus_reference": "Module 3: Introduction to Compilers (Phases of Compiler)",
+    "textbook_reference": "Alfred V. Aho & Monica S. Lam, Compilers: Principles, Techniques, and Tools, Chapter 1, Page 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain different phases of a compiler with a neat schematic diagram (May 2024).",
+        "Describe the role of Lexical Analyzer and Syntax Analyzer with an example (Dec 2023)."
+      ]
+    },
+    "theory": "A compiler is a program translator that converts source code written in a high-level programming language into target machine code. This process is divided into multiple sequential phases. (1) Lexical Analyzer (Lexer): Converts source characters into a stream of tokens. (2) Syntax Analyzer (Parser): Group tokens into grammatical structures (Parse Tree/Syntax Tree). (3) Semantic Analyzer: Checks for type compatibility and semantic constraints. (4) Intermediate Code Generator: Produces machine-independent low-level code (e.g. three-address code). (5) Code Optimizer: Improves intermediate code speed and resource utilization. (6) Code Generator: Translates optimized code into target assembly or machine language. Throughout compilation, the Symbol Table tracks variable declarations, and the Error Handler reports syntax or type violations.",
+    "key_points": [
+      "Lexical Analysis (Scanner): Groups characters into tokens using Regular Expressions.",
+      "Syntax Analysis (Parser): Establishes syntactic structure using Context-Free Grammar.",
+      "Semantic Analysis: Checks types, scope, and semantic rules (e.g., undeclared variables).",
+      "Intermediate Code (ICG): Uses representation like Quadruples or Triples.",
+      "Code Optimization: Minimizes execution time and space (e.g., loop unrolling, dead code removal)."
+    ],
+    "use_cases": [
+      "Building compilers, interpreters, and static analysis tools.",
+      "Building syntax highlighters and code refactoring plugins."
+    ],
+    "phases": [
+      { "id": "p1", "label": "Lexical Analyzer", "desc": "Scans character input stream, generates token stream", "color": "#EFF6FF" },
+      { "id": "p2", "label": "Syntax Analyzer", "desc": "Constructs syntax tree checking grammar rules", "color": "#EFF6FF" },
+      { "id": "p3", "label": "Semantic Analyzer", "desc": "Performs type checking and semantic validation", "color": "#EFF6FF" },
+      { "id": "p4", "label": "Intermediate Code Generator", "desc": "Generates platform-independent three-address code", "color": "#F3E8FF" },
+      { "id": "p5", "label": "Code Optimizer", "desc": "Transforms code to improve speed and memory efficiency", "color": "#F3E8FF" },
+      { "id": "p6", "label": "Target Code Generator", "desc": "Produces final machine code or assembly language", "color": "#ECFDF5" }
+    ]
+  }
+]

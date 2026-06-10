@@ -1,0 +1,132 @@
+{
+  "id": "transformer-equivalent-circuit",
+  "complexity": "Advanced",
+  "type": "circuit-schematic",
+  "title": "Transformer Equivalent Circuit",
+  "description": "The complete equivalent circuit of a practical single-phase transformer referred to the primary side, showcasing primary and secondary resistances and reactances, and the shunt branch modeling core loss and magnetizing reactance.",
+  "category": "Electrical Engineering",
+  "aliases": ["transformer equivalent", "transformer model", "real transformer circuit", "transformer schematic", "transformer circuit model", "Transformer Equivalent Circuit Model (BEE)", "BEE"],
+  "viewBox": { "width": 800, "height": 400 },
+
+  "theory": "An ideal transformer does not exist in practice because real transformers experience power losses and voltage drops. A practical transformer is modeled using an equivalent electrical circuit referred to either the primary or secondary side. The model consists of series parameters and shunt parameters. The series parameters represent winding resistances (R1 for primary, R2' for secondary referred to primary) and leakage reactances (X1 for primary, X2' for secondary referred to primary). Resistance accounts for copper loss (I^2 * R), and leakage reactance accounts for flux lines that do not link both windings. The shunt parameter branch (magnetizing branch) represents the core's excitation behavior under no-load conditions. It comprises core loss resistance (Rc), which represents hysteresis and eddy current losses, and magnetizing reactance (Xm), representing the reactive current required to establish magnetic flux in the iron core.\n\nBy referring the secondary parameters to the primary side using the turns ratio (a = N1/N2), where R2' = a^2 * R2 and X2' = a^2 * X2, the magnetic coupling of the transformer is mathematically eliminated. This yields a continuous, direct-coupled electrical network that is straightforward to analyze using standard nodal or mesh analysis. This equivalent circuit is fundamental for analyzing voltage regulation, transformer efficiency, and behavior under different power factor loads.",
+
+  "keyPoints": [
+    "Models practical transformer deviations from ideal behavior: copper loss, core loss, and flux leakage.",
+    "Series resistance (R1, R2') models I^2 * R heating losses in primary and secondary copper windings.",
+    "Leakage reactance (X1, X2') models voltage drop due to leakage flux that does not link both primary and secondary.",
+    "Shunt branch (Rc || Xm) models core behavior: Rc represents iron losses, Xm represents magnetization flux.",
+    "Secondary parameters are referred to the primary side using square of turns ratio (a^2).",
+    "Allows simple analysis of voltage regulation and efficiency under varying load conditions."
+  ],
+
+  "examTip": "Remember that shunt parameters (Rc, Xm) are determined via the Open-Circuit (OC) test, while series parameters (R1, R2', X1, X2') are determined via the Short-Circuit (SC) test. When referring secondary parameters to primary, multiply impedance by a^2 where a = N1/N2.",
+
+  "useCases": [
+    "Analyzing power system voltage regulation and transmission grid loading.",
+    "Calculating transformer efficiency under varying loads and power factors.",
+    "Simulating transient behavior and short-circuit fault currents in electrical distribution systems.",
+    "Designing impedance matching transformers for audio and RF amplifier circuits.",
+    "Determining the parameters of industrial power transformers via OC and SC test simulations."
+  ],
+
+  "components": [
+    {
+      "id": "V1",
+      "symbol": "ac-source",
+      "x": 80,
+      "y": 200,
+      "rotation": 0,
+      "label": "V1"
+    },
+    {
+      "id": "R1",
+      "symbol": "resistor",
+      "x": 180,
+      "y": 120,
+      "rotation": 0,
+      "label": "R1"
+    },
+    {
+      "id": "X1",
+      "symbol": "resistor",
+      "x": 280,
+      "y": 120,
+      "rotation": 0,
+      "label": "X1"
+    },
+    {
+      "id": "Rc",
+      "symbol": "resistor",
+      "x": 380,
+      "y": 200,
+      "rotation": 90,
+      "label": "Rc"
+    },
+    {
+      "id": "Xm",
+      "symbol": "resistor",
+      "x": 460,
+      "y": 200,
+      "rotation": 90,
+      "label": "Xm"
+    },
+    {
+      "id": "R2_prime",
+      "symbol": "resistor",
+      "x": 580,
+      "y": 120,
+      "rotation": 0,
+      "label": "R2'"
+    },
+    {
+      "id": "X2_prime",
+      "symbol": "resistor",
+      "x": 680,
+      "y": 120,
+      "rotation": 0,
+      "label": "X2'"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 80,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 174, "x2": 80, "y2": 120, "comment": "V1 top to top rail" },
+    { "x1": 80, "y1": 120, "x2": 152, "y2": 120, "comment": "To R1 left" },
+    { "x1": 208, "y1": 120, "x2": 252, "y2": 120, "comment": "R1 right to X1 left" },
+    { "x1": 308, "y1": 120, "x2": 380, "y2": 120, "comment": "X1 right to Rc top node" },
+    { "x1": 380, "y1": 120, "x2": 460, "y2": 120, "comment": "Rc top node to Xm top node" },
+    { "x1": 460, "y1": 120, "x2": 552, "y2": 120, "comment": "Xm top node to R2' left" },
+    { "x1": 380, "y1": 120, "x2": 380, "y2": 172, "comment": "Rc top lead connection" },
+    { "x1": 460, "y1": 120, "x2": 460, "y2": 172, "comment": "Xm top lead connection" },
+    { "x1": 380, "y1": 228, "x2": 380, "y2": 280, "comment": "Rc bottom lead to bottom rail" },
+    { "x1": 460, "y1": 228, "x2": 460, "y2": 280, "comment": "Xm bottom lead to bottom rail" },
+    { "x1": 580, "y1": 120, "x2": 652, "y2": 120, "comment": "R2' right to X2' left" },
+    { "x1": 708, "y1": 120, "x2": 760, "y2": 120, "comment": "X2' right to output V2' node" },
+    { "x1": 80, "y1": 226, "x2": 80, "y2": 280, "comment": "V1 bottom to bottom rail" },
+    { "x1": 80, "y1": 280, "x2": 760, "y2": 280, "comment": "Bottom return rail" },
+    { "x1": 80, "y1": 280, "x2": 80, "y2": 300, "comment": "GND link" }
+  ],
+
+  "junctions": [
+    { "x": 380, "y": 120, "comment": "Rc top junction" },
+    { "x": 460, "y": 120, "comment": "Xm top junction" },
+    { "x": 380, "y": 280, "comment": "Rc bottom junction" },
+    { "x": 460, "y": 280, "comment": "Xm bottom junction" }
+  ],
+
+  "labels": [
+    { "text": "I1 →", "x": 130, "y": 105, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Io ↓", "x": 355, "y": 145, "fontSize": 10, "fontWeight": "600", "fill": "#7c3aed", "textAnchor": "end" },
+    { "text": "Ic ↓", "x": 395, "y": 165, "fontSize": 9, "fontWeight": "500", "fill": "#475569", "textAnchor": "start" },
+    { "text": "Im ↓", "x": 475, "y": 165, "fontSize": 9, "fontWeight": "500", "fill": "#475569", "textAnchor": "start" },
+    { "text": "I2' →", "x": 520, "y": 105, "fontSize": 10, "fontWeight": "600", "fill": "#16a34a", "textAnchor": "middle" },
+    { "text": "+ V2' −", "x": 770, "y": 200, "fontSize": 11, "fontWeight": "700", "fill": "#2563eb", "textAnchor": "start" },
+    { "text": "referred to primary", "x": 430, "y": 340, "fontSize": 11, "fontWeight": "500", "fill": "#64748b", "fontStyle": "italic", "textAnchor": "middle" }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "id": "optical-fiber-tir",
+  "complexity": "Intermediate",
+  "type": "graph",
+  "title": "Total Internal Reflection in Optical Fiber",
+  "description": "A graph/drawing representing an optical fiber core and cladding boundary with a light ray undergoing Total Internal Reflection (TIR) as it propagates down the fiber.",
+  "category": "Physics-II",
+  "aliases": [
+    "total internal reflection",
+    "optical fiber core",
+    "tir optical fiber",
+    "fiber optics reflection",
+    "cladding refraction",
+    "Total Internal Reflection in Optical Fiber (Physics-II)",
+    "Total Internal Reflection in Optical Fiber",
+    "Physics-II"
+  ],
+  "viewBox": { "width": 720, "height": 380 },
+
+  "theory": "Total Internal Reflection (TIR) is the fundamental physical phenomenon that enables the transmission of light signals through optical fibers. An optical fiber consists of a central cylindrical core surrounded by an outer cladding layer. The refractive index of the core (n1) must be strictly greater than the refractive index of the cladding (n2). When a light ray enters the core at an angle, it travels towards the core-cladding boundary. If the angle of incidence (theta) at this boundary is greater than the critical angle (theta_c), the light cannot refract into the cladding. Instead, it is 100% reflected back into the core. The critical angle is mathematically defined by Snell's Law as theta_c = arcsin(n2 / n1).\n\nBecause the reflection is internal and total, there is virtually no optical power loss during each bounce, allowing signals to propagate over long distances. The maximum angle at which light can enter the fiber from the air and still undergo TIR is called the acceptance angle. The sine of this acceptance angle is known as the Numerical Aperture (NA), which quantifies the light-gathering capability of the fiber. Any light entering outside this cone of acceptance will refract into the cladding and eventually be lost.",
+
+  "keyPoints": [
+    "Core refractive index (n1) must be higher than cladding refractive index (n2).",
+    "Light must travel from the denser medium (core) towards the rarer medium (cladding).",
+    "Angle of incidence (theta) at the boundary must exceed the critical angle (theta_c = arcsin(n2/n1)).",
+    "Total Internal Reflection yields 100% reflection with virtually zero power loss per bounce.",
+    "Acceptance cone dictates the maximum angle at which light can enter the fiber core to propagate.",
+    "Numerical Aperture (NA) measures the fiber's light-gathering efficiency, defined as NA = sqrt(n1^2 - n2^2)."
+  ],
+
+  "examTip": "TIR requires two conditions: 1) Light must travel from a denser medium to a rarer medium (n1 > n2). 2) The angle of incidence must be greater than the critical angle (theta > theta_c). The critical angle formula is sin(theta_c) = n2 / n1. Memorize this as n_cladding / n_core.",
+
+  "useCases": [
+    "High-speed fiber optic telecommunication networks for internet and voice transmission.",
+    "Endoscopes and medical imaging devices for non-invasive internal body inspections.",
+    "Fiber optic sensors for measuring temperature, pressure, strain, and chemical composition.",
+    "Decorative and architectural light pipes for safe, spark-free illumination.",
+    "Industrial lasers for high-power cutting and welding where flexible light delivery is needed."
+  ],
+
+  "nodes": [
+    {
+      "id": "N_Start",
+      "label": "Input Ray",
+      "x": 60,
+      "y": 190,
+      "r": 12,
+      "color": "#f59e0b",
+      "borderColor": "#d97706",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N_Ref1",
+      "label": "",
+      "x": 190,
+      "y": 100,
+      "r": 6,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N_Ref2",
+      "label": "",
+      "x": 330,
+      "y": 280,
+      "r": 6,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N_Ref3",
+      "label": "",
+      "x": 470,
+      "y": 100,
+      "r": 6,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N_Ref4",
+      "label": "",
+      "x": 610,
+      "y": 280,
+      "r": 6,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N_End",
+      "label": "Output Ray",
+      "x": 670,
+      "y": 220,
+      "r": 12,
+      "color": "#10b981",
+      "borderColor": "#047857",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "L_Clad_Top",
+      "label": "Cladding (n2 = 1.45)",
+      "x": 350,
+      "y": 50,
+      "r": 1,
+      "color": "#e2e8f0",
+      "borderColor": "#94a3b8",
+      "textColor": "#475569"
+    },
+    {
+      "id": "L_Core",
+      "label": "Core (n1 = 1.48)",
+      "x": 350,
+      "y": 190,
+      "r": 1,
+      "color": "#eff6ff",
+      "borderColor": "#3b82f6",
+      "textColor": "#1d4ed8"
+    },
+    {
+      "id": "L_Clad_Bottom",
+      "label": "Cladding (n2 = 1.45)",
+      "x": 350,
+      "y": 330,
+      "r": 1,
+      "color": "#e2e8f0",
+      "borderColor": "#94a3b8",
+      "textColor": "#475569"
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "N_Start",
+      "to": "N_Ref1",
+      "label": "Incident Ray (theta > theta_c)"
+    },
+    {
+      "from": "N_Ref1",
+      "to": "N_Ref2",
+      "label": "TIR 1"
+    },
+    {
+      "from": "N_Ref2",
+      "to": "N_Ref3",
+      "label": "TIR 2"
+    },
+    {
+      "from": "N_Ref3",
+      "to": "N_Ref4",
+      "label": "TIR 3"
+    },
+    {
+      "from": "N_Ref4",
+      "to": "N_End",
+      "label": "Emergent Ray"
+    }
+  ]
+}

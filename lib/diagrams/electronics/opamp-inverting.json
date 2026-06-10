@@ -1,4 +1,6 @@
 {
+  "id": "opamp-inverting",
+  "complexity": "Intermediate",
   "type": "circuit-schematic",
   "title": "Inverting Op-Amp Amplifier",
   "description": "An operational amplifier configured in inverting topology. Output is 180° out of phase with input. Voltage gain = −Rf/R1.",

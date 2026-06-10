@@ -1,0 +1,90 @@
+{
+  "id": "dc-shunt-motor",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "title": "DC Shunt Motor Circuit Diagram",
+  "description": "A circuit schematic representing a DC shunt motor where the field winding (R_sh) is connected in parallel (shunt) with the armature winding (M).",
+  "category": "Electrical Engineering",
+  "aliases": ["dc shunt motor", "shunt motor", "dc motor circuit", "shunt motor schematic", "dc motor model", "DC Shunt Motor Equivalent Circuit (Sem IV - Machines)", "DC Shunt Motor Equivalent Circuit", "Machines"],
+  "viewBox": { "width": 640, "height": 380 },
+
+  "theory": "A DC Shunt Motor is a self-excited DC motor in which the field winding is connected in parallel (or shunt) with the armature winding. Because they are connected in parallel, both the armature and field windings are exposed to the same terminal input voltage (Vt) from the DC power supply. The shunt field winding is wound with many turns of fine wire, resulting in a high electrical resistance (Rsh). This limits the shunt field current (Ish) to a relatively small fraction of the total line current. In contrast, the armature winding is made of thicker wire with very low resistance (Ra) to carry the main load current.\n\nThe operation of the DC shunt motor is characterized by a nearly constant speed. The magnetic flux produced by the field winding remains constant as long as the supply voltage is stable. The speed of a DC motor is given by N = (Vt - Ia * Ra) / (k * phi). Since Ra is very small, the voltage drop Ia * Ra is tiny under normal loads, making the speed drop from no-load to full-load negligible (typically 5-10%). This constant-speed characteristic makes it ideal for industrial drives requiring stable speeds. The total line current (IL) drawn from the source is the sum of the armature current (Ia) and the field current (Ish): IL = Ia + Ish.",
+
+  "keyPoints": [
+    "The shunt field winding is connected in parallel (shunt) with the armature winding.",
+    "Both windings receive the same DC terminal input voltage (Vt).",
+    "Field winding has high resistance (Rsh) due to many turns of thin wire, keeping Ish small.",
+    "Armature winding has low resistance (Ra) to handle the main motor load current (Ia).",
+    "Characterized by nearly constant speed from no-load to full-load because flux remains constant.",
+    "Total input line current is the sum of armature and shunt currents: IL = Ia + Ish."
+  ],
+
+  "examTip": "Key equations for DC shunt motor: 1) IL = Ia + Ish. 2) Ish = Vt / Rsh. 3) Back EMF Eb = Vt - Ia * Ra. 4) Speed N proportional to Eb / phi. Since phi is constant, speed depends directly on Eb. Speed is nearly constant under load.",
+
+  "useCases": [
+    "Constant-speed machine tools such as industrial lathes, drills, and milling machines.",
+    "Driving centrifugal water pumps and blowers requiring stable operating speeds.",
+    "Powering fans, compressors, and conveyors in manufacturing lines.",
+    "Driving paper mills and textile looms where uniform speed is critical for product quality.",
+    "Elevators and lifts (using compounding variations for starting torque adjustments)."
+  ],
+
+  "components": [
+    {
+      "id": "Vt",
+      "symbol": "dc-source",
+      "x": 120,
+      "y": 200,
+      "rotation": 0,
+      "label": "Vt (DC Supply)"
+    },
+    {
+      "id": "Rsh",
+      "symbol": "resistor",
+      "x": 280,
+      "y": 200,
+      "rotation": 90,
+      "label": "Rsh"
+    },
+    {
+      "id": "Armature",
+      "symbol": "dc-source",
+      "x": 460,
+      "y": 200,
+      "rotation": 0,
+      "label": "Armature (Eb)"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 120,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 120, "y1": 174, "x2": 120, "y2": 120, "comment": "DC supply top to top rail" },
+    { "x1": 120, "y1": 120, "x2": 460, "y2": 120, "comment": "Top supply rail connection" },
+    { "x1": 280, "y1": 120, "x2": 280, "y2": 172, "comment": "Rsh top lead connection" },
+    { "x1": 460, "y1": 120, "x2": 460, "y2": 174, "comment": "Armature top lead connection" },
+    { "x1": 120, "y1": 226, "x2": 120, "y2": 280, "comment": "DC supply bottom to bottom rail" },
+    { "x1": 120, "y1": 280, "x2": 460, "y2": 280, "comment": "Bottom return rail connection" },
+    { "x1": 280, "y1": 280, "x2": 280, "y2": 228, "comment": "Rsh bottom lead connection" },
+    { "x1": 460, "y1": 280, "x2": 460, "y2": 226, "comment": "Armature bottom lead connection" },
+    { "x1": 120, "y1": 280, "x2": 120, "y2": 300, "comment": "To ground link" }
+  ],
+
+  "junctions": [
+    { "x": 280, "y": 120, "comment": "Top junction for Rsh" },
+    { "x": 280, "y": 280, "comment": "Bottom junction for Rsh" }
+  ],
+
+  "labels": [
+    { "text": "IL →", "x": 180, "y": 110, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Ish ↓", "x": 295, "y": 150, "fontSize": 10, "fontWeight": "600", "fill": "#7c3aed", "textAnchor": "start" },
+    { "text": "Ia →", "x": 380, "y": 110, "fontSize": 10, "fontWeight": "600", "fill": "#16a34a", "textAnchor": "middle" },
+    { "text": "Shunt Field", "x": 280, "y": 250, "fontSize": 9, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "M", "x": 460, "y": 204, "fontSize": 10, "fontWeight": "700", "fill": "#0f766e", "textAnchor": "middle" }
+  ]
+}

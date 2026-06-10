@@ -732,6 +732,21 @@ export default function DiagramRenderer({ source, schema, code, useFallback, fal
     )
   }
 
+  // AI-generated JSON schema -> precision SVGEngine
+  if (source === 'ai' && schema) {
+    return (
+      <div className="w-full">
+        <div className="flex items-center gap-1.5 px-4 py-2 bg-violet-50 border-b border-violet-100">
+          <Sparkles className="w-3.5 h-3.5 text-violet-600 flex-shrink-0" />
+          <span className="text-xs font-semibold text-violet-700">
+            AI-Generated Diagram (Dynamic SVGEngine) — verify key details
+          </span>
+        </div>
+        <SVGEngine schema={schema} className={className} />
+      </div>
+    )
+  }
+
   // AI diagram → Mermaid.js renderer
   if (source === 'ai' && code) {
     return (

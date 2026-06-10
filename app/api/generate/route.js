@@ -49,6 +49,8 @@ For every system architecture, you MUST include the standard textbook components
 ════════════════════════════════════════
 DIAGRAM TYPE SELECTION (choose ONE):
 ════════════════════════════════════════
+- uml-diagram    → UML Class, Use Case, or Sequence diagrams. Must return the custom 'schema' object in JSON.
+- dfd-flow       → Data Flow Diagrams (Level 0, 1, 2 DFDs). Must return the custom 'schema' object in JSON.
 - flowchart TD  → architecture, systems, block diagrams, workflows, algorithms, MCC, SPCC, DBMS, OS, control systems, compilers
 - flowchart LR  → pipelines, left-to-right data flows, horizontal architectures
 - graph TD      → hierarchical trees, classification diagrams
@@ -68,8 +70,23 @@ RETURN THIS EXACT JSON:
 ════════════════════════════════════════
 {
   "title": "Descriptive title max 5 words",
-  "diagram_type": "flowchart|erDiagram|sequenceDiagram|stateDiagram|graph",
-  "mermaid_code": "complete valid mermaid.js code here",
+  "diagram_type": "uml-diagram|dfd-flow|flowchart|erDiagram|sequenceDiagram|stateDiagram|graph",
+  "schema": {
+    "type": "uml-diagram|dfd-flow",
+    "nodes": [
+      // For uml-diagram class: { "id": "customer_c", "type": "class", "label": "Customer", "x": 100, "y": 120, "width": 140, "height": 90, "attributes": ["+ id: int", "+ name: string"], "operations": ["+ register(): bool"], "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" }
+      // For uml-diagram actor: { "id": "student_a", "type": "actor", "label": "Student", "x": 80, "y": 180 } (centered at x,y)
+      // For uml-diagram use-case: { "id": "borrow_u", "type": "use-case", "label": "Borrow Book", "x": 300, "y": 180, "width": 110, "height": 60, "color": "#F0FDF4", "borderColor": "#22C55E", "textColor": "#14532D" }
+      // For dfd-flow process: { "id": "p1", "type": "process", "shape": "circle|rectangle", "processId": "1.0", "label": "Issue Book", "x": 300, "y": 200, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" }
+      // For dfd-flow data-store: { "id": "ds1", "type": "data-store", "processId": "D1", "label": "Books DB", "x": 520, "y": 180, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" }
+      // For dfd-flow external: { "id": "user", "type": "external", "label": "Library User", "x": 80, "y": 180, "width": 110, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" }
+    ],
+    "connections": [
+      // For uml-diagram: { "from": "customer_c", "to": "order_c", "label": "places", "type": "association|inheritance|dependency|composition|aggregation", "style": "solid|dashed" }
+      // For dfd-flow: { "from": "p1", "to": "ds1", "label": "update catalog" }
+    ]
+  },
+  "mermaid_code": "complete valid mermaid.js code here (empty/blank if using schema)",
   "theory": "Minimum 180 words. Technically accurate explanation covering: (1) what the system is, (2) each major component and its specific role, (3) how data/signals flow through the system end-to-end, (4) real protocols or standards used, (5) practical application. Write as if explaining to a student preparing for a university exam.",
   "key_points": ["accurate technical point 1", "accurate technical point 2", "accurate technical point 3", "accurate technical point 4", "accurate technical point 5"],
   "use_cases": ["real-world use case 1", "real-world use case 2", "real-world use case 3"],
@@ -611,19 +628,28 @@ function validateMermaidSyntax(code) {
 
 // ─── Validate result ──────────────────────────────────────────────────────────
 function validateResult(parsed) {
-  if (!parsed.mermaid_code || parsed.mermaid_code.trim().length < 30) {
-    throw new Error('Generated diagram code is too short or empty')
-  }
+  const isCustomSchema = parsed.diagram_type === 'uml-diagram' || parsed.diagram_type === 'dfd-flow'
 
-  const fixed = fixMermaidCode(parsed.mermaid_code)
-  if (!fixed) throw new Error('INVALID_DIAGRAM_TYPE')
+  if (isCustomSchema) {
+    if (!parsed.schema || !Array.isArray(parsed.schema.nodes)) {
+      throw new Error('Custom diagram schema is missing or invalid')
+    }
+    parsed.mermaid_code = '' // clear mermaid code
+  } else {
+    if (!parsed.mermaid_code || parsed.mermaid_code.trim().length < 30) {
+      throw new Error('Generated diagram code is too short or empty')
+    }
 
-  parsed.mermaid_code = fixed
+    const fixed = fixMermaidCode(parsed.mermaid_code)
+    if (!fixed) throw new Error('INVALID_DIAGRAM_TYPE')
 
-  // Validate syntax
-  const val = validateMermaidSyntax(parsed.mermaid_code)
-  if (!val.valid) {
-    throw new Error(`SYNTAX_ERROR: ${val.error}`)
+    parsed.mermaid_code = fixed
+
+    // Validate syntax
+    const val = validateMermaidSyntax(parsed.mermaid_code)
+    if (!val.valid) {
+      throw new Error(`SYNTAX_ERROR: ${val.error}`)
+    }
   }
 
   if (!parsed.theory) parsed.theory = 'Theory not available.'
@@ -646,34 +672,41 @@ export async function POST(req) {
       return Response.json({ error: 'Prompt too long. Keep it under 300 characters.' }, { status: 400 })
     }
 
+    let stubMetadata = null
+
     // ── TIER 1: Static Library Lookup (free, instant, 100% accurate) ──────────
     if (!forceAI) {
       try {
         const libraryMatch = matchDiagram(prompt.trim())
         if (libraryMatch) {
-          console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}"`)
-          return Response.json({
-            success: true,
-            data: {
-              schema: libraryMatch,
-              title: libraryMatch.title,
-              theory: libraryMatch.theory || '',
-              key_points: libraryMatch.keyPoints || [],
-              use_cases: libraryMatch.useCases || [],
-              examTip: libraryMatch.examTip || '',
-              complexity: libraryMatch.complexity || 'Intermediate',
-              subject_category: libraryMatch.category || 'Other',
-              diagram_type: libraryMatch.type,
-              source: 'library',
-              mermaid_code: libraryMatch.mermaid_code || '',
-            },
-            meta: {
-              model: 'static-library',
-              usedFallback: false,
-              fromLibrary: true,
-              timestamp: new Date().toISOString(),
-            },
-          })
+          if (libraryMatch.isStub) {
+            console.log(`[Library] Matched stub: ${libraryMatch.id}. Storing metadata for AI fallback.`)
+            stubMetadata = libraryMatch
+          } else {
+            console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}"`)
+            return Response.json({
+              success: true,
+              data: {
+                schema: libraryMatch,
+                title: libraryMatch.title,
+                theory: libraryMatch.theory || '',
+                key_points: libraryMatch.keyPoints || [],
+                use_cases: libraryMatch.useCases || [],
+                examTip: libraryMatch.examTip || '',
+                complexity: libraryMatch.complexity || 'Intermediate',
+                subject_category: libraryMatch.category || 'Other',
+                diagram_type: libraryMatch.type,
+                source: 'library',
+                mermaid_code: libraryMatch.mermaid_code || '',
+              },
+              meta: {
+                model: 'static-library',
+                usedFallback: false,
+                fromLibrary: true,
+                timestamp: new Date().toISOString(),
+              },
+            })
+          }
         }
       } catch (libErr) {
         console.warn('[Library] Lookup error, falling through to AI:', libErr.message)
@@ -719,6 +752,26 @@ export async function POST(req) {
     try {
       parsed = parseResponse(rawText)
       const validated = validateResult(parsed)
+
+      if (stubMetadata) {
+        // Merge verified catalog metadata with AI layout
+        return Response.json({
+          success: true,
+          data: {
+            ...validated,
+            title: stubMetadata.title,
+            theory: stubMetadata.theory || validated.theory,
+            key_points: stubMetadata.key_points || stubMetadata.keyPoints || validated.key_points,
+            use_cases: stubMetadata.use_cases || stubMetadata.useCases || validated.use_cases,
+            examTip: stubMetadata.examTip || '',
+            complexity: stubMetadata.complexity || validated.complexity,
+            subject_category: stubMetadata.category || validated.subject_category,
+            source: 'library-stub',
+          },
+          meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
+        })
+      }
+
       return Response.json({
         success: true,
         data: { ...validated, source: 'ai', useFallback: false },
@@ -748,6 +801,25 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
           rawText = await tryGroq('llama-3.3-70b-versatile', correctionPrompt)
           parsed = parseResponse(rawText)
           const validated = validateResult(parsed)
+
+          if (stubMetadata) {
+            return Response.json({
+              success: true,
+              data: {
+                ...validated,
+                title: stubMetadata.title,
+                theory: stubMetadata.theory || validated.theory,
+                key_points: stubMetadata.key_points || stubMetadata.keyPoints || validated.key_points,
+                use_cases: stubMetadata.use_cases || stubMetadata.useCases || validated.use_cases,
+                examTip: stubMetadata.examTip || '',
+                complexity: stubMetadata.complexity || validated.complexity,
+                subject_category: stubMetadata.category || validated.subject_category,
+                source: 'library-stub',
+              },
+              meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
+            })
+          }
+
           return Response.json({
             success: true,
             data: { ...validated, source: 'ai', useFallback: false },
@@ -757,6 +829,27 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
           console.error('Retry failed:', retryErr.message)
           if (parsed && parsed.fallback_json) {
             console.warn('Retry failed to generate valid Mermaid syntax. Switching to fallback HTML/CSS renderer.')
+            
+            if (stubMetadata) {
+              return Response.json({
+                success: true,
+                data: {
+                  ...parsed,
+                  title: stubMetadata.title,
+                  theory: stubMetadata.theory || parsed.theory,
+                  key_points: stubMetadata.key_points || stubMetadata.keyPoints || parsed.key_points,
+                  use_cases: stubMetadata.use_cases || stubMetadata.useCases || parsed.use_cases,
+                  examTip: stubMetadata.examTip || '',
+                  complexity: stubMetadata.complexity || parsed.complexity,
+                  subject_category: stubMetadata.category || parsed.subject_category,
+                  source: 'library-stub',
+                  useFallback: true,
+                  mermaid_code: parsed.mermaid_code || ''
+                },
+                meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString(), fallbackActive: true },
+              })
+            }
+
             return Response.json({
               success: true,
               data: {

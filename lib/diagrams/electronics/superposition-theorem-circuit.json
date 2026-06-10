@@ -1,0 +1,108 @@
+{
+  "id": "superposition-theorem-circuit",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "title": "Superposition Theorem Circuit",
+  "description": "A circuit schematic containing two independent voltage sources (V1, V2) and three resistors (R1, R2, R3) in a T-network, demonstrating the application of the Superposition Theorem to calculate branch currents.",
+  "category": "Electrical Engineering",
+  "aliases": ["superposition theorem", "superposition circuit", "superposition theorem schematic", "linear network superposition", "mesh analysis superposition", "Superposition Theorem Verification Circuit (BEE)", "Superposition Theorem Verification Circuit", "BEE"],
+  "viewBox": { "width": 640, "height": 400 },
+
+  "theory": "The Superposition Theorem is a core principle in electrical network analysis applicable to linear, bilateral networks containing multiple independent sources. It states that the current through, or the voltage across, any element in a linear network is the algebraic sum of the currents or voltages produced by each independent source acting alone, while all other independent sources are replaced by their internal impedances. When applying the superposition theorem, voltage sources are deactivated by replacing them with a short circuit (0 V), and current sources are deactivated by replacing them with an open circuit (0 A). Dependent sources, if present, are left unchanged because their values are controlled by other network variables.\n\nSuperposition is mathematically grounded in the property of linearity, which encompasses homogeneity (scaling) and additivity. It simplifies the analysis of complex circuits by allowing a multi-source network to be solved as multiple simpler, single-source sub-circuits. However, superposition cannot be directly applied to power calculations, as electrical power is a quadratic function of current or voltage (P = I^2 * R or P = V^2 / R), making it non-linear. The total power must instead be calculated using the final combined voltage or current values.",
+
+  "keyPoints": [
+    "Applicable only to linear, bilateral networks containing multiple independent sources.",
+    "Deactivate independent voltage sources by short-circuiting them (replacing with a wire).",
+    "Deactivate independent current sources by open-circuiting them (removing the source branch).",
+    "Dependent sources must not be deactivated and remain in the circuit during analysis.",
+    "Total current/voltage is the algebraic sum of individual responses from each active source.",
+    "Cannot be used for power calculations directly because power is a non-linear quantity (P = I^2 * R)."
+  ],
+
+  "examTip": "Always remember that Superposition ONLY works for linear variables like voltage (V) and current (I). You CANNOT add powers directly (P_total != P1 + P2). For deactivation: Short-circuit voltage sources, open-circuit current sources. Leave dependent sources alone!",
+
+  "useCases": [
+    "Analyzing multi-source DC and AC networks in power systems.",
+    "Determining small-signal and large-signal responses in electronic amplifier biasing.",
+    "Calculating outputs in mixed-signal circuits with AC and DC sources (e.g., bias plus signal).",
+    "Simplifying mesh and nodal equations in complex electrical grids.",
+    "Understanding noise coupling from power supplies to signal lines by treating noise as an independent source."
+  ],
+
+  "components": [
+    {
+      "id": "V1",
+      "symbol": "dc-source",
+      "x": 80,
+      "y": 200,
+      "rotation": 0,
+      "label": "V1"
+    },
+    {
+      "id": "V2",
+      "symbol": "dc-source",
+      "x": 560,
+      "y": 200,
+      "rotation": 0,
+      "label": "V2"
+    },
+    {
+      "id": "R1",
+      "symbol": "resistor",
+      "x": 200,
+      "y": 120,
+      "rotation": 0,
+      "label": "R1"
+    },
+    {
+      "id": "R2",
+      "symbol": "resistor",
+      "x": 440,
+      "y": 120,
+      "rotation": 0,
+      "label": "R2"
+    },
+    {
+      "id": "R3",
+      "symbol": "resistor",
+      "x": 320,
+      "y": 220,
+      "rotation": 90,
+      "label": "R3"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 320,
+      "y": 320,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 174, "x2": 80, "y2": 120, "comment": "V1 top terminal up" },
+    { "x1": 80, "y1": 120, "x2": 172, "y2": 120, "comment": "To R1 left lead" },
+    { "x1": 228, "y1": 120, "x2": 320, "y2": 120, "comment": "R1 right lead to Node A" },
+    { "x1": 320, "y1": 120, "x2": 412, "y2": 120, "comment": "Node A to R2 left lead" },
+    { "x1": 468, "y1": 120, "x2": 560, "y2": 120, "comment": "R2 right lead to V2 top corner" },
+    { "x1": 560, "y1": 120, "x2": 560, "y2": 174, "comment": "V2 top terminal down" },
+    { "x1": 320, "y1": 120, "x2": 320, "y2": 192, "comment": "Node A down to R3 top lead" },
+    { "x1": 320, "y1": 248, "x2": 320, "y2": 320, "comment": "R3 bottom lead to ground" },
+    { "x1": 80, "y1": 226, "x2": 80, "y2": 280, "comment": "V1 bottom lead down" },
+    { "x1": 80, "y1": 280, "x2": 560, "y2": 280, "comment": "Bottom reference line" },
+    { "x1": 560, "y1": 226, "x2": 560, "y2": 280, "comment": "V2 bottom lead down" },
+    { "x1": 320, "y1": 280, "x2": 320, "y2": 320, "comment": "Bottom rail connection to ground" }
+  ],
+
+  "junctions": [
+    { "x": 320, "y": 120, "comment": "Node A junction" },
+    { "x": 320, "y": 280, "comment": "Ground junction" }
+  ],
+
+  "labels": [
+    { "text": "Node A", "x": 320, "y": 100, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "I1 →", "x": 130, "y": 110, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "← I2", "x": 510, "y": 110, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "I3 = I1 + I2 ↓", "x": 350, "y": 170, "fontSize": 10, "fontWeight": "600", "fill": "#16a34a", "textAnchor": "start" }
+  ]
+}

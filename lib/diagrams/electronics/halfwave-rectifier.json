@@ -1,4 +1,6 @@
 {
+  "id": "halfwave-rectifier",
+  "complexity": "Beginner",
   "type": "circuit-schematic",
   "title": "Half-Wave Rectifier Circuit",
   "description": "Converts AC to pulsating DC using a single diode. Only positive half-cycles of the AC input pass to the load.",

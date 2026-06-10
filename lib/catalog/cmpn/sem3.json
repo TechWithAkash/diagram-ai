@@ -1,0 +1,98 @@
+[
+  {
+    "id": "binary-search-tree",
+    "title": "Binary Search Tree (BST) Structure",
+    "type": "tree",
+    "subject": "Data Structures (DS)",
+    "syllabus_reference": "Module 4: Trees (Binary Search Tree)",
+    "textbook_reference": "Seymour Lipschutz, Data Structures, McGraw Hill, Chapter 7, Page 215",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Create a Binary Search Tree for the following data elements: 50, 25, 75, 12, 30, 60, 85, 5. Write inorder, preorder, and postorder traversals (Dec 2023).",
+        "Explain BST deletion cases with a suitable example (May 2023)."
+      ]
+    },
+    "theory": "A Binary Search Tree (BST) is a node-based binary tree data structure where each node has at most two children. It satisfies the BST property: for any given node, the key value of all nodes in its left subtree is strictly less than the node's key, and the key value of all nodes in its right subtree is strictly greater than the node's key. This property makes searching, insertion, and deletion highly efficient, operating in O(log n) average time complexity. Tree traversal algorithms include Inorder (Left, Root, Right - which outputs elements in sorted ascending order), Preorder (Root, Left, Right), and Postorder (Left, Right, Root).",
+    "key_points": [
+      "Left Subtree < Root < Right Subtree for all nodes in the tree.",
+      "Inorder traversal of a BST always yields sorted data in ascending order.",
+      "Search/Insert/Delete average time complexity is O(log n); worst case is O(n) for a skewed tree.",
+      "Deletion involves 3 cases: deleting a leaf node, deleting a node with one child, and deleting a node with two children (replaced by its inorder successor or predecessor).",
+      "Balanced variants like AVL and Red-Black trees prevent worst-case O(n) behavior."
+    ],
+    "use_cases": [
+      "Implementing database indexing systems.",
+      "Implementing efficient associative arrays and symbol tables in compilers."
+    ],
+    "schema_template": {
+      "type": "tree",
+      "viewBox": { "width": 500, "height": 300 },
+      "nodes": [
+        { "id": "50", "label": "50", "x": 250, "y": 50 },
+        { "id": "25", "label": "25", "x": 150, "y": 120 },
+        { "id": "75", "label": "75", "x": 350, "y": 120 },
+        { "id": "10", "label": "10", "x": 100, "y": 190 },
+        { "id": "35", "label": "35", "x": 200, "y": 190 },
+        { "id": "60", "label": "60", "x": 300, "y": 190 },
+        { "id": "90", "label": "90", "x": 400, "y": 190 }
+      ],
+      "connections": [
+        { "from": "50", "to": "25" },
+        { "from": "50", "to": "75" },
+        { "from": "25", "to": "10" },
+        { "from": "25", "to": "35" },
+        { "from": "75", "to": "60" },
+        { "from": "75", "to": "90" }
+      ]
+    }
+  },
+  {
+    "id": "hasse-diagram-poset",
+    "title": "Hasse Diagram of Poset",
+    "type": "graph",
+    "subject": "Discrete Structures & Graph Theory (DSGT)",
+    "syllabus_reference": "Module 3: Relations and Posets",
+    "textbook_reference": "Kenneth H. Rosen, Discrete Mathematics and its Applications, Chapter 9, Page 620",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw the Hasse diagram for the divisibility relation on the set A = {2, 3, 6, 12, 24, 36} (May 2024).",
+        "Define Poset. Draw Hasse diagram for subset relation on power set of {a, b, c} (Dec 2023)."
+      ]
+    },
+    "theory": "A Hasse diagram is a graphical representation of a finite partially ordered set (Poset). It simplifies the poset graph by eliminating redundant information based on the mathematical properties of partial orders: reflexivity and transitivity. In a Hasse diagram, elements are represented as vertices in a plane, and directed edges are drawn upwards between elements x and y if x is related to y (x < y) and there is no element z such that x < z < y (y covers x). Loop arrows for reflexivity and transitive edges are omitted. If two related elements are connected, the larger element is placed vertically higher.",
+    "key_points": [
+      "Represents partial orders (relations that are reflexive, antisymmetric, and transitive).",
+      "All loops representing reflexivity (x relates to x) are omitted.",
+      "All transitive connections (if x<y and y<z, then x<z) are omitted.",
+      "Edges are drawn upward to indicate order; arrowheads are unnecessary.",
+      "Vertices at the bottom are minimal/minimum; vertices at the top are maximal/maximum."
+    ],
+    "use_cases": [
+      "Representing task dependency hierarchies in project scheduling.",
+      "Modeling security privilege level access lattices."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": { "width": 400, "height": 300 },
+      "nodes": [
+        { "id": "n2", "label": "2", "x": 120, "y": 240 },
+        { "id": "n3", "label": "3", "x": 280, "y": 240 },
+        { "id": "n6", "label": "6", "x": 200, "y": 170 },
+        { "id": "n12", "label": "12", "x": 200, "y": 100 },
+        { "id": "n24", "label": "24", "x": 120, "y": 40 },
+        { "id": "n36", "label": "36", "x": 280, "y": 40 }
+      ],
+      "connections": [
+        { "from": "n2", "to": "n6" },
+        { "from": "n3", "to": "n6" },
+        { "from": "n6", "to": "n12" },
+        { "from": "n12", "to": "n24" },
+        { "from": "n12", "to": "n36" }
+      ]
+    }
+  }
+]

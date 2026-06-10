@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import {
   Sparkles, Copy, Download, RefreshCw, ChevronRight,
   BookOpen, Code2, Network, Clock, Cpu, DollarSign,
@@ -53,7 +53,24 @@ export default function HomePage() {
   const { history, addToHistory } = useHistory()
 
   const isLibrary = data?.source === 'library'
+  const isStub    = data?.source === 'library-stub'
   const isAI      = data?.source === 'ai'
+
+  const [isEmbed, setIsEmbed] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const id = params.get('id')
+      const embed = params.get('embed') === 'true'
+      setIsEmbed(embed)
+      if (id) {
+        setPrompt(id)
+        generate(id)
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // ── Animate loading steps ──────────────────────────────────────────────────
   const startLoadingAnimation = useCallback(() => {
@@ -83,7 +100,6 @@ export default function HomePage() {
     clearInterval(stepTimerRef.current)
   }, [prompt, generate, addToHistory, startLoadingAnimation])
 
-  // ── "Try AI instead" — skip library, force Groq ───────────────────────────
   const handleForceAI = useCallback(() => {
     handleGenerate(lastPrompt || prompt, { forceAI: true })
   }, [lastPrompt, prompt, handleGenerate])
@@ -106,6 +122,36 @@ export default function HomePage() {
   const handleDownload = useCallback(() => {
     downloadSVG(diagramRef.current, `${data?.title || 'diagram'}.svg`)
   }, [data])
+
+  if (isEmbed) {
+    return (
+      <div className="w-full min-h-screen bg-white flex items-center justify-center p-0 overflow-hidden">
+        {status === 'loading' && (
+          <div className="flex flex-col items-center justify-center p-4">
+            <div className="w-8 h-8 rounded-full border-2 border-gray-100 border-t-[var(--brand)] animate-spin mb-2" />
+            <span className="text-xs text-gray-400">Loading diagram…</span>
+          </div>
+        )}
+        {status === 'error' && (
+          <div className="p-4 text-xs text-red-500 bg-red-50 border border-red-100 rounded-lg">
+            Error: {error}
+          </div>
+        )}
+        {status === 'success' && data && (
+          <div ref={diagramRef} className="w-full h-full flex items-center justify-center overflow-hidden">
+            <DiagramRenderer
+              source={data.source}
+              schema={data.schema}
+              code={data.mermaid_code}
+              useFallback={data.useFallback}
+              fallbackJson={data.fallback_json}
+              className="w-full h-full"
+            />
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-display">
@@ -198,6 +244,8 @@ export default function HomePage() {
           </div>
         </div>
 
+
+
         {/* ── Loading state ──────────────────────────────────────────────────── */}
         {status === 'loading' && (
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 text-center animate-fade-in">
@@ -251,6 +299,11 @@ export default function HomePage() {
                       <Library className="w-2.5 h-2.5" /> LIBRARY
                     </span>
                   )}
+                  {isStub && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+                      <Cpu className="w-2.5 h-2.5" /> SYLLABUS + AI LAYOUT
+                    </span>
+                  )}
                   {data.diagram_type && (
                     <Badge variant="brand">{DIAGRAM_TYPE_LABELS[data.diagram_type] || data.diagram_type}</Badge>
                   )}
@@ -289,7 +342,7 @@ export default function HomePage() {
             </div>
 
             {/* ── Exam Tip callout (library only) ────────────────────────────── */}
-            {isLibrary && data.examTip && (
+            {(isLibrary || isStub) && data.examTip && (
               <div className="mx-5 mt-4 mb-0 flex gap-2.5 items-start bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
                 <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                 <div>
@@ -405,9 +458,9 @@ export default function HomePage() {
             <div className="px-5 py-2.5 border-t border-gray-100 flex flex-wrap gap-4 bg-gray-50/50">
               <MetaPill icon={Clock}   label="Just now" />
               <MetaPill
-                icon={isLibrary ? Library : Cpu}
-                label={isLibrary ? 'Static Library' : (meta?.model || 'Groq · Llama')}
-                className={isLibrary ? 'text-emerald-500' : ''}
+                icon={isLibrary ? Library : isStub ? Library : Cpu}
+                label={isLibrary ? 'Static Library' : isStub ? 'Syllabus + AI Layout' : (meta?.model || 'Groq · Llama')}
+                className={isLibrary ? 'text-emerald-500' : isStub ? 'text-indigo-500' : ''}
               />
               <MetaPill
                 icon={isLibrary ? Network : Zap}

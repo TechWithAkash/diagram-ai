@@ -1,0 +1,111 @@
+{
+  "id": "twoport-network-z",
+  "complexity": "Advanced",
+  "type": "circuit-schematic",
+  "title": "Two-Port Network Parameter Representation (Z-Parameters)",
+  "description": "An equivalent circuit diagram modeling Z-parameters (impedance parameters) of a two-port network, showing input/output loop variables V1, I1, V2, I2, self impedances Z11, Z22, and dependent voltage sources representing cross coupling.",
+  "category": "Electrical Network Analysis (ENA)",
+  "aliases": [
+    "z-parameters",
+    "two-port network",
+    "impedance parameters",
+    "z parameter model",
+    "two-port z-parameters",
+    "Two-Port Network Parameter Representation (Z-Parameters) (Sem III - ENA)",
+    "Two-Port Network Parameter Representation (Z-Parameters)",
+    "Z-Parameters (Sem III - ENA)",
+    "ENA"
+  ],
+  "viewBox": { "width": 780, "height": 400 },
+
+  "theory": "A two-port network is an electrical network with two separate pairs of terminals (ports) for input and output, commonly analyzed in circuit theory and filter design. The Z-parameters, also called impedance parameters or open-circuit impedance parameters, relate the port voltages (V1, V2) directly to the port currents (I1, I2) through a system of linear equations: V1 = Z11 * I1 + Z12 * I2 and V2 = Z21 * I1 + Z22 * I2. In this description, Z11 is the input impedance with the output open-circuited (I2 = 0). Z12 is the reverse transfer impedance with the input open-circuited (I1 = 0). Z21 is the forward transfer impedance with the output open-circuited (I2 = 0). Z22 is the output impedance with the input open-circuited (I1 = 0).\n\nThe equivalent circuit representing these equations utilizes two independent loops. The input loop consists of a series impedance Z11 and a dependent voltage source Z12 * I2 controlled by the output port current I2. The output loop contains a series impedance Z22 and a dependent voltage source Z21 * I1 controlled by the input port current I1. If the network is reciprocal, then Z12 = Z21. If the network is symmetric, then Z11 = Z22. This model is exceptionally useful when two-port networks are connected in series, as the combined Z-parameters are simply the matrix sum of the individual networks' Z-parameters.",
+
+  "keyPoints": [
+    "Z-parameters relate port voltages to port currents (V = Z * I).",
+    "Also called open-circuit parameters because they are determined by leaving one port open-circuited (I = 0).",
+    "Z11 is the input impedance, Z22 is the output impedance, Z12 and Z21 are transfer impedances.",
+    "The equivalent circuit uses dependent voltage sources (Z12*I2 and Z21*I1) to represent port coupling.",
+    "For reciprocal networks: Z12 = Z21. For symmetric networks: Z11 = Z22.",
+    "Z-parameter matrices can be directly added when networks are connected in series."
+  ],
+
+  "examTip": "To find Z11 and Z21, open-circuit Port 2 (set I2 = 0) and compute V1/I1 and V2/I1 respectively. To find Z22 and Z12, open-circuit Port 1 (set I1 = 0) and compute V2/I2 and V1/I2. Remember: V1 = Z11*I1 + Z12*I2, and V2 = Z21*I1 + Z22*I2.",
+
+  "useCases": [
+    "Analyzing transistor amplifier behavior using small-signal models (e.g., hybrid-pi conversion).",
+    "Designing and modeling transmission lines and electrical power grids.",
+    "Characterizing passive filter networks in communications systems.",
+    "Simplifying the analysis of series-connected multi-stage networks.",
+    "Performing RF and microwave circuit simulations using impedance parameters."
+  ],
+
+  "components": [
+    {
+      "id": "Z11",
+      "symbol": "resistor",
+      "x": 220,
+      "y": 120,
+      "rotation": 0,
+      "label": "Z11"
+    },
+    {
+      "id": "V1_dep",
+      "symbol": "dc-source",
+      "x": 340,
+      "y": 200,
+      "rotation": 180,
+      "label": "Z12·I2"
+    },
+    {
+      "id": "Z22",
+      "symbol": "resistor",
+      "x": 560,
+      "y": 120,
+      "rotation": 0,
+      "label": "Z22"
+    },
+    {
+      "id": "V2_dep",
+      "symbol": "dc-source",
+      "x": 440,
+      "y": 200,
+      "rotation": 180,
+      "label": "Z21·I1"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 390,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 80, "y1": 120, "x2": 192, "y2": 120, "comment": "Port 1 top terminal to Z11 left" },
+    { "x1": 248, "y1": 120, "x2": 340, "y2": 120, "comment": "Z11 right to V1_dep top node" },
+    { "x1": 340, "y1": 120, "x2": 340, "y2": 174, "comment": "Connect to dependent source V1_dep top" },
+    { "x1": 340, "y1": 226, "x2": 340, "y2": 280, "comment": "V1_dep bottom to bottom rail" },
+    { "x1": 80, "y1": 280, "x2": 340, "y2": 280, "comment": "Port 1 bottom terminal to bottom rail" },
+    { "x1": 700, "y1": 120, "x2": 588, "y2": 120, "comment": "Port 2 top terminal to Z22 right" },
+    { "x1": 532, "y1": 120, "x2": 440, "y2": 120, "comment": "Z22 left to V2_dep top node" },
+    { "x1": 440, "y1": 120, "x2": 440, "y2": 174, "comment": "Connect to dependent source V2_dep top" },
+    { "x1": 440, "y1": 226, "x2": 440, "y2": 280, "comment": "V2_dep bottom to bottom rail" },
+    { "x1": 700, "y1": 280, "x2": 440, "y2": 280, "comment": "Port 2 bottom terminal to bottom rail" },
+    { "x1": 340, "y1": 280, "x2": 440, "y2": 280, "comment": "Common ground reference wire connecting both loops" },
+    { "x1": 390, "y1": 280, "x2": 390, "y2": 300, "comment": "To ground terminal" }
+  ],
+
+  "junctions": [
+    { "x": 390, "y": 280, "comment": "Common reference ground junction" }
+  ],
+
+  "labels": [
+    { "text": "+ V1 −", "x": 60, "y": 200, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "+ V2 −", "x": 720, "y": 200, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "I1 →", "x": 110, "y": 105, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "← I2", "x": 670, "y": 105, "fontSize": 10, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Port 1", "x": 60, "y": 80, "fontSize": 11, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "Port 2", "x": 720, "y": 80, "fontSize": 11, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" }
+  ]
+}

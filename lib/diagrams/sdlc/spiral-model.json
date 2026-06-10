@@ -5,26 +5,26 @@
   "category": "Software",
   "aliases": ["spiral", "spiral model", "boehm spiral", "risk driven model", "spiral sdlc", "spiral methodology"],
   "examTip": "Spiral Model is risk-driven. Each loop (iteration) represents a phase. Radius represents cost; angle represents progress. The 4 quadrants (clockwise) are: 1. Determine Objectives, 2. Identify and Resolve Risks (Prototyping), 3. Develop & Test, 4. Plan Next Phase.",
-  "viewBox": { "width": 800, "height": 600 },
+  "viewBox": { "width": 900, "height": 780 },
   "complexity": "Intermediate",
   "subject_category": "Software",
   "nodes": [
-    { "id": "start", "label": "Start", "x": 350, "y": 300, "r": 25, "color": "#E9D5FF", "borderColor": "#9333EA", "textColor": "#581C87" },
+    { "id": "start", "label": "Start", "x": 450, "y": 350, "r": 25, "color": "#E9D5FF", "borderColor": "#9333EA", "textColor": "#581C87" },
     
-    { "id": "obj1", "label": "1. Identify\nObjectives\n(Iter 1)", "x": 260, "y": 240, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
-    { "id": "risk1", "label": "2. Analyze\nRisks\n(Iter 1)", "x": 440, "y": 240, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
-    { "id": "proto1", "label": "3. Build\nPrototype 1\n(Iter 1)", "x": 440, "y": 360, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
-    { "id": "plan1", "label": "4. Plan\nNext Phase\n(Iter 1)", "x": 260, "y": 360, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+    { "id": "obj1", "label": "1. Identify\nObjectives\n(Iter 1)", "x": 408, "y": 308, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk1", "label": "2. Analyze\nRisks\n(Iter 1)", "x": 514, "y": 286, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto1", "label": "3. Build\nPrototype 1\n(Iter 1)", "x": 535, "y": 435, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan1", "label": "4. Plan\nNext Phase\n(Iter 1)", "x": 344, "y": 456, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
 
-    { "id": "obj2", "label": "1. Gather\nFeedback\n(Iter 2)", "x": 180, "y": 160, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
-    { "id": "risk2", "label": "2. Identify\nNew Risks\n(Iter 2)", "x": 520, "y": 160, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
-    { "id": "proto2", "label": "3. Design &\nTest Proto 2\n(Iter 2)", "x": 520, "y": 440, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
-    { "id": "plan2", "label": "4. Review\nwith Client\n(Iter 2)", "x": 180, "y": 440, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
+    { "id": "obj2", "label": "1. Gather\nFeedback\n(Iter 2)", "x": 323, "y": 223, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk2", "label": "2. Identify\nNew Risks\n(Iter 2)", "x": 598, "y": 202, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto2", "label": "3. Design &\nTest Proto 2\n(Iter 2)", "x": 620, "y": 520, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan2", "label": "4. Review\nwith Client\n(Iter 2)", "x": 259, "y": 541, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" },
 
-    { "id": "obj3", "label": "1. Solidify\nReqs\n(Iter 3)", "x": 100, "y": 80, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
-    { "id": "risk3", "label": "2. Final Risk\nAssessment\n(Iter 3)", "x": 600, "y": 80, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
-    { "id": "proto3", "label": "3. Build\nFinal Product\n(Iter 3)", "x": 600, "y": 520, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
-    { "id": "plan3", "label": "4. Deploy &\nMaintain\n(Iter 3)", "x": 100, "y": 520, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" }
+    { "id": "obj3", "label": "1. Solidify\nReqs\n(Iter 3)", "x": 238, "y": 138, "r": 45, "color": "#DBEAFE", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+    { "id": "risk3", "label": "2. Final Risk\nAssessment\n(Iter 3)", "x": 683, "y": 117, "r": 45, "color": "#FFE4E6", "borderColor": "#E11D48", "textColor": "#881337" },
+    { "id": "proto3", "label": "3. Build\nFinal Product\n(Iter 3)", "x": 705, "y": 605, "r": 45, "color": "#D1FAE5", "borderColor": "#059669", "textColor": "#064E3B" },
+    { "id": "plan3", "label": "4. Deploy &\nMaintain\n(Iter 3)", "x": 174, "y": 626, "r": 45, "color": "#FFF7ED", "borderColor": "#EA580C", "textColor": "#7C2D12" }
   ],
   "edges": [
     { "from": "start", "to": "obj1", "label": "Loop 1 Start" },

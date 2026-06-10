@@ -1,0 +1,103 @@
+[
+  {
+    "id": "opamp-inverting",
+    "title": "Op-Amp Inverting Amplifier Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 3, Page 142",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Draw and explain the circuit of an inverting amplifier using IC 741. Derive the expression for closed-loop voltage gain (May 2024).",
+        "Design an inverting amplifier for a voltage gain of -10 and input resistance of 10k (Dec 2023)."
+      ]
+    },
+    "theory": "An inverting amplifier is an operational amplifier (op-amp) circuit configuration where the output voltage is out of phase with the input voltage by 180 degrees (inverted). The input signal (Vin) is applied to the inverting input (-) terminal through resistor R1, while the non-inverting input (+) terminal is connected directly to ground. Negative feedback is established by connecting a feedback resistor (Rf) from the output to the inverting input. Due to the op-amp's virtual ground concept (the potential at the inverting node equals that at the grounded non-inverting node), the closed-loop voltage gain is determined solely by the ratio of the external resistors: Av = Vout / Vin = -Rf / R1.",
+    "key_points": [
+      "Input signal is applied to the inverting (-) terminal via resistor R1.",
+      "Non-inverting (+) terminal is tied directly to electrical ground.",
+      "Feedback resistor Rf connects the output back to the inverting input node.",
+      "Virtual ground: The inverting node behaves as if it is at 0V potential but draws no current.",
+      "Closed-loop voltage gain Av = -Rf / R1 (negative sign denotes 180-degree phase shift)."
+    ],
+    "use_cases": [
+      "Audio mixers and signal summing amplifiers.",
+      "Analog filters and digital-to-analog converter (DAC) current-to-voltage buffers."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 500, "height": 300 },
+      "components": [
+        { "id": "vin", "type": "ac-source", "label": "Vin", "x": 80, "y": 180 },
+        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 120 },
+        { "id": "op", "type": "op-amp", "label": "IC 741", "x": 280, "y": 150 },
+        { "id": "rf", "type": "resistor", "label": "Rf", "x": 280, "y": 60 },
+        { "id": "gnd", "type": "ground", "x": 240, "y": 210 }
+      ],
+      "wires": [
+        { "from": "vin", "to": "r1", "points": [ { "x": 80, "y": 120 } ] },
+        { "from": "r1", "to": "op", "points": [] },
+        { "from": "op", "to": "rf", "points": [ { "x": 240, "y": 120 }, { "x": 240, "y": 60 } ] },
+        { "from": "rf", "to": "op", "points": [ { "x": 340, "y": 60 }, { "x": 340, "y": 150 } ] },
+        { "from": "op", "to": "gnd", "points": [] },
+        { "from": "op", "to": "vout", "points": [ { "x": 420, "y": 150 } ] }
+      ],
+      "junctions": [
+        { "x": 240, "y": 120 },
+        { "x": 340, "y": 150 }
+      ]
+    }
+  },
+  {
+    "id": "opamp-noninverting",
+    "title": "Op-Amp Non-Inverting Amplifier Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 3, Page 147",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "State the characteristics of an ideal op-amp. Draw and explain the circuit of a non-inverting amplifier (Dec 2023).",
+        "Derive voltage gain for non-inverting amplifier and explain virtual short concept (May 2023)."
+      ]
+    },
+    "theory": "A non-inverting amplifier is an operational amplifier circuit configuration where the output voltage is in phase with the input voltage (no phase inversion). The input signal (Vin) is applied directly to the non-inverting (+) input terminal. The feedback path is connected from the output to the inverting (-) terminal via feedback resistor Rf, and a resistor R1 connects the inverting terminal to ground. Due to the high open-loop gain, the op-amp maintains a virtual short between its inputs, forcing the voltage at the inverting node to equal Vin. The resulting closed-loop voltage gain is given by Av = Vout / Vin = 1 + (Rf / R1), which is always greater than or equal to unity.",
+    "key_points": [
+      "Input signal is applied directly to the non-inverting (+) input terminal.",
+      "Feedback resistor Rf connects the output to the inverting (-) node.",
+      "Resistor R1 connects the inverting node to electrical ground.",
+      "Closed-loop voltage gain Av = 1 + (Rf / R1) (always positive, no phase shift).",
+      "Input impedance is extremely high, making it ideal as a voltage buffer."
+    ],
+    "use_cases": [
+      "High-input-impedance preamplifiers for sensors.",
+      "Voltage followers and unity-gain buffer stages."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": { "width": 500, "height": 300 },
+      "components": [
+        { "id": "vin", "type": "ac-source", "label": "Vin", "x": 80, "y": 150 },
+        { "id": "op", "type": "op-amp", "label": "IC 741", "x": 280, "y": 150 },
+        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 240, "rotation": 90 },
+        { "id": "rf", "type": "resistor", "label": "Rf", "x": 280, "y": 60 },
+        { "id": "gnd", "type": "ground", "x": 180, "y": 280 }
+      ],
+      "wires": [
+        { "from": "vin", "to": "op", "points": [] },
+        { "from": "op", "to": "r1", "points": [ { "x": 240, "y": 120 }, { "x": 180, "y": 120 } ] },
+        { "from": "op", "to": "rf", "points": [ { "x": 240, "y": 120 }, { "x": 240, "y": 60 } ] },
+        { "from": "rf", "to": "op", "points": [ { "x": 340, "y": 60 }, { "x": 340, "y": 150 } ] },
+        { "from": "op", "to": "vout", "points": [ { "x": 420, "y": 150 } ] }
+      ],
+      "junctions": [
+        { "x": 240, "y": 120 },
+        { "x": 340, "y": 150 }
+      ]
+    }
+  }
+]

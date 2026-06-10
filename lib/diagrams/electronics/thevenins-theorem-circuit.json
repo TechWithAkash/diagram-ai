@@ -1,0 +1,88 @@
+{
+  "id": "thevenins-theorem-circuit",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "title": "Thevenin's Theorem Equivalent Circuit",
+  "description": "A simplified equivalent circuit representation of Thevenin's Theorem containing an equivalent voltage source (Vth) in series with an equivalent resistance (Rth) connected to a load resistor (RL).",
+  "category": "Electrical Engineering",
+  "aliases": ["thevenin theorem", "thevenin equivalent", "thevenin circuit", "thevenins theorem", "thevenins equivalent circuit", "Thevenin's Equivalent Circuit (BEE)", "BEE"],
+  "viewBox": { "width": 640, "height": 380 },
+
+  "theory": "Thevenin's Theorem is a fundamental circuit analysis tool that simplifies a complex linear, active, bilateral network containing one or more sources and resistors into an equivalent circuit consisting of a single voltage source in series with a single resistor, connected across the load terminals. The single voltage source is known as the Thevenin equivalent voltage (Vth), which is the open-circuit voltage across the load terminals (A-B) when the load is removed. The series resistor is known as the Thevenin equivalent resistance (Rth), representing the resistance seen looking back into the open-circuit terminals with all independent voltage sources replaced by short circuits and independent current sources replaced by open circuits.\n\nThis theorem is extremely powerful because it allows engineers to quickly determine the voltage, current, and power delivered to a load resistor without recalculating the entire network when the load value changes. It is mathematically related to Norton's Theorem, where Norton's equivalent current In is related by In = Vth / Rth, and Norton's resistance Rn is equal to Rth. Thevenin's theorem forms the basis for the Maximum Power Transfer Theorem, which states that maximum power is transferred to a load when RL = Rth.",
+
+  "keyPoints": [
+    "Simplifies any linear, active, bilateral network into a single voltage source and series resistor.",
+    "Vth (Thevenin Voltage) is the open-circuit voltage across load terminals A and B with RL removed.",
+    "Rth (Thevenin Resistance) is the equivalent resistance between terminals A and B with all independent sources deactivated.",
+    "To find Rth, short-circuit voltage sources and open-circuit current sources.",
+    "Extremely useful when analyzing circuits where the load resistor is variable.",
+    "Forms the foundation of Norton's theorem and the Maximum Power Transfer Theorem."
+  ],
+
+  "examTip": "To find Vth, remove the load resistor RL and calculate the open-circuit voltage Voc. To find Rth, remove RL, deactivate all independent sources (short voltage, open current), and calculate the equivalent resistance. The load current is then easily found as IL = Vth / (Rth + RL).",
+
+  "useCases": [
+    "Analyzing load-dependent voltage drop and regulation in electrical power grids.",
+    "Biasing and signal path analysis in complex multi-transistor amplifier circuits.",
+    "Matching impedance in radio frequency (RF) transmission lines to maximize signal strength.",
+    "Designing digital-to-analog converters (R-2R ladders) and sensor conditioning bridges.",
+    "Simplifying complex calculations in battery modeling and power source designs."
+  ],
+
+  "components": [
+    {
+      "id": "Vth",
+      "symbol": "dc-source",
+      "x": 150,
+      "y": 200,
+      "rotation": 0,
+      "label": "Vth"
+    },
+    {
+      "id": "Rth",
+      "symbol": "resistor",
+      "x": 300,
+      "y": 120,
+      "rotation": 0,
+      "label": "Rth"
+    },
+    {
+      "id": "RL",
+      "symbol": "resistor",
+      "x": 480,
+      "y": 200,
+      "rotation": 90,
+      "label": "RL"
+    },
+    {
+      "id": "GND1",
+      "symbol": "ground",
+      "x": 150,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+
+  "wires": [
+    { "x1": 150, "y1": 174, "x2": 150, "y2": 120, "comment": "Vth top terminal up" },
+    { "x1": 150, "y1": 120, "x2": 272, "y2": 120, "comment": "To Rth left lead" },
+    { "x1": 328, "y1": 120, "x2": 480, "y2": 120, "comment": "Rth right lead to Terminal A vertical line" },
+    { "x1": 480, "y1": 120, "x2": 480, "y2": 172, "comment": "To RL top lead" },
+    { "x1": 480, "y1": 228, "x2": 480, "y2": 280, "comment": "RL bottom lead to Terminal B vertical line" },
+    { "x1": 150, "y1": 226, "x2": 150, "y2": 280, "comment": "Vth bottom terminal to ground rail" },
+    { "x1": 150, "y1": 280, "x2": 480, "y2": 280, "comment": "Bottom return rail" },
+    { "x1": 150, "y1": 280, "x2": 150, "y2": 300, "comment": "To ground" }
+  ],
+
+  "junctions": [
+    { "x": 150, "y": 280, "comment": "Ground rail junction" }
+  ],
+
+  "labels": [
+    { "text": "A", "x": 495, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "B", "x": 495, "y": 284, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "IL →", "x": 400, "y": 110, "fontSize": 11, "fontWeight": "600", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Vth = Voc", "x": 150, "y": 250, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "Rth = Req", "x": 300, "y": 95, "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" }
+  ]
+}

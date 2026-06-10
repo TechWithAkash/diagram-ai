@@ -1,4 +1,6 @@
 {
+  "id": "opamp-noninverting",
+  "complexity": "Intermediate",
   "type": "circuit-schematic",
   "title": "Non-Inverting Op-Amp Amplifier",
   "description": "An operational amplifier configured in non-inverting topology. Output is in phase with input. Voltage gain = 1 + Rf/R1. Extremely high input impedance.",

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "closed-loop-control",
+    "title": "Closed-Loop Feedback Control System",
+    "type": "block-diagram",
+    "subject": "Control Systems (CS)",
+    "syllabus_reference": "Module 1: Mathematical Modeling (Closed Loop Systems)",
+    "textbook_reference": "Benjamin C. Kuo, Automatic Control Systems, Chapter 1, Page 8",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain closed-loop control system with a block diagram. State its advantages over open-loop system (Dec 2023).",
+        "Draw block diagram of negative feedback system and find its transfer function C(s)/R(s) (May 2023)."
+      ]
+    },
+    "theory": "A closed-loop control system (feedback control system) is a system that maintains a prescribed relationship between the output and the reference input by comparing them and using the difference (error) as a means of control. It consists of: (1) Reference Input (R(s)) - the desired value; (2) Comparator/Summing Point - compares input and output; (3) Error Signal (E(s)) - the difference; (4) Controller/Plant (G(s)) - acts on error to produce output; (5) Output (C(s)) - the controlled variable; (6) Feedback Path (H(s)) - measures output and feeds it back to the summing point. Negative feedback reduces system sensitivity to parameter variations and disturbances.",
+    "key_points": [
+      "Summing point calculates error signal: E(s) = R(s) - B(s).",
+      "Forward path transfer function: G(s) = C(s) / E(s).",
+      "Feedback path transfer function: H(s) = B(s) / C(s).",
+      "Closed-loop transfer function: T(s) = G(s) / (1 + G(s)H(s)) for negative feedback.",
+      "Improves system bandwidth, stability, and reduces steady-state error."
+    ],
+    "use_cases": [
+      "Thermostatic climate control systems (AC, heating).",
+      "Automobile cruise control and aerospace autopilot guidance systems."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 640, "height": 280 },
+      "blocks": [
+        { "id": "sum", "label": "Σ", "x": 120, "y": 100, "width": 40, "height": 40, "color": "#F1F5F9" },
+        { "id": "g", "label": "Plant / Controller\nG(s)", "x": 220, "y": 80, "width": 140, "height": 80, "color": "#EFF6FF" },
+        { "id": "h", "label": "Feedback Sensor\nH(s)", "x": 220, "y": 200, "width": 140, "height": 60, "color": "#FAF5FF" }
+      ],
+      "connections": [
+        { "from": "sum", "to": "g", "label": "E(s)", "style": "solid" },
+        { "from": "h", "to": "sum", "label": "B(s)", "style": "solid" }
+      ]
+    }
+  }
+]

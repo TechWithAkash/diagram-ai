@@ -1,0 +1,40 @@
+[
+  {
+    "id": "twoport-network-z",
+    "title": "Two-Port Network Parameter Representation (Z-Parameters)",
+    "type": "block-diagram",
+    "subject": "Electrical Network Analysis (ENA)",
+    "syllabus_reference": "Module 4: Two Port Networks (Impedance Parameters)",
+    "textbook_reference": "William H. Hayt & Jack E. Kemmerly, Engineering Circuit Analysis, Chapter 17, Page 640",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Define Z-parameters and derive the equivalent circuit for a reciprocal two-port network (Dec 2023).",
+        "Find the Z-parameters for the given T-network (May 2023)."
+      ]
+    },
+    "theory": "A two-port network is an electrical network with two separate pairs of terminals for connection to external circuits, typically designated as Input Port (Port 1) and Output Port (Port 2). The network is analyzed in terms of terminal voltages (V1, V2) and currents (I1, I2). For impedance (Z) parameters (also known as open-circuit parameters), the voltages are expressed as linear combinations of the currents: V1 = Z11·I1 + Z12·I2, and V2 = Z21·I1 + Z22·I2. Z11 and Z22 represent the open-circuit input and output driving-point impedances respectively, while Z12 and Z21 represent the open-circuit transfer impedances. A two-port network is reciprocal if Z12 = Z21, and symmetrical if Z11 = Z22.",
+    "key_points": [
+      "Voltages (V1, V2) are the dependent variables; currents (I1, I2) are independent variables.",
+      "Z11 = V1 / I1 when Port 2 is open-circuited (I2 = 0).",
+      "Z12 = V1 / I2 when Port 1 is open-circuited (I1 = 0).",
+      "Reciprocal network: Z12 = Z21 (contains only passive bilateral components).",
+      "Symmetrical network: Z11 = Z22 (identical characteristics looking into either port)."
+    ],
+    "use_cases": [
+      "Characterizing high-frequency filters and transmission lines.",
+      "Modeling transistors and op-amps in small-signal analysis."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 500, "height": 280 },
+      "blocks": [
+        { "id": "net", "label": "Two-Port Network\n[Z]", "x": 170, "y": 70, "width": 160, "height": 140, "color": "#F8FAFC" }
+      ],
+      "connections": [
+        { "from": "i1", "to": "net", "label": "I1", "style": "solid" }
+      ]
+    }
+  }
+]

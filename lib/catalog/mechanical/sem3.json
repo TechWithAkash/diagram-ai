@@ -1,0 +1,43 @@
+[
+  {
+    "id": "carnot-cycle",
+    "title": "Carnot Cycle P-V Indicator Diagram",
+    "type": "block-diagram",
+    "subject": "Thermodynamics",
+    "syllabus_reference": "Module 3: Second Law & Entropy (Carnot Cycle)",
+    "textbook_reference": "R.K. Rajput, Thermal Engineering, Laxmi Publications, Chapter 5, Page 190",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State and prove Carnot's Theorem. Explain the four processes of a Carnot cycle with a P-V diagram (Dec 2023).",
+        "Derive the expression for the thermal efficiency of a Carnot engine (May 2023)."
+      ]
+    },
+    "theory": "The Carnot Cycle is a theoretical thermodynamic cycle proposed by Nicolas Léonard Sadi Carnot in 1824. It represents the limit of thermal efficiency for a heat engine operating between two temperatures (T_hot and T_cold). It is composed of four reversible processes: (1) Reversible Isothermal Expansion (1➔2) at T_hot, where heat Q_in is absorbed; (2) Reversible Adiabatic Expansion (2➔3), where temperature drops from T_hot to T_cold; (3) Reversible Isothermal Compression (3➔4) at T_cold, where heat Q_out is rejected; and (4) Reversible Adiabatic Compression (4➔1), restoring the gas to its initial state. The Carnot efficiency depends solely on the operating temperatures: n = 1 - T_cold / T_hot.",
+    "key_points": [
+      "Process 1➔2: Isothermal expansion (constant temperature, volume increases).",
+      "Process 2➔3: Adiabatic expansion (no heat transfer, temperature drops).",
+      "Process 3➔4: Isothermal compression (constant temperature, volume decreases).",
+      "Process 4➔1: Adiabatic compression (no heat transfer, temperature rises).",
+      "No real engine can be more efficient than a Carnot engine operating between the same two reservoirs."
+    ],
+    "use_cases": [
+      "Establishing the maximum theoretical limit of power plant efficiency.",
+      "Thermodynamic modeling of advanced refrigeration and heat pump cycles."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": { "width": 500, "height": 300 },
+      "blocks": [
+        { "id": "t_hot", "label": "Hot Reservoir (Th)", "x": 100, "y": 60, "width": 120, "height": 50, "color": "#F87171" },
+        { "id": "engine", "label": "Carnot Engine\n[W_net]", "x": 200, "y": 130, "width": 100, "height": 80, "color": "#EFF6FF" },
+        { "id": "t_cold", "label": "Cold Reservoir (Tc)", "x": 300, "y": 230, "width": 120, "height": 50, "color": "#60A5FA" }
+      ],
+      "connections": [
+        { "from": "t_hot", "to": "engine", "label": "Qin", "style": "solid" },
+        { "from": "engine", "to": "t_cold", "label": "Qout", "style": "solid" }
+      ]
+    }
+  }
+]

@@ -1,0 +1,2584 @@
+[
+  {
+    "id": "binary-search-tree",
+    "title": "Binary Search Tree (BST) Structure",
+    "type": "tree",
+    "subject": "Data Structures (DS)",
+    "syllabus_reference": "Module 4: Trees (Binary Search Tree)",
+    "textbook_reference": "Seymour Lipschutz, Data Structures, McGraw Hill, Chapter 7, Page 215",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Create a Binary Search Tree for the following data elements: 50, 25, 75, 12, 30, 60, 85, 5. Write inorder, preorder, and postorder traversals (Dec 2023).",
+        "Explain BST deletion cases with a suitable example (May 2023)."
+      ]
+    },
+    "theory": "A Binary Search Tree (BST) is a node-based binary tree data structure where each node has at most two children. It satisfies the BST property: for any given node, the key value of all nodes in its left subtree is strictly less than the node's key, and the key value of all nodes in its right subtree is strictly greater than the node's key. This property makes searching, insertion, and deletion highly efficient, operating in O(log n) average time complexity. Tree traversal algorithms include Inorder (Left, Root, Right - which outputs elements in sorted ascending order), Preorder (Root, Left, Right), and Postorder (Left, Right, Root).",
+    "key_points": [
+      "Left Subtree < Root < Right Subtree for all nodes in the tree.",
+      "Inorder traversal of a BST always yields sorted data in ascending order.",
+      "Search/Insert/Delete average time complexity is O(log n); worst case is O(n) for a skewed tree.",
+      "Deletion involves 3 cases: deleting a leaf node, deleting a node with one child, and deleting a node with two children (replaced by its inorder successor or predecessor).",
+      "Balanced variants like AVL and Red-Black trees prevent worst-case O(n) behavior."
+    ],
+    "use_cases": [
+      "Implementing database indexing systems.",
+      "Implementing efficient associative arrays and symbol tables in compilers."
+    ],
+    "schema_template": {
+      "type": "tree",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "nodes": [
+        {
+          "id": "50",
+          "label": "50",
+          "x": 250,
+          "y": 50
+        },
+        {
+          "id": "25",
+          "label": "25",
+          "x": 150,
+          "y": 120
+        },
+        {
+          "id": "75",
+          "label": "75",
+          "x": 350,
+          "y": 120
+        },
+        {
+          "id": "10",
+          "label": "10",
+          "x": 100,
+          "y": 190
+        },
+        {
+          "id": "35",
+          "label": "35",
+          "x": 200,
+          "y": 190
+        },
+        {
+          "id": "60",
+          "label": "60",
+          "x": 300,
+          "y": 190
+        },
+        {
+          "id": "90",
+          "label": "90",
+          "x": 400,
+          "y": 190
+        }
+      ],
+      "connections": [
+        {
+          "from": "50",
+          "to": "25"
+        },
+        {
+          "from": "50",
+          "to": "75"
+        },
+        {
+          "from": "25",
+          "to": "10"
+        },
+        {
+          "from": "25",
+          "to": "35"
+        },
+        {
+          "from": "75",
+          "to": "60"
+        },
+        {
+          "from": "75",
+          "to": "90"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "hasse-diagram-poset",
+    "title": "Hasse Diagram of Poset",
+    "type": "graph",
+    "subject": "Discrete Structures & Graph Theory (DSGT)",
+    "syllabus_reference": "Module 3: Relations and Posets",
+    "textbook_reference": "Kenneth H. Rosen, Discrete Mathematics and its Applications, Chapter 9, Page 620",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw the Hasse diagram for the divisibility relation on the set A = {2, 3, 6, 12, 24, 36} (May 2024).",
+        "Define Poset. Draw Hasse diagram for subset relation on power set of {a, b, c} (Dec 2023)."
+      ]
+    },
+    "theory": "A Hasse diagram is a graphical representation of a finite partially ordered set (Poset). It simplifies the poset graph by eliminating redundant information based on the mathematical properties of partial orders: reflexivity and transitivity. In a Hasse diagram, elements are represented as vertices in a plane, and directed edges are drawn upwards between elements x and y if x is related to y (x < y) and there is no element z such that x < z < y (y covers x). Loop arrows for reflexivity and transitive edges are omitted. If two related elements are connected, the larger element is placed vertically higher.",
+    "key_points": [
+      "Represents partial orders (relations that are reflexive, antisymmetric, and transitive).",
+      "All loops representing reflexivity (x relates to x) are omitted.",
+      "All transitive connections (if x<y and y<z, then x<z) are omitted.",
+      "Edges are drawn upward to indicate order; arrowheads are unnecessary.",
+      "Vertices at the bottom are minimal/minimum; vertices at the top are maximal/maximum."
+    ],
+    "use_cases": [
+      "Representing task dependency hierarchies in project scheduling.",
+      "Modeling security privilege level access lattices."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": {
+        "width": 400,
+        "height": 300
+      },
+      "nodes": [
+        {
+          "id": "n2",
+          "label": "2",
+          "x": 120,
+          "y": 240
+        },
+        {
+          "id": "n3",
+          "label": "3",
+          "x": 280,
+          "y": 240
+        },
+        {
+          "id": "n6",
+          "label": "6",
+          "x": 200,
+          "y": 170
+        },
+        {
+          "id": "n12",
+          "label": "12",
+          "x": 200,
+          "y": 100
+        },
+        {
+          "id": "n24",
+          "label": "24",
+          "x": 120,
+          "y": 40
+        },
+        {
+          "id": "n36",
+          "label": "36",
+          "x": 280,
+          "y": 40
+        }
+      ],
+      "connections": [
+        {
+          "from": "n2",
+          "to": "n6"
+        },
+        {
+          "from": "n3",
+          "to": "n6"
+        },
+        {
+          "from": "n6",
+          "to": "n12"
+        },
+        {
+          "from": "n12",
+          "to": "n24"
+        },
+        {
+          "from": "n12",
+          "to": "n36"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "three-schema",
+    "title": "Three-Schema Database Architecture",
+    "type": "layered-stack",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 1: Introduction to DBMS (Schema Architecture)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 1, Page 24",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain Three-Schema Architecture of a database system with a neat diagram. Describe data independence (Dec 2023).",
+        "What is DBMS? Explain the three levels of data abstraction (May 2023)."
+      ]
+    },
+    "theory": "The Three-Schema Architecture (also called the ANSI/SPARC architecture) is a framework used to describe the structure of a database system. It separates the user applications from the physical database by defining three distinct levels of schemas: (1) External Schema (View Level) which describes how individual users view the database; (2) Conceptual Schema (Logical Level) which describes what data is stored in the database and the relationships among the data; and (3) Internal Schema (Physical Level) which describes the physical storage structure of the database. This separation guarantees data independence, meaning modifications at one level do not force changes at other levels.",
+    "key_points": [
+      "View Level (External): Multiple customized schemas for different users.",
+      "Logical Level (Conceptual): Single schema describing tables, fields, types, and constraints.",
+      "Physical Level (Internal): Single schema detailing file organizations, index paths, and storage blocks.",
+      "Logical Data Independence: Ability to modify conceptual schema without changing external schemas.",
+      "Physical Data Independence: Ability to modify physical schema without changing conceptual schema."
+    ],
+    "use_cases": [
+      "Designing corporate enterprise databases supporting diverse departments.",
+      "Optimizing database disk access configurations without breaking existing SQL applications."
+    ],
+    "layers": [
+      {
+        "number": 3,
+        "name": "External Level (User Views)",
+        "protocols": "View 1, View 2, View 3 (Tailored Application views)",
+        "color": "#F87171"
+      },
+      {
+        "number": 2,
+        "name": "Conceptual Level (Logical Schema)",
+        "protocols": "Entity-Relationship Tables, Attributes, Constraints, Schemas",
+        "color": "#FB923C"
+      },
+      {
+        "number": 1,
+        "name": "Internal Level (Physical Schema)",
+        "protocols": "Data Files, Indexes, B-Trees, Record Layouts, Disk Blocks",
+        "color": "#FBBF24"
+      }
+    ],
+    "sideLabel": "Data Abstraction: High (Views) ➔ Medium (Tables) ➔ Low (Disk)",
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": true
+  },
+  {
+    "id": "process-life-cycle",
+    "title": "Process Life Cycle (5-State Model)",
+    "type": "state-machine",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 2: Process Management (Process States)",
+    "textbook_reference": "Abraham Silberschatz & Peter Galvin, Operating System Concepts, Chapter 3, Page 108",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the 5-state process transition diagram in Operating Systems (May 2024).",
+        "Describe process lifecycle transitions. Explain what happens during context switching (Dec 2023)."
+      ]
+    },
+    "theory": "As a process executes, it changes state. The process lifecycle is modeled using transition states representing the current activity of the process. In the standard 5-state model, these states are: (1) New: The process is being created; (2) Ready: The process is in memory waiting to be assigned to a processor; (3) Running: Instructions are being executed by the CPU; (4) Waiting (Blocked): The process is waiting for some event to occur (such as an I/O completion or reception of a signal); and (5) Terminated: The process has finished execution. Transitions occur based on OS scheduler actions, hardware interrupts, or system calls.",
+    "key_points": [
+      "New ➔ Ready: Admitted by the long-term scheduler.",
+      "Ready ➔ Running: Dispatched by the short-term CPU scheduler.",
+      "Running ➔ Ready: Triggered by timer interrupts or time quantum expiration.",
+      "Running ➔ Waiting: Triggered by I/O requests or block requests.",
+      "Waiting ➔ Ready: Triggered by I/O or event completion."
+    ],
+    "use_cases": [
+      "Analyzing CPU scheduling policies (Round Robin, FCFS, Priority).",
+      "Debugging program deadlock situations where processes stay in the Blocked/Waiting state."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 900,
+        "height": 400
+      },
+      "states": [
+        {
+          "id": "new",
+          "label": "New",
+          "x": 120,
+          "y": 200
+        },
+        {
+          "id": "ready",
+          "label": "Ready",
+          "x": 320,
+          "y": 200
+        },
+        {
+          "id": "running",
+          "label": "Running",
+          "x": 580,
+          "y": 200
+        },
+        {
+          "id": "waiting",
+          "label": "Waiting",
+          "x": 450,
+          "y": 340
+        },
+        {
+          "id": "terminated",
+          "label": "Terminated",
+          "x": 780,
+          "y": 200
+        }
+      ],
+      "transitions": [
+        {
+          "from": "new",
+          "to": "ready",
+          "label": "Admitted"
+        },
+        {
+          "from": "ready",
+          "to": "running",
+          "label": "Scheduler\nDispatch"
+        },
+        {
+          "from": "running",
+          "to": "ready",
+          "label": "Interrupt / Timeout",
+          "curve": "top"
+        },
+        {
+          "from": "running",
+          "to": "waiting",
+          "label": "I/O or Event\nWait"
+        },
+        {
+          "from": "waiting",
+          "to": "ready",
+          "label": "I/O or Event\nCompletion"
+        },
+        {
+          "from": "running",
+          "to": "terminated",
+          "label": "Exit"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "osi-model",
+    "title": "OSI Reference Model (7 Layers)",
+    "type": "layered-stack",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 1: Reference Models (OSI Model)",
+    "textbook_reference": "Andrew S. Tanenbaum, Computer Networks, Prentice Hall, Chapter 1, Page 38",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the functions of each layer in the OSI reference model with a neat diagram (Dec 2023).",
+        "Compare OSI reference model and TCP/IP reference model (May 2023)."
+      ]
+    },
+    "theory": "The Open Systems Interconnection (OSI) reference model is an ISO-standard abstract framework describing how data from an application on one computer moves through a network medium to an application on another. It divides network communications into seven logical layers, each serving the layer above it and being served by the layer below it. The layers are: (7) Application: User interface; (6) Presentation: Data formatting and encryption; (5) Session: Dialog control; (4) Transport: End-to-end reliability; (3) Network: Routing and logical addressing; (2) Data Link: Framing and physical addressing; (1) Physical: Raw bit transmission. Data flows down from Layer 7 to Layer 1 on the sending host, and back up from Layer 1 to Layer 7 on the receiving host.",
+    "key_points": [
+      "Application (L7): Interfaces user applications (HTTP, FTP, SMTP, DNS).",
+      "Presentation (L6): Handles syntax, compression, encryption, and translation (SSL, JPEG, ASCII).",
+      "Session (L5): Establishes, maintains, and synchronizes conversations (NetBIOS, RPC).",
+      "Transport (L4): Manages flow control, error recovery, and segmentation (TCP, UDP).",
+      "Network (L3): Determines optimal path routing using IP addresses (IP, ICMP, routers).",
+      "Data Link (L2): Prepares data frames for physical transfer using MAC addresses (Ethernet, switches).",
+      "Physical (L1): Transmits binary bit streams over copper, fiber, or air medium (hubs, cables)."
+    ],
+    "use_cases": [
+      "Standardizing network protocols and interfaces across vendors.",
+      "Troubleshooting network connectivity issues by isolating problems layer by layer."
+    ],
+    "layers": [
+      {
+        "number": 7,
+        "name": "Application",
+        "protocols": "HTTP, FTP, SMTP, DNS, DHCP",
+        "color": "#F87171"
+      },
+      {
+        "number": 6,
+        "name": "Presentation",
+        "protocols": "SSL/TLS, JPEG, MPEG, ASCII, GIF",
+        "color": "#FB923C"
+      },
+      {
+        "number": 5,
+        "name": "Session",
+        "protocols": "NetBIOS, RPC, SQL, Named Pipes",
+        "color": "#FBBF24"
+      },
+      {
+        "number": 4,
+        "name": "Transport",
+        "protocols": "TCP, UDP (Port Addressing, Flow Control)",
+        "color": "#34D399"
+      },
+      {
+        "number": 3,
+        "name": "Network",
+        "protocols": "IP, ICMP, OSPF, BGP (Routing, Logical Addr)",
+        "color": "#60A5FA"
+      },
+      {
+        "number": 2,
+        "name": "Data Link",
+        "protocols": "Ethernet, MAC, PPP, ARP (Framing, Physical Addr)",
+        "color": "#818CF8"
+      },
+      {
+        "number": 1,
+        "name": "Physical",
+        "protocols": "RS-232, DSL, Fiber, Cat6, Hubs (Electrical Bits)",
+        "color": "#F472B6"
+      }
+    ],
+    "sideLabel": "Data Encapsulation: Data ➔ Segment ➔ Packet ➔ Frame ➔ Bits",
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": true
+  },
+  {
+    "id": "tcp-handshake",
+    "title": "TCP 3-Way Handshake Connection Establishment",
+    "type": "sequence",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 4: Transport Layer (TCP Protocol)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, Chapter 23, Page 734",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Explain the TCP connection establishment process (3-way handshake) with a timing diagram (May 2024).",
+        "Draw and explain TCP state transition diagram for connection termination (Dec 2023)."
+      ]
+    },
+    "theory": "Transmission Control Protocol (TCP) is a connection-oriented transport layer protocol that guarantees reliable delivery of data packets. Before any data can be transferred, TCP establishes a virtual connection between a Client and a Server using a three-step handshake process. (1) Segment 1 (SYN): The client sends a synchronization packet with an initial sequence number (client_isn) to the server. (2) Segment 2 (SYN-ACK): The server receives the SYN, acknowledges it by setting the acknowledgment number to client_isn + 1, and sends its own sequence number (server_isn) along with the SYN flag set. (3) Segment 3 (ACK): The client receives the SYN-ACK, acknowledges it by setting the acknowledgment number to server_isn + 1, and sends an ACK packet back to the server. Both sides are now in the ESTABLISHED state.",
+    "key_points": [
+      "SYN: Sent by client to synchronize sequence numbers. Client state becomes SYN_SENT.",
+      "SYN-ACK: Sent by server to acknowledge client's SYN and send its own SYN. Server state becomes SYN_RCVD.",
+      "ACK: Sent by client to acknowledge server's SYN. Both transition to ESTABLISHED.",
+      "Sequence numbers protect against duplicate, lost, or out-of-order packets.",
+      "Handshake parameters exchange maximum segment size (MSS) and window scale factor."
+    ],
+    "use_cases": [
+      "Establishing reliable connections for web browsing (HTTP/HTTPS) and file transfers (FTP).",
+      "Analyzing network packet traces (Wireshark) to diagnose slow connection establishment."
+    ],
+    "schema_template": {
+      "type": "sequence",
+      "viewBox": {
+        "width": 640,
+        "height": 400
+      },
+      "theme": "textbook",
+      "sideMarginOffset": 50,
+      "participants": [
+        {
+          "id": "client",
+          "label": "TCP Client",
+          "x": 140
+        },
+        {
+          "id": "server",
+          "label": "TCP Server",
+          "x": 500
+        }
+      ],
+      "messages": [
+        {
+          "from": "client",
+          "to": "server",
+          "label": "SYN (Seq=1000, CTL=SYN)",
+          "arrowType": "solid",
+          "y": 120,
+          "color": "#EF4444",
+          "sideNote": "Client enters SYN_SENT state"
+        },
+        {
+          "from": "server",
+          "to": "client",
+          "label": "SYN-ACK (Seq=5000, Ack=1001, CTL=SYN,ACK)",
+          "arrowType": "solid",
+          "y": 200,
+          "color": "#3B82F6",
+          "sideNote": "Server enters SYN_RCVD state"
+        },
+        {
+          "from": "client",
+          "to": "server",
+          "label": "ACK (Seq=1001, Ack=5001, CTL=ACK)",
+          "arrowType": "solid",
+          "y": 280,
+          "color": "#10B981",
+          "sideNote": "Both transition to ESTABLISHED"
+        }
+      ],
+      "title": "TCP Three-Way Handshake Connection Protocol"
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": false
+  },
+  {
+    "id": "dfd-library-l0-l1",
+    "title": "DFD Level 0 & Level 1 — Library Management System",
+    "type": "dfd-flow",
+    "subject": "Software Engineering (SE)",
+    "syllabus_reference": "Module 3: Requirements Analysis & Specification (Data Flow Diagrams)",
+    "textbook_reference": "Roger S. Pressman, Software Engineering: A Practitioner's Approach, Chapter 7, Page 185",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw Level 0 (Context Diagram) and Level 1 DFD for a Library Management System (May 2024).",
+        "Explain the rules for constructing Data Flow Diagrams. Draw DFD for Hotel Management System (Dec 2023)."
+      ]
+    },
+    "theory": "A Data Flow Diagram (DFD) is a graphical modeling tool used to represent the flow of data through an information system. It outlines inputs, processes, data stores, and outputs. DFDs are constructed hierarchically. Level-0 (also called the Context Diagram) models the entire system as a single process bubble connected to external entities (such as students or librarians), showing overall boundaries. Level-1 DFD refactors the Level-0 process bubble into multiple sub-processes (e.g. searching books, issuing books, returning books) and introduces data stores (e.g. books database, student files) to show where data is stored within the system.",
+    "key_points": [
+      "Context Diagram (Level-0) must contain exactly one process bubble representing the entire system.",
+      "External Entities (Squares) represent sinks/sources of data outside the system boundary.",
+      "Process Bubbles (Circles/Rounded Rectangles) represent operations transforming inputs to outputs.",
+      "Data Stores (Open Rectangles) represent resting files, databases, or memory structures.",
+      "Rule: Data cannot flow directly between two external entities, or directly between two data stores."
+    ],
+    "use_cases": [
+      "Structured systems analysis to map data flows before database schema design.",
+      "Documenting software system requirements for developers and non-technical stakeholders."
+    ],
+    "schema_template": {
+      "type": "dfd-flow",
+      "viewBox": {
+        "width": 800,
+        "height": 500
+      },
+      "nodes": [
+        {
+          "id": "student",
+          "type": "external",
+          "label": "Student / User",
+          "x": 100,
+          "y": 250,
+          "width": 120,
+          "height": 60,
+          "color": "#FEF2F2",
+          "borderColor": "#EF4444",
+          "textColor": "#7F1D1D"
+        },
+        {
+          "id": "p1",
+          "type": "process",
+          "shape": "circle",
+          "processId": "1.0",
+          "label": "Search Book",
+          "x": 320,
+          "y": 120,
+          "width": 90,
+          "height": 90,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A5F"
+        },
+        {
+          "id": "p2",
+          "type": "process",
+          "shape": "circle",
+          "processId": "2.0",
+          "label": "Issue Book",
+          "x": 320,
+          "y": 380,
+          "width": 90,
+          "height": 90,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A5F"
+        },
+        {
+          "id": "books",
+          "type": "data-store",
+          "processId": "D1",
+          "label": "Books Database",
+          "x": 580,
+          "y": 140,
+          "width": 140,
+          "height": 55,
+          "color": "#FAF5FF",
+          "borderColor": "#A855F7",
+          "textColor": "#581C87"
+        },
+        {
+          "id": "issues",
+          "type": "data-store",
+          "processId": "D2",
+          "label": "Issue Register",
+          "x": 580,
+          "y": 400,
+          "width": 140,
+          "height": 55,
+          "color": "#FAF5FF",
+          "borderColor": "#A855F7",
+          "textColor": "#581C87"
+        },
+        {
+          "id": "librarian",
+          "type": "external",
+          "label": "Librarian",
+          "x": 100,
+          "y": 380,
+          "width": 120,
+          "height": 60,
+          "color": "#FEF2F2",
+          "borderColor": "#EF4444",
+          "textColor": "#7F1D1D"
+        }
+      ],
+      "connections": [
+        {
+          "from": "student",
+          "to": "p1",
+          "label": "book query"
+        },
+        {
+          "from": "p1",
+          "to": "books",
+          "label": "check availability"
+        },
+        {
+          "from": "books",
+          "to": "p1",
+          "label": "book details"
+        },
+        {
+          "from": "p1",
+          "to": "student",
+          "label": "search results"
+        },
+        {
+          "from": "student",
+          "to": "p2",
+          "label": "issue request"
+        },
+        {
+          "from": "p2",
+          "to": "books",
+          "label": "mark issued"
+        },
+        {
+          "from": "p2",
+          "to": "issues",
+          "label": "log issue record"
+        },
+        {
+          "from": "librarian",
+          "to": "p2",
+          "label": "approve issue"
+        }
+      ]
+    },
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester V",
+    "isStub": false
+  },
+  {
+    "id": "compiler-phases",
+    "title": "Phases of a Compiler",
+    "type": "block-diagram",
+    "subject": "System Programming & Compiler Construction (SPCC)",
+    "syllabus_reference": "Module 3: Introduction to Compilers (Phases of Compiler)",
+    "textbook_reference": "Alfred V. Aho & Monica S. Lam, Compilers: Principles, Techniques, and Tools, Chapter 1, Page 4",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain different phases of a compiler with a neat schematic diagram (May 2024).",
+        "Describe the role of Lexical Analyzer and Syntax Analyzer with an example (Dec 2023)."
+      ]
+    },
+    "theory": "A compiler is a program translator that converts source code written in a high-level programming language into target machine code. This process is divided into multiple sequential phases. (1) Lexical Analyzer (Lexer): Converts source characters into a stream of tokens. (2) Syntax Analyzer (Parser): Group tokens into grammatical structures (Parse Tree/Syntax Tree). (3) Semantic Analyzer: Checks for type compatibility and semantic constraints. (4) Intermediate Code Generator: Produces machine-independent low-level code (e.g. three-address code). (5) Code Optimizer: Improves intermediate code speed and resource utilization. (6) Code Generator: Translates optimized code into target assembly or machine language. Throughout compilation, the Symbol Table tracks variable declarations, and the Error Handler reports syntax or type violations.",
+    "key_points": [
+      "Lexical Analysis (Scanner): Groups characters into tokens using Regular Expressions.",
+      "Syntax Analysis (Parser): Establishes syntactic structure using Context-Free Grammar.",
+      "Semantic Analysis: Checks types, scope, and semantic rules (e.g., undeclared variables).",
+      "Intermediate Code (ICG): Uses representation like Quadruples or Triples.",
+      "Code Optimization: Minimizes execution time and space (e.g., loop unrolling, dead code removal)."
+    ],
+    "use_cases": [
+      "Building compilers, interpreters, and static analysis tools.",
+      "Building syntax highlighters and code refactoring plugins."
+    ],
+    "phases": [
+      {
+        "id": "p1",
+        "label": "Lexical Analyzer",
+        "desc": "Scans character input stream, generates token stream",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p2",
+        "label": "Syntax Analyzer",
+        "desc": "Constructs syntax tree checking grammar rules",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p3",
+        "label": "Semantic Analyzer",
+        "desc": "Performs type checking and semantic validation",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p4",
+        "label": "Intermediate Code Generator",
+        "desc": "Generates platform-independent three-address code",
+        "color": "#F3E8FF"
+      },
+      {
+        "id": "p5",
+        "label": "Code Optimizer",
+        "desc": "Transforms code to improve speed and memory efficiency",
+        "color": "#F3E8FF"
+      },
+      {
+        "id": "p6",
+        "label": "Target Code Generator",
+        "desc": "Produces final machine code or assembly language",
+        "color": "#ECFDF5"
+      }
+    ],
+    "department": "Computer Engineering (CMPN)",
+    "semester": "Semester VI",
+    "isStub": true
+  },
+  {
+    "id": "twoport-network-z",
+    "title": "Two-Port Network Parameter Representation (Z-Parameters)",
+    "type": "block-diagram",
+    "subject": "Electrical Network Analysis (ENA)",
+    "syllabus_reference": "Module 4: Two Port Networks (Impedance Parameters)",
+    "textbook_reference": "William H. Hayt & Jack E. Kemmerly, Engineering Circuit Analysis, Chapter 17, Page 640",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Define Z-parameters and derive the equivalent circuit for a reciprocal two-port network (Dec 2023).",
+        "Find the Z-parameters for the given T-network (May 2023)."
+      ]
+    },
+    "theory": "A two-port network is an electrical network with two separate pairs of terminals for connection to external circuits, typically designated as Input Port (Port 1) and Output Port (Port 2). The network is analyzed in terms of terminal voltages (V1, V2) and currents (I1, I2). For impedance (Z) parameters (also known as open-circuit parameters), the voltages are expressed as linear combinations of the currents: V1 = Z11·I1 + Z12·I2, and V2 = Z21·I1 + Z22·I2. Z11 and Z22 represent the open-circuit input and output driving-point impedances respectively, while Z12 and Z21 represent the open-circuit transfer impedances. A two-port network is reciprocal if Z12 = Z21, and symmetrical if Z11 = Z22.",
+    "key_points": [
+      "Voltages (V1, V2) are the dependent variables; currents (I1, I2) are independent variables.",
+      "Z11 = V1 / I1 when Port 2 is open-circuited (I2 = 0).",
+      "Z12 = V1 / I2 when Port 1 is open-circuited (I1 = 0).",
+      "Reciprocal network: Z12 = Z21 (contains only passive bilateral components).",
+      "Symmetrical network: Z11 = Z22 (identical characteristics looking into either port)."
+    ],
+    "use_cases": [
+      "Characterizing high-frequency filters and transmission lines.",
+      "Modeling transistors and op-amps in small-signal analysis."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 500,
+        "height": 280
+      },
+      "blocks": [
+        {
+          "id": "net",
+          "label": "Two-Port Network\n[Z]",
+          "x": 170,
+          "y": 70,
+          "width": 160,
+          "height": 140,
+          "color": "#F8FAFC"
+        }
+      ],
+      "connections": [
+        {
+          "from": "i1",
+          "to": "net",
+          "label": "I1",
+          "style": "solid"
+        }
+      ]
+    },
+    "department": "Electrical Engineering",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "dc-shunt-motor",
+    "title": "DC Shunt Motor Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Electrical Machines-I",
+    "syllabus_reference": "Module 3: DC Motors (DC Shunt Motor)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 2, Page 830",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Draw the schematic diagram of a DC Shunt Motor. Derive the back EMF and torque equations (Dec 2023).",
+        "A 220V DC shunt motor takes 30A current under full load. Draw its equivalent circuit and find armature current (May 2023)."
+      ]
+    },
+    "theory": "A DC shunt motor is a self-excited DC motor where the field winding (excitation coil) is connected in parallel (shunt) with the armature winding. Both windings are connected across a common DC power supply. The armature winding has low resistance (Ra), while the shunt field winding has high resistance (Rsh) to limit shunt current. When DC voltage (V) is applied, line current (IL) divides into armature current (Ia) and shunt field current (Ish = V / Rsh). As the armature rotates within the magnetic field, it generates a back EMF (Eb) opposing the supply voltage. The armature voltage equation is given by V = Eb + Ia·Ra + Vbrush.",
+    "key_points": [
+      "Field winding is connected in parallel with the armature.",
+      "Armature current equation: Ia = IL - Ish.",
+      "Back EMF equation: Eb = V - Ia·Ra (ignoring brush drop).",
+      "Field flux remains constant under constant supply voltage, making it a constant-speed motor.",
+      "Speed regulation is small (speed drops slightly with increase in load torque)."
+    ],
+    "use_cases": [
+      "Driving constant-speed machinery like lathes, drills, and centrifugal pumps.",
+      "Industrial fans and blowers requiring stable operating speed."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "vdc",
+          "type": "dc-source",
+          "label": "V (DC Line)",
+          "x": 100,
+          "y": 150,
+          "rotation": 0
+        },
+        {
+          "id": "rsh",
+          "type": "resistor",
+          "label": "Rsh (Field)",
+          "x": 240,
+          "y": 150,
+          "rotation": 90
+        },
+        {
+          "id": "ra",
+          "type": "resistor",
+          "label": "Ra",
+          "x": 380,
+          "y": 90
+        },
+        {
+          "id": "eb",
+          "type": "dc-source",
+          "label": "Eb (Armature)",
+          "x": 380,
+          "y": 180,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "from": "vdc",
+          "to": "rsh",
+          "points": [
+            {
+              "x": 100,
+              "y": 60
+            },
+            {
+              "x": 240,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "rsh",
+          "to": "ra",
+          "points": [
+            {
+              "x": 240,
+              "y": 60
+            },
+            {
+              "x": 320,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "ra",
+          "to": "eb",
+          "points": []
+        },
+        {
+          "from": "vdc",
+          "to": "rsh",
+          "points": [
+            {
+              "x": 100,
+              "y": 240
+            },
+            {
+              "x": 240,
+              "y": 240
+            }
+          ]
+        },
+        {
+          "from": "rsh",
+          "to": "eb",
+          "points": [
+            {
+              "x": 240,
+              "y": 240
+            },
+            {
+              "x": 380,
+              "y": 240
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 240,
+          "y": 60
+        },
+        {
+          "x": 240,
+          "y": 240
+        }
+      ]
+    },
+    "department": "Electrical Engineering",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "closed-loop-control",
+    "title": "Closed-Loop Feedback Control System",
+    "type": "block-diagram",
+    "subject": "Control Systems (CS)",
+    "syllabus_reference": "Module 1: Mathematical Modeling (Closed Loop Systems)",
+    "textbook_reference": "Benjamin C. Kuo, Automatic Control Systems, Chapter 1, Page 8",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain closed-loop control system with a block diagram. State its advantages over open-loop system (Dec 2023).",
+        "Draw block diagram of negative feedback system and find its transfer function C(s)/R(s) (May 2023)."
+      ]
+    },
+    "theory": "A closed-loop control system (feedback control system) is a system that maintains a prescribed relationship between the output and the reference input by comparing them and using the difference (error) as a means of control. It consists of: (1) Reference Input (R(s)) - the desired value; (2) Comparator/Summing Point - compares input and output; (3) Error Signal (E(s)) - the difference; (4) Controller/Plant (G(s)) - acts on error to produce output; (5) Output (C(s)) - the controlled variable; (6) Feedback Path (H(s)) - measures output and feeds it back to the summing point. Negative feedback reduces system sensitivity to parameter variations and disturbances.",
+    "key_points": [
+      "Summing point calculates error signal: E(s) = R(s) - B(s).",
+      "Forward path transfer function: G(s) = C(s) / E(s).",
+      "Feedback path transfer function: H(s) = B(s) / C(s).",
+      "Closed-loop transfer function: T(s) = G(s) / (1 + G(s)H(s)) for negative feedback.",
+      "Improves system bandwidth, stability, and reduces steady-state error."
+    ],
+    "use_cases": [
+      "Thermostatic climate control systems (AC, heating).",
+      "Automobile cruise control and aerospace autopilot guidance systems."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 640,
+        "height": 280
+      },
+      "blocks": [
+        {
+          "id": "sum",
+          "label": "Σ",
+          "x": 120,
+          "y": 100,
+          "width": 40,
+          "height": 40,
+          "color": "#F1F5F9"
+        },
+        {
+          "id": "g",
+          "label": "Plant / Controller\nG(s)",
+          "x": 220,
+          "y": 80,
+          "width": 140,
+          "height": 80,
+          "color": "#EFF6FF"
+        },
+        {
+          "id": "h",
+          "label": "Feedback Sensor\nH(s)",
+          "x": 220,
+          "y": 200,
+          "width": 140,
+          "height": 60,
+          "color": "#FAF5FF"
+        }
+      ],
+      "connections": [
+        {
+          "from": "sum",
+          "to": "g",
+          "label": "E(s)",
+          "style": "solid"
+        },
+        {
+          "from": "h",
+          "to": "sum",
+          "label": "B(s)",
+          "style": "solid"
+        }
+      ]
+    },
+    "department": "Electrical Engineering",
+    "semester": "Semester V",
+    "isStub": false
+  },
+  {
+    "id": "half-adder-gates",
+    "title": "Half Adder Logic Gate Implementation",
+    "type": "logic-diagram",
+    "subject": "Digital System Design (DSD)",
+    "syllabus_reference": "Module 3: Combinational Logic Circuits (Adders)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 4, Page 125",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Design a Half Adder circuit using basic logic gates (Dec 2023).",
+        "Implement a Full Adder using two Half Adders and an OR gate (May 2023)."
+      ]
+    },
+    "theory": "A Half Adder is a combinational arithmetic circuit that performs the addition of two single-bit binary numbers, producing a Sum bit (S) and a Carry bit (C). It has two inputs, A and B, and two outputs, S and C. The Boolean expression for Sum is the exclusive-OR of the inputs (S = A XOR B), representing the modulo-2 addition. The Boolean expression for Carry is the logical-AND of the inputs (C = A AND B), representing the overflow bit. A half adder cannot handle a carry-in bit from a previous stage of addition, which is why a Full Adder is required for multi-bit additions.",
+    "key_points": [
+      "Performs single-bit binary addition of two inputs.",
+      "Sum (S) expression: S = A ⊕ B (implemented using a 2-input XOR gate).",
+      "Carry (C) expression: C = A · B (implemented using a 2-input AND gate).",
+      "Cannot accommodate a carry bit from a preceding stage.",
+      "Forms the building block of full adders and binary multipliers."
+    ],
+    "use_cases": [
+      "Constructing full adders and ripple carry adders inside ALUs.",
+      "Simple bitwise addition and parity generator circuits."
+    ],
+    "schema_template": {
+      "type": "logic-diagram",
+      "viewBox": {
+        "width": 560,
+        "height": 360
+      },
+      "inputs": [
+        {
+          "id": "A",
+          "label": "Input A",
+          "x": 80,
+          "y": 100
+        },
+        {
+          "id": "B",
+          "label": "Input B",
+          "x": 80,
+          "y": 200
+        }
+      ],
+      "outputs": [
+        {
+          "id": "Sum",
+          "label": "Sum (S)",
+          "x": 480,
+          "y": 100
+        },
+        {
+          "id": "Carry",
+          "label": "Carry (C)",
+          "x": 480,
+          "y": 240
+        }
+      ],
+      "gates": [
+        {
+          "id": "g_xor",
+          "type": "XOR",
+          "x": 280,
+          "y": 100,
+          "label": "XOR",
+          "inputsCount": 2
+        },
+        {
+          "id": "g_and",
+          "type": "AND",
+          "x": 280,
+          "y": 240,
+          "label": "AND",
+          "inputsCount": 2
+        }
+      ],
+      "connections": [
+        {
+          "from": "A",
+          "to": "g_xor",
+          "toPort": 0,
+          "route": "Z",
+          "midX": 180
+        },
+        {
+          "from": "B",
+          "to": "g_xor",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 180
+        },
+        {
+          "from": "A",
+          "to": "g_and",
+          "toPort": 0,
+          "route": "Z",
+          "midX": 140
+        },
+        {
+          "from": "B",
+          "to": "g_and",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 140
+        },
+        {
+          "from": "g_xor",
+          "to": "Sum",
+          "route": "straight"
+        },
+        {
+          "from": "g_and",
+          "to": "Carry",
+          "route": "straight"
+        }
+      ],
+      "junctions": [
+        {
+          "x": 140,
+          "y": 100
+        },
+        {
+          "x": 180,
+          "y": 200
+        }
+      ]
+    },
+    "department": "Electronics & EXTC",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "full-adder-gates",
+    "title": "Full Adder Logic Gate Implementation",
+    "type": "logic-diagram",
+    "subject": "Digital System Design (DSD)",
+    "syllabus_reference": "Module 3: Combinational Logic Circuits (Adders)",
+    "textbook_reference": "M. Morris Mano, Digital Design, Pearson, Chapter 4, Page 128",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Design a Full Adder circuit using basic logic gates and explain its truth table (May 2024).",
+        "Implement a Full Adder using 3-to-8 line Decoder and active-low OR gates (Dec 2023)."
+      ]
+    },
+    "theory": "A Full Adder is a combinational logic circuit that performs the addition of three binary inputs: two significant bits, A and B, and a Carry-in bit (Cin) from a previous lower-order addition stage. It generates two outputs: a Sum (S) and a Carry-out (Cout). The Boolean expression for Sum is the three-input exclusive-OR (S = A XOR B XOR Cin). The Boolean expression for Carry-out is Cout = A·B + B·Cin + Cin·A, representing the majority vote of the inputs. Full adders are cascaded to perform binary addition of multi-bit numbers.",
+    "key_points": [
+      "Performs addition of three bits (two inputs + one carry-in).",
+      "Sum (S) expression: S = A ⊕ B ⊕ Cin.",
+      "Carry-out (Cout) expression: Cout = AB + BCin + ACin.",
+      "Can be built using two 2-input XOR gates, two 2-input AND gates, and one OR gate.",
+      "Cascaded in parallel (ripple carry) to form n-bit adders."
+    ],
+    "use_cases": [
+      "Arithmetic Logic Units (ALUs) for integer operations.",
+      "Binary multipliers and address calculation units inside CPUs."
+    ],
+    "schema_template": {
+      "type": "logic-diagram",
+      "viewBox": {
+        "width": 640,
+        "height": 440
+      },
+      "inputs": [
+        {
+          "id": "A",
+          "label": "A",
+          "x": 80,
+          "y": 100
+        },
+        {
+          "id": "B",
+          "label": "B",
+          "x": 80,
+          "y": 180
+        },
+        {
+          "id": "Cin",
+          "label": "Cin",
+          "x": 80,
+          "y": 280
+        }
+      ],
+      "outputs": [
+        {
+          "id": "Sum",
+          "label": "Sum (S)",
+          "x": 560,
+          "y": 120
+        },
+        {
+          "id": "Cout",
+          "label": "Cout",
+          "x": 560,
+          "y": 320
+        }
+      ],
+      "gates": [
+        {
+          "id": "xor1",
+          "type": "XOR",
+          "x": 240,
+          "y": 120,
+          "label": "XOR 1",
+          "inputsCount": 2
+        },
+        {
+          "id": "xor2",
+          "type": "XOR",
+          "x": 420,
+          "y": 120,
+          "label": "XOR 2",
+          "inputsCount": 2
+        },
+        {
+          "id": "and1",
+          "type": "AND",
+          "x": 240,
+          "y": 240,
+          "label": "AND 1",
+          "inputsCount": 2
+        },
+        {
+          "id": "and2",
+          "type": "AND",
+          "x": 420,
+          "y": 280,
+          "label": "AND 2",
+          "inputsCount": 2
+        },
+        {
+          "id": "or1",
+          "type": "OR",
+          "x": 500,
+          "y": 320,
+          "label": "OR 1",
+          "inputsCount": 2
+        }
+      ],
+      "connections": [
+        {
+          "from": "A",
+          "to": "xor1",
+          "toPort": 0,
+          "route": "Z",
+          "midX": 150
+        },
+        {
+          "from": "B",
+          "to": "xor1",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 150
+        },
+        {
+          "from": "A",
+          "to": "and1",
+          "toPort": 0,
+          "route": "Z",
+          "midX": 130
+        },
+        {
+          "from": "B",
+          "to": "and1",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 130
+        },
+        {
+          "from": "xor1",
+          "to": "xor2",
+          "toPort": 0,
+          "route": "straight"
+        },
+        {
+          "from": "Cin",
+          "to": "xor2",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 300
+        },
+        {
+          "from": "xor1",
+          "to": "and2",
+          "toPort": 0,
+          "route": "Z",
+          "midX": 340
+        },
+        {
+          "from": "Cin",
+          "to": "and2",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 280
+        },
+        {
+          "from": "and1",
+          "to": "or1",
+          "toPort": 1,
+          "route": "Z",
+          "midX": 450
+        },
+        {
+          "from": "and2",
+          "to": "or1",
+          "toPort": 0,
+          "route": "straight"
+        },
+        {
+          "from": "xor2",
+          "to": "Sum",
+          "route": "straight"
+        },
+        {
+          "from": "or1",
+          "to": "Cout",
+          "route": "straight"
+        }
+      ],
+      "junctions": [
+        {
+          "x": 130,
+          "y": 100
+        },
+        {
+          "x": 150,
+          "y": 180
+        },
+        {
+          "x": 300,
+          "y": 280
+        },
+        {
+          "x": 340,
+          "y": 120
+        }
+      ]
+    },
+    "department": "Electronics & EXTC",
+    "semester": "Semester III",
+    "isStub": false
+  },
+  {
+    "id": "opamp-inverting",
+    "title": "Op-Amp Inverting Amplifier Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 3, Page 142",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Draw and explain the circuit of an inverting amplifier using IC 741. Derive the expression for closed-loop voltage gain (May 2024).",
+        "Design an inverting amplifier for a voltage gain of -10 and input resistance of 10k (Dec 2023)."
+      ]
+    },
+    "theory": "An inverting amplifier is an operational amplifier (op-amp) circuit configuration where the output voltage is out of phase with the input voltage by 180 degrees (inverted). The input signal (Vin) is applied to the inverting input (-) terminal through resistor R1, while the non-inverting input (+) terminal is connected directly to ground. Negative feedback is established by connecting a feedback resistor (Rf) from the output to the inverting input. Due to the op-amp's virtual ground concept (the potential at the inverting node equals that at the grounded non-inverting node), the closed-loop voltage gain is determined solely by the ratio of the external resistors: Av = Vout / Vin = -Rf / R1.",
+    "key_points": [
+      "Input signal is applied to the inverting (-) terminal via resistor R1.",
+      "Non-inverting (+) terminal is tied directly to electrical ground.",
+      "Feedback resistor Rf connects the output back to the inverting input node.",
+      "Virtual ground: The inverting node behaves as if it is at 0V potential but draws no current.",
+      "Closed-loop voltage gain Av = -Rf / R1 (negative sign denotes 180-degree phase shift)."
+    ],
+    "use_cases": [
+      "Audio mixers and signal summing amplifiers.",
+      "Analog filters and digital-to-analog converter (DAC) current-to-voltage buffers."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "vin",
+          "type": "ac-source",
+          "label": "Vin",
+          "x": 80,
+          "y": 180
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 120
+        },
+        {
+          "id": "op",
+          "type": "op-amp",
+          "label": "IC 741",
+          "x": 280,
+          "y": 150
+        },
+        {
+          "id": "rf",
+          "type": "resistor",
+          "label": "Rf",
+          "x": 280,
+          "y": 60
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 240,
+          "y": 210
+        }
+      ],
+      "wires": [
+        {
+          "from": "vin",
+          "to": "r1",
+          "points": [
+            {
+              "x": 80,
+              "y": 120
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "op",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "rf",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 240,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "rf",
+          "to": "op",
+          "points": [
+            {
+              "x": 340,
+              "y": 60
+            },
+            {
+              "x": 340,
+              "y": 150
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "gnd",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "vout",
+          "points": [
+            {
+              "x": 420,
+              "y": 150
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 240,
+          "y": 120
+        },
+        {
+          "x": 340,
+          "y": 150
+        }
+      ]
+    },
+    "department": "Electronics & EXTC",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "opamp-noninverting",
+    "title": "Op-Amp Non-Inverting Amplifier Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 3, Page 147",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "State the characteristics of an ideal op-amp. Draw and explain the circuit of a non-inverting amplifier (Dec 2023).",
+        "Derive voltage gain for non-inverting amplifier and explain virtual short concept (May 2023)."
+      ]
+    },
+    "theory": "A non-inverting amplifier is an operational amplifier circuit configuration where the output voltage is in phase with the input voltage (no phase inversion). The input signal (Vin) is applied directly to the non-inverting (+) input terminal. The feedback path is connected from the output to the inverting (-) terminal via feedback resistor Rf, and a resistor R1 connects the inverting terminal to ground. Due to the high open-loop gain, the op-amp maintains a virtual short between its inputs, forcing the voltage at the inverting node to equal Vin. The resulting closed-loop voltage gain is given by Av = Vout / Vin = 1 + (Rf / R1), which is always greater than or equal to unity.",
+    "key_points": [
+      "Input signal is applied directly to the non-inverting (+) input terminal.",
+      "Feedback resistor Rf connects the output to the inverting (-) node.",
+      "Resistor R1 connects the inverting node to electrical ground.",
+      "Closed-loop voltage gain Av = 1 + (Rf / R1) (always positive, no phase shift).",
+      "Input impedance is extremely high, making it ideal as a voltage buffer."
+    ],
+    "use_cases": [
+      "High-input-impedance preamplifiers for sensors.",
+      "Voltage followers and unity-gain buffer stages."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "vin",
+          "type": "ac-source",
+          "label": "Vin",
+          "x": 80,
+          "y": 150
+        },
+        {
+          "id": "op",
+          "type": "op-amp",
+          "label": "IC 741",
+          "x": 280,
+          "y": 150
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 240,
+          "rotation": 90
+        },
+        {
+          "id": "rf",
+          "type": "resistor",
+          "label": "Rf",
+          "x": 280,
+          "y": 60
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 180,
+          "y": 280
+        }
+      ],
+      "wires": [
+        {
+          "from": "vin",
+          "to": "op",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "r1",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 180,
+              "y": 120
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "rf",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 240,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "rf",
+          "to": "op",
+          "points": [
+            {
+              "x": 340,
+              "y": 60
+            },
+            {
+              "x": 340,
+              "y": 150
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "vout",
+          "points": [
+            {
+              "x": 420,
+              "y": 150
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 240,
+          "y": 120
+        },
+        {
+          "x": 340,
+          "y": 150
+        }
+      ]
+    },
+    "department": "Electronics & EXTC",
+    "semester": "Semester IV",
+    "isStub": false
+  },
+  {
+    "id": "fft-butterfly-dit",
+    "title": "Decimation-in-Time (DIT) FFT Butterfly Diagram",
+    "type": "graph",
+    "subject": "Digital Signal Processing (DSP)",
+    "syllabus_reference": "Module 3: Fast Fourier Transform (DIT FFT)",
+    "textbook_reference": "John G. Proakis & Dimitris G. Manolakis, Digital Signal Processing, Chapter 8, Page 478",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Compute the 8-point DFT of the sequence x(n) = {1, 2, 3, 4, 4, 3, 2, 1} using DIT-FFT algorithm. Show all butterfly stages (May 2024).",
+        "Explain decimation in time algorithm. Derive the butterfly equations for radix-2 DIT FFT (Dec 2023)."
+      ]
+    },
+    "theory": "The Fast Fourier Transform (FFT) is an efficient algorithm to compute the Discrete Fourier Transform (DFT) of a sequence. It reduces the computational complexity from O(N^2) to O(N log2 N). In the Radix-2 Decimation-in-Time (DIT) FFT algorithm, the input sequence x(n) is recursively divided (decimated) into even and odd index subsequences. The butterfly computation is the core operation. It takes two complex inputs, A and B, and a Twiddle Factor (WN^k = e^(-j2pi k / N)). The butterfly output yields two values: X = A + B·WN^k and Y = A - B·WN^k. For an N-point DFT, there are log2 N stages, with N/2 butterfly computations per stage.",
+    "key_points": [
+      "Input sequence must be in bit-reversed order (e.g., 0, 4, 2, 6, 1, 5, 3, 7 for 8-point FFT).",
+      "Output sequence is obtained in normal/natural order.",
+      "The basic radix-2 butterfly equation: X = A + B·WN^k, Y = A - B·WN^k.",
+      "Twiddle factors WN^k are applied as complex multipliers at the bottom input branch of each butterfly.",
+      "Total multiplication complexity is reduced from N^2 to (N/2)log2 N complex multiplications."
+    ],
+    "use_cases": [
+      "Real-time spectral analysis in audio processing and software-defined radio.",
+      "Fast convolution and digital filtering using overlap-save/overlap-add methods."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "nodes": [
+        {
+          "id": "a0",
+          "label": "A (Even)",
+          "x": 100,
+          "y": 80
+        },
+        {
+          "id": "b0",
+          "label": "B (Odd)",
+          "x": 100,
+          "y": 200
+        },
+        {
+          "id": "mul",
+          "label": "× WN^k",
+          "x": 220,
+          "y": 200
+        },
+        {
+          "id": "add",
+          "label": "+",
+          "x": 380,
+          "y": 80
+        },
+        {
+          "id": "sub",
+          "label": "-",
+          "x": 380,
+          "y": 200
+        },
+        {
+          "id": "x_out",
+          "label": "X = A + B·WN^k",
+          "x": 450,
+          "y": 80
+        },
+        {
+          "id": "y_out",
+          "label": "Y = A - B·WN^k",
+          "x": 450,
+          "y": 200
+        }
+      ],
+      "connections": [
+        {
+          "from": "a0",
+          "to": "add"
+        },
+        {
+          "from": "b0",
+          "to": "mul"
+        },
+        {
+          "from": "mul",
+          "to": "add"
+        },
+        {
+          "from": "a0",
+          "to": "sub"
+        },
+        {
+          "from": "mul",
+          "to": "sub"
+        },
+        {
+          "from": "add",
+          "to": "x_out"
+        },
+        {
+          "from": "sub",
+          "to": "y_out"
+        }
+      ]
+    },
+    "department": "Electronics & EXTC",
+    "semester": "Semester V",
+    "isStub": false
+  },
+  {
+    "id": "superposition-theorem-circuit",
+    "title": "Superposition Theorem Verification Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Superposition Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 115",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "State and explain Superposition Theorem. Find the current in 5 ohm resistor using Superposition Theorem (Dec 2023).",
+        "Verify Superposition Theorem for the given multi-source active network (May 2022)."
+      ]
+    },
+    "theory": "Superposition Theorem states that in any linear, bilateral network containing two or more independent sources, the response (current or voltage) in any branch is the algebraic sum of the individual responses caused by each independent source acting alone, with all other independent sources replaced by their internal resistances. This means voltage sources are replaced by a short circuit (0V) and current sources by an open circuit (0A). It simplifies multi-source network analysis by breaking it into single-source sub-circuits.",
+    "key_points": [
+      "Applies only to linear, bilateral networks (resistors, inductors, capacitors).",
+      "Active voltage sources are short-circuited (internal resistance = 0).",
+      "Active current sources are open-circuited (internal resistance = infinity).",
+      "Algebraic sum means current directions must be carefully monitored (assigning signs like + and -).",
+      "Power is non-linear (P = I^2 * R) and cannot be calculated directly using superposition."
+    ],
+    "use_cases": [
+      "Analyzing multi-frequency AC circuits where different sources operate at different frequencies.",
+      "Analyzing power grids with multiple generator sources."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 560,
+        "height": 340
+      },
+      "components": [
+        {
+          "id": "v1",
+          "type": "dc-source",
+          "label": "V1 = 20V",
+          "x": 100,
+          "y": 180,
+          "rotation": 0
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1 = 4Ω",
+          "x": 200,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "r2",
+          "type": "resistor",
+          "label": "R2 = 6Ω",
+          "x": 360,
+          "y": 100,
+          "rotation": 0
+        },
+        {
+          "id": "r3",
+          "type": "resistor",
+          "label": "R3 = 10Ω",
+          "x": 280,
+          "y": 180,
+          "rotation": 90
+        },
+        {
+          "id": "v2",
+          "type": "dc-source",
+          "label": "V2 = 10V",
+          "x": 460,
+          "y": 180,
+          "rotation": 180
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 280,
+          "y": 280
+        }
+      ],
+      "wires": [
+        {
+          "from": "v1",
+          "to": "r1",
+          "points": [
+            {
+              "x": 100,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "r3",
+          "points": [
+            {
+              "x": 280,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "r3",
+          "to": "r2",
+          "points": []
+        },
+        {
+          "from": "r2",
+          "to": "v2",
+          "points": [
+            {
+              "x": 460,
+              "y": 100
+            }
+          ]
+        },
+        {
+          "from": "v1",
+          "to": "gnd",
+          "points": [
+            {
+              "x": 100,
+              "y": 260
+            },
+            {
+              "x": 280,
+              "y": 260
+            }
+          ]
+        },
+        {
+          "from": "v2",
+          "to": "gnd",
+          "points": [
+            {
+              "x": 460,
+              "y": 260
+            },
+            {
+              "x": 280,
+              "y": 260
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 280,
+          "y": 100
+        },
+        {
+          "x": 280,
+          "y": 260
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "thevenins-theorem-circuit",
+    "title": "Thevenin's Equivalent Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: DC Circuits (Thevenin's Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 120",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State Thevenin's Theorem and find the current through the 12Ω resistor using it (May 2024).",
+        "Obtain Thevenin's equivalent circuit across terminals AB for the network shown (Dec 2023)."
+      ]
+    },
+    "theory": "Thevenin's Theorem states that any linear, active, bilateral network containing voltage and current sources can be replaced across its load terminals by a single equivalent voltage source (Vth) in series with a single equivalent resistance (Rth). Vth is the open-circuit voltage across the load terminals after the load resistor is removed. Rth is the equivalent resistance of the network looking back into the open load terminals, with all independent voltage sources short-circuited and current sources open-circuited.",
+    "key_points": [
+      "Vth is the open-circuit voltage across load terminals A-B.",
+      "Rth is calculated looking into terminals A-B with sources deactivated.",
+      "The load current is given by IL = Vth / (Rth + RL).",
+      "Significantly simplifies load analysis where the load resistance (RL) changes frequently.",
+      "Active dependent sources cannot be shut down directly; test voltage method must be used."
+    ],
+    "use_cases": [
+      "Analyzing power grid substations where load connections change dynamically.",
+      "Simplifying complex electronic amplifier coupling networks."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "components": [
+        {
+          "id": "vth",
+          "type": "dc-source",
+          "label": "Vth",
+          "x": 120,
+          "y": 150,
+          "rotation": 0
+        },
+        {
+          "id": "rth",
+          "type": "resistor",
+          "label": "Rth",
+          "x": 240,
+          "y": 80,
+          "rotation": 0
+        },
+        {
+          "id": "rl",
+          "type": "resistor",
+          "label": "RL (Load)",
+          "x": 380,
+          "y": 150,
+          "rotation": 90
+        }
+      ],
+      "wires": [
+        {
+          "from": "vth",
+          "to": "rth",
+          "points": [
+            {
+              "x": 120,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rth",
+          "to": "rl",
+          "points": [
+            {
+              "x": 380,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "vth",
+          "to": "rl",
+          "points": [
+            {
+              "x": 120,
+              "y": 220
+            },
+            {
+              "x": 380,
+              "y": 220
+            }
+          ]
+        }
+      ],
+      "junctions": []
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "transformer-equivalent-circuit",
+    "title": "Transformer Equivalent Circuit Model",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 5: Single Phase Transformers",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 2, Page 528",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the exact equivalent circuit of a single-phase transformer referred to primary (Dec 2023).",
+        "Explain the approximate equivalent circuit of a transformer referred to secondary (May 2023)."
+      ]
+    },
+    "theory": "A single-phase transformer's electrical behavior can be modeled using an equivalent circuit referred to either the primary or secondary side. The model includes primary winding resistance (R1) and leakage reactance (X1), secondary winding resistance (R2) and leakage reactance (X2) referred to primary, and a shunt core-loss branch (Rc and Xm) representing core loss and magnetizing current. This model allows engineers to analyze transformer efficiency, voltage regulation, and power factor under varying load conditions.",
+    "key_points": [
+      "R1 and X1 represent primary winding copper loss and leakage flux.",
+      "R2' and X2' represent secondary winding parameters referred to primary.",
+      "Rc represents the core/iron losses (hysteresis and eddy current).",
+      "Xm represents magnetizing reactance drawing magnetizing current.",
+      "Referred values are scaled by the turn ratio squared (K^2)."
+    ],
+    "use_cases": [
+      "Calculating transformer voltage regulation under inductive loads.",
+      "Estimating transformer efficiency in power distribution networks."
+    ],
+    "schema_template": {
+      "type": "circuit-schematic",
+      "viewBox": {
+        "width": 640,
+        "height": 320
+      },
+      "components": [
+        {
+          "id": "ac",
+          "type": "ac-source",
+          "label": "V1 (Supply)",
+          "x": 80,
+          "y": 160
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 80
+        },
+        {
+          "id": "x1",
+          "type": "resistor",
+          "label": "jX1",
+          "x": 260,
+          "y": 80
+        },
+        {
+          "id": "rc",
+          "type": "resistor",
+          "label": "Rc",
+          "x": 340,
+          "y": 160,
+          "rotation": 90
+        },
+        {
+          "id": "xm",
+          "type": "resistor",
+          "label": "jXm",
+          "x": 400,
+          "y": 160,
+          "rotation": 90
+        },
+        {
+          "id": "r2",
+          "type": "resistor",
+          "label": "R2'",
+          "x": 480,
+          "y": 80
+        },
+        {
+          "id": "x2",
+          "type": "resistor",
+          "label": "jX2'",
+          "x": 560,
+          "y": 80
+        }
+      ],
+      "wires": [
+        {
+          "from": "ac",
+          "to": "r1",
+          "points": [
+            {
+              "x": 80,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "x1",
+          "points": []
+        },
+        {
+          "from": "x1",
+          "to": "rc",
+          "points": [
+            {
+              "x": 340,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "rc",
+          "to": "xm",
+          "points": [
+            {
+              "x": 340,
+              "y": 80
+            },
+            {
+              "x": 400,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "xm",
+          "to": "r2",
+          "points": [
+            {
+              "x": 400,
+              "y": 80
+            }
+          ]
+        },
+        {
+          "from": "r2",
+          "to": "x2",
+          "points": []
+        },
+        {
+          "from": "ac",
+          "to": "rc",
+          "points": [
+            {
+              "x": 80,
+              "y": 240
+            },
+            {
+              "x": 340,
+              "y": 240
+            }
+          ]
+        },
+        {
+          "from": "rc",
+          "to": "xm",
+          "points": [
+            {
+              "x": 340,
+              "y": 240
+            },
+            {
+              "x": 400,
+              "y": 240
+            }
+          ]
+        },
+        {
+          "from": "xm",
+          "to": "x2",
+          "points": [
+            {
+              "x": 400,
+              "y": 240
+            },
+            {
+              "x": 560,
+              "y": 240
+            },
+            {
+              "x": 560,
+              "y": 90
+            }
+          ]
+        }
+      ],
+      "junctions": [
+        {
+          "x": 340,
+          "y": 80
+        },
+        {
+          "x": 400,
+          "y": 80
+        },
+        {
+          "x": 340,
+          "y": 240
+        },
+        {
+          "x": 400,
+          "y": 240
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "truss-cantilever-forces",
+    "title": "Cantilever Truss Force Resolution",
+    "type": "block-diagram",
+    "subject": "Engineering Mechanics (EM)",
+    "syllabus_reference": "Module 3: Trusses & Beams",
+    "textbook_reference": "N.H. Dubey, Engineering Mechanics, Chapter 6, Page 242",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Determine the forces in all members of the cantilever truss loaded as shown, using Method of Joints (May 2024).",
+        "Analyze the given truss and find forces in specified members using Method of Sections (Dec 2023)."
+      ]
+    },
+    "theory": "A truss is a structure composed of slender members joined at their endpoints to form a rigid framework, typically of triangles. A cantilever truss is supported at one end (fixed or pinned to a vertical wall) and extends outward. In Engineering Mechanics, trusses are analyzed assuming all members are two-force members (either in tension or compression) and loads are applied solely at the joints. The Method of Joints uses particle equilibrium equations (sum of Fx = 0, sum of Fy = 0) at each joint sequentially to solve for member forces.",
+    "key_points": [
+      "All truss members are assumed to be in tension (pulling joint) or compression (pushing joint).",
+      "Method of Joints: Solve joints with at most two unknown member forces.",
+      "Method of Sections: Cut the truss through at most three members to analyze rigid body equilibrium.",
+      "Zero-force members can be identified by inspection (e.g. two non-collinear members meeting at an unloaded joint).",
+      "Wall reactions at pinned supports must have both horizontal and vertical components."
+    ],
+    "use_cases": [
+      "Designing bridge structures and roof frameworks.",
+      "Designing construction cranes and industrial gantries."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "blocks": [
+        {
+          "id": "w",
+          "label": "Vertical Support Wall",
+          "x": 50,
+          "y": 50,
+          "width": 40,
+          "height": 200,
+          "color": "#E2E8F0"
+        },
+        {
+          "id": "j1",
+          "label": "Joint A",
+          "x": 90,
+          "y": 80,
+          "width": 20,
+          "height": 20,
+          "color": "#EF4444"
+        },
+        {
+          "id": "j2",
+          "label": "Joint B",
+          "x": 90,
+          "y": 200,
+          "width": 20,
+          "height": 20,
+          "color": "#EF4444"
+        },
+        {
+          "id": "j3",
+          "label": "Joint C",
+          "x": 220,
+          "y": 140,
+          "width": 20,
+          "height": 20,
+          "color": "#3B82F6"
+        },
+        {
+          "id": "j4",
+          "label": "Joint D",
+          "x": 350,
+          "y": 140,
+          "width": 20,
+          "height": 20,
+          "color": "#3B82F6"
+        }
+      ],
+      "connections": [
+        {
+          "from": "j1",
+          "to": "j3",
+          "label": "Member AC",
+          "style": "solid"
+        },
+        {
+          "from": "j2",
+          "to": "j3",
+          "label": "Member BC",
+          "style": "solid"
+        },
+        {
+          "from": "j1",
+          "to": "j2",
+          "label": "Member AB",
+          "style": "solid"
+        },
+        {
+          "from": "j3",
+          "to": "j4",
+          "label": "Member CD",
+          "style": "solid"
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester I",
+    "isStub": false
+  },
+  {
+    "id": "optical-fiber-tir",
+    "title": "Total Internal Reflection in Optical Fiber",
+    "type": "block-diagram",
+    "subject": "Engineering Physics-II",
+    "syllabus_reference": "Module 3: Fibre Optics (Total Internal Reflection)",
+    "textbook_reference": "D.K. Bhattacharya, Engineering Physics, Oxford University Press, Page 312",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain the propagation mechanism of light through an optical fiber. Define Acceptance Angle (Dec 2023).",
+        "Derive the expression for Numerical Aperture of a step-index optical fiber and draw its ray diagram (May 2023)."
+      ]
+    },
+    "theory": "Light propagation through an optical fiber occurs via the mechanism of Total Internal Reflection (TIR). An optical fiber consists of a central cylindrical Core surrounded by a concentric Cladding layer. The refractive index of the Core (n1) is slightly higher than that of the Cladding (n2). When light is launched into the core at an angle less than the Acceptance Angle, it hits the Core-Cladding interface at an angle of incidence greater than the Critical Angle (theta_c = arcsin(n2/n1)). Consequently, the ray is reflected back into the core, propagating along the fiber length in a zigzag path without leaking into the cladding.",
+    "key_points": [
+      "Requires Core refractive index (n1) > Cladding refractive index (n2).",
+      "The angle of incidence at the interface must exceed the critical angle: θ > θc.",
+      "Acceptance Cone defines the maximum boundary angle at which light enters and propagates.",
+      "Numerical Aperture (NA) measures the light-gathering capacity of the fiber: NA = sqrt(n1^2 - n2^2).",
+      "Attenuation occurs due to absorption, scattering, and geometric bending losses."
+    ],
+    "use_cases": [
+      "High-speed fiber optic telecommunications data transmission.",
+      "Medical endoscopes and fiber optic sensing instruments."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 600,
+        "height": 240
+      },
+      "blocks": [
+        {
+          "id": "clad-top",
+          "label": "Cladding (n2 = 1.45)",
+          "x": 50,
+          "y": 40,
+          "width": 500,
+          "height": 40,
+          "color": "#F1F5F9"
+        },
+        {
+          "id": "core",
+          "label": "Core (n1 = 1.48)",
+          "x": 50,
+          "y": 80,
+          "width": 500,
+          "height": 80,
+          "color": "#EFF6FF"
+        },
+        {
+          "id": "clad-bot",
+          "label": "Cladding (n2 = 1.45)",
+          "x": 50,
+          "y": 160,
+          "width": 500,
+          "height": 40,
+          "color": "#F1F5F9"
+        }
+      ],
+      "connections": [
+        {
+          "from": "input",
+          "to": "core",
+          "label": "Incident Ray",
+          "style": "solid"
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester II",
+    "isStub": false
+  },
+  {
+    "id": "zeolite-process-flow",
+    "title": "Zeolite Water Softening Process",
+    "type": "sequential-flow",
+    "subject": "Engineering Chemistry-II",
+    "syllabus_reference": "Module 1: Water Technology (Zeolite Softening)",
+    "textbook_reference": "Shashi Chawla, A Textbook of Engineering Chemistry, Page 88",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Explain the Zeolite (Permutit) process for softening hard water with a neat diagram and chemical reactions (May 2024).",
+        "Compare Zeolite process and Ion Exchange process for water softening (Dec 2023)."
+      ]
+    },
+    "theory": "The Zeolite process (also known as the Permutit process) is a chemical method for softening hard water by exchanging hardness-causing calcium (Ca2+) and magnesium (Mg2+) ions with sodium (Na+) ions. Zeolites are hydrated sodium alumino-silicates represented as Na2O.Al2O3.xSiO2.yH2O or simply Na2Z. Raw hard water is percolated through a bed of zeolite inside a vertical cylinder. The sodium ions in the zeolite matrix are exchanged for calcium and magnesium ions in the water, producing soft water. Once the zeolite bed gets exhausted, it is regenerated by flushing it with a 10% brine (NaCl) solution.",
+    "key_points": [
+      "Softens water by replacing Ca2+ and Mg2+ ions with non-hardness-causing Na+ ions.",
+      "Chemical formula of sodium zeolite: Na2Z.",
+      "Exhausted bed reaction: CaZ + 2NaCl -> Na2Z + CaCl2 (regeneration).",
+      "Produces water with zero hardness, suitable for high-pressure boilers.",
+      "Cannot be used for highly acidic or turbid water as it clogs the zeolite bed."
+    ],
+    "use_cases": [
+      "Industrial boiler feed water treatment to prevent scale and sludge formation.",
+      "Municipal and domestic water softening units."
+    ],
+    "schema_template": {
+      "type": "sequential-flow",
+      "viewBox": {
+        "width": 500,
+        "height": 340
+      },
+      "phases": [
+        {
+          "id": "p1",
+          "label": "Hard Water Inlet",
+          "desc": "Raw hard water containing Ca2+ and Mg2+ enters top of softener",
+          "color": "#EFF6FF"
+        },
+        {
+          "id": "p2",
+          "label": "Zeolite Bed Filtration",
+          "desc": "Water trickles through Na2Z bed; ion exchange replaces hardness with Na+",
+          "color": "#F3E8FF"
+        },
+        {
+          "id": "p3",
+          "label": "Soft Water Outlet",
+          "desc": "Softened water collected at the bottom with near-zero hardness",
+          "color": "#ECFDF5"
+        },
+        {
+          "id": "p4",
+          "label": "Brine Regeneration",
+          "desc": "Flushing exhausted bed (CaZ/MgZ) with 10% NaCl to restore Na2Z",
+          "color": "#FFF7ED"
+        }
+      ]
+    },
+    "department": "First Year Engineering (FE)",
+    "semester": "Semester II",
+    "isStub": false
+  },
+  {
+    "id": "carnot-cycle",
+    "title": "Carnot Cycle P-V Indicator Diagram",
+    "type": "block-diagram",
+    "subject": "Thermodynamics",
+    "syllabus_reference": "Module 3: Second Law & Entropy (Carnot Cycle)",
+    "textbook_reference": "R.K. Rajput, Thermal Engineering, Laxmi Publications, Chapter 5, Page 190",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "State and prove Carnot's Theorem. Explain the four processes of a Carnot cycle with a P-V diagram (Dec 2023).",
+        "Derive the expression for the thermal efficiency of a Carnot engine (May 2023)."
+      ]
+    },
+    "theory": "The Carnot Cycle is a theoretical thermodynamic cycle proposed by Nicolas Léonard Sadi Carnot in 1824. It represents the limit of thermal efficiency for a heat engine operating between two temperatures (T_hot and T_cold). It is composed of four reversible processes: (1) Reversible Isothermal Expansion (1➔2) at T_hot, where heat Q_in is absorbed; (2) Reversible Adiabatic Expansion (2➔3), where temperature drops from T_hot to T_cold; (3) Reversible Isothermal Compression (3➔4) at T_cold, where heat Q_out is rejected; and (4) Reversible Adiabatic Compression (4➔1), restoring the gas to its initial state. The Carnot efficiency depends solely on the operating temperatures: n = 1 - T_cold / T_hot.",
+    "key_points": [
+      "Process 1➔2: Isothermal expansion (constant temperature, volume increases).",
+      "Process 2➔3: Adiabatic expansion (no heat transfer, temperature drops).",
+      "Process 3➔4: Isothermal compression (constant temperature, volume decreases).",
+      "Process 4➔1: Adiabatic compression (no heat transfer, temperature rises).",
+      "No real engine can be more efficient than a Carnot engine operating between the same two reservoirs."
+    ],
+    "use_cases": [
+      "Establishing the maximum theoretical limit of power plant efficiency.",
+      "Thermodynamic modeling of advanced refrigeration and heat pump cycles."
+    ],
+    "schema_template": {
+      "type": "block-diagram",
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
+      "blocks": [
+        {
+          "id": "t_hot",
+          "label": "Hot Reservoir (Th)",
+          "x": 100,
+          "y": 60,
+          "width": 120,
+          "height": 50,
+          "color": "#F87171"
+        },
+        {
+          "id": "engine",
+          "label": "Carnot Engine\n[W_net]",
+          "x": 200,
+          "y": 130,
+          "width": 100,
+          "height": 80,
+          "color": "#EFF6FF"
+        },
+        {
+          "id": "t_cold",
+          "label": "Cold Reservoir (Tc)",
+          "x": 300,
+          "y": 230,
+          "width": 120,
+          "height": 50,
+          "color": "#60A5FA"
+        }
+      ],
+      "connections": [
+        {
+          "from": "t_hot",
+          "to": "engine",
+          "label": "Qin",
+          "style": "solid"
+        },
+        {
+          "from": "engine",
+          "to": "t_cold",
+          "label": "Qout",
+          "style": "solid"
+        }
+      ]
+    },
+    "department": "Mechanical Engineering",
+    "semester": "Semester III",
+    "isStub": false
+  }
+]

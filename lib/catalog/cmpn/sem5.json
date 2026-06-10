@@ -1,0 +1,136 @@
+[
+  {
+    "id": "osi-model",
+    "title": "OSI Reference Model (7 Layers)",
+    "type": "layered-stack",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 1: Reference Models (OSI Model)",
+    "textbook_reference": "Andrew S. Tanenbaum, Computer Networks, Prentice Hall, Chapter 1, Page 38",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the functions of each layer in the OSI reference model with a neat diagram (Dec 2023).",
+        "Compare OSI reference model and TCP/IP reference model (May 2023)."
+      ]
+    },
+    "theory": "The Open Systems Interconnection (OSI) reference model is an ISO-standard abstract framework describing how data from an application on one computer moves through a network medium to an application on another. It divides network communications into seven logical layers, each serving the layer above it and being served by the layer below it. The layers are: (7) Application: User interface; (6) Presentation: Data formatting and encryption; (5) Session: Dialog control; (4) Transport: End-to-end reliability; (3) Network: Routing and logical addressing; (2) Data Link: Framing and physical addressing; (1) Physical: Raw bit transmission. Data flows down from Layer 7 to Layer 1 on the sending host, and back up from Layer 1 to Layer 7 on the receiving host.",
+    "key_points": [
+      "Application (L7): Interfaces user applications (HTTP, FTP, SMTP, DNS).",
+      "Presentation (L6): Handles syntax, compression, encryption, and translation (SSL, JPEG, ASCII).",
+      "Session (L5): Establishes, maintains, and synchronizes conversations (NetBIOS, RPC).",
+      "Transport (L4): Manages flow control, error recovery, and segmentation (TCP, UDP).",
+      "Network (L3): Determines optimal path routing using IP addresses (IP, ICMP, routers).",
+      "Data Link (L2): Prepares data frames for physical transfer using MAC addresses (Ethernet, switches).",
+      "Physical (L1): Transmits binary bit streams over copper, fiber, or air medium (hubs, cables)."
+    ],
+    "use_cases": [
+      "Standardizing network protocols and interfaces across vendors.",
+      "Troubleshooting network connectivity issues by isolating problems layer by layer."
+    ],
+    "layers": [
+      { "number": 7, "name": "Application", "protocols": "HTTP, FTP, SMTP, DNS, DHCP", "color": "#F87171" },
+      { "number": 6, "name": "Presentation", "protocols": "SSL/TLS, JPEG, MPEG, ASCII, GIF", "color": "#FB923C" },
+      { "number": 5, "name": "Session", "protocols": "NetBIOS, RPC, SQL, Named Pipes", "color": "#FBBF24" },
+      { "number": 4, "name": "Transport", "protocols": "TCP, UDP (Port Addressing, Flow Control)", "color": "#34D399" },
+      { "number": 3, "name": "Network", "protocols": "IP, ICMP, OSPF, BGP (Routing, Logical Addr)", "color": "#60A5FA" },
+      { "number": 2, "name": "Data Link", "protocols": "Ethernet, MAC, PPP, ARP (Framing, Physical Addr)", "color": "#818CF8" },
+      { "number": 1, "name": "Physical", "protocols": "RS-232, DSL, Fiber, Cat6, Hubs (Electrical Bits)", "color": "#F472B6" }
+    ],
+    "sideLabel": "Data Encapsulation: Data ➔ Segment ➔ Packet ➔ Frame ➔ Bits"
+  },
+  {
+    "id": "tcp-handshake",
+    "title": "TCP 3-Way Handshake Connection Establishment",
+    "type": "sequence",
+    "subject": "Computer Networks (CN)",
+    "syllabus_reference": "Module 4: Transport Layer (TCP Protocol)",
+    "textbook_reference": "Behrouz A. Forouzan, Data Communications and Networking, Chapter 23, Page 734",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Explain the TCP connection establishment process (3-way handshake) with a timing diagram (May 2024).",
+        "Draw and explain TCP state transition diagram for connection termination (Dec 2023)."
+      ]
+    },
+    "theory": "Transmission Control Protocol (TCP) is a connection-oriented transport layer protocol that guarantees reliable delivery of data packets. Before any data can be transferred, TCP establishes a virtual connection between a Client and a Server using a three-step handshake process. (1) Segment 1 (SYN): The client sends a synchronization packet with an initial sequence number (client_isn) to the server. (2) Segment 2 (SYN-ACK): The server receives the SYN, acknowledges it by setting the acknowledgment number to client_isn + 1, and sends its own sequence number (server_isn) along with the SYN flag set. (3) Segment 3 (ACK): The client receives the SYN-ACK, acknowledges it by setting the acknowledgment number to server_isn + 1, and sends an ACK packet back to the server. Both sides are now in the ESTABLISHED state.",
+    "key_points": [
+      "SYN: Sent by client to synchronize sequence numbers. Client state becomes SYN_SENT.",
+      "SYN-ACK: Sent by server to acknowledge client's SYN and send its own SYN. Server state becomes SYN_RCVD.",
+      "ACK: Sent by client to acknowledge server's SYN. Both transition to ESTABLISHED.",
+      "Sequence numbers protect against duplicate, lost, or out-of-order packets.",
+      "Handshake parameters exchange maximum segment size (MSS) and window scale factor."
+    ],
+    "use_cases": [
+      "Establishing reliable connections for web browsing (HTTP/HTTPS) and file transfers (FTP).",
+      "Analyzing network packet traces (Wireshark) to diagnose slow connection establishment."
+    ],
+    "schema_template": {
+      "type": "sequence",
+      "viewBox": { "width": 640, "height": 400 },
+      "theme": "textbook",
+      "sideMarginOffset": 50,
+      "participants": [
+        { "id": "client", "label": "TCP Client", "x": 140 },
+        { "id": "server", "label": "TCP Server", "x": 500 }
+      ],
+      "messages": [
+        { "from": "client", "to": "server", "label": "SYN (Seq=1000, CTL=SYN)", "arrowType": "solid", "y": 120, "color": "#EF4444", "sideNote": "Client enters SYN_SENT state" },
+        { "from": "server", "to": "client", "label": "SYN-ACK (Seq=5000, Ack=1001, CTL=SYN,ACK)", "arrowType": "solid", "y": 200, "color": "#3B82F6", "sideNote": "Server enters SYN_RCVD state" },
+        { "from": "client", "to": "server", "label": "ACK (Seq=1001, Ack=5001, CTL=ACK)", "arrowType": "solid", "y": 280, "color": "#10B981", "sideNote": "Both transition to ESTABLISHED" }
+      ],
+      "title": "TCP Three-Way Handshake Connection Protocol"
+    }
+  },
+  {
+    "id": "dfd-library-l0-l1",
+    "title": "DFD Level 0 & Level 1 — Library Management System",
+    "type": "dfd-flow",
+    "subject": "Software Engineering (SE)",
+    "syllabus_reference": "Module 3: Requirements Analysis & Specification (Data Flow Diagrams)",
+    "textbook_reference": "Roger S. Pressman, Software Engineering: A Practitioner's Approach, Chapter 7, Page 185",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Draw Level 0 (Context Diagram) and Level 1 DFD for a Library Management System (May 2024).",
+        "Explain the rules for constructing Data Flow Diagrams. Draw DFD for Hotel Management System (Dec 2023)."
+      ]
+    },
+    "theory": "A Data Flow Diagram (DFD) is a graphical modeling tool used to represent the flow of data through an information system. It outlines inputs, processes, data stores, and outputs. DFDs are constructed hierarchically. Level-0 (also called the Context Diagram) models the entire system as a single process bubble connected to external entities (such as students or librarians), showing overall boundaries. Level-1 DFD refactors the Level-0 process bubble into multiple sub-processes (e.g. searching books, issuing books, returning books) and introduces data stores (e.g. books database, student files) to show where data is stored within the system.",
+    "key_points": [
+      "Context Diagram (Level-0) must contain exactly one process bubble representing the entire system.",
+      "External Entities (Squares) represent sinks/sources of data outside the system boundary.",
+      "Process Bubbles (Circles/Rounded Rectangles) represent operations transforming inputs to outputs.",
+      "Data Stores (Open Rectangles) represent resting files, databases, or memory structures.",
+      "Rule: Data cannot flow directly between two external entities, or directly between two data stores."
+    ],
+    "use_cases": [
+      "Structured systems analysis to map data flows before database schema design.",
+      "Documenting software system requirements for developers and non-technical stakeholders."
+    ],
+    "schema_template": {
+      "type": "dfd-flow",
+      "viewBox": { "width": 800, "height": 500 },
+      "nodes": [
+        { "id": "student", "type": "external", "label": "Student / User", "x": 100, "y": 250, "width": 120, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" },
+        { "id": "p1", "type": "process", "shape": "circle", "processId": "1.0", "label": "Search Book", "x": 320, "y": 120, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+        { "id": "p2", "type": "process", "shape": "circle", "processId": "2.0", "label": "Issue Book", "x": 320, "y": 380, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
+        { "id": "books", "type": "data-store", "processId": "D1", "label": "Books Database", "x": 580, "y": 140, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" },
+        { "id": "issues", "type": "data-store", "processId": "D2", "label": "Issue Register", "x": 580, "y": 400, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" },
+        { "id": "librarian", "type": "external", "label": "Librarian", "x": 100, "y": 380, "width": 120, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" }
+      ],
+      "connections": [
+        { "from": "student", "to": "p1", "label": "book query" },
+        { "from": "p1", "to": "books", "label": "check availability" },
+        { "from": "books", "to": "p1", "label": "book details" },
+        { "from": "p1", "to": "student", "label": "search results" },
+        { "from": "student", "to": "p2", "label": "issue request" },
+        { "from": "p2", "to": "books", "label": "mark issued" },
+        { "from": "p2", "to": "issues", "label": "log issue record" },
+        { "from": "librarian", "to": "p2", "label": "approve issue" }
+      ]
+    }
+  }
+]

@@ -13,6 +13,8 @@ import Arch8086Renderer        from './renderers/Arch8086Renderer'
 import Arch8085Renderer        from './renderers/Arch8085Renderer'
 import LogicDiagramRenderer    from './renderers/LogicDiagramRenderer'
 import CircuitRenderer         from './renderers/CircuitRenderer'
+import UMLDiagramRenderer      from './renderers/UMLDiagramRenderer'
+import DFDFlowRenderer         from './renderers/DFDFlowRenderer'
 
 /** Map schema type string → renderer component */
 const RENDERERS = {
@@ -28,6 +30,8 @@ const RENDERERS = {
   '8085-custom':     Arch8085Renderer,
   'logic-diagram':   LogicDiagramRenderer,
   'circuit-schematic': CircuitRenderer,
+  'uml-diagram':       UMLDiagramRenderer,
+  'dfd-flow':          DFDFlowRenderer,
 }
 
 /**

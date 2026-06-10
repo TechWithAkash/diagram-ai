@@ -1,0 +1,140 @@
+{
+  "id": "fft-butterfly-dit",
+  "complexity": "Advanced",
+  "type": "graph",
+  "title": "8-Point Decimation-in-Time (DIT) FFT Butterfly Flow Graph",
+  "description": "A signal flow graph visualizing an 8-point Cooley-Tukey Decimation-in-Time (DIT) Fast Fourier Transform (FFT) butterfly computation, showing the input bit-reversal and three successive computational stages with twiddle factors.",
+  "category": "Digital Signal Processing (DSP)",
+  "aliases": [
+    "fft butterfly",
+    "dit fft",
+    "8-point fft",
+    "decimation in time fft",
+    "butterfly computation",
+    "8-Point Decimation-in-Time (DIT) FFT Butterfly Flow Graph",
+    "8-Point DIT FFT Butterfly Diagram",
+    "DIT FFT Butterfly",
+    "FFT Butterfly",
+    "Fast Fourier Transform",
+    "DSP",
+    "Sem V - DSP"
+  ],
+  "viewBox": { "width": 800, "height": 600 },
+
+  "theory": "The Fast Fourier Transform (FFT) is an algorithm that computes the Discrete Fourier Transform (DFT) of a sequence extremely efficiently. While a direct calculation of an N-point DFT requires O(N^2) complex multiplications and additions, the Cooley-Tukey FFT algorithm reduces this computational complexity to O(N log2 N), enabling real-time digital signal processing. Decimation-in-Time (DIT) is one of the primary methods of structuring the FFT, where the input sequence x(n) is recursively decomposed (decimated) into its even-numbered and odd-numbered samples.\n\nFor an 8-point DIT FFT, the inputs must be arranged in bit-reversed order: x(0), x(4), x(2), x(6), x(1), x(5), x(3), and x(7). The computation is then performed across three distinct stages (log2 8 = 3 stages):\n1. Stage 1: Computes four independent 2-point DFTs (butterflies) using twiddle factors (W_8^0 = 1).\n2. Stage 2: Combines the Stage 1 outputs to compute two independent 4-point DFTs, utilizing twiddle factors W_8^0 and W_8^2.\n3. Stage 3: Combines the Stage 2 outputs to compute the final 8-point DFT, utilizing four twiddle factors: W_8^0, W_8^1, W_8^2, and W_8^3.\n\nEach butterfly node performs a basic mathematical operation: if inputs are A and B, the outputs are A + B * W and A - B * W, where W represents the complex exponential twiddle factor W_N^k = e^(-j * 2 * pi * k / N).",
+
+  "keyPoints": [
+    "Reduces DFT complexity from O(N^2) to O(N log2 N) using divide-and-conquer principles.",
+    "Decimation-in-Time (DIT) splits the input sequence x(n) into even and odd index subsets.",
+    "Input sequence must be sorted in bit-reversed order (e.g., index 001 -> 100 which is 1 -> 4).",
+    "Requires log2 N stages (3 stages for an 8-point FFT) to complete the full calculation.",
+    "Each butterfly computation calculates sums and differences weighted by twiddle factors (W_N^k).",
+    "The outputs X(k) are obtained in natural, sequential order (X(0) through X(7))."
+  ],
+
+  "examTip": "Bit-reversal table for N=8: 0(000)->0(000); 1(001)->4(100); 2(010)->2(010); 3(011)->6(110); 4(100)->1(001); 5(101)->5(101); 6(110)->3(011); 7(111)->7(111). Remember that twiddle factors are always multiplied in the bottom legs of the butterflies before summing/subtracting.",
+
+  "useCases": [
+    "Spectral analysis and spectrogram calculations in audio signal processing.",
+    "Orthogonal Frequency Division Multiplexing (OFDM) demodulation in modern Wi-Fi and 5G.",
+    "Radar and sonar signal processing for target speed and range calculations.",
+    "Image processing algorithms including JPEG compression and filtering.",
+    "Solving partial differential equations and executing fast convolution in computer physics."
+  ],
+
+  "nodes": [
+    { "id": "x0", "label": "x(0)", "x": 80, "y": 60, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x4", "label": "x(4)", "x": 80, "y": 130, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x2", "label": "x(2)", "x": 80, "y": 200, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x6", "label": "x(6)", "x": 80, "y": 270, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x1", "label": "x(1)", "x": 80, "y": 340, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x5", "label": "x(5)", "x": 80, "y": 410, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x3", "label": "x(3)", "x": 80, "y": 480, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+    { "id": "x7", "label": "x(7)", "x": 80, "y": 550, "r": 20, "color": "#3b82f6", "borderColor": "#1d4ed8", "textColor": "#ffffff" },
+
+    { "id": "S1_0", "label": "S1(0)", "x": 280, "y": 60, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_1", "label": "S1(1)", "x": 280, "y": 130, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_2", "label": "S1(2)", "x": 280, "y": 200, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_3", "label": "S1(3)", "x": 280, "y": 270, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_4", "label": "S1(4)", "x": 280, "y": 340, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_5", "label": "S1(5)", "x": 280, "y": 410, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_6", "label": "S1(6)", "x": 280, "y": 480, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+    { "id": "S1_7", "label": "S1(7)", "x": 280, "y": 550, "r": 20, "color": "#10b981", "borderColor": "#047857", "textColor": "#ffffff" },
+
+    { "id": "S2_0", "label": "S2(0)", "x": 480, "y": 60, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_1", "label": "S2(1)", "x": 480, "y": 130, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_2", "label": "S2(2)", "x": 480, "y": 200, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_3", "label": "S2(3)", "x": 480, "y": 270, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_4", "label": "S2(4)", "x": 480, "y": 340, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_5", "label": "S2(5)", "x": 480, "y": 410, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_6", "label": "S2(6)", "x": 480, "y": 480, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+    { "id": "S2_7", "label": "S2(7)", "x": 480, "y": 550, "r": 20, "color": "#8b5cf6", "borderColor": "#6d28d9", "textColor": "#ffffff" },
+
+    { "id": "X0", "label": "X(0)", "x": 680, "y": 60, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X1", "label": "X(1)", "x": 680, "y": 130, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X2", "label": "X(2)", "x": 680, "y": 200, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X3", "label": "X(3)", "x": 680, "y": 270, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X4", "label": "X(4)", "x": 680, "y": 340, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X5", "label": "X(5)", "x": 680, "y": 410, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X6", "label": "X(6)", "x": 680, "y": 480, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" },
+    { "id": "X7", "label": "X(7)", "x": 680, "y": 550, "r": 20, "color": "#f59e0b", "borderColor": "#d97706", "textColor": "#ffffff" }
+  ],
+
+  "edges": [
+    { "from": "x0", "to": "S1_0", "label": "" },
+    { "from": "x4", "to": "S1_0", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "x0", "to": "S1_1", "label": "" },
+    { "from": "x4", "to": "S1_1", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "x2", "to": "S1_2", "label": "" },
+    { "from": "x6", "to": "S1_2", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "x2", "to": "S1_3", "label": "" },
+    { "from": "x6", "to": "S1_3", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "x1", "to": "S1_4", "label": "" },
+    { "from": "x5", "to": "S1_4", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "x1", "to": "S1_5", "label": "" },
+    { "from": "x5", "to": "S1_5", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "x3", "to": "S1_6", "label": "" },
+    { "from": "x7", "to": "S1_6", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "x3", "to": "S1_7", "label": "" },
+    { "from": "x7", "to": "S1_7", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "S1_0", "to": "S2_0", "label": "" },
+    { "from": "S1_2", "to": "S2_0", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S1_1", "to": "S2_1", "label": "" },
+    { "from": "S1_3", "to": "S2_1", "label": "W_8^2", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S1_0", "to": "S2_2", "label": "" },
+    { "from": "S1_2", "to": "S2_2", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+    { "from": "S1_1", "to": "S2_3", "label": "" },
+    { "from": "S1_3", "to": "S2_3", "label": "-W_8^2", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "S1_4", "to": "S2_4", "label": "" },
+    { "from": "S1_6", "to": "S2_4", "label": "W_8^0", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S1_5", "to": "S2_5", "label": "" },
+    { "from": "S1_7", "to": "S2_5", "label": "W_8^2", "labelPos": 0.75, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S1_4", "to": "S2_6", "label": "" },
+    { "from": "S1_6", "to": "S2_6", "label": "-W_8^0", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+    { "from": "S1_5", "to": "S2_7", "label": "" },
+    { "from": "S1_7", "to": "S2_7", "label": "-W_8^2", "labelPos": 0.3, "labelOffsetX": -5, "labelOffsetY": -8 },
+
+    { "from": "S2_0", "to": "X0", "label": "" },
+    { "from": "S2_4", "to": "X0", "label": "W_8^0", "labelPos": 0.8, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S2_1", "to": "X1", "label": "" },
+    { "from": "S2_5", "to": "X1", "label": "W_8^1", "labelPos": 0.8, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S2_2", "to": "X2", "label": "" },
+    { "from": "S2_6", "to": "X2", "label": "W_8^2", "labelPos": 0.8, "labelOffsetX": -12, "labelOffsetY": -5 },
+    { "from": "S2_3", "to": "X3", "label": "" },
+    { "from": "S2_7", "to": "X3", "label": "W_8^3", "labelPos": 0.8, "labelOffsetX": -12, "labelOffsetY": -5 },
+
+    { "from": "S2_0", "to": "X4", "label": "" },
+    { "from": "S2_4", "to": "X4", "label": "-W_8^0", "labelPos": 0.25, "labelOffsetX": -5, "labelOffsetY": -8 },
+    { "from": "S2_1", "to": "X5", "label": "" },
+    { "from": "S2_5", "to": "X5", "label": "-W_8^1", "labelPos": 0.25, "labelOffsetX": -5, "labelOffsetY": -8 },
+    { "from": "S2_2", "to": "X6", "label": "" },
+    { "from": "S2_6", "to": "X6", "label": "-W_8^2", "labelPos": 0.25, "labelOffsetX": -5, "labelOffsetY": -8 },
+    { "from": "S2_3", "to": "X7", "label": "" },
+    { "from": "S2_7", "to": "X7", "label": "-W_8^3", "labelPos": 0.25, "labelOffsetX": -5, "labelOffsetY": -8 }
+  ]
+}

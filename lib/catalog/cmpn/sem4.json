@@ -1,0 +1,151 @@
+[
+  {
+    "id": "three-schema",
+    "title": "Three-Schema Database Architecture",
+    "type": "layered-stack",
+    "subject": "Database Management Systems (DBMS)",
+    "syllabus_reference": "Module 1: Introduction to DBMS (Schema Architecture)",
+    "textbook_reference": "Korth, Silberschatz & Sudarshan, Database System Concepts, Chapter 1, Page 24",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Explain Three-Schema Architecture of a database system with a neat diagram. Describe data independence (Dec 2023).",
+        "What is DBMS? Explain the three levels of data abstraction (May 2023)."
+      ]
+    },
+    "theory": "The Three-Schema Architecture (also called the ANSI/SPARC architecture) is a framework used to describe the structure of a database system. It separates the user applications from the physical database by defining three distinct levels of schemas: (1) External Schema (View Level) which describes how individual users view the database; (2) Conceptual Schema (Logical Level) which describes what data is stored in the database and the relationships among the data; and (3) Internal Schema (Physical Level) which describes the physical storage structure of the database. This separation guarantees data independence, meaning modifications at one level do not force changes at other levels.",
+    "key_points": [
+      "View Level (External): Multiple customized schemas for different users.",
+      "Logical Level (Conceptual): Single schema describing tables, fields, types, and constraints.",
+      "Physical Level (Internal): Single schema detailing file organizations, index paths, and storage blocks.",
+      "Logical Data Independence: Ability to modify conceptual schema without changing external schemas.",
+      "Physical Data Independence: Ability to modify physical schema without changing conceptual schema."
+    ],
+    "use_cases": [
+      "Designing corporate enterprise databases supporting diverse departments.",
+      "Optimizing database disk access configurations without breaking existing SQL applications."
+    ],
+    "layers": [
+      {
+        "number": 3,
+        "name": "External Level (User Views)",
+        "protocols": "View 1, View 2, View 3 (Tailored Application views)",
+        "color": "#F87171"
+      },
+      {
+        "number": 2,
+        "name": "Conceptual Level (Logical Schema)",
+        "protocols": "Entity-Relationship Tables, Attributes, Constraints, Schemas",
+        "color": "#FB923C"
+      },
+      {
+        "number": 1,
+        "name": "Internal Level (Physical Schema)",
+        "protocols": "Data Files, Indexes, B-Trees, Record Layouts, Disk Blocks",
+        "color": "#FBBF24"
+      }
+    ],
+    "sideLabel": "Data Abstraction: High (Views) ➔ Medium (Tables) ➔ Low (Disk)"
+  },
+  {
+    "id": "process-life-cycle",
+    "title": "Process Life Cycle (5-State Model)",
+    "type": "state-machine",
+    "subject": "Operating Systems (OS)",
+    "syllabus_reference": "Module 2: Process Management (Process States)",
+    "textbook_reference": "Abraham Silberschatz & Peter Galvin, Operating System Concepts, Chapter 3, Page 108",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw and explain the 5-state process transition diagram in Operating Systems (May 2024).",
+        "Describe process lifecycle transitions. Explain what happens during context switching (Dec 2023)."
+      ]
+    },
+    "theory": "As a process executes, it changes state. The process lifecycle is modeled using transition states representing the current activity of the process. In the standard 5-state model, these states are: (1) New: The process is being created; (2) Ready: The process is in memory waiting to be assigned to a processor; (3) Running: Instructions are being executed by the CPU; (4) Waiting (Blocked): The process is waiting for some event to occur (such as an I/O completion or reception of a signal); and (5) Terminated: The process has finished execution. Transitions occur based on OS scheduler actions, hardware interrupts, or system calls.",
+    "key_points": [
+      "New ➔ Ready: Admitted by the long-term scheduler.",
+      "Ready ➔ Running: Dispatched by the short-term CPU scheduler.",
+      "Running ➔ Ready: Triggered by timer interrupts or time quantum expiration.",
+      "Running ➔ Waiting: Triggered by I/O requests or block requests.",
+      "Waiting ➔ Ready: Triggered by I/O or event completion."
+    ],
+    "use_cases": [
+      "Analyzing CPU scheduling policies (Round Robin, FCFS, Priority).",
+      "Debugging program deadlock situations where processes stay in the Blocked/Waiting state."
+    ],
+    "schema_template": {
+      "type": "state-machine",
+      "viewBox": {
+        "width": 900,
+        "height": 400
+      },
+      "states": [
+        {
+          "id": "new",
+          "label": "New",
+          "x": 120,
+          "y": 200
+        },
+        {
+          "id": "ready",
+          "label": "Ready",
+          "x": 320,
+          "y": 200
+        },
+        {
+          "id": "running",
+          "label": "Running",
+          "x": 580,
+          "y": 200
+        },
+        {
+          "id": "waiting",
+          "label": "Waiting",
+          "x": 450,
+          "y": 340
+        },
+        {
+          "id": "terminated",
+          "label": "Terminated",
+          "x": 780,
+          "y": 200
+        }
+      ],
+      "transitions": [
+        {
+          "from": "new",
+          "to": "ready",
+          "label": "Admitted"
+        },
+        {
+          "from": "ready",
+          "to": "running",
+          "label": "Scheduler\nDispatch"
+        },
+        {
+          "from": "running",
+          "to": "ready",
+          "label": "Interrupt / Timeout",
+          "curve": "top"
+        },
+        {
+          "from": "running",
+          "to": "waiting",
+          "label": "I/O or Event\nWait"
+        },
+        {
+          "from": "waiting",
+          "to": "ready",
+          "label": "I/O or Event\nCompletion"
+        },
+        {
+          "from": "running",
+          "to": "terminated",
+          "label": "Exit"
+        }
+      ]
+    }
+  }
+]

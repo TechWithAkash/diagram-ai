@@ -1,0 +1,117 @@
+{
+  "id": "truss-cantilever-forces",
+  "complexity": "Advanced",
+  "type": "graph",
+  "title": "Cantilever Truss Forces & Node Vectors",
+  "description": "A vector graph and node representation of a cantilever truss structure under mechanical load, showing tensile and compressive forces inside structural joints.",
+  "category": "Mechanical Engineering",
+  "aliases": ["cantilever truss", "truss forces", "mechanical truss", "truss analysis", "method of joints", "Cantilever Truss Force Resolution (Mechanics)", "Mechanics"],
+  "viewBox": { "width": 640, "height": 400 },
+
+  "theory": "Trusses are structures composed of slender members joined together at their endpoints (nodes) to form a rigid framework, widely used in bridge designs, roofs, and cranes. A cantilever truss is fixed at one end (typically anchored to a vertical wall support) and extends horizontally, carrying loads at its free joints. To analyze the distribution of internal forces within a truss, engineers assume that all members are two-force members connected by frictionless pin joints, and the weights of the individual members are negligible compared to the applied loads. Under these assumptions, each member is subjected to either axial tension (forces pulling away from the nodes) or axial compression (forces pushing into the nodes).\n\nThe two primary analytical methods for resolving truss forces are the Method of Joints and the Method of Sections. The Method of Joints utilizes equations of static equilibrium (Sum of Fx = 0, Sum of Fy = 0) at individual nodes. It is ideal for calculating forces in all members sequentially, beginning at a joint with at least one known force and no more than two unknown forces. The top members of a cantilever truss typically experience tensile forces as the structure bends downward, whereas the bottom chord members undergo compression to resist the bending moment. Diagonal members alternate between tension and compression to transfer shear forces back to the wall supports.",
+
+  "keyPoints": [
+    "A cantilever truss is supported at one end and extends horizontally to carry loads at free joints.",
+    "Members are assumed to be two-force elements subjected only to axial tension or compression.",
+    "Method of Joints applies static equilibrium equations at each individual node (Sum of Fx = 0, Sum of Fy = 0).",
+    "Under downward load, the top chord members undergo tension while the bottom chord members experience compression.",
+    "Diagonal members transfer shear forces, alternating between tension and compression based on their inclination.",
+    "Truss analysis assumes joint loads only, meaning no bending moments exist in the individual members."
+  ],
+
+  "examTip": "For a cantilever truss under downward load at the free tip: Top members are in TENSION, bottom members are in COMPRESSION. If a diagonal member goes from bottom-left to top-right, check its sign by resolving vertical forces at the joints. Start the Method of Joints at the loaded tip node if support reactions are not yet calculated.",
+
+  "useCases": [
+    "Designing crane jibs and industrial hoisting boom structures.",
+    "Analyzing load distributions in cantilever bridge spans during construction stages.",
+    "Designing roof overhangs and stadium canopy structural frameworks.",
+    "Creating lightweight space frames for aircraft wings and space station trusses.",
+    "Simulating structural load paths in civil engineering finite element analysis (FEA) software."
+  ],
+
+  "nodes": [
+    {
+      "id": "N1",
+      "label": "1",
+      "x": 100,
+      "y": 100,
+      "r": 15,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N2",
+      "label": "2",
+      "x": 100,
+      "y": 300,
+      "r": 15,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N3",
+      "label": "3",
+      "x": 280,
+      "y": 100,
+      "r": 15,
+      "color": "#3b82f6",
+      "borderColor": "#1d4ed8",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N4",
+      "label": "4",
+      "x": 280,
+      "y": 300,
+      "r": 15,
+      "color": "#3b82f6",
+      "borderColor": "#1d4ed8",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "N5",
+      "label": "5",
+      "x": 460,
+      "y": 200,
+      "r": 15,
+      "color": "#10b981",
+      "borderColor": "#047857",
+      "textColor": "#ffffff"
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "N1",
+      "to": "N3",
+      "label": "Tension (T1)"
+    },
+    {
+      "from": "N2",
+      "to": "N4",
+      "label": "Compression (C1)"
+    },
+    {
+      "from": "N1",
+      "to": "N4",
+      "label": "Tension (T2)"
+    },
+    {
+      "from": "N3",
+      "to": "N4",
+      "label": "Compression (C2)"
+    },
+    {
+      "from": "N3",
+      "to": "N5",
+      "label": "Tension (T3)"
+    },
+    {
+      "from": "N4",
+      "to": "N5",
+      "label": "Compression (C3)"
+    }
+  ]
+}

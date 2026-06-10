@@ -1,0 +1,52 @@
+[
+  {
+    "id": "fft-butterfly-dit",
+    "title": "Decimation-in-Time (DIT) FFT Butterfly Diagram",
+    "type": "graph",
+    "subject": "Digital Signal Processing (DSP)",
+    "syllabus_reference": "Module 3: Fast Fourier Transform (DIT FFT)",
+    "textbook_reference": "John G. Proakis & Dimitris G. Manolakis, Digital Signal Processing, Chapter 8, Page 478",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Compute the 8-point DFT of the sequence x(n) = {1, 2, 3, 4, 4, 3, 2, 1} using DIT-FFT algorithm. Show all butterfly stages (May 2024).",
+        "Explain decimation in time algorithm. Derive the butterfly equations for radix-2 DIT FFT (Dec 2023)."
+      ]
+    },
+    "theory": "The Fast Fourier Transform (FFT) is an efficient algorithm to compute the Discrete Fourier Transform (DFT) of a sequence. It reduces the computational complexity from O(N^2) to O(N log2 N). In the Radix-2 Decimation-in-Time (DIT) FFT algorithm, the input sequence x(n) is recursively divided (decimated) into even and odd index subsequences. The butterfly computation is the core operation. It takes two complex inputs, A and B, and a Twiddle Factor (WN^k = e^(-j2pi k / N)). The butterfly output yields two values: X = A + B·WN^k and Y = A - B·WN^k. For an N-point DFT, there are log2 N stages, with N/2 butterfly computations per stage.",
+    "key_points": [
+      "Input sequence must be in bit-reversed order (e.g., 0, 4, 2, 6, 1, 5, 3, 7 for 8-point FFT).",
+      "Output sequence is obtained in normal/natural order.",
+      "The basic radix-2 butterfly equation: X = A + B·WN^k, Y = A - B·WN^k.",
+      "Twiddle factors WN^k are applied as complex multipliers at the bottom input branch of each butterfly.",
+      "Total multiplication complexity is reduced from N^2 to (N/2)log2 N complex multiplications."
+    ],
+    "use_cases": [
+      "Real-time spectral analysis in audio processing and software-defined radio.",
+      "Fast convolution and digital filtering using overlap-save/overlap-add methods."
+    ],
+    "schema_template": {
+      "type": "graph",
+      "viewBox": { "width": 500, "height": 300 },
+      "nodes": [
+        { "id": "a0", "label": "A (Even)", "x": 100, "y": 80 },
+        { "id": "b0", "label": "B (Odd)", "x": 100, "y": 200 },
+        { "id": "mul", "label": "× WN^k", "x": 220, "y": 200 },
+        { "id": "add", "label": "+", "x": 380, "y": 80 },
+        { "id": "sub", "label": "-", "x": 380, "y": 200 },
+        { "id": "x_out", "label": "X = A + B·WN^k", "x": 450, "y": 80 },
+        { "id": "y_out", "label": "Y = A - B·WN^k", "x": 450, "y": 200 }
+      ],
+      "connections": [
+        { "from": "a0", "to": "add" },
+        { "from": "b0", "to": "mul" },
+        { "from": "mul", "to": "add" },
+        { "from": "a0", "to": "sub" },
+        { "from": "mul", "to": "sub" },
+        { "from": "add", "to": "x_out" },
+        { "from": "sub", "to": "y_out" }
+      ]
+    }
+  }
+]

@@ -1,0 +1,178 @@
+{
+  "id": "closed-loop-control",
+  "complexity": "Intermediate",
+  "type": "block-diagram",
+  "title": "Closed-Loop Feedback Control System",
+  "description": "A block diagram representing a classic closed-loop feedback control system, detailing the signal path: Input/Setpoint -> Comparator/Error -> Controller -> Process/Plant -> Output, along with a Feedback loop.",
+  "category": "Control Systems (CS)",
+  "aliases": [
+    "closed-loop-control",
+    "closed loop control",
+    "feedback control system",
+    "control loop block diagram",
+    "closed loop feedback",
+    "control system blocks",
+    "Closed-Loop Feedback Control System (Sem V - Control Systems)",
+    "Closed-Loop Feedback Control System",
+    "Control Systems"
+  ],
+  "viewBox": { "width": 780, "height": 340 },
+
+  "theory": "A closed-loop control system, also known as a feedback control system, is a system that maintains a prescribed relationship between the output and the reference input by comparing them and using the difference (error) as a means of control. In contrast to open-loop systems, closed-loop systems automatically adjust their control inputs based on the measured real-time output behavior.\n\nThe system operates via several key functional blocks:\n1. Comparator/Summing Point: Compares the reference input (setpoint R) with the feedback signal (B) to generate an error signal: E = R - B.\n2. Controller: Processes the error signal (e.g., via proportional, integral, or derivative actions in a PID controller) to produce a control action/signal (U).\n3. Plant/Process: The physical system being controlled (e.g., a motor, heater, or valve), which responds to the control signal and yields the output variable (C).\n4. Feedback Element: A sensor or transducer (H) that measures the output variable (C) and converts it into a feedback signal (B) matching the dimensions of the input.\n\nFeedback offers significant advantages: it reduces the system's sensitivity to parameter variations, suppresses external disturbances, improves steady-state tracking accuracy, and can stabilize an otherwise unstable plant.",
+
+  "keyPoints": [
+    "Feedback is the defining feature, feeding output measurements back to the input for comparison.",
+    "Comparator generates the error signal: E(s) = R(s) - B(s).",
+    "Controller translates the error into a correction command to drive the process.",
+    "Sensor/Feedback path (H) measures output (C) and converts it to equivalent feedback units.",
+    "Reduces sensitivity to internal parameter variations and external environmental disturbances.",
+    "Can introduce stability issues (oscillations) if feedback gains are not tuned correctly."
+  ],
+
+  "examTip": "The transfer function of a closed-loop system is T(s) = C(s) / R(s) = G(s) / (1 + G(s) * H(s)) for negative feedback. Remember that negative feedback decreases overall system gain but increases stability, bandwidth, and reduces distortion.",
+
+  "useCases": [
+    "Thermostatically controlled heating and air conditioning (HVAC) systems.",
+    "Cruise control systems in automotive vehicles for maintaining constant speeds.",
+    "Phase-locked loops (PLL) in communications for frequency synchronization.",
+    "Robotic arm position and trajectory control systems.",
+    "Voltage regulators in power supplies to maintain stable output voltage under varying loads."
+  ],
+
+  "blocks": [
+    {
+      "id": "input",
+      "label": "Setpoint R(s)",
+      "x": 40,
+      "y": 100,
+      "width": 100,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "comparator",
+      "label": "Σ",
+      "note": "(+/-)",
+      "x": 190,
+      "y": 95,
+      "width": 60,
+      "height": 50,
+      "color": "#F1F5F9",
+      "borderColor": "#94A3B8"
+    },
+    {
+      "id": "controller",
+      "label": "Controller G1(s)",
+      "x": 300,
+      "y": 90,
+      "width": 120,
+      "height": 60,
+      "color": "#FFFBEB",
+      "borderColor": "#F59E0B"
+    },
+    {
+      "id": "process",
+      "label": "Process / Plant G2(s)",
+      "x": 470,
+      "y": 90,
+      "width": 140,
+      "height": 60,
+      "color": "#F0FDF4",
+      "borderColor": "#22C55E"
+    },
+    {
+      "id": "output",
+      "label": "Output C(s)",
+      "x": 660,
+      "y": 100,
+      "width": 90,
+      "height": 40,
+      "color": "#EFF6FF",
+      "borderColor": "#3B82F6"
+    },
+    {
+      "id": "feedback",
+      "label": "Feedback Sensor H(s)",
+      "x": 370,
+      "y": 210,
+      "width": 160,
+      "height": 50,
+      "color": "#FDF4FF",
+      "borderColor": "#A855F7"
+    }
+  ],
+
+  "connections": [
+    {
+      "from": "input",
+      "to": "comparator",
+      "x1": 140,
+      "y1": 120,
+      "x2": 190,
+      "y2": 120,
+      "label": "Input R"
+    },
+    {
+      "from": "comparator",
+      "to": "controller",
+      "x1": 250,
+      "y1": 120,
+      "x2": 300,
+      "y2": 120,
+      "label": "Error E(s)"
+    },
+    {
+      "from": "controller",
+      "to": "process",
+      "x1": 420,
+      "y1": 120,
+      "x2": 470,
+      "y2": 120,
+      "label": "Control U"
+    },
+    {
+      "from": "process",
+      "to": "output",
+      "x1": 610,
+      "y1": 120,
+      "x2": 660,
+      "y2": 120,
+      "label": "Output C"
+    },
+    {
+      "from": "process",
+      "to": "feedback",
+      "x1": 635,
+      "y1": 120,
+      "x2": 635,
+      "y2": 235
+    },
+    {
+      "from": "process",
+      "to": "feedback",
+      "x1": 635,
+      "y1": 235,
+      "x2": 530,
+      "y2": 235
+    },
+    {
+      "from": "feedback",
+      "to": "comparator",
+      "x1": 370,
+      "y1": 235,
+      "x2": 220,
+      "y2": 235,
+      "label": "Feedback B(s)"
+    },
+    {
+      "from": "feedback",
+      "to": "comparator",
+      "x1": 220,
+      "y1": 235,
+      "x2": 220,
+      "y2": 145,
+      "label": "-"
+    }
+  ]
+}

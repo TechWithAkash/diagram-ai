@@ -1,0 +1,106 @@
+{
+  "id": "carnot-cycle",
+  "complexity": "Intermediate",
+  "type": "graph",
+  "title": "Carnot Cycle P-V Diagram",
+  "description": "A Pressure-Volume (P-V) diagram graph showing the four stages of the Carnot cycle: Isothermal Expansion (1-2), Adiabatic Expansion (2-3), Isothermal Compression (3-4), and Adiabatic Compression (4-1).",
+  "category": "Thermodynamics",
+  "aliases": [
+    "carnot cycle",
+    "carnot pv diagram",
+    "isothermal expansion",
+    "adiabatic expansion",
+    "carnot heat engine",
+    "Carnot Cycle P-V Indicator Diagram (Sem III - Thermodynamics)",
+    "Carnot Cycle P-V Indicator Diagram",
+    "Thermodynamics"
+  ],
+  "viewBox": { "width": 640, "height": 480 },
+
+  "theory": "The Carnot Cycle is a theoretical thermodynamic cycle proposed by French physicist Nicolas Léonard Sadi Carnot in 1824. It establishes the upper limit on the efficiency that any classical thermodynamic engine can achieve during the conversion of heat into work, operating between two temperatures: a hot reservoir (Th) and a cold reservoir (Tc). The cycle is executed by a working substance (such as an ideal gas) within a cylinder equipped with a frictionless piston.\n\nThe cycle is composed of four fully reversible processes:\n1. Process 1-2: Reversible Isothermal Expansion. The cylinder is in contact with the hot reservoir at Th. The gas expands, absorbing heat Q_in while maintaining a constant temperature Th.\n2. Process 2-3: Reversible Adiabatic Expansion. The cylinder is thermally insulated. The gas continues to expand, doing work on the surroundings, which causes its temperature to drop from Th to Tc.\n3. Process 3-4: Reversible Isothermal Compression. The cylinder is placed in contact with the cold reservoir at Tc. The gas is compressed, releasing heat Q_out to the reservoir while remaining at Tc.\n4. Process 4-1: Reversible Adiabatic Compression. The cylinder is insulated again. The gas is compressed further, raising its temperature back from Tc to Th, completing the cycle.\n\nThe work done by the cycle is represented by the area enclosed by the curves on the P-V diagram. The Carnot efficiency depends solely on the absolute temperatures of the hot and cold reservoirs, given by the formula: eta = 1 - (Tc / Th).",
+
+  "keyPoints": [
+    "Represents the maximum theoretical efficiency limit for any heat engine operating between Th and Tc.",
+    "Composed of four sequential, fully reversible processes: two isothermal and two adiabatic.",
+    "Work output of the engine is represented by the area enclosed by the 1-2-3-4 loop on the P-V plane.",
+    "Isothermal processes happen at constant temperatures (Th and Tc), requiring heat exchange (Qin, Qout).",
+    "Adiabatic processes occur with no heat transfer (Q = 0), resulting in temperature changes.",
+    "Carnot efficiency (eta = 1 - Tc/Th) is independent of the working substance (ideal gas, steam, etc.)."
+  ],
+
+  "examTip": "In a P-V diagram, adiabatic curves are steeper than isothermal curves because the pressure drops more rapidly when heat is not supplied. Be sure to use absolute temperatures in Kelvin (K) when calculating Carnot efficiency: eta = 1 - Tc / Th.",
+
+  "useCases": [
+    "Establishing thermodynamic benchmarks and performance limits for internal combustion engines.",
+    "Evaluating thermal efficiency standards for steam turbine power generation plants.",
+    "Designing and optimizing refrigeration and heat pump systems (reverse Carnot cycle).",
+    "Teaching foundational concepts of thermodynamics, entropy, and the Second Law in physics.",
+    "Assessing maximum theoretical performance parameters for advanced geothermal energy systems."
+  ],
+
+  "nodes": [
+    {
+      "id": "State_1",
+      "label": "1",
+      "x": 180,
+      "y": 100,
+      "r": 15,
+      "color": "#ef4444",
+      "borderColor": "#b91c1c",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "State_2",
+      "label": "2",
+      "x": 360,
+      "y": 150,
+      "r": 15,
+      "color": "#f59e0b",
+      "borderColor": "#d97706",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "State_3",
+      "label": "3",
+      "x": 480,
+      "y": 320,
+      "r": 15,
+      "color": "#3b82f6",
+      "borderColor": "#1d4ed8",
+      "textColor": "#ffffff"
+    },
+    {
+      "id": "State_4",
+      "label": "4",
+      "x": 240,
+      "y": 270,
+      "r": 15,
+      "color": "#10b981",
+      "borderColor": "#047857",
+      "textColor": "#ffffff"
+    }
+  ],
+
+  "edges": [
+    {
+      "from": "State_1",
+      "to": "State_2",
+      "label": "1-2 Isothermal Expansion (Q_in at Th)"
+    },
+    {
+      "from": "State_2",
+      "to": "State_3",
+      "label": "2-3 Adiabatic Expansion (Th to Tc)"
+    },
+    {
+      "from": "State_3",
+      "to": "State_4",
+      "label": "3-4 Isothermal Compression (Q_out at Tc)"
+    },
+    {
+      "from": "State_4",
+      "to": "State_1",
+      "label": "4-1 Adiabatic Compression (Tc to Th)"
+    }
+  ]
+}
