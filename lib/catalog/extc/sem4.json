@@ -28,27 +28,122 @@
     ],
     "schema_template": {
       "type": "circuit-schematic",
-      "viewBox": { "width": 500, "height": 300 },
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
       "components": [
-        { "id": "vin", "type": "ac-source", "label": "Vin", "x": 80, "y": 180 },
-        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 120 },
-        { "id": "op", "type": "op-amp", "label": "IC 741", "x": 280, "y": 150 },
-        { "id": "rf", "type": "resistor", "label": "Rf", "x": 280, "y": 60 },
-        { "id": "gnd", "type": "ground", "x": 240, "y": 210 }
+        {
+          "id": "vin",
+          "type": "ac-source",
+          "label": "Vin",
+          "x": 80,
+          "y": 180
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 120
+        },
+        {
+          "id": "op",
+          "type": "op-amp",
+          "label": "IC 741",
+          "x": 280,
+          "y": 150
+        },
+        {
+          "id": "rf",
+          "type": "resistor",
+          "label": "Rf",
+          "x": 280,
+          "y": 60
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 240,
+          "y": 210
+        }
       ],
       "wires": [
-        { "from": "vin", "to": "r1", "points": [ { "x": 80, "y": 120 } ] },
-        { "from": "r1", "to": "op", "points": [] },
-        { "from": "op", "to": "rf", "points": [ { "x": 240, "y": 120 }, { "x": 240, "y": 60 } ] },
-        { "from": "rf", "to": "op", "points": [ { "x": 340, "y": 60 }, { "x": 340, "y": 150 } ] },
-        { "from": "op", "to": "gnd", "points": [] },
-        { "from": "op", "to": "vout", "points": [ { "x": 420, "y": 150 } ] }
+        {
+          "from": "vin",
+          "to": "r1",
+          "points": [
+            {
+              "x": 80,
+              "y": 120
+            }
+          ]
+        },
+        {
+          "from": "r1",
+          "to": "op",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "rf",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 240,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "rf",
+          "to": "op",
+          "points": [
+            {
+              "x": 340,
+              "y": 60
+            },
+            {
+              "x": 340,
+              "y": 150
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "gnd",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "vout",
+          "points": [
+            {
+              "x": 420,
+              "y": 150
+            }
+          ]
+        }
       ],
       "junctions": [
-        { "x": 240, "y": 120 },
-        { "x": 340, "y": 150 }
+        {
+          "x": 240,
+          "y": 120
+        },
+        {
+          "x": 340,
+          "y": 150
+        }
       ]
-    }
+    },
+    "aliases": [
+      "inverting amplifier",
+      "opamp inverting circuit",
+      "inverting opamp"
+    ]
   },
   {
     "id": "opamp-noninverting",
@@ -79,26 +174,122 @@
     ],
     "schema_template": {
       "type": "circuit-schematic",
-      "viewBox": { "width": 500, "height": 300 },
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
       "components": [
-        { "id": "vin", "type": "ac-source", "label": "Vin", "x": 80, "y": 150 },
-        { "id": "op", "type": "op-amp", "label": "IC 741", "x": 280, "y": 150 },
-        { "id": "r1", "type": "resistor", "label": "R1", "x": 180, "y": 240, "rotation": 90 },
-        { "id": "rf", "type": "resistor", "label": "Rf", "x": 280, "y": 60 },
-        { "id": "gnd", "type": "ground", "x": 180, "y": 280 }
+        {
+          "id": "vin",
+          "type": "ac-source",
+          "label": "Vin",
+          "x": 80,
+          "y": 150
+        },
+        {
+          "id": "op",
+          "type": "op-amp",
+          "label": "IC 741",
+          "x": 280,
+          "y": 150
+        },
+        {
+          "id": "r1",
+          "type": "resistor",
+          "label": "R1",
+          "x": 180,
+          "y": 240,
+          "rotation": 90
+        },
+        {
+          "id": "rf",
+          "type": "resistor",
+          "label": "Rf",
+          "x": 280,
+          "y": 60
+        },
+        {
+          "id": "gnd",
+          "type": "ground",
+          "x": 180,
+          "y": 280
+        }
       ],
       "wires": [
-        { "from": "vin", "to": "op", "points": [] },
-        { "from": "op", "to": "r1", "points": [ { "x": 240, "y": 120 }, { "x": 180, "y": 120 } ] },
-        { "from": "op", "to": "rf", "points": [ { "x": 240, "y": 120 }, { "x": 240, "y": 60 } ] },
-        { "from": "rf", "to": "op", "points": [ { "x": 340, "y": 60 }, { "x": 340, "y": 150 } ] },
-        { "from": "op", "to": "vout", "points": [ { "x": 420, "y": 150 } ] }
+        {
+          "from": "vin",
+          "to": "op",
+          "points": []
+        },
+        {
+          "from": "op",
+          "to": "r1",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 180,
+              "y": 120
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "rf",
+          "points": [
+            {
+              "x": 240,
+              "y": 120
+            },
+            {
+              "x": 240,
+              "y": 60
+            }
+          ]
+        },
+        {
+          "from": "rf",
+          "to": "op",
+          "points": [
+            {
+              "x": 340,
+              "y": 60
+            },
+            {
+              "x": 340,
+              "y": 150
+            }
+          ]
+        },
+        {
+          "from": "op",
+          "to": "vout",
+          "points": [
+            {
+              "x": 420,
+              "y": 150
+            }
+          ]
+        }
       ],
       "junctions": [
-        { "x": 240, "y": 120 },
-        { "x": 340, "y": 150 }
+        {
+          "x": 240,
+          "y": 120
+        },
+        {
+          "x": 340,
+          "y": 150
+        }
       ]
-    }
+    },
+    "aliases": [
+      "noninverting amplifier",
+      "opamp noninverting circuit",
+      "non-inverting opamp"
+    ]
   },
   {
     "id": "opamp-instrumentation",

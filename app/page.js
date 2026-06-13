@@ -18,6 +18,7 @@ import {
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { Tabs } from '@/components/ui/Tabs'
+import SyllabusBrowser from '@/components/ui/SyllabusBrowser'
 
 // Dynamically import DiagramRenderer (uses browser APIs)
 const DiagramRenderer = dynamic(
@@ -78,6 +79,26 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const [department, setDepartment] = useState('')
+  const [semester, setSemester] = useState('')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setDepartment(localStorage.getItem('mu-selected-dept') || '')
+      setSemester(localStorage.getItem('mu-selected-sem') || '')
+    }
+  }, [])
+
+  const handleDeptChange = (val) => {
+    setDepartment(val)
+    localStorage.setItem('mu-selected-dept', val)
+  }
+
+  const handleSemChange = (val) => {
+    setSemester(val)
+    localStorage.setItem('mu-selected-sem', val)
+  }
+
   // ── Animate loading steps ──────────────────────────────────────────────────
   const startLoadingAnimation = useCallback(() => {
     setLoadStep(0)
@@ -102,10 +123,14 @@ export default function HomePage() {
     setLastPrompt(p)
     startLoadingAnimation()
     setVerificationStatus('idle')
-    const result = await generate(p, options)
+    const result = await generate(p, {
+      department,
+      semester,
+      ...options
+    })
     if (result) addToHistory(p, result)
     clearInterval(stepTimerRef.current)
-  }, [prompt, generate, addToHistory, startLoadingAnimation])
+  }, [prompt, generate, addToHistory, startLoadingAnimation, department, semester])
 
   const handleRequestVerification = useCallback(async () => {
     setVerificationStatus('loading')
@@ -192,20 +217,48 @@ export default function HomePage() {
       {/* ── Header ──────────────────────────────────────────────────────────── */}
       <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-shrink-0">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'var(--brand)' }}>
               <Network className="w-4 h-4 text-white" />
             </div>
             <span className="font-semibold text-gray-900 tracking-tight">DiagramAI</span>
             <Badge variant="brand">beta</Badge>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-400 font-mono">
-            <span className="hidden sm:inline">Powered by</span>
-            <span className="font-medium text-gray-600">Groq</span>
-            <span>·</span>
-            <span className="font-medium text-gray-600">SVGEngine</span>
-            <span>·</span>
-            <span className="font-medium text-gray-600">Mermaid.js</span>
+          <div className="flex items-center gap-2">
+            <select
+              value={department}
+              onChange={e => handleDeptChange(e.target.value)}
+              className="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg px-2 py-1 outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]/10"
+            >
+              <option value="">All Departments</option>
+              <option value="fe">FE (First Year)</option>
+              <option value="cmpn">CMPN (Computer)</option>
+              <option value="it">IT (Information Tech)</option>
+              <option value="extc">EXTC (Electronics)</option>
+              <option value="electrical">Electrical</option>
+              <option value="mechanical">Mechanical</option>
+            </select>
+            <select
+              value={semester}
+              onChange={e => handleSemChange(e.target.value)}
+              className="bg-gray-50 border border-gray-200 text-gray-700 text-xs rounded-lg px-2 py-1 outline-none focus:border-[var(--brand)] focus:ring-1 focus:ring-[var(--brand)]/10"
+            >
+              <option value="">All Semesters</option>
+              <option value="sem1">Sem I</option>
+              <option value="sem2">Sem II</option>
+              <option value="sem3">Sem III</option>
+              <option value="sem4">Sem IV</option>
+              <option value="sem5">Sem V</option>
+              <option value="sem6">Sem VI</option>
+              <option value="sem7">Sem VII</option>
+              <option value="sem8">Sem VIII</option>
+            </select>
+            <div className="hidden md:flex items-center gap-2 text-xs text-gray-400 font-mono ml-1.5">
+              <span>·</span>
+              <span className="font-medium text-gray-600">Groq</span>
+              <span>·</span>
+              <span className="font-medium text-gray-600">SVGEngine</span>
+            </div>
           </div>
         </div>
       </header>
@@ -468,6 +521,23 @@ export default function HomePage() {
               </div>
             )}
 
+            {/* ── Assumed Values Alert ────────────────────────────────────────── */}
+            {data.assumedValues && data.assumedValues.length > 0 && (
+              <div className="mx-5 mt-4 mb-0 flex gap-2.5 items-start bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 animate-fade-in">
+                <Lightbulb className="w-4 h-4 text-blue-500 shrink-0 mt-0.5 animate-pulse" />
+                <div>
+                  <p className="text-xs font-bold text-blue-700 mb-0.5 uppercase tracking-wide">Assumed Textbook Parameters</p>
+                  <ul className="list-disc pl-4 space-y-0.5">
+                    {data.assumedValues.map((val, idx) => (
+                      <li key={idx} className="text-xs text-blue-700 leading-relaxed">
+                        {val}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
             {/* Tabs */}
             <Tabs tabs={RESULT_TABS} defaultTab="diagram">
               {(tabId) => {
@@ -489,8 +559,8 @@ export default function HomePage() {
 
                 if (tabId === 'theory') return (
                   <div className="p-5 space-y-5">
-                    {/* Theory text */}
-                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">{data.theory}</p>
+                    {/* Theory text — rendered as formatted markdown */}
+                    <TheoryRenderer content={data.theory} />
 
                     {/* Key Points */}
                     {data.key_points?.length > 0 && (
@@ -643,6 +713,16 @@ export default function HomePage() {
             })}
           </div>
         )}
+
+        {/* ── Syllabus Browser ─────────────────────────────────────────────────── */}
+        {status !== 'loading' && (
+          <SyllabusBrowser
+            onSelectDiagram={(title) => {
+              setPrompt(title)
+              handleGenerate(title)
+            }}
+          />
+        )}
       </main>
     </div>
   )
@@ -656,4 +736,98 @@ function MetaPill({ icon: Icon, label, className = '' }) {
       {label}
     </span>
   )
+}
+
+// ─── Lightweight Markdown Renderer ────────────────────────────────────────────
+// Renders: ### h3, #### h4, **bold**, * bullet lists, $formula$ inline
+function TheoryRenderer({ content }) {
+  if (!content) return null
+
+  // Render inline fragments: **bold** and $formula$
+  function renderInline(text) {
+    const parts = []
+    // Split on **bold** or $formula$
+    const regex = /(\*\*(.+?)\*\*|\$([^$]+)\$)/g
+    let last = 0
+    let m
+    let key = 0
+    while ((m = regex.exec(text)) !== null) {
+      if (m.index > last) parts.push(<span key={key++}>{text.slice(last, m.index)}</span>)
+      if (m[0].startsWith('**')) {
+        parts.push(<strong key={key++} className="font-semibold text-gray-800">{m[2]}</strong>)
+      } else {
+        // $formula$ — display inline in monospace
+        parts.push(
+          <code key={key++} className="font-mono text-[11px] bg-gray-100 text-violet-700 px-1.5 py-0.5 rounded mx-0.5">{m[3]}</code>
+        )
+      }
+      last = m.index + m[0].length
+    }
+    if (last < text.length) parts.push(<span key={key++}>{text.slice(last)}</span>)
+    return parts
+  }
+
+  const lines = content.split('\n')
+  const elements = []
+  let bulletBuffer = []
+  let elKey = 0
+
+  function flushBullets() {
+    if (bulletBuffer.length === 0) return
+    elements.push(
+      <ul key={elKey++} className="list-none space-y-1.5 ml-1 my-1">
+        {bulletBuffer.map((item, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-gray-600 leading-relaxed">
+            <span className="w-1.5 h-1.5 rounded-full mt-2 shrink-0 bg-violet-400" />
+            <span>{renderInline(item)}</span>
+          </li>
+        ))}
+      </ul>
+    )
+    bulletBuffer = []
+  }
+
+  for (const raw of lines) {
+    const line = raw.trimEnd()
+
+    // h4: #### …
+    if (line.startsWith('#### ')) {
+      flushBullets()
+      elements.push(
+        <h4 key={elKey++} className="text-sm font-bold text-gray-800 mt-4 mb-1">
+          {renderInline(line.slice(5))}
+        </h4>
+      )
+    }
+    // h3: ### …
+    else if (line.startsWith('### ')) {
+      flushBullets()
+      elements.push(
+        <h3 key={elKey++} className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-5 mb-2 border-t border-gray-100 pt-3">
+          {renderInline(line.slice(4))}
+        </h3>
+      )
+    }
+    // bullet: * … or - …
+    else if (/^[*\-] /.test(line)) {
+      bulletBuffer.push(line.slice(2).trim())
+    }
+    // blank line
+    else if (line.trim() === '') {
+      flushBullets()
+      elements.push(<div key={elKey++} className="h-1" />)
+    }
+    // plain paragraph
+    else {
+      flushBullets()
+      elements.push(
+        <p key={elKey++} className="text-sm text-gray-600 leading-relaxed">
+          {renderInline(line)}
+        </p>
+      )
+    }
+  }
+  flushBullets()
+
+  return <div className="space-y-0.5">{elements}</div>
 }

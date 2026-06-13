@@ -155,7 +155,12 @@
           "y": 260
         }
       ]
-    }
+    },
+    "aliases": [
+      "superposition theorem",
+      "superposition numerical",
+      "superposition circuit"
+    ]
   },
   {
     "id": "thevenins-theorem-circuit",
@@ -253,7 +258,13 @@
         }
       ],
       "junctions": []
-    }
+    },
+    "aliases": [
+      "thevenin theorem",
+      "thevenin numerical",
+      "thevenin circuit",
+      "thevenins theorem equivalent"
+    ]
   },
   {
     "id": "transformer-equivalent-circuit",
@@ -877,6 +888,12 @@
       "Three-phase power system analysis (Δ↔Y load conversion)",
       "Simplifying bridge circuit networks (Wheatstone bridge)",
       "AC circuit analysis where series-parallel rules don't apply"
+    ],
+    "aliases": [
+      "star delta",
+      "star to delta",
+      "delta to star",
+      "star delta conversion numerical"
     ]
   },
   {
@@ -905,6 +922,12 @@
       "Simplifying power supply circuits with multiple sources",
       "Analyzing maximum power transfer conditions",
       "Quick analysis of different load values in a complex network"
+    ],
+    "aliases": [
+      "nortons theorem",
+      "norton numerical",
+      "norton circuit",
+      "nortons equivalent"
     ]
   },
   {
@@ -933,6 +956,11 @@
       "Simplifying circuits with multiple independent sources",
       "Converting between Norton and Thevenin equivalents",
       "Reducing complex networks before applying superposition"
+    ],
+    "aliases": [
+      "source transformation",
+      "source conversion",
+      "source equivalence"
     ]
   },
   {
@@ -961,6 +989,11 @@
       "Fixed voltage reference in power supplies",
       "Overvoltage protection circuits",
       "Low-power voltage regulation for ICs and sensors"
+    ],
+    "aliases": [
+      "zener diode regulator",
+      "zener regulator circuit",
+      "zener shunt regulator"
     ]
   },
   {
@@ -1045,6 +1078,11 @@
       "AC motor windings and transformer analysis",
       "Power system impedance calculations",
       "Filter design using RL networks"
+    ],
+    "aliases": [
+      "series rl circuit",
+      "rl series circuit",
+      "series rl ac"
     ]
   },
   {
@@ -1073,6 +1111,11 @@
       "AM radio receiver tuning circuits",
       "Bandpass and bandstop filters",
       "Power factor correction in AC circuits"
+    ],
+    "aliases": [
+      "series rlc resonance",
+      "rlc series resonance",
+      "series resonance"
     ]
   },
   {
@@ -1353,6 +1396,11 @@
       "Battery-powered electronics like flashlights and portable devices.",
       "Automotive electrical systems (typically 12V DC).",
       "Solar photovoltaic power generation systems."
+    ],
+    "aliases": [
+      "dc circuit",
+      "dc circuit numerical",
+      "simple dc circuit"
     ]
   },
   {
@@ -1381,6 +1429,11 @@
       "Radio receivers and television tuning circuits.",
       "Frequency filters (low-pass, high-pass, band-pass, band-stop).",
       "AC power transmission and distribution systems."
+    ],
+    "aliases": [
+      "ac circuit",
+      "ac circuit numerical",
+      "ac series circuit"
     ]
   }
 ]

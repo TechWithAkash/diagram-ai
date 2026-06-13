@@ -590,6 +590,11 @@
         }
       ]
     },
+    "aliases": [
+      "siso shift register",
+      "4 bit shift register",
+      "serial in serial out"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester III",
     "isStub": false
@@ -621,6 +626,11 @@
       "Generating non-overlapping clock phases for sequencing operations in control units.",
       "State sequencers in synchronous finite state machines.",
       "Round-robin scheduling hardware in digital control systems."
+    ],
+    "aliases": [
+      "ring counter diagram",
+      "4 bit ring counter",
+      "shift register counter"
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester III",
@@ -674,6 +684,11 @@
       }
     ],
     "sideLabel": "Data Abstraction: High (Views) ➔ Medium (Tables) ➔ Low (Disk)",
+    "aliases": [
+      "three schema architecture",
+      "ansi-sparc architecture",
+      "three level database architecture"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester IV",
     "isStub": true
@@ -1884,6 +1899,11 @@
         }
       ]
     },
+    "aliases": [
+      "transaction state diagram",
+      "transaction states",
+      "acid transaction states"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester IV",
     "isStub": false
@@ -1916,6 +1936,11 @@
       "Primary and secondary indexing in relational database management systems.",
       "File system directory indexing (e.g., NTFS directory index).",
       "Efficient range-query processing in data warehouses and OLAP systems."
+    ],
+    "aliases": [
+      "b+ tree diagram",
+      "b plus tree structure",
+      "indexing b+ tree"
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester IV",
@@ -1995,6 +2020,14 @@
       }
     ],
     "sideLabel": "Data Encapsulation: Data ➔ Segment ➔ Packet ➔ Frame ➔ Bits",
+    "aliases": [
+      "osi layers",
+      "osi 7 layers",
+      "seven layer model",
+      "protocol stack",
+      "network layers",
+      "open systems interconnection"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": true
@@ -2077,6 +2110,12 @@
       ],
       "title": "TCP Three-Way Handshake Connection Protocol"
     },
+    "aliases": [
+      "tcp three way handshake",
+      "three way handshake",
+      "connection establishment",
+      "syn syn-ack ack"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": false
@@ -2269,6 +2308,13 @@
       "Corporate LANs and WANs — TCP/IP is the universal standard for modern networking",
       "IoT devices — embedded devices use TCP/IP (especially UDP) for lightweight communication"
     ],
+    "aliases": [
+      "tcp ip layers",
+      "tcp ip stack",
+      "4 layer model",
+      "5 layer model",
+      "internet protocol suite"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": true
@@ -2301,6 +2347,12 @@
       "Web browsing — every URL typed in a browser triggers DNS resolution to find the server's IP address",
       "Email routing — DNS MX records direct email to the correct mail server for a domain",
       "Load balancing and failover — multiple A records or low-TTL DNS enables traffic distribution and rapid failover to backup servers"
+    ],
+    "aliases": [
+      "dns query",
+      "domain name system resolution",
+      "how dns works",
+      "dns lookup"
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
@@ -2335,6 +2387,11 @@
       "Default gateway resolution — end devices use ARP to find the MAC address of their router/gateway",
       "Network troubleshooting — ARP table inspection (`arp -a`) helps diagnose Layer 2 connectivity issues and detect ARP spoofing attacks"
     ],
+    "aliases": [
+      "address resolution protocol",
+      "arp request reply",
+      "how arp works"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": true
@@ -2368,6 +2425,11 @@
       "Understanding IEEE 802.3 standard — CSMA/CD is the foundational MAC mechanism for all Ethernet history",
       "Comparing wireless vs wired access methods — CSMA/CA (WiFi) vs CSMA/CD (Ethernet) is a common exam topic"
     ],
+    "aliases": [
+      "carrier sense multiple access collision detection",
+      "csma cd flow chart",
+      "collision detection"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": true
@@ -2400,6 +2462,11 @@
       "LAN communication — every data exchange on Ethernet uses this frame structure at the Data Link layer",
       "Network protocol analysis — tools like Wireshark dissect Ethernet frames to show each field for troubleshooting",
       "Switch operation — switches read Destination MAC from frames to make forwarding decisions via CAM table lookup"
+    ],
+    "aliases": [
+      "ethernet frame format",
+      "ethernet header",
+      "ieee 802.3 frame"
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
@@ -2437,6 +2504,11 @@
       "Quality of Service (QoS): Switched networks prioritize voice, video, or data traffic based on the DSCP bits.",
       "Loop Prevention: The TTL field ensures lost packets don't circulate forever, saving network bandwidth."
     ],
+    "aliases": [
+      "ipv4 packet format",
+      "ip header",
+      "ipv4 packet structure"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
     "isStub": true
@@ -2468,6 +2540,11 @@
     "use_cases": [
       "Automatic IP assignment in enterprise LANs, home Wi-Fi networks, and public hotspots.",
       "Simplifying network administration by centralizing IP address management (preventing IP conflicts)."
+    ],
+    "aliases": [
+      "dhcp dora process",
+      "dora handshake",
+      "dhcp lease process"
     ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester V",
@@ -2707,6 +2784,11 @@
       "Analyzing feedback amplifier circuits in electronics.",
       "Modeling state equations for dynamic systems in modern control theory."
     ],
+    "aliases": [
+      "signal flow graph",
+      "sfg control systems",
+      "masons gain formula"
+    ],
     "isStub": true
   },
   {
@@ -2738,6 +2820,11 @@
       "Digital signal processing — spectrum analysis and digital filtering.",
       "OFDM modulation/demodulation in 4G/5G wireless communications.",
       "Audio and image compression algorithms (FFT-based)."
+    ],
+    "aliases": [
+      "dif fft butterfly",
+      "butterfly diagram dif",
+      "fft butterfly 8 point"
     ],
     "isStub": true
   },
@@ -3243,6 +3330,11 @@
         "color": "#ECFDF5"
       }
     ],
+    "aliases": [
+      "phases of compiler",
+      "compiler structure",
+      "analysis synthesis model"
+    ],
     "department": "Computer Engineering (CMPN)",
     "semester": "Semester VI",
     "isStub": true
@@ -3308,6 +3400,11 @@
       "Lexical analysis (tokenization) in compiler front-ends.",
       "Pattern matching and regular expression evaluation.",
       "Network protocol state machines and traffic filtering."
+    ],
+    "aliases": [
+      "dfa diagram",
+      "dfa state machine",
+      "finite automata dfa"
     ],
     "isStub": true
   },
@@ -4079,6 +4176,11 @@
         }
       ]
     },
+    "aliases": [
+      "inverting amplifier",
+      "opamp inverting circuit",
+      "inverting opamp"
+    ],
     "department": "Electronics & EXTC",
     "semester": "Semester IV",
     "isStub": false
@@ -4223,6 +4325,11 @@
         }
       ]
     },
+    "aliases": [
+      "noninverting amplifier",
+      "opamp noninverting circuit",
+      "non-inverting opamp"
+    ],
     "department": "Electronics & EXTC",
     "semester": "Semester IV",
     "isStub": false
@@ -4592,6 +4699,11 @@
         }
       ]
     },
+    "aliases": [
+      "superposition theorem",
+      "superposition numerical",
+      "superposition circuit"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": false
@@ -4693,6 +4805,12 @@
       ],
       "junctions": []
     },
+    "aliases": [
+      "thevenin theorem",
+      "thevenin numerical",
+      "thevenin circuit",
+      "thevenins theorem equivalent"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": false
@@ -5332,6 +5450,12 @@
       "Simplifying bridge circuit networks (Wheatstone bridge)",
       "AC circuit analysis where series-parallel rules don't apply"
     ],
+    "aliases": [
+      "star delta",
+      "star to delta",
+      "delta to star",
+      "star delta conversion numerical"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": true
@@ -5362,6 +5486,12 @@
       "Simplifying power supply circuits with multiple sources",
       "Analyzing maximum power transfer conditions",
       "Quick analysis of different load values in a complex network"
+    ],
+    "aliases": [
+      "nortons theorem",
+      "norton numerical",
+      "norton circuit",
+      "nortons equivalent"
     ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
@@ -5394,6 +5524,11 @@
       "Converting between Norton and Thevenin equivalents",
       "Reducing complex networks before applying superposition"
     ],
+    "aliases": [
+      "source transformation",
+      "source conversion",
+      "source equivalence"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": true
@@ -5424,6 +5559,11 @@
       "Fixed voltage reference in power supplies",
       "Overvoltage protection circuits",
       "Low-power voltage regulation for ICs and sensors"
+    ],
+    "aliases": [
+      "zener diode regulator",
+      "zener regulator circuit",
+      "zener shunt regulator"
     ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
@@ -5518,6 +5658,11 @@
       "Power system impedance calculations",
       "Filter design using RL networks"
     ],
+    "aliases": [
+      "series rl circuit",
+      "rl series circuit",
+      "series rl ac"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": true
@@ -5548,6 +5693,11 @@
       "AM radio receiver tuning circuits",
       "Bandpass and bandstop filters",
       "Power factor correction in AC circuits"
+    ],
+    "aliases": [
+      "series rlc resonance",
+      "rlc series resonance",
+      "series resonance"
     ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
@@ -5859,6 +6009,11 @@
       "Automotive electrical systems (typically 12V DC).",
       "Solar photovoltaic power generation systems."
     ],
+    "aliases": [
+      "dc circuit",
+      "dc circuit numerical",
+      "simple dc circuit"
+    ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",
     "isStub": true
@@ -5889,6 +6044,11 @@
       "Radio receivers and television tuning circuits.",
       "Frequency filters (low-pass, high-pass, band-pass, band-stop).",
       "AC power transmission and distribution systems."
+    ],
+    "aliases": [
+      "ac circuit",
+      "ac circuit numerical",
+      "ac series circuit"
     ],
     "department": "First Year Engineering (FE)",
     "semester": "Semester I",

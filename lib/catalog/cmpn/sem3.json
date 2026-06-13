@@ -28,23 +28,79 @@
     ],
     "schema_template": {
       "type": "tree",
-      "viewBox": { "width": 500, "height": 300 },
+      "viewBox": {
+        "width": 500,
+        "height": 300
+      },
       "nodes": [
-        { "id": "50", "label": "50", "x": 250, "y": 50 },
-        { "id": "25", "label": "25", "x": 150, "y": 120 },
-        { "id": "75", "label": "75", "x": 350, "y": 120 },
-        { "id": "10", "label": "10", "x": 100, "y": 190 },
-        { "id": "35", "label": "35", "x": 200, "y": 190 },
-        { "id": "60", "label": "60", "x": 300, "y": 190 },
-        { "id": "90", "label": "90", "x": 400, "y": 190 }
+        {
+          "id": "50",
+          "label": "50",
+          "x": 250,
+          "y": 50
+        },
+        {
+          "id": "25",
+          "label": "25",
+          "x": 150,
+          "y": 120
+        },
+        {
+          "id": "75",
+          "label": "75",
+          "x": 350,
+          "y": 120
+        },
+        {
+          "id": "10",
+          "label": "10",
+          "x": 100,
+          "y": 190
+        },
+        {
+          "id": "35",
+          "label": "35",
+          "x": 200,
+          "y": 190
+        },
+        {
+          "id": "60",
+          "label": "60",
+          "x": 300,
+          "y": 190
+        },
+        {
+          "id": "90",
+          "label": "90",
+          "x": 400,
+          "y": 190
+        }
       ],
       "connections": [
-        { "from": "50", "to": "25" },
-        { "from": "50", "to": "75" },
-        { "from": "25", "to": "10" },
-        { "from": "25", "to": "35" },
-        { "from": "75", "to": "60" },
-        { "from": "75", "to": "90" }
+        {
+          "from": "50",
+          "to": "25"
+        },
+        {
+          "from": "50",
+          "to": "75"
+        },
+        {
+          "from": "25",
+          "to": "10"
+        },
+        {
+          "from": "25",
+          "to": "35"
+        },
+        {
+          "from": "75",
+          "to": "60"
+        },
+        {
+          "from": "75",
+          "to": "90"
+        }
       ]
     }
   },
@@ -77,21 +133,69 @@
     ],
     "schema_template": {
       "type": "graph",
-      "viewBox": { "width": 400, "height": 300 },
+      "viewBox": {
+        "width": 400,
+        "height": 300
+      },
       "nodes": [
-        { "id": "n2", "label": "2", "x": 120, "y": 240 },
-        { "id": "n3", "label": "3", "x": 280, "y": 240 },
-        { "id": "n6", "label": "6", "x": 200, "y": 170 },
-        { "id": "n12", "label": "12", "x": 200, "y": 100 },
-        { "id": "n24", "label": "24", "x": 120, "y": 40 },
-        { "id": "n36", "label": "36", "x": 280, "y": 40 }
+        {
+          "id": "n2",
+          "label": "2",
+          "x": 120,
+          "y": 240
+        },
+        {
+          "id": "n3",
+          "label": "3",
+          "x": 280,
+          "y": 240
+        },
+        {
+          "id": "n6",
+          "label": "6",
+          "x": 200,
+          "y": 170
+        },
+        {
+          "id": "n12",
+          "label": "12",
+          "x": 200,
+          "y": 100
+        },
+        {
+          "id": "n24",
+          "label": "24",
+          "x": 120,
+          "y": 40
+        },
+        {
+          "id": "n36",
+          "label": "36",
+          "x": 280,
+          "y": 40
+        }
       ],
       "connections": [
-        { "from": "n2", "to": "n6" },
-        { "from": "n3", "to": "n6" },
-        { "from": "n6", "to": "n12" },
-        { "from": "n12", "to": "n24" },
-        { "from": "n12", "to": "n36" }
+        {
+          "from": "n2",
+          "to": "n6"
+        },
+        {
+          "from": "n3",
+          "to": "n6"
+        },
+        {
+          "from": "n6",
+          "to": "n12"
+        },
+        {
+          "from": "n12",
+          "to": "n24"
+        },
+        {
+          "from": "n12",
+          "to": "n36"
+        }
       ]
     }
   },
@@ -124,57 +228,135 @@
     ],
     "schema_template": {
       "type": "block-diagram",
-      "viewBox": { "width": 550, "height": 300 },
+      "viewBox": {
+        "width": 550,
+        "height": 300
+      },
       "blocks": [
         {
           "id": "t-input",
           "label": "T (Input)",
-          "x": 40, "y": 110, "width": 80, "height": 40,
-          "color": "#F0FDF4", "borderColor": "#16A34A",
+          "x": 40,
+          "y": 110,
+          "width": 80,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
           "sublabels": []
         },
         {
           "id": "clk-input",
           "label": "CLK",
-          "x": 40, "y": 200, "width": 80, "height": 40,
-          "color": "#F0FDF4", "borderColor": "#16A34A",
+          "x": 40,
+          "y": 200,
+          "width": 80,
+          "height": 40,
+          "color": "#F0FDF4",
+          "borderColor": "#16A34A",
           "sublabels": []
         },
         {
           "id": "jkff-block",
           "label": "JK Flip-Flop",
-          "x": 240, "y": 60, "width": 140, "height": 180,
-          "color": "#EFF6FF", "borderColor": "#2563EB",
-          "sublabels": ["J = T", "K = T", "CLK (>)"]
+          "x": 240,
+          "y": 60,
+          "width": 140,
+          "height": 180,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "sublabels": [
+            "J = T",
+            "K = T",
+            "CLK (>)"
+          ]
         },
         {
           "id": "q-out",
           "label": "Q",
-          "x": 440, "y": 80, "width": 70, "height": 40,
-          "color": "#FDF4FF", "borderColor": "#9333EA",
+          "x": 440,
+          "y": 80,
+          "width": 70,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
           "sublabels": []
         },
         {
           "id": "qbar-out",
           "label": "Q̄",
-          "x": 440, "y": 180, "width": 70, "height": 40,
-          "color": "#FDF4FF", "borderColor": "#9333EA",
+          "x": 440,
+          "y": 180,
+          "width": 70,
+          "height": 40,
+          "color": "#FDF4FF",
+          "borderColor": "#9333EA",
           "sublabels": []
         },
         {
           "id": "equation-label",
           "label": "Equations: J = K = T",
-          "x": 60, "y": 260, "width": 430, "height": 28,
-          "color": "#FFE4E6", "borderColor": "#E11D48",
-          "sublabels": ["Q(next) = T·Q̄ + T̄·Q  (Hold if T = 0, Toggle if T = 1)"]
+          "x": 60,
+          "y": 260,
+          "width": 430,
+          "height": 28,
+          "color": "#FFE4E6",
+          "borderColor": "#E11D48",
+          "sublabels": [
+            "Q(next) = T·Q̄ + T̄·Q  (Hold if T = 0, Toggle if T = 1)"
+          ]
         }
       ],
       "connections": [
-        { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "J = T", "x1": 120, "y1": 130, "x2": 240, "y2": 90 },
-        { "from": "t-input", "to": "jkff-block", "type": "unidirectional", "label": "K = T", "x1": 120, "y1": 130, "x2": 240, "y2": 210 },
-        { "from": "clk-input", "to": "jkff-block", "type": "unidirectional", "label": "CLK", "x1": 120, "y1": 220, "x2": 240, "y2": 150 },
-        { "from": "jkff-block", "to": "q-out", "type": "unidirectional", "label": "Q", "x1": 380, "y1": 100, "x2": 440, "y2": 100 },
-        { "from": "jkff-block", "to": "qbar-out", "type": "unidirectional", "label": "Q̄", "x1": 380, "y1": 200, "x2": 440, "y2": 200 }
+        {
+          "from": "t-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "J = T",
+          "x1": 120,
+          "y1": 130,
+          "x2": 240,
+          "y2": 90
+        },
+        {
+          "from": "t-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "K = T",
+          "x1": 120,
+          "y1": 130,
+          "x2": 240,
+          "y2": 210
+        },
+        {
+          "from": "clk-input",
+          "to": "jkff-block",
+          "type": "unidirectional",
+          "label": "CLK",
+          "x1": 120,
+          "y1": 220,
+          "x2": 240,
+          "y2": 150
+        },
+        {
+          "from": "jkff-block",
+          "to": "q-out",
+          "type": "unidirectional",
+          "label": "Q",
+          "x1": 380,
+          "y1": 100,
+          "x2": 440,
+          "y2": 100
+        },
+        {
+          "from": "jkff-block",
+          "to": "qbar-out",
+          "type": "unidirectional",
+          "label": "Q̄",
+          "x1": 380,
+          "y1": 200,
+          "x2": 440,
+          "y2": 200
+        }
       ]
     }
   },
@@ -209,7 +391,10 @@
     ],
     "schema_template": {
       "type": "block-diagram",
-      "viewBox": { "width": 860, "height": 300 },
+      "viewBox": {
+        "width": 860,
+        "height": 300
+      },
       "blocks": [
         {
           "id": "serial-in",
@@ -231,7 +416,10 @@
           "height": 110,
           "color": "#EFF6FF",
           "borderColor": "#2563EB",
-          "sublabels": ["D-FF", "Stage 1"]
+          "sublabels": [
+            "D-FF",
+            "Stage 1"
+          ]
         },
         {
           "id": "ff1",
@@ -242,7 +430,10 @@
           "height": 110,
           "color": "#EFF6FF",
           "borderColor": "#2563EB",
-          "sublabels": ["D-FF", "Stage 2"]
+          "sublabels": [
+            "D-FF",
+            "Stage 2"
+          ]
         },
         {
           "id": "ff2",
@@ -253,7 +444,10 @@
           "height": 110,
           "color": "#EFF6FF",
           "borderColor": "#2563EB",
-          "sublabels": ["D-FF", "Stage 3"]
+          "sublabels": [
+            "D-FF",
+            "Stage 3"
+          ]
         },
         {
           "id": "ff3",
@@ -264,7 +458,10 @@
           "height": 110,
           "color": "#EFF6FF",
           "borderColor": "#2563EB",
-          "sublabels": ["D-FF", "Stage 4"]
+          "sublabels": [
+            "D-FF",
+            "Stage 4"
+          ]
         },
         {
           "id": "serial-out",
@@ -286,7 +483,9 @@
           "height": 40,
           "color": "#FFF7ED",
           "borderColor": "#EA580C",
-          "sublabels": ["Synchronous Input"]
+          "sublabels": [
+            "Synchronous Input"
+          ]
         }
       ],
       "connections": [
@@ -381,7 +580,12 @@
           "label": "CLK"
         }
       ]
-    }
+    },
+    "aliases": [
+      "siso shift register",
+      "4 bit shift register",
+      "serial in serial out"
+    ]
   },
   {
     "id": "ring-counter",
@@ -410,6 +614,11 @@
       "Generating non-overlapping clock phases for sequencing operations in control units.",
       "State sequencers in synchronous finite state machines.",
       "Round-robin scheduling hardware in digital control systems."
+    ],
+    "aliases": [
+      "ring counter diagram",
+      "4 bit ring counter",
+      "shift register counter"
     ]
   }
 ]

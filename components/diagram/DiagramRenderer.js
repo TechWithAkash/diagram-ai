@@ -715,7 +715,7 @@ export default function DiagramRenderer({
   lintErrors = [],
   className = ''
 }) {
-  const isLibrary = source === 'library';
+  const isLibrary = source === 'library' || source === 'programmatic-solver';
   const isStub = source === 'library-stub';
 
   // 1. Red Badge (Verification Failed)

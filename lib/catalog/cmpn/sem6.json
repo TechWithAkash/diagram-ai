@@ -27,12 +27,47 @@
       "Building syntax highlighters and code refactoring plugins."
     ],
     "phases": [
-      { "id": "p1", "label": "Lexical Analyzer", "desc": "Scans character input stream, generates token stream", "color": "#EFF6FF" },
-      { "id": "p2", "label": "Syntax Analyzer", "desc": "Constructs syntax tree checking grammar rules", "color": "#EFF6FF" },
-      { "id": "p3", "label": "Semantic Analyzer", "desc": "Performs type checking and semantic validation", "color": "#EFF6FF" },
-      { "id": "p4", "label": "Intermediate Code Generator", "desc": "Generates platform-independent three-address code", "color": "#F3E8FF" },
-      { "id": "p5", "label": "Code Optimizer", "desc": "Transforms code to improve speed and memory efficiency", "color": "#F3E8FF" },
-      { "id": "p6", "label": "Target Code Generator", "desc": "Produces final machine code or assembly language", "color": "#ECFDF5" }
+      {
+        "id": "p1",
+        "label": "Lexical Analyzer",
+        "desc": "Scans character input stream, generates token stream",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p2",
+        "label": "Syntax Analyzer",
+        "desc": "Constructs syntax tree checking grammar rules",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p3",
+        "label": "Semantic Analyzer",
+        "desc": "Performs type checking and semantic validation",
+        "color": "#EFF6FF"
+      },
+      {
+        "id": "p4",
+        "label": "Intermediate Code Generator",
+        "desc": "Generates platform-independent three-address code",
+        "color": "#F3E8FF"
+      },
+      {
+        "id": "p5",
+        "label": "Code Optimizer",
+        "desc": "Transforms code to improve speed and memory efficiency",
+        "color": "#F3E8FF"
+      },
+      {
+        "id": "p6",
+        "label": "Target Code Generator",
+        "desc": "Produces final machine code or assembly language",
+        "color": "#ECFDF5"
+      }
+    ],
+    "aliases": [
+      "phases of compiler",
+      "compiler structure",
+      "analysis synthesis model"
     ]
   },
   {
@@ -93,6 +128,11 @@
       "Lexical analysis (tokenization) in compiler front-ends.",
       "Pattern matching and regular expression evaluation.",
       "Network protocol state machines and traffic filtering."
+    ],
+    "aliases": [
+      "dfa diagram",
+      "dfa state machine",
+      "finite automata dfa"
     ]
   }
 ]

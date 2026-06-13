@@ -27,8 +27,31 @@ import {
   solveSeriesRlCircuit,
   solveSeriesRlcResonance,
   solveSuperposition,
-  solveThevenin
+  solveThevenin,
+  solveGeneralSeriesCircuit,
+  solveGeneralParallelCircuit,
+  solveStarConnection,
+  solveDeltaConnection,
+  solveSeriesParallelCircuit,
+  solveBridgeCircuit,
+  solveBjtBiasCircuit,
+  solveOpampSumming
 } from '@/lib/deterministicSolver'
+
+
+import { resolveParameters } from '@/lib/parameterResolver'
+import {
+  buildSeriesSchematic,
+  buildParallelSchematic,
+  buildStarSchematic,
+  buildDeltaSchematic,
+  buildSeriesParallelSchematic,
+  buildBridgeSchematic,
+  buildBjtBiasSchematic,
+  buildOpampMathSchematic
+} from '@/lib/programmaticSchematicBuilder'
+
+
 
 
 function removeComponentAndMergeWires(schema, compId) {
@@ -145,7 +168,20 @@ MERMAID RULES:
 flowchart TD
   MS["Mobile Station"] -->|"Um"| BTS["Base Transceiver Station"]
   BTS -->|"Abis"| BSC["Base Station Controller"]
-  BSC -->|"A"| MSC["Mobile Switching Center"]`
+  BSC -->|"A"| MSC["Mobile Switching Center"]
+
+MUMBAI UNIVERSITY EXAM CONTEXT:
+You are generating diagrams specifically for Mumbai University (MU) engineering examinations.
+The exam board is Autonomous / University of Mumbai. Students follow NEP 2020 revision syllabus.
+Textbook authors whose diagrams are exam-standard: B.L. Theraja (BEE), Tanenbaum (Networks/OS), Forouzan (CN), Galvin (OS), Silberschatz (DBMS), Cormen (Algorithms), Kochhar (SE), Lal Das (Machines).
+MU diagram conventions: 
+- Use IEEE standard symbols for electronic components
+- Block diagrams use rectangular boxes with labeled arrows
+- Flowcharts use standard ANSI symbols (oval=terminal, rectangle=process, diamond=decision)
+- Label ALL buses (Address Bus, Data Bus, Control Bus) in microprocessor diagrams
+- State diagrams must have initial state indicator and all transitions labeled
+- DFDs must follow DeMarco-Yourdon notation (circles=processes, arrows=data flows, rectangles=externals, open rectangles=data stores)
+Always generate exactly what would be drawn in a 3-hour MU exam answer sheet.`
 
 // OpenRouter fallback with model rotation support
 async function callOpenRouter(prompt, modelName = 'meta-llama/llama-3.3-70b-instruct:free', customPrompt = null) {
@@ -647,26 +683,421 @@ function validateResult(parsed) {
   return parsed
 }
 
+function preprocessQuery(query) {
+  if (!query || typeof query !== 'string') return ''
+  let cleaned = query.trim()
+
+  // 1. Strip exam preambles (e.g. "Dec 2023", "May 2024", "May-June 2023", "Q3b:", etc.)
+  const monthRegex = /\b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|June?|July?|Aug(?:ust)?|Sept?(?:ember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)(?:\s*-\s*\w+)?\s*\d{2,4}\b/gi
+  cleaned = cleaned.replace(monthRegex, '')
+
+  // Match question labels like "Q3b", "Q.3", "Q.3(b)", "Question 3", "paper", etc.
+  const questionRegex = /\b(?:Q\s*\.?\s*\d+[a-z]?|\(?Q\d+[a-z]?\)?|Question\s*\d+[a-z]?|paper)\b/gi
+  cleaned = cleaned.replace(questionRegex, '')
+
+  // 2. Strip marks indicators (e.g. "10M", "6 marks", "[10M]", "(6 marks)", "10 marks")
+  const marksRegex = /\b\d+\s*(?:marks?|m)\b|\[\d+\s*(?:marks?|m)\]|\(\d+\s*(?:marks?|m)\)/gi
+  cleaned = cleaned.replace(marksRegex, '')
+
+  // 3. Strip draw/explain instructions (e.g. "draw and explain", "with neat diagram", "draw a diagram of")
+  const instructionRegex = /\b(?:draw\s+and\s+explain|draw\s+&\s+explain|explain\s+and\s+draw|explain\s+&\s+draw|draw\s+a\s+neat\s+diagram\s+of|draw\s+neat\s+diagram\s+of|draw\s+a\s+diagram\s+of|explain\s+with\s+neat\s+diagram\s+of|explain\s+with\s+a\s+neat\s+diagram\s+of|explain\s+with\s+neat\s+diagram|explain\s+with\s+a\s+neat\s+diagram|with\s+neat\s+diagram|neat\s+diagram|write\s+a?\s*short\s+note\s+on|draw\s+and\s+write|draw|explain|describe|label|show|sketch|illustrate)\b/gi
+  cleaned = cleaned.replace(instructionRegex, '')
+
+  // 4. Strip extra semester indications if requested (e.g. "sem 3", "semester III")
+  const semRegex = /\b(?:sem(?:ester)?\s*(?:\d+|[ivx]+))\b/gi
+  cleaned = cleaned.replace(semRegex, '')
+
+  // 5. Clean up residual punctuation and formatting
+  cleaned = cleaned.replace(/[\[\]\(\)\-\,\.\:\;\?]/g, ' ')
+  cleaned = cleaned.replace(/\s+/g, ' ').trim()
+
+  return cleaned
+}
+
+function runLocalClassifierFallback(prompt) {
+  const p = prompt.toLowerCase();
+  
+  // 1. Star-Delta Conversion
+  if (p.includes('star') && p.includes('delta')) {
+    const raMatch = p.match(/\b(?:r1|ra|a)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rbMatch = p.match(/\b(?:r2|rb|b)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rcMatch = p.match(/\b(?:r3|rc|c)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+
+    if (raMatch && rbMatch && rcMatch) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'star-delta-conversion',
+        parameters: {
+          R1: raMatch[1],
+          R2: rbMatch[1],
+          R3: rcMatch[1]
+        }
+      };
+    }
+
+    const rabMatch = p.match(/\b(?:rab|ab)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rbcMatch = p.match(/\b(?:rbc|bc)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rcaMatch = p.match(/\b(?:rca|ca)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+
+    if (rabMatch && rbcMatch && rcaMatch) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'star-delta-conversion',
+        parameters: {
+          RAB: rabMatch[1],
+          RBC: rbcMatch[1],
+          RCA: rcaMatch[1]
+        }
+      };
+    }
+
+    const ohmMatches = [...prompt.matchAll(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/gi)];
+    if (ohmMatches.length >= 3) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'star-delta-conversion',
+        parameters: {
+          R1: ohmMatches[0][1],
+          R2: ohmMatches[1][1],
+          R3: ohmMatches[2][1]
+        }
+      };
+    }
+  }
+
+  // 2. Balanced 3-Phase Delta Load (delta-connection) — check BEFORE star to avoid misrouting
+  if ((p.includes('delta') || p.includes('mesh-connected') || p.includes('3-phase delta') || p.includes('three-phase delta')) &&
+      (p.includes('load') || p.includes('connected') || p.includes('supply') || p.includes('line') || p.includes('impedance') || p.includes('phase'))) {
+    // Parse Z = R + jX complex impedance notation e.g. "Z=30+j40 ohm"
+    const zMatch = p.match(/z\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i)
+                || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i);
+    const rMatch = zMatch ? null : (p.match(/\br\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i));
+    const xlMatch = zMatch ? null : (p.match(/\b(?:xl|x_l|reactance)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i));
+    const lMatch = p.match(/\bl\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:h|mh|uh)?/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:h|mh|uh)\b/i);
+    const vMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v(?:olt)?\b/i);
+    const fMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*hz/i);
+
+    const parameters = {};
+    if (zMatch) {
+      parameters.R = zMatch[1];
+      parameters.XL = zMatch[2];
+    } else {
+      if (rMatch) parameters.R = rMatch[1];
+      if (xlMatch) parameters.XL = xlMatch[1];
+    }
+    if (lMatch) {
+      const unit = lMatch[0].toLowerCase().includes('mh') ? 'mH' : lMatch[0].toLowerCase().includes('uh') ? 'μH' : 'H';
+      parameters.L = lMatch[1] + unit;
+    }
+    if (vMatch) parameters.V = vMatch[1];
+    if (fMatch) parameters.f = fMatch[1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'delta-connection',
+        parameters
+      };
+    }
+  }
+
+  // 2b. Balanced 3-Phase Star Load (star-connection) — MUST NOT contain 'delta'
+  if (!p.includes('delta') && !p.includes('mesh-connected') &&
+      (p.includes('star') || p.includes('y-connected') || p.includes('3-phase star') || p.includes('three-phase star')) &&
+      (p.includes('load') || p.includes('connected') || p.includes('supply') || p.includes('line') || p.includes('phase'))) {
+    // Parse Z = R + jX complex impedance notation
+    const zMatch = p.match(/z\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i)
+                || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i);
+    const rMatch = zMatch ? null : (p.match(/\br\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i));
+    const xlMatch = zMatch ? null : (p.match(/\b(?:xl|x_l|reactance)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i));
+    const lMatch = p.match(/\bl\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:h|mh|uh)?/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:h|mh|uh)\b/i);
+    const vMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v(?:olt)?\b/i);
+    const fMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*hz/i);
+
+    const parameters = {};
+    if (zMatch) {
+      parameters.R = zMatch[1];
+      parameters.XL = zMatch[2];
+    } else {
+      if (rMatch) parameters.R = rMatch[1];
+      if (xlMatch) parameters.XL = xlMatch[1];
+    }
+    if (lMatch) {
+      const unit = lMatch[0].toLowerCase().includes('mh') ? 'mH' : lMatch[0].toLowerCase().includes('uh') ? 'μH' : 'H';
+      parameters.L = lMatch[1] + unit;
+    }
+    if (vMatch) parameters.V = vMatch[1];
+    if (fMatch) parameters.f = fMatch[1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'star-connection',
+        parameters
+      };
+    }
+  }
+
+  // 3. Series RLC or RL or RC circuit
+  if (p.includes('series') && (p.includes('coil') || p.includes('rlc') || p.includes('rl') || p.includes('rc') || p.includes('resistor') || p.includes('inductor') || p.includes('capacitor'))) {
+    const rMatches = [...p.matchAll(/(?:resistance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)\b/gi)];
+    const lMatches = [...p.matchAll(/(?:inductance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:mh|h)\b/gi)];
+    const cMatches = [...p.matchAll(/(?:capacitance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:uf|μf|f)\b/gi)];
+    
+    const vMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v(?:olt)?\b/i);
+    const fMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*hz/i);
+
+    const allMatches = [];
+    for (const r of rMatches) allMatches.push({ index: r.index, type: 'resistor', value: r[1] + ' ohm' });
+    for (const l of lMatches) {
+      const unit = l[0].toLowerCase().includes('mh') ? 'mH' : 'H';
+      allMatches.push({ index: l.index, type: 'inductor', value: l[1] + unit });
+    }
+    for (const c of cMatches) {
+      const unit = c[0].toLowerCase().includes('uf') || c[0].toLowerCase().includes('μf') ? 'μF' : 'F';
+      allMatches.push({ index: c.index, type: 'capacitor', value: c[1] + unit });
+    }
+    allMatches.sort((a, b) => a.index - b.index);
+
+    const orderedComponents = allMatches.map((comp, i) => {
+      const prefix = comp.type.charAt(0).toUpperCase();
+      return {
+        type: comp.type,
+        value: comp.value,
+        id: `${prefix}${i + 1}`,
+        label: `${prefix}${i + 1}`
+      };
+    });
+
+    if (orderedComponents.length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: p.includes('parallel') ? 'general-parallel-circuit' : 'general-series-circuit',
+        parameters: {
+          V: vMatch ? vMatch[1] : '230',
+          f: fMatch ? fMatch[1] : '50',
+          components: orderedComponents
+        }
+      };
+    }
+  }
+
+  // 4. Parallel RLC or RL or RC circuit
+  if (p.includes('parallel') && (p.includes('coil') || p.includes('rlc') || p.includes('rl') || p.includes('rc') || p.includes('resistor') || p.includes('inductor') || p.includes('capacitor'))) {
+    const rMatches = [...p.matchAll(/(?:resistance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)\b/gi)];
+    const lMatches = [...p.matchAll(/(?:inductance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:mh|h)\b/gi)];
+    const cMatches = [...p.matchAll(/(?:capacitance\s*(?:of|is|)?\s*|(?:\b|^))([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:uf|μf|f)\b/gi)];
+    
+    const vMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v(?:olt)?\b/i);
+    const fMatch = p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*hz/i);
+
+    const allMatches = [];
+    for (const r of rMatches) allMatches.push({ index: r.index, type: 'resistor', value: r[1] + ' ohm' });
+    for (const l of lMatches) {
+      const unit = l[0].toLowerCase().includes('mh') ? 'mH' : 'H';
+      allMatches.push({ index: l.index, type: 'inductor', value: l[1] + unit });
+    }
+    for (const c of cMatches) {
+      const unit = c[0].toLowerCase().includes('uf') || c[0].toLowerCase().includes('μf') ? 'μF' : 'F';
+      allMatches.push({ index: c.index, type: 'capacitor', value: c[1] + unit });
+    }
+    allMatches.sort((a, b) => a.index - b.index);
+
+    const orderedComponents = allMatches.map((comp, i) => {
+      const prefix = comp.type.charAt(0).toUpperCase();
+      return {
+        type: comp.type,
+        value: comp.value,
+        id: `${prefix}${i + 1}`,
+        label: `${prefix}${i + 1}`
+      };
+    });
+
+    if (orderedComponents.length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'general-parallel-circuit',
+        parameters: {
+          V: vMatch ? vMatch[1] : '230',
+          f: fMatch ? fMatch[1] : '50',
+          components: orderedComponents
+        }
+      };
+    }
+  }
+
+  // 5. Zener regulator
+  if (p.includes('zener') && (p.includes('regulator') || p.includes('diode'))) {
+    const vinMatch = p.match(/(?:vin|input\s*voltage)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v\s+input/i);
+    const rsMatch = p.match(/(?:rs|series\s*resistance|series\s*resistor)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const vzMatch = p.match(/(?:vz|zener\s*voltage|zener\s*diode)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rlMatch = p.match(/(?:rl|load\s*resistance|load\s*resistor)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    
+    const parameters = {};
+    if (vinMatch) parameters.Vin = vinMatch[1];
+    if (rsMatch) parameters.Rs = rsMatch[1];
+    if (vzMatch) parameters.Vz = vzMatch[1];
+    if (rlMatch) parameters.Rl = rlMatch[1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'zener-voltage-regulator',
+        parameters
+      };
+    }
+  }
+
+  // 6. Thevenin Equivalent Circuit
+  if (p.includes('thevenin')) {
+    const vthMatch = p.match(/(?:vth|thevenin\s*voltage)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v\s+thevenin/i) || p.match(/vth\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v/i);
+    const rthMatch = p.match(/(?:rth|thevenin\s*resistance)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/rth\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i);
+    const rlMatch = p.match(/(?:rl|load\s*resistance|load\s*resistor)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/rl\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i);
+
+    const parameters = {};
+    if (vthMatch) parameters.Vth = vthMatch[1];
+    if (rthMatch) parameters.Rth = rthMatch[1];
+    if (rlMatch) parameters.RL = rlMatch[1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'thevenins-theorem-circuit',
+        parameters
+      };
+    }
+  }
+
+  // 7. Superposition Theorem Circuit
+  if (p.includes('superposition') || (p.includes('two sources') && p.includes('parallel') && p.includes('series'))) {
+    const v1Match = p.match(/v1\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r1Match = p.match(/r1\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const v2Match = p.match(/v2\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r2Match = p.match(/r2\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r3Match = p.match(/r3\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+
+    const parameters = {};
+    if (v1Match) parameters.V1 = v1Match[1];
+    if (r1Match) parameters.R1 = r1Match[1];
+    if (v2Match) parameters.V2 = v2Match[1];
+    if (r2Match) parameters.R2 = r2Match[1];
+    if (r3Match) parameters.R3 = r3Match[1];
+
+    const ohmMatches = [...p.matchAll(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/gi)];
+    const voltMatches = [...p.matchAll(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v/gi)];
+
+    if (!parameters.V1 && voltMatches.length >= 1) parameters.V1 = voltMatches[0][1];
+    if (!parameters.V2 && voltMatches.length >= 2) parameters.V2 = voltMatches[1][1];
+    if (!parameters.R1 && ohmMatches.length >= 1) parameters.R1 = ohmMatches[0][1];
+    if (!parameters.R2 && ohmMatches.length >= 2) parameters.R2 = ohmMatches[1][1];
+    if (!parameters.R3 && ohmMatches.length >= 3) parameters.R3 = ohmMatches[2][1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'superposition-theorem-circuit',
+        parameters
+      };
+    }
+  }
+
+  // 8. Op-Amp Inverting / Non-inverting Amplifier
+  if (p.includes('op-amp') || p.includes('opamp') || p.includes('operational amplifier')) {
+    const vinMatch = p.match(/(?:vin|input\s*voltage)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i) || p.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v\s+input/i) || p.match(/vin\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v/i);
+    // Parse R1 and Rf: capture only the raw number, detect k/M suffix separately
+    const r1Match = p.match(/(?:r1|input\s*resistor|input\s*resistance)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(k|m|ohm|Ω)?/i);
+    const rfMatch = p.match(/(?:rf|feedback\s*resistor|feedback\s*resistance)\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(k|m|ohm|Ω)?/i);
+
+    const parameters = {};
+    if (vinMatch) parameters.Vin = vinMatch[1];
+    if (r1Match) {
+      const numPart = r1Match[1];
+      const unitPart = (r1Match[2] || '').toLowerCase();
+      const unit = (unitPart === 'k' || unitPart === 'm') ? unitPart : '';
+      parameters.R1 = numPart + unit;
+    }
+    if (rfMatch) {
+      const numPart = rfMatch[1];
+      const unitPart = (rfMatch[2] || '').toLowerCase();
+      const unit = (unitPart === 'k' || unitPart === 'm') ? unitPart : '';
+      parameters.Rf = numPart + unit;
+    }
+
+    const isNonInverting = p.includes('non-inverting') || p.includes('noninverting');
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: isNonInverting ? 'opamp-noninverting' : 'opamp-inverting',
+        parameters
+      };
+    }
+  }
+
+  // 9. Norton's Theorem Circuit (nortons-theorem-bee)
+  if (p.includes('nortons') || p.includes('norton')) {
+    const v1Match = p.match(/v1\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r1Match = p.match(/r1\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const v2Match = p.match(/v2\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r2Match = p.match(/r2\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r3Match = p.match(/r3\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r4Match = p.match(/r4\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const r5Match = p.match(/r5\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+    const rlMatch = p.match(/rl\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i);
+
+    const parameters = {};
+    if (v1Match) parameters.V1 = v1Match[1];
+    if (r1Match) parameters.R1 = r1Match[1];
+    if (v2Match) parameters.V2 = v2Match[1];
+    if (r2Match) parameters.R2 = r2Match[1];
+    if (r3Match) parameters.R3 = r3Match[1];
+    if (r4Match) parameters.R4 = r4Match[1];
+    if (r5Match) parameters.R5 = r5Match[1];
+    if (rlMatch) parameters.RL = rlMatch[1];
+
+    const ohmMatches = [...p.matchAll(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/gi)];
+    const voltMatches = [...p.matchAll(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*v/gi)];
+
+    if (!parameters.V1 && voltMatches.length >= 1) parameters.V1 = voltMatches[0][1];
+    if (!parameters.V2 && voltMatches.length >= 2) parameters.V2 = voltMatches[1][1];
+    if (!parameters.R1 && ohmMatches.length >= 1) parameters.R1 = ohmMatches[0][1];
+    if (!parameters.R2 && ohmMatches.length >= 2) parameters.R2 = ohmMatches[1][1];
+    if (!parameters.R3 && ohmMatches.length >= 3) parameters.R3 = ohmMatches[2][1];
+    if (!parameters.R4 && ohmMatches.length >= 4) parameters.R4 = ohmMatches[3][1];
+    if (!parameters.R5 && ohmMatches.length >= 5) parameters.R5 = ohmMatches[4][1];
+    if (!parameters.RL && ohmMatches.length >= 6) parameters.RL = ohmMatches[5][1];
+
+    if (Object.keys(parameters).length > 0) {
+      return {
+        classification: 'numerical_problem',
+        matched_template: 'nortons-theorem-bee',
+        parameters
+      };
+    }
+  }
+
+  return null;
+}
+
 // ─── Main handler ──────────────────────────────────────────────────────────────
 export async function POST(req) {
   try {
     const body = await req.json()
-    const { prompt, useProModel = false, forceAI = false } = body
+    const { prompt, useProModel = false, forceAI = false, department, semester } = body
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length < 2) {
       return Response.json({ error: 'Please enter a valid subject or topic.' }, { status: 400 })
     }
-    if (prompt.trim().length > 300) {
-      return Response.json({ error: 'Prompt too long. Keep it under 300 characters.' }, { status: 400 })
+    if (prompt.trim().length > 800) {
+      return Response.json({ error: 'Prompt too long. Keep it under 800 characters.' }, { status: 400 })
     }
 
     let stubMetadata = null
 
-    // ── CLASSIFIER & INTERCEPTOR ───────────────────────────────────────────
     let classificationResult = null
+    let classifierPrompt = ''
     if (!forceAI) {
       try {
-        const classifierPrompt = `You are a technical diagram classifier and parameter extractor for engineering students.
+        classifierPrompt = `You are a technical diagram classifier and parameter extractor for engineering students.
 Analyze this user query: "${prompt.trim()}"
 
 Classify it into one of these three categories:
@@ -676,7 +1107,9 @@ Classify it into one of these three categories:
 
 Our verified templates are:
    - "dc-circuit" (for simple DC circuit with voltage source, switch, ammeter, resistor/lamp/load, voltmeter)
-   - "ac-circuit" (for AC series circuits containing any combination of Resistor, Inductor, Capacitor: R, L, C, RC, RL, LC, RLC)
+   - "general-series-circuit" (for AC/DC series circuits containing Resistor, Inductor, Capacitor: R, L, C, RC, RL, LC, RLC in series)
+   - "general-parallel-circuit" (for AC/DC parallel circuits containing Resistor, Inductor, Capacitor: R, L, C, RC, RL, LC, RLC in parallel)
+   - "ac-circuit" (for AC series circuits containing Resistor, Inductor, Capacitor: R, L, C, RC, RL, LC, RLC in series)
    - "zener-voltage-regulator" (for Zener diode regulator circuit)
    - "opamp-inverting" (for inverting operational amplifier)
    - "opamp-noninverting" (for non-inverting operational amplifier)
@@ -694,7 +1127,7 @@ Our verified templates are:
    - "wien-bridge-oscillator" (for Wien bridge oscillators)
    - "rc-phase-shift-oscillator" (for RC phase shift oscillators)
    - "astable-multivibrator" (for astable multivibrators)
-   - "opamp-integrator" (for op-amp integrator circuits)
+   - "opamp-integrator" (for op-amp integrators)
    - "opamp-differentiator" (for op-amp differentiator circuits)
    - "bjt-differential-amplifier" (for BJT differential amplifiers)
    - "single-phase-transformer" (for single-phase transformers)
@@ -703,7 +1136,10 @@ Our verified templates are:
 
 If it is "numerical_problem", you MUST match it to one of these templates and extract the numerical parameters:
 - For "dc-circuit": V, R
-- For "ac-circuit": V, f, R, L, C
+- For "general-series-circuit": V, f, components (an array of components in the exact connection order mentioned, e.g. [{"type": "resistor", "value": "25 ohm", "label": "R1"}, {"type": "inductor", "value": "0.04H", "label": "L1"}]), includeSwitch (boolean), includeGround (boolean)
+- For "general-parallel-circuit": V, f, components (an array of components in the exact connection order mentioned, e.g. [{"type": "resistor", "value": "25 ohm", "label": "R1"}, {"type": "inductor", "value": "0.04H", "label": "L1"}]), includeSwitch (boolean), includeGround (boolean)
+- For "star-connection": V (line voltage, e.g. "400V"), f (frequency, e.g. "50Hz"), R (resistance per phase, e.g. "6 ohm"), XL (inductive reactance per phase, e.g. "8 ohm") or L (inductance, e.g. "0.04H")
+- For "delta-connection": V (line voltage, e.g. "400V"), f (frequency, e.g. "50Hz"), R (resistance per phase, e.g. "30 ohm"), XL (inductive reactance per phase, e.g. "40 ohm") or L (inductance per phase). If Z=R+jX is given, extract R and XL separately.
 - For "zener-voltage-regulator": Vin, Rs, Vz, Rl
 - For "opamp-inverting": Vin, R1, Rf
 - For "opamp-noninverting": Vin, R1, Rf
@@ -715,10 +1151,18 @@ If it is "numerical_problem", you MUST match it to one of these templates and ex
 - For "superposition-theorem-circuit": V1, R1, R2, R3, V2
 - For "thevenins-theorem-circuit": Vth, Rth, RL
 
+CRITICAL RULES FOR CIRCUIT CLASSIFICATION:
+1. ANY series AC or DC circuit containing R, L, C, RL, RC, RLC components, or series resonance with custom values MUST be classified as "general-series-circuit". DO NOT classify them as "ac-circuit", "series-rl-circuit", or "series-rlc-resonance".
+2. ANY parallel AC or DC circuit containing R, L, C, RL, RC, RLC components, or parallel resonance with custom values MUST be classified as "general-parallel-circuit".
+3. ONLY use "series-rlc-resonance" or "series-rl-circuit" or "ac-circuit" if they are purely theoretical requests without custom numerical parameters (which should be "theory_request"). If they have custom numbers, classify as "general-series-circuit" or "general-parallel-circuit".
+4. DO NOT assume or inject components that are not mentioned in the query. For example, if the query does not contain a capacitor, do NOT include a capacitor in the components array. Set "includeSwitch" to true ONLY if a switch is mentioned. Set "includeGround" to true ONLY if ground is mentioned.
+5. Any 3-phase star connected load (e.g. "star connected load", "star connection", "3-phase star", "Y-connected") with custom values MUST be classified as "star-connection". NEVER classify a delta-connected load as star-connection.
+6. Any 3-phase delta connected load (e.g. "delta connected load", "delta connection", "3-phase delta", "mesh-connected") with custom values MUST be classified as "delta-connection". If impedance is given as Z=R+jX (e.g. Z=30+j40 ohm), extract R and XL separately. NEVER classify a delta-connected load as star-connection.
+
 Return ONLY a valid JSON object of this format:
 {
   "classification": "theory_request" | "numerical_problem" | "unsupported_custom_circuit",
-  "matched_template": "dc-circuit" | "ac-circuit" | "zener-voltage-regulator" | "opamp-inverting" | "opamp-noninverting" | "star-delta-conversion" | "nortons-theorem-bee" | "source-transformation-circuit" | "series-rl-circuit" | "series-rlc-resonance" | "superposition-theorem-circuit" | "thevenins-theorem-circuit" | "bjt-switch-circuit" | "classb-pushpull-amplifier" | "hartley-oscillator" | "colpitts-oscillator" | "wien-bridge-oscillator" | "rc-phase-shift-oscillator" | "astable-multivibrator" | "opamp-integrator" | "opamp-differentiator" | "bjt-differential-amplifier" | "single-phase-transformer" | "star-connection" | "delta-connection" | null,
+  "matched_template": "dc-circuit" | "general-series-circuit" | "general-parallel-circuit" | "ac-circuit" | "zener-voltage-regulator" | "opamp-inverting" | "opamp-noninverting" | "star-delta-conversion" | "nortons-theorem-bee" | "source-transformation-circuit" | "series-rl-circuit" | "series-rlc-resonance" | "superposition-theorem-circuit" | "thevenins-theorem-circuit" | "bjt-switch-circuit" | "classb-pushpull-amplifier" | "hartley-oscillator" | "colpitts-oscillator" | "wien-bridge-oscillator" | "rc-phase-shift-oscillator" | "astable-multivibrator" | "opamp-integrator" | "opamp-differentiator" | "bjt-differential-amplifier" | "single-phase-transformer" | "star-connection" | "delta-connection" | null,
   "parameters": { ... },
   "unsupported_reason": "Explanation of why the circuit is unsupported, if applicable"
 }
@@ -740,7 +1184,45 @@ Ensure you normalize numerical values (e.g. 100uF -> 0.0001, 10k -> 10000).`;
         classificationResult = JSON.parse(classifierResponse.choices[0].message.content);
         console.log('[Classifier] Result:', classificationResult);
       } catch (classErr) {
-        console.error('[Classifier] Error running classifier:', classErr.message);
+        console.error('[Classifier] Error running classifier on Groq:', classErr.message);
+        try {
+          console.log('[Classifier] Attempting OpenRouter classification fallback...');
+          const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+              'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+              'X-Title': 'DiagramAI',
+            },
+            body: JSON.stringify({
+              model: 'meta-llama/llama-3.3-70b-instruct:free',
+              messages: [{ role: 'user', content: classifierPrompt }],
+              max_tokens: 500,
+              temperature: 0.0,
+              response_format: { type: 'json_object' }
+            }),
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.choices && data.choices.length > 0) {
+              classificationResult = JSON.parse(data.choices[0].message.content);
+              console.log('[Classifier] OpenRouter Fallback Result:', classificationResult);
+            }
+          } else {
+            console.error('[Classifier] OpenRouter classification fallback response not OK:', res.status);
+          }
+        } catch (orErr) {
+          console.error('[Classifier] OpenRouter classification fallback failed:', orErr.message);
+        }
+      }
+    }
+
+    if (!classificationResult) {
+      console.log('[Classifier] LLM rate limit or error encountered. Running local regex classifier fallback...');
+      classificationResult = runLocalClassifierFallback(prompt);
+      if (classificationResult) {
+        console.log('[Classifier] Local fallback matched:', classificationResult);
       }
     }
 
@@ -750,38 +1232,204 @@ Ensure you normalize numerical values (e.g. 100uF -> 0.0001, 10k -> 10000).`;
       }, { status: 400 })
     }
 
+    // ── Post-Classification Sanity Override ──────────────────────────────────
+    // LLMs sometimes misclassify delta-connected loads as star-connection.
+    // We perform keyword-based correction AFTER the LLM or local fallback runs.
+    if (classificationResult) {
+      const pLower = prompt.toLowerCase()
+      const hasDelta = /\bdelta[\s-]connected\b|\bdelta\s+connected\b|\bdelta\s+load\b|\b3[\s-]phase\s+delta\b|\bthree[\s-]phase\s+delta\b|\bmesh[\s-]connected\b/i.test(pLower)
+      const hasStar  = /\bstar[\s-]connected\b|\bstar\s+connected\b|\bstar\s+load\b|\b3[\s-]phase\s+star\b|\bthree[\s-]phase\s+star\b|\by[\s-]connected\b/i.test(pLower)
+
+      // Correct LLM misclassification: delta prompt → star template
+      if (hasDelta && !hasStar && classificationResult.matched_template === 'star-connection') {
+        console.log('[Classifier] Correcting LLM misclassification: delta prompt -> was star-connection, overriding to delta-connection')
+        classificationResult.matched_template = 'delta-connection'
+        // Also re-parse complex impedance Z=R+jX if present and parameters only have R
+        const zMatch = pLower.match(/z\s*=\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))/i)
+                    || pLower.match(/([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*\+?\s*j([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*(?:ohm|Ω)/i)
+        if (zMatch && !classificationResult.parameters?.XL) {
+          classificationResult.parameters = {
+            ...classificationResult.parameters,
+            R: zMatch[1],
+            XL: zMatch[2]
+          }
+        }
+      }
+
+      // Correct LLM misclassification: star prompt → delta template
+      if (hasStar && !hasDelta && classificationResult.matched_template === 'delta-connection') {
+        console.log('[Classifier] Correcting LLM misclassification: star prompt -> was delta-connection, overriding to star-connection')
+        classificationResult.matched_template = 'star-connection'
+      }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
     if (classificationResult && classificationResult.matched_template) {
-      const templateName = classificationResult.matched_template
+      let templateName = classificationResult.matched_template
+      
+      // If it is 'ac-circuit', but we want programmatic RLC, map it to general-series-circuit!
+      if (templateName === 'ac-circuit') {
+        templateName = 'general-series-circuit'
+      }
+
+      const isProgrammaticRLC = templateName === 'general-series-circuit' || 
+                                templateName === 'general-parallel-circuit' ||
+                                templateName === 'series-parallel-circuit' ||
+                                templateName === 'wheatstone-bridge' ||
+                                templateName === 'bjt-bias-circuit' ||
+                                templateName === 'opamp-summing' ||
+                                (templateName === 'star-connection' && classificationResult.classification === 'numerical_problem') ||
+                                (templateName === 'delta-connection' && classificationResult.classification === 'numerical_problem')
       const templateObj = ALL_DIAGRAMS.find(d => d.id === templateName)
 
-      if (templateObj) {
-        let baseTemplate = JSON.parse(JSON.stringify(templateObj))
+      if (isProgrammaticRLC || templateObj) {
+        let baseTemplate
+        let solverFn
+        let paramsToSolve = classificationResult.parameters || {}
+        let assumedValues = []
 
-        const SOLVERS = {
-          'dc-circuit': solveDcCircuit,
-          'ac-circuit': solveAcRlcCircuit,
-          'zener-voltage-regulator': solveZenerRegulator,
-          'opamp-inverting': solveOpampInverting,
-          'opamp-noninverting': solveOpampNoninverting,
-          'star-delta-conversion': solveStarDelta,
-          'nortons-theorem-bee': solveNortonsTheorem,
-          'source-transformation-circuit': solveSourceTransformation,
-          'series-rl-circuit': solveSeriesRlCircuit,
-          'series-rlc-resonance': solveSeriesRlcResonance,
-          'superposition-theorem-circuit': solveSuperposition,
-          'thevenins-theorem-circuit': solveThevenin
+        // 1. Run parameters through resolver to normalize and inject defaults
+        const resolved = resolveParameters(templateName, paramsToSolve, prompt)
+        paramsToSolve = resolved.normalizedParams
+        assumedValues = resolved.assumedValues
+
+        if (isProgrammaticRLC) {
+          if (templateName === 'general-series-circuit') {
+            baseTemplate = buildSeriesSchematic(paramsToSolve)
+            baseTemplate.id = 'general-series-circuit'
+            baseTemplate.title = 'Series RLC Circuit'
+            baseTemplate.description = 'A series circuit with R, L, and C components.'
+            solverFn = solveGeneralSeriesCircuit
+          } else if (templateName === 'general-parallel-circuit') {
+            baseTemplate = buildParallelSchematic(paramsToSolve)
+            baseTemplate.id = 'general-parallel-circuit'
+            baseTemplate.title = 'Parallel RLC Circuit'
+            baseTemplate.description = 'A parallel circuit with R, L, and C components.'
+            solverFn = solveGeneralParallelCircuit
+          } else if (templateName === 'series-parallel-circuit') {
+            baseTemplate = buildSeriesParallelSchematic(paramsToSolve)
+            baseTemplate.id = 'series-parallel-circuit'
+            baseTemplate.title = 'Series-Parallel Circuit'
+            baseTemplate.description = 'A combinational series-parallel circuit.'
+            solverFn = solveSeriesParallelCircuit
+          } else if (templateName === 'wheatstone-bridge') {
+            baseTemplate = buildBridgeSchematic(paramsToSolve)
+            baseTemplate.id = 'wheatstone-bridge'
+            baseTemplate.title = 'Wheatstone Bridge'
+            baseTemplate.description = 'A bridge circuit for resistance measurement.'
+            solverFn = solveBridgeCircuit
+          } else if (templateName === 'bjt-bias-circuit') {
+            baseTemplate = buildBjtBiasSchematic(paramsToSolve)
+            baseTemplate.id = 'bjt-bias-circuit'
+            baseTemplate.title = 'BJT Voltage Divider Bias'
+            baseTemplate.description = 'A stable transistor self-bias network.'
+            solverFn = solveBjtBiasCircuit
+          } else if (templateName === 'opamp-summing') {
+            baseTemplate = buildOpampMathSchematic(paramsToSolve)
+            baseTemplate.id = 'opamp-summing'
+            baseTemplate.title = 'Op-Amp Summing Amplifier'
+            baseTemplate.description = 'An operational amplifier summing input voltages.'
+            solverFn = solveOpampSumming
+          } else if (templateName === 'star-connection') {
+            baseTemplate = buildStarSchematic(paramsToSolve)
+            baseTemplate.id = 'star-connection'
+            baseTemplate.title = '3-Phase Star Connection'
+            baseTemplate.description = 'A balanced 3-phase star connected load.'
+            solverFn = solveStarConnection
+          } else if (templateName === 'delta-connection') {
+            baseTemplate = buildDeltaSchematic(paramsToSolve)
+            baseTemplate.id = 'delta-connection'
+            baseTemplate.title = '3-Phase Delta Connection'
+            baseTemplate.description = 'A balanced 3-phase delta connected load.'
+            solverFn = solveDeltaConnection
+          }
+          baseTemplate.complexity = 'Intermediate'
+          baseTemplate.category = 'Electronics'
+
+          baseTemplate.theory = templateName === 'general-series-circuit'
+            ? 'A series RLC circuit consists of a resistor, an inductor, and a capacitor connected in series across an alternating voltage source. Under alternating current (AC), the impedance is the vector sum of resistance and net reactance (inductive reactance minus capacitive reactance). Resonance occurs when the inductive reactance equals the capacitive reactance, resulting in minimum impedance and maximum current.'
+            : templateName === 'general-parallel-circuit'
+            ? 'A parallel RLC circuit consists of a resistor, an inductor, and a capacitor connected in parallel across a voltage source. Under alternating current (AC), the total admittance is the vector sum of conductance and net susceptance. Resonance occurs when inductive susceptance equals capacitive susceptance, resulting in minimum admittance (maximum impedance) and minimum source current.'
+            : templateName === 'delta-connection'
+            ? 'A 3-phase delta connected load consists of three phase windings or coils connected in a closed loop or triangle. For a balanced system, the line voltage is equal to the phase voltage, and the line current is root-three times the phase current. This connection is used to supply high power load applications.'
+            : templateName === 'wheatstone-bridge'
+            ? 'A Wheatstone bridge is an electrical circuit used to measure an unknown electrical resistance by balancing two legs of a bridge circuit, one leg of which includes the unknown component. The primary benefit of the circuit is its ability to provide extremely accurate measurements.'
+            : templateName === 'bjt-bias-circuit'
+            ? 'The voltage divider bias configuration provides a highly stable operating point (Q-point) for a bipolar junction transistor (BJT) amplifier. By establishing a fixed base voltage via a voltage divider from Vcc to Ground, the circuit is largely independent of transistor beta value variations.'
+            : templateName === 'opamp-summing'
+            ? 'An op-amp summing amplifier is an inverting amplifier circuit configuration that takes multiple input voltages, scales them by their respective input resistors, and outputs the inverted sum. This is widely used in audio mixers and analog computation.'
+            : templateName === 'series-parallel-circuit'
+            ? 'A series-parallel circuit combines components connected in both series and parallel. Finding the total resistance/impedance involves simplifying the parallel branches first, then adding them to the series components.'
+            : 'A 3-phase star connected load consists of three phase windings or coils connected to a common neutral point. For a balanced system, the line current is equal to the phase current, and the line voltage is root-three times the phase voltage.'
+
+          baseTemplate.keyPoints = templateName === 'general-series-circuit'
+            ? ['Current is the same through all components in a series circuit.', 'Impedance is minimum at resonance.', 'Voltage across L and C are out of phase by 180 degrees.']
+            : templateName === 'general-parallel-circuit'
+            ? ['Voltage is the same across all branches in a parallel circuit.', 'Admittance is minimum (impedance is maximum) at resonance.', 'Branch currents through L and C are out of phase by 180 degrees.']
+            : templateName === 'delta-connection'
+            ? ['Line voltage equals phase voltage in delta connection.', 'Line current is √3 times phase current.', 'No neutral wire connection is used in delta load.']
+            : templateName === 'wheatstone-bridge'
+            ? ['Bridge is balanced when no current flows through the center resistor.', 'Balanced condition: R1/R3 = R2/R4.', 'Used for precision resistance and sensor measurements.']
+            : templateName === 'bjt-bias-circuit'
+            ? ['Uses emitter resistance RE to provide negative feedback and thermal stability.', 'Base voltage VB is set by voltage divider R1 and R2.', 'Highly stable Q-point operation.']
+            : templateName === 'opamp-summing'
+            ? ['Input currents sum at the virtual ground node (inverting terminal).', 'Feedback resistor Rf determines overall gain.', 'Output is the inverted sum of inputs.']
+            : templateName === 'series-parallel-circuit'
+            ? ['Identify parallel branches first and replace them with equivalents.', 'Series components carry the total line current.', 'Voltage is shared across series parts and equal across parallel ones.']
+            : ['Line current equals phase current in a star connection.', 'Line voltage is √3 times phase voltage.', 'The neutral point can be grounded for safety and single-phase supply.']
+
+          baseTemplate.useCases = templateName === 'star-connection'
+            ? ['Three-phase motor stator windings', 'Distribution transformer secondary windings', 'Industrial power systems']
+            : templateName === 'delta-connection'
+            ? ['High-power industrial heating systems', 'Delta-connected transformer primaries', 'Delta starting phase of motors']
+            : templateName === 'wheatstone-bridge'
+            ? ['Strain gauge instrumentation', 'Resistance thermometers (RTD)', 'Sensor calibration circuits']
+            : templateName === 'bjt-bias-circuit'
+            ? ['Audio amplifiers', 'BJT switch pre-drivers', 'Analog signal buffering']
+            : templateName === 'opamp-summing'
+            ? ['Audio mixer boards', 'Digital-to-analog converters (DAC)', 'Analog mixers']
+            : templateName === 'series-parallel-circuit'
+            ? ['Power distribution wiring', 'Impedance matching networks', 'Textbook circuit analysis']
+            : ['Tuning circuits in radio receivers', 'Filters (band-pass, band-stop)', 'Impedance matching networks']
+
+          baseTemplate.examTip = templateName === 'star-connection'
+            ? 'Remember that line voltage is √3 times phase voltage, and line current is equal to phase current in star connection. Always label the neutral point N.'
+            : templateName === 'delta-connection'
+            ? 'Remember that line voltage is equal to phase voltage, and line current is √3 times phase current in delta connection.'
+            : templateName === 'wheatstone-bridge'
+            ? 'At balance, the voltage difference between middle nodes is 0V and no current flows through the bridge resistor. Make sure to apply voltage division for node voltages.'
+            : templateName === 'bjt-bias-circuit'
+            ? 'Assume base current IB is negligible when checking voltage divider approximation: R2 << β·RE.'
+            : templateName === 'opamp-summing'
+            ? 'Apply Kirchhoff’s Current Law (KCL) at the inverting input. Virtual ground means the node is at 0V.'
+            : 'Always draw the phasor diagram to show the relationship between voltage and current. In series, use current as the reference phasor; in parallel, use voltage.'
+        } else {
+          baseTemplate = JSON.parse(JSON.stringify(templateObj))
+          const SOLVERS = {
+            'dc-circuit': solveDcCircuit,
+            'zener-voltage-regulator': solveZenerRegulator,
+            'opamp-inverting': solveOpampInverting,
+            'opamp-noninverting': solveOpampNoninverting,
+            'star-delta-conversion': solveStarDelta,
+            'nortons-theorem-bee': solveNortonsTheorem,
+            'source-transformation-circuit': solveSourceTransformation,
+            'series-rl-circuit': solveSeriesRlCircuit,
+            'series-rlc-resonance': solveSeriesRlcResonance,
+            'superposition-theorem-circuit': solveSuperposition,
+            'thevenins-theorem-circuit': solveThevenin
+          }
+          solverFn = SOLVERS[templateName]
         }
 
-        const solverFn = SOLVERS[templateName]
 
         if (classificationResult.classification === 'numerical_problem' && solverFn) {
-          const solverResult = solverFn(classificationResult.parameters)
+          const solverResult = solverFn(paramsToSolve)
           if (solverResult && solverResult.success) {
-            // 1. Handle component bypassing
+            // 1. Handle component bypassing (for static library templates)
             if (solverResult.omittedComponents) {
               for (const [compId, isOmitted] of Object.entries(solverResult.omittedComponents)) {
                 if (isOmitted) {
-                  console.log(`[Bypass] Bypassing omitted component ${compId}`);
+                  console.log(`[Bypass] Bypassing omitted component ${compId}`)
                   removeComponentAndMergeWires(baseTemplate, compId)
                 }
               }
@@ -792,15 +1440,15 @@ Ensure you normalize numerical values (e.g. 100uF -> 0.0001, 10k -> 10000).`;
               for (const mapping of solverResult.mappings) {
                 const comp = baseTemplate.components.find(c => c.id === mapping.id)
                 if (comp) {
-                  comp.value = mapping.value;
+                  comp.value = mapping.value
                   if (comp.label) {
                     if (comp.label.includes('Ω') || comp.label.includes('V') || comp.label.includes('A') || comp.label.includes('F') || comp.label.includes('H') || comp.label.includes('Hz')) {
-                      comp.label = mapping.value;
+                      comp.label = mapping.value
                     } else {
-                      comp.label = `${comp.label} = ${mapping.value}`;
+                      comp.label = `${comp.label} = ${mapping.value}`
                     }
                   } else {
-                    comp.label = mapping.value;
+                    comp.label = mapping.value
                   }
                 }
               }
@@ -886,6 +1534,13 @@ Provide your response in JSON format matching these fields:
               theoryTabContent += `* **${key}**: ${val}\n`
             }
 
+            if (assumedValues.length > 0) {
+              theoryTabContent += `\n### Assumptions Made:\n`
+              for (const assumption of assumedValues) {
+                theoryTabContent += `* ${assumption}\n`
+              }
+            }
+
             theoryTabContent += `\n### Step-by-Step Mathematical Solution:\n`
             for (const calc of solverResult.calculations) {
               theoryTabContent += `#### ${calc.step}\n`
@@ -908,13 +1563,14 @@ Provide your response in JSON format matching these fields:
                 complexity: baseTemplate.complexity || 'Intermediate',
                 subject_category: baseTemplate.category || 'Electronics',
                 diagram_type: baseTemplate.type || 'circuit-schematic',
-                source: 'library',
-                isParameterized: true
+                source: isProgrammaticRLC ? 'programmatic-solver' : 'library',
+                isParameterized: true,
+                assumedValues: assumedValues
               },
               meta: {
                 model: 'deterministic-solver',
                 usedFallback: false,
-                fromLibrary: true,
+                fromLibrary: !isProgrammaticRLC,
                 isStub: false,
                 timestamp: new Date().toISOString()
               }
@@ -936,13 +1592,14 @@ Provide your response in JSON format matching these fields:
             complexity: baseTemplate.complexity || 'Intermediate',
             subject_category: baseTemplate.category || 'Other',
             diagram_type: baseTemplate.type,
-            source: 'library',
-            mermaid_code: baseTemplate.mermaid_code || '',
+            source: isProgrammaticRLC ? 'programmatic-solver' : 'library',
+            isParameterized: false,
+            assumedValues: assumedValues
           },
           meta: {
-            model: 'static-library',
+            model: isProgrammaticRLC ? 'programmatic-builder' : 'static-library',
             usedFallback: false,
-            fromLibrary: true,
+            fromLibrary: !isProgrammaticRLC,
             timestamp: new Date().toISOString(),
           },
         })
@@ -953,13 +1610,14 @@ Provide your response in JSON format matching these fields:
     // ── TIER 1: Static Library Lookup (free, instant, 100% accurate) ──────────
     if (!forceAI) {
       try {
-        const libraryMatch = matchDiagram(prompt.trim())
+        const cleanPrompt = preprocessQuery(prompt)
+        const libraryMatch = matchDiagram(cleanPrompt, { department, semester })
         if (libraryMatch) {
           if (libraryMatch.isStub) {
             console.log(`[Library] Matched stub: ${libraryMatch.id}. Storing metadata for AI fallback.`)
             stubMetadata = libraryMatch
           } else {
-            console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}"`)
+            console.log(`[Library] Matched: ${libraryMatch.id} for prompt: "${prompt.trim()}" (Cleaned: "${cleanPrompt}")`)
             return Response.json({
               success: true,
               data: {

@@ -29,15 +29,58 @@
       "Troubleshooting network connectivity issues by isolating problems layer by layer."
     ],
     "layers": [
-      { "number": 7, "name": "Application", "protocols": "HTTP, FTP, SMTP, DNS, DHCP", "color": "#F87171" },
-      { "number": 6, "name": "Presentation", "protocols": "SSL/TLS, JPEG, MPEG, ASCII, GIF", "color": "#FB923C" },
-      { "number": 5, "name": "Session", "protocols": "NetBIOS, RPC, SQL, Named Pipes", "color": "#FBBF24" },
-      { "number": 4, "name": "Transport", "protocols": "TCP, UDP (Port Addressing, Flow Control)", "color": "#34D399" },
-      { "number": 3, "name": "Network", "protocols": "IP, ICMP, OSPF, BGP (Routing, Logical Addr)", "color": "#60A5FA" },
-      { "number": 2, "name": "Data Link", "protocols": "Ethernet, MAC, PPP, ARP (Framing, Physical Addr)", "color": "#818CF8" },
-      { "number": 1, "name": "Physical", "protocols": "RS-232, DSL, Fiber, Cat6, Hubs (Electrical Bits)", "color": "#F472B6" }
+      {
+        "number": 7,
+        "name": "Application",
+        "protocols": "HTTP, FTP, SMTP, DNS, DHCP",
+        "color": "#F87171"
+      },
+      {
+        "number": 6,
+        "name": "Presentation",
+        "protocols": "SSL/TLS, JPEG, MPEG, ASCII, GIF",
+        "color": "#FB923C"
+      },
+      {
+        "number": 5,
+        "name": "Session",
+        "protocols": "NetBIOS, RPC, SQL, Named Pipes",
+        "color": "#FBBF24"
+      },
+      {
+        "number": 4,
+        "name": "Transport",
+        "protocols": "TCP, UDP (Port Addressing, Flow Control)",
+        "color": "#34D399"
+      },
+      {
+        "number": 3,
+        "name": "Network",
+        "protocols": "IP, ICMP, OSPF, BGP (Routing, Logical Addr)",
+        "color": "#60A5FA"
+      },
+      {
+        "number": 2,
+        "name": "Data Link",
+        "protocols": "Ethernet, MAC, PPP, ARP (Framing, Physical Addr)",
+        "color": "#818CF8"
+      },
+      {
+        "number": 1,
+        "name": "Physical",
+        "protocols": "RS-232, DSL, Fiber, Cat6, Hubs (Electrical Bits)",
+        "color": "#F472B6"
+      }
     ],
-    "sideLabel": "Data Encapsulation: Data ➔ Segment ➔ Packet ➔ Frame ➔ Bits"
+    "sideLabel": "Data Encapsulation: Data ➔ Segment ➔ Packet ➔ Frame ➔ Bits",
+    "aliases": [
+      "osi layers",
+      "osi 7 layers",
+      "seven layer model",
+      "protocol stack",
+      "network layers",
+      "open systems interconnection"
+    ]
   },
   {
     "id": "tcp-handshake",
@@ -68,20 +111,61 @@
     ],
     "schema_template": {
       "type": "sequence",
-      "viewBox": { "width": 640, "height": 400 },
+      "viewBox": {
+        "width": 640,
+        "height": 400
+      },
       "theme": "textbook",
       "sideMarginOffset": 50,
       "participants": [
-        { "id": "client", "label": "TCP Client", "x": 140 },
-        { "id": "server", "label": "TCP Server", "x": 500 }
+        {
+          "id": "client",
+          "label": "TCP Client",
+          "x": 140
+        },
+        {
+          "id": "server",
+          "label": "TCP Server",
+          "x": 500
+        }
       ],
       "messages": [
-        { "from": "client", "to": "server", "label": "SYN (Seq=1000, CTL=SYN)", "arrowType": "solid", "y": 120, "color": "#EF4444", "sideNote": "Client enters SYN_SENT state" },
-        { "from": "server", "to": "client", "label": "SYN-ACK (Seq=5000, Ack=1001, CTL=SYN,ACK)", "arrowType": "solid", "y": 200, "color": "#3B82F6", "sideNote": "Server enters SYN_RCVD state" },
-        { "from": "client", "to": "server", "label": "ACK (Seq=1001, Ack=5001, CTL=ACK)", "arrowType": "solid", "y": 280, "color": "#10B981", "sideNote": "Both transition to ESTABLISHED" }
+        {
+          "from": "client",
+          "to": "server",
+          "label": "SYN (Seq=1000, CTL=SYN)",
+          "arrowType": "solid",
+          "y": 120,
+          "color": "#EF4444",
+          "sideNote": "Client enters SYN_SENT state"
+        },
+        {
+          "from": "server",
+          "to": "client",
+          "label": "SYN-ACK (Seq=5000, Ack=1001, CTL=SYN,ACK)",
+          "arrowType": "solid",
+          "y": 200,
+          "color": "#3B82F6",
+          "sideNote": "Server enters SYN_RCVD state"
+        },
+        {
+          "from": "client",
+          "to": "server",
+          "label": "ACK (Seq=1001, Ack=5001, CTL=ACK)",
+          "arrowType": "solid",
+          "y": 280,
+          "color": "#10B981",
+          "sideNote": "Both transition to ESTABLISHED"
+        }
       ],
       "title": "TCP Three-Way Handshake Connection Protocol"
-    }
+    },
+    "aliases": [
+      "tcp three way handshake",
+      "three way handshake",
+      "connection establishment",
+      "syn syn-ack ack"
+    ]
   },
   {
     "id": "dfd-library-l0-l1",
@@ -112,24 +196,131 @@
     ],
     "schema_template": {
       "type": "dfd-flow",
-      "viewBox": { "width": 800, "height": 500 },
+      "viewBox": {
+        "width": 800,
+        "height": 500
+      },
       "nodes": [
-        { "id": "student", "type": "external", "label": "Student / User", "x": 100, "y": 250, "width": 120, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" },
-        { "id": "p1", "type": "process", "shape": "circle", "processId": "1.0", "label": "Search Book", "x": 320, "y": 120, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
-        { "id": "p2", "type": "process", "shape": "circle", "processId": "2.0", "label": "Issue Book", "x": 320, "y": 380, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" },
-        { "id": "books", "type": "data-store", "processId": "D1", "label": "Books Database", "x": 580, "y": 140, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" },
-        { "id": "issues", "type": "data-store", "processId": "D2", "label": "Issue Register", "x": 580, "y": 400, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" },
-        { "id": "librarian", "type": "external", "label": "Librarian", "x": 100, "y": 380, "width": 120, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" }
+        {
+          "id": "student",
+          "type": "external",
+          "label": "Student / User",
+          "x": 100,
+          "y": 250,
+          "width": 120,
+          "height": 60,
+          "color": "#FEF2F2",
+          "borderColor": "#EF4444",
+          "textColor": "#7F1D1D"
+        },
+        {
+          "id": "p1",
+          "type": "process",
+          "shape": "circle",
+          "processId": "1.0",
+          "label": "Search Book",
+          "x": 320,
+          "y": 120,
+          "width": 90,
+          "height": 90,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A5F"
+        },
+        {
+          "id": "p2",
+          "type": "process",
+          "shape": "circle",
+          "processId": "2.0",
+          "label": "Issue Book",
+          "x": 320,
+          "y": 380,
+          "width": 90,
+          "height": 90,
+          "color": "#EFF6FF",
+          "borderColor": "#2563EB",
+          "textColor": "#1E3A5F"
+        },
+        {
+          "id": "books",
+          "type": "data-store",
+          "processId": "D1",
+          "label": "Books Database",
+          "x": 580,
+          "y": 140,
+          "width": 140,
+          "height": 55,
+          "color": "#FAF5FF",
+          "borderColor": "#A855F7",
+          "textColor": "#581C87"
+        },
+        {
+          "id": "issues",
+          "type": "data-store",
+          "processId": "D2",
+          "label": "Issue Register",
+          "x": 580,
+          "y": 400,
+          "width": 140,
+          "height": 55,
+          "color": "#FAF5FF",
+          "borderColor": "#A855F7",
+          "textColor": "#581C87"
+        },
+        {
+          "id": "librarian",
+          "type": "external",
+          "label": "Librarian",
+          "x": 100,
+          "y": 380,
+          "width": 120,
+          "height": 60,
+          "color": "#FEF2F2",
+          "borderColor": "#EF4444",
+          "textColor": "#7F1D1D"
+        }
       ],
       "connections": [
-        { "from": "student", "to": "p1", "label": "book query" },
-        { "from": "p1", "to": "books", "label": "check availability" },
-        { "from": "books", "to": "p1", "label": "book details" },
-        { "from": "p1", "to": "student", "label": "search results" },
-        { "from": "student", "to": "p2", "label": "issue request" },
-        { "from": "p2", "to": "books", "label": "mark issued" },
-        { "from": "p2", "to": "issues", "label": "log issue record" },
-        { "from": "librarian", "to": "p2", "label": "approve issue" }
+        {
+          "from": "student",
+          "to": "p1",
+          "label": "book query"
+        },
+        {
+          "from": "p1",
+          "to": "books",
+          "label": "check availability"
+        },
+        {
+          "from": "books",
+          "to": "p1",
+          "label": "book details"
+        },
+        {
+          "from": "p1",
+          "to": "student",
+          "label": "search results"
+        },
+        {
+          "from": "student",
+          "to": "p2",
+          "label": "issue request"
+        },
+        {
+          "from": "p2",
+          "to": "books",
+          "label": "mark issued"
+        },
+        {
+          "from": "p2",
+          "to": "issues",
+          "label": "log issue record"
+        },
+        {
+          "from": "librarian",
+          "to": "p2",
+          "label": "approve issue"
+        }
       ]
     }
   },
@@ -160,6 +351,13 @@
       "The entire Internet — all web browsing, email, streaming, and cloud services run on TCP/IP",
       "Corporate LANs and WANs — TCP/IP is the universal standard for modern networking",
       "IoT devices — embedded devices use TCP/IP (especially UDP) for lightweight communication"
+    ],
+    "aliases": [
+      "tcp ip layers",
+      "tcp ip stack",
+      "4 layer model",
+      "5 layer model",
+      "internet protocol suite"
     ]
   },
   {
@@ -190,6 +388,12 @@
       "Web browsing — every URL typed in a browser triggers DNS resolution to find the server's IP address",
       "Email routing — DNS MX records direct email to the correct mail server for a domain",
       "Load balancing and failover — multiple A records or low-TTL DNS enables traffic distribution and rapid failover to backup servers"
+    ],
+    "aliases": [
+      "dns query",
+      "domain name system resolution",
+      "how dns works",
+      "dns lookup"
     ]
   },
   {
@@ -220,6 +424,11 @@
       "Local network communication — any time two hosts on the same subnet communicate, ARP resolves IP to MAC",
       "Default gateway resolution — end devices use ARP to find the MAC address of their router/gateway",
       "Network troubleshooting — ARP table inspection (`arp -a`) helps diagnose Layer 2 connectivity issues and detect ARP spoofing attacks"
+    ],
+    "aliases": [
+      "address resolution protocol",
+      "arp request reply",
+      "how arp works"
     ]
   },
   {
@@ -250,6 +459,11 @@
       "Legacy Ethernet LANs using hubs — CSMA/CD managed contention on the shared half-duplex bus",
       "Understanding IEEE 802.3 standard — CSMA/CD is the foundational MAC mechanism for all Ethernet history",
       "Comparing wireless vs wired access methods — CSMA/CA (WiFi) vs CSMA/CD (Ethernet) is a common exam topic"
+    ],
+    "aliases": [
+      "carrier sense multiple access collision detection",
+      "csma cd flow chart",
+      "collision detection"
     ]
   },
   {
@@ -280,6 +494,11 @@
       "LAN communication — every data exchange on Ethernet uses this frame structure at the Data Link layer",
       "Network protocol analysis — tools like Wireshark dissect Ethernet frames to show each field for troubleshooting",
       "Switch operation — switches read Destination MAC from frames to make forwarding decisions via CAM table lookup"
+    ],
+    "aliases": [
+      "ethernet frame format",
+      "ethernet header",
+      "ieee 802.3 frame"
     ]
   },
   {
@@ -313,6 +532,11 @@
       "Packet Fragmentation: Routers split packets exceeding the next hop's MTU (Maximum Transmission Unit) using Identification, Flags, and Fragment Offset.",
       "Quality of Service (QoS): Switched networks prioritize voice, video, or data traffic based on the DSCP bits.",
       "Loop Prevention: The TTL field ensures lost packets don't circulate forever, saving network bandwidth."
+    ],
+    "aliases": [
+      "ipv4 packet format",
+      "ip header",
+      "ipv4 packet structure"
     ]
   },
   {
@@ -342,6 +566,11 @@
     "use_cases": [
       "Automatic IP assignment in enterprise LANs, home Wi-Fi networks, and public hotspots.",
       "Simplifying network administration by centralizing IP address management (preventing IP conflicts)."
+    ],
+    "aliases": [
+      "dhcp dora process",
+      "dora handshake",
+      "dhcp lease process"
     ]
   },
   {
@@ -561,6 +790,11 @@
       "Computing overall transfer functions for complex multi-loop control systems.",
       "Analyzing feedback amplifier circuits in electronics.",
       "Modeling state equations for dynamic systems in modern control theory."
+    ],
+    "aliases": [
+      "signal flow graph",
+      "sfg control systems",
+      "masons gain formula"
     ]
   },
   {
@@ -592,6 +826,11 @@
       "Digital signal processing — spectrum analysis and digital filtering.",
       "OFDM modulation/demodulation in 4G/5G wireless communications.",
       "Audio and image compression algorithms (FFT-based)."
+    ],
+    "aliases": [
+      "dif fft butterfly",
+      "butterfly diagram dif",
+      "fft butterfly 8 point"
     ]
   },
   {

@@ -10,7 +10,7 @@ export async function POST(req) {
       return Response.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
-    const pendingFilePath = path.join(process.cwd(), 'lib/catalog/pending-requests.json')
+    const pendingFilePath = '/tmp/pending-requests.json'
 
     let currentRequests = []
     if (fs.existsSync(pendingFilePath)) {

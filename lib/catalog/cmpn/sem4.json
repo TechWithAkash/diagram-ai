@@ -46,7 +46,12 @@
         "color": "#FBBF24"
       }
     ],
-    "sideLabel": "Data Abstraction: High (Views) ➔ Medium (Tables) ➔ Low (Disk)"
+    "sideLabel": "Data Abstraction: High (Views) ➔ Medium (Tables) ➔ Low (Disk)",
+    "aliases": [
+      "three schema architecture",
+      "ansi-sparc architecture",
+      "three level database architecture"
+    ]
   },
   {
     "id": "process-life-cycle",
@@ -1232,7 +1237,12 @@
           "curve": "straight"
         }
       ]
-    }
+    },
+    "aliases": [
+      "transaction state diagram",
+      "transaction states",
+      "acid transaction states"
+    ]
   },
   {
     "id": "bplus-tree",
@@ -1262,6 +1272,11 @@
       "Primary and secondary indexing in relational database management systems.",
       "File system directory indexing (e.g., NTFS directory index).",
       "Efficient range-query processing in data warehouses and OLAP systems."
+    ],
+    "aliases": [
+      "b+ tree diagram",
+      "b plus tree structure",
+      "indexing b+ tree"
     ]
   }
 ]
