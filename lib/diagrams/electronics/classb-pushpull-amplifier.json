@@ -1,0 +1,74 @@
+{
+  "id": "classb-pushpull-amplifier",
+  "title": "Class B Push-Pull Power Amplifier",
+  "description": "A transformer-coupled Class B push-pull power amplifier schematic featuring input phase splitting, complementary transistor operation, and output combination.",
+  "complexity": "Advanced",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "class b push pull power amplifier",
+    "push pull amplifier",
+    "class b push pull",
+    "push-pull amplifier",
+    "class b power amplifier",
+    "push-pull circuit",
+    "transformer coupled push pull"
+  ],
+  "theory": "A Class B push-pull power amplifier is an electronic circuit designed to deliver high power to a load, commonly used in audio output stages. It utilizes two complementary or identical transistors (typically NPN BJTs in a transformer-coupled configuration) operating in a push-pull arrangement. The input AC signal is split into two out-of-phase half-cycles by a center-tapped input transformer (Tr1). Transistor T1 conducts during the positive half-cycle of the input, while T2 is cut off. Conversely, during the negative half-cycle, T2 conducts while T1 is cut off. This active-alternating conduction is why it is called 'push-pull'. The individual half-cycle currents are combined in the center-tapped primary winding of the output transformer (Tr2) to reconstruct the full sinusoidal waveform across the load resistor (RL, representing a speaker). Class B amplifiers are highly efficient, with a maximum theoretical efficiency of 78.5%, because each transistor only conducts for 180 degrees (half) of the input signal cycle and draws zero current when no input signal is present. However, they suffer from crossover distortion near the zero-crossing points, where both transistors are briefly off due to the 0.7V base-emitter conduction threshold.",
+  "keyPoints": [
+    "Uses two NPN transistors operating 180 degrees out of phase.",
+    "Input transformer (Tr1) performs phase splitting to drive T1 and T2 bases.",
+    "Output transformer (Tr2) combines the push and pull currents into a complete wave.",
+    "Draws negligible quiescent current, achieving a maximum theoretical efficiency of 78.5%.",
+    "Prone to crossover distortion, which can be mitigated by biased Class AB operation."
+  ],
+  "useCases": [
+    "Audio power output stages in public address (PA) systems and radio receivers.",
+    "Driver stages for RF transmitters and analog control systems.",
+    "High-power speaker driving networks in legacy communications equipment."
+  ],
+  "grid": {
+    "columns": 7,
+    "rows": 5,
+    "colSpacing": 120,
+    "rowSpacing": 100,
+    "padding": {
+      "left": 100,
+      "top": 80
+    },
+    "viewBox": {
+      "width": 920,
+      "height": 560
+    }
+  },
+  "components": [
+    { "id": "In1", "symbol": "node-label", "grid": [0, 1.2], "label": "Input +" },
+    { "id": "In2", "symbol": "node-label", "grid": [0, 2.8], "label": "Input -" },
+    { "id": "Tr1", "symbol": "transformer", "grid": [1, 2], "label": "Input Transformer (Tr1)" },
+    { "id": "Gnd1", "symbol": "ground", "grid": [1.5, 3.5] },
+    { "id": "T1", "symbol": "bjt-npn", "grid": [3, 1], "label": "T1" },
+    { "id": "T2", "symbol": "bjt-npn", "grid": [3, 3], "label": "T2", "mirrorY": true },
+    { "id": "J1", "symbol": "wire-junction", "grid": [3.6, 2] },
+    { "id": "Gnd2", "symbol": "ground", "grid": [3.6, 3.5] },
+    { "id": "VccSource", "symbol": "dc-source", "grid": [4.3, 2.5], "label": "Vcc" },
+    { "id": "Gnd3", "symbol": "ground", "grid": [4.3, 3.5] },
+    { "id": "Tr2", "symbol": "transformer", "grid": [5.2, 2], "label": "Output Transformer (Tr2)" },
+    { "id": "RL", "symbol": "resistor", "grid": [6.2, 2], "rotation": 90, "label": "RL (Speaker Load)" }
+  ],
+  "netlist": [
+    { "from": "In1.1", "to": "Tr1.primary-top" },
+    { "from": "In2.1", "to": "Tr1.primary-bottom" },
+    { "from": "Tr1.secondary-top", "to": "T1.base" },
+    { "from": "Tr1.secondary-bottom", "to": "T2.base" },
+    { "from": "Tr1.secondary-ct", "to": "Gnd1.top" },
+    { "from": "T1.emitter", "to": "J1.1" },
+    { "from": "T2.emitter", "to": "J1.1" },
+    { "from": "J1.1", "to": "Gnd2.top" },
+    { "from": "T1.collector", "to": "Tr2.primary-top" },
+    { "from": "T2.collector", "to": "Tr2.primary-bottom" },
+    { "from": "Tr2.primary-ct", "to": "VccSource.top" },
+    { "from": "VccSource.bottom", "to": "Gnd3.top" },
+    { "from": "Tr2.secondary-top", "to": "RL.top" },
+    { "from": "Tr2.secondary-bottom", "to": "RL.bottom" }
+  ]
+}

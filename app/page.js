@@ -45,6 +45,7 @@ export default function HomePage() {
   const [copiedCode, setCopiedCode] = useState(false)
   const [loadStep, setLoadStep]     = useState(0)
   const [lastPrompt, setLastPrompt] = useState('')
+  const [verificationStatus, setVerificationStatus] = useState('idle') // idle | loading | success | error
   const diagramRef                  = useRef(null)
   const textareaRef                 = useRef(null)
   const stepTimerRef                = useRef(null)
@@ -55,6 +56,11 @@ export default function HomePage() {
   const isLibrary = data?.source === 'library'
   const isStub    = data?.source === 'library-stub'
   const isAI      = data?.source === 'ai'
+  const isSvgEngine = !!(data?.schema && (
+    isLibrary ||
+    isStub ||
+    ['circuit-schematic', 'uml-diagram', 'dfd-flow', 'block-diagram', 'layered-stack', 'sequential-flow', 'state-machine', 'sequence', 'tree', 'graph', 'table', '8086-custom', '8085-custom', 'logic-diagram', 'chip-diagram'].includes(data.schema.type || data.diagram_type)
+  ))
 
   const [isEmbed, setIsEmbed] = useState(false)
 
@@ -95,10 +101,32 @@ export default function HomePage() {
     }
     setLastPrompt(p)
     startLoadingAnimation()
+    setVerificationStatus('idle')
     const result = await generate(p, options)
     if (result) addToHistory(p, result)
     clearInterval(stepTimerRef.current)
   }, [prompt, generate, addToHistory, startLoadingAnimation])
+
+  const handleRequestVerification = useCallback(async () => {
+    setVerificationStatus('loading')
+    try {
+      const res = await fetch('/api/verify-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: lastPrompt || prompt
+        })
+      })
+      if (res.ok) {
+        setVerificationStatus('success')
+      } else {
+        setVerificationStatus('error')
+      }
+    } catch (e) {
+      console.error('Failed to submit verification request:', e)
+      setVerificationStatus('error')
+    }
+  }, [lastPrompt, prompt])
 
   const handleForceAI = useCallback(() => {
     handleGenerate(lastPrompt || prompt, { forceAI: true })
@@ -112,12 +140,14 @@ export default function HomePage() {
   }, [handleGenerate])
 
   const handleCopyCode = useCallback(async () => {
-    const text = data?.mermaid_code || data?.schema ? JSON.stringify(data.schema, null, 2) : ''
+    const text = isSvgEngine
+      ? (data?.schema ? JSON.stringify(data.schema, null, 2) : '')
+      : (data?.mermaid_code || '')
     if (!text) return
     await copyToClipboard(text)
     setCopiedCode(true)
     setTimeout(() => setCopiedCode(false), 1800)
-  }, [data])
+  }, [data, isSvgEngine])
 
   const handleDownload = useCallback(() => {
     downloadSVG(diagramRef.current, `${data?.title || 'diagram'}.svg`)
@@ -145,6 +175,9 @@ export default function HomePage() {
               code={data.mermaid_code}
               useFallback={data.useFallback}
               fallbackJson={data.fallback_json}
+              isParameterized={data.isParameterized}
+              verificationFailed={data.verificationFailed}
+              lintErrors={data.lintErrors}
               className="w-full h-full"
             />
           </div>
@@ -227,6 +260,21 @@ export default function HomePage() {
                 { label: 'Waterfall Model',   prompt: 'waterfall model SDLC',              icon: Settings },
                 { label: 'Process Life Cycle',prompt: 'process life cycle states OS',      icon: RefreshCw },
                 { label: 'TCP Handshake',     prompt: 'TCP three way handshake',           icon: Share2 },
+                { label: 'Series RLC Circuit', prompt: 'ac series rlc circuit schematic', icon: Zap },
+                { label: 'Zener Regulator',   prompt: 'zener voltage regulator circuit',  icon: Zap },
+                { label: 'Thevenin Circuit',  prompt: 'thevenins equivalent circuit',     icon: Zap },
+                { label: 'BJT as Switch',     prompt: 'bjt switch circuit',               icon: Zap },
+                { label: 'Star-Delta Conversion', prompt: 'star delta conversion',        icon: Zap },
+                { label: 'Colpitts Oscillator', prompt: 'colpitts oscillator circuit schematic', icon: Zap },
+                { label: 'Hartley Oscillator', prompt: 'hartley oscillator circuit schematic', icon: Zap },
+                { label: 'Wien Bridge Osc',   prompt: 'wien bridge oscillator circuit schematic', icon: Zap },
+                { label: 'RC Phase Shift Osc', prompt: 'rc phase shift oscillator circuit schematic', icon: Zap },
+                { label: 'Astable Multivibrator', prompt: 'astable multivibrator circuit using bjt', icon: Zap },
+                { label: 'Op-Amp Integrator', prompt: 'opamp integrator circuit schematic', icon: Zap },
+                { label: 'Op-Amp Differentiator', prompt: 'opamp differentiator circuit schematic', icon: Zap },
+                { label: 'Differential Amp',  prompt: 'bjt differential amplifier circuit', icon: Zap },
+                { label: 'Instrumentation Amp', prompt: 'opamp instrumentation amplifier circuit', icon: Zap },
+                { label: 'Push-Pull Amplifier', prompt: 'class b push pull power amplifier', icon: Zap },
               ].map(q => {
                 const IconComponent = q.icon
                 return (
@@ -271,15 +319,76 @@ export default function HomePage() {
 
         {/* ── Error state ────────────────────────────────────────────────────── */}
         {status === 'error' && error && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-5 flex gap-3 items-start animate-fade-in">
-            <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-            <div>
-              <p className="text-sm font-medium text-red-700 mb-0.5">Generation failed</p>
-              <p className="text-sm text-red-500">{error}</p>
-              <Button variant="secondary" size="sm" className="mt-3" onClick={reset}>
-                <RefreshCw className="w-3.5 h-3.5" /> Try again
-              </Button>
-            </div>
+          <div>
+            {(error.includes('SCHEMATIC_LINT_ERROR') || /circuit|rectifier|op.?amp|thevenin|norton|amplifier|filter|oscillator|latch|flip.?flop|gate/i.test(lastPrompt || prompt)) ? (
+              <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-6 shadow-sm animate-fade-in">
+                <div className="flex gap-4 items-start">
+                  <div className="p-3 bg-amber-100 rounded-xl text-amber-600 shrink-0">
+                    <AlertCircle className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 space-y-4">
+                    <div>
+                      <h3 className="text-base font-bold text-amber-900">
+                        Accuracy Verification Failed
+                      </h3>
+                      <p className="text-sm text-amber-800 mt-1 leading-relaxed">
+                        This circuit diagram could not be verified for 100% technical accuracy. Our topological validator detected connection anomalies (such as floating pins, missing grounds, or potential short circuits) that violate strict exam standards.
+                      </p>
+                    </div>
+
+                    {error.includes('SCHEMATIC_LINT_ERROR') && (
+                      <div className="bg-white/80 rounded-xl p-4 border border-amber-200/40 space-y-2">
+                        <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider">
+                          Validation Reports:
+                        </span>
+                        <ul className="space-y-1.5">
+                          {error.replace('SCHEMATIC_LINT_ERROR: ', '').split('; ').map((err, idx) => (
+                            <li key={idx} className="text-xs text-amber-700 flex items-start gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                              <span>{err}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-3 pt-2">
+                      {verificationStatus === 'success' ? (
+                        <div className="flex items-center gap-2 text-sm text-emerald-600 font-medium">
+                          <Check className="w-4 h-4" />
+                          <span>Verification request submitted! Our team will review this diagram.</span>
+                        </div>
+                      ) : (
+                        <Button
+                          variant="brand"
+                          size="sm"
+                          onClick={handleRequestVerification}
+                          disabled={verificationStatus === 'loading'}
+                          loading={verificationStatus === 'loading'}
+                        >
+                          Request Verification
+                        </Button>
+                      )}
+                      
+                      <Button variant="secondary" size="sm" onClick={reset}>
+                        <RefreshCw className="w-3.5 h-3.5" /> Try a different prompt
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-5 flex gap-3 items-start animate-fade-in">
+                <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-red-700 mb-0.5">Generation failed</p>
+                  <p className="text-sm text-red-500">{error}</p>
+                  <Button variant="secondary" size="sm" className="mt-3" onClick={reset}>
+                    <RefreshCw className="w-3.5 h-3.5" /> Try again
+                  </Button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -293,17 +402,24 @@ export default function HomePage() {
                 <Network className="w-4 h-4 shrink-0" style={{ color: 'var(--brand)' }} />
                 <span className="text-sm font-medium text-gray-900 truncate">{data.title}</span>
                 <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
-                  {/* Library source badge */}
-                  {isLibrary && (
+                  {/* trust badges */}
+                  {data?.verificationFailed ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700">
+                      <AlertCircle className="w-2.5 h-2.5" /> VERIFICATION FAILED
+                    </span>
+                  ) : data?.isParameterized ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                      <Library className="w-2.5 h-2.5" /> PARAMETERIZED EXAM DIAGRAM
+                    </span>
+                  ) : (isLibrary || isStub) ? (
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
-                      <Library className="w-2.5 h-2.5" /> LIBRARY
+                      <Library className="w-2.5 h-2.5" /> EXAM READY
                     </span>
-                  )}
-                  {isStub && (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
-                      <Cpu className="w-2.5 h-2.5" /> SYLLABUS + AI LAYOUT
+                  ) : isAI ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                      <Cpu className="w-2.5 h-2.5" /> AI VERIFIED
                     </span>
-                  )}
+                  ) : null}
                   {data.diagram_type && (
                     <Badge variant="brand">{DIAGRAM_TYPE_LABELS[data.diagram_type] || data.diagram_type}</Badge>
                   )}
@@ -363,6 +479,9 @@ export default function HomePage() {
                       code={data.mermaid_code}
                       useFallback={data.useFallback}
                       fallbackJson={data.fallback_json}
+                      isParameterized={data.isParameterized}
+                      verificationFailed={data.verificationFailed}
+                      lintErrors={data.lintErrors}
                       className="w-full"
                     />
                   </div>
@@ -414,8 +533,8 @@ export default function HomePage() {
 
                 if (tabId === 'code') return (
                   <div className="p-5">
-                    {isLibrary ? (
-                      /* Library: show JSON schema */
+                    {isSvgEngine ? (
+                      /* SVG Engine: show JSON schema */
                       <>
                         <div className="flex items-center justify-between mb-3">
                           <span className="text-xs text-gray-400 font-mono">JSON diagram schema (SVGEngine)</span>
@@ -427,11 +546,11 @@ export default function HomePage() {
                           {JSON.stringify(data.schema, null, 2)}
                         </pre>
                         <p className="text-xs text-gray-400 mt-3">
-                          This is the precision diagram definition from the static library — rendered by SVGEngine for 100% accuracy.
+                          This is the precision diagram definition — rendered by SVGEngine.
                         </p>
                       </>
                     ) : (
-                      /* AI: show Mermaid code */
+                      /* AI / Mermaid: show Mermaid code */
                       <>
                         <div className="flex items-center justify-between mb-3">
                           <span className="text-xs text-gray-400 font-mono">mermaid.js syntax</span>

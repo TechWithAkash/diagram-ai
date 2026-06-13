@@ -149,3 +149,11 @@
     line-height: 1.7;
   }
 }
+
+/* Enforce Poppins and anti-aliasing for all diagram text */
+svg text {
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

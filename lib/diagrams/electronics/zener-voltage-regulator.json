@@ -1,0 +1,66 @@
+{
+  "id": "zener-voltage-regulator",
+  "title": "Zener Diode Voltage Regulator",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Beginner",
+  "aliases": [
+    "zener diode voltage regulator",
+    "zener regulator",
+    "zener voltage regulator circuit",
+    "zener diode regulator circuit",
+    "bee zener",
+    "BEE"
+  ],
+  "tags": ["zener", "voltage regulator", "electronics", "BEE", "diode", "NEP2020", "FE"],
+  "keywords": ["zener diode voltage regulator", "zener regulator", "voltage regulation zener", "zener diode regulator circuit", "bee zener"],
+  "viewBox": { "width": 720, "height": 340 },
+  "components": [
+    { "id": "RS",  "symbol": "resistor",    "x": 220, "y": 120, "rotation": 0,  "label": "Rs", "labelSize": 12 },
+    { "id": "ZD",  "symbol": "zener-diode", "x": 380, "y": 190, "rotation": 90, "label": "" },
+    { "id": "RL",  "symbol": "resistor",    "x": 500, "y": 190, "rotation": 90, "label": "RL", "labelSize": 12 }
+  ],
+  "wires": [
+    { "x1": 100, "y1": 120, "x2": 192, "y2": 120 },
+    { "x1": 248, "y1": 120, "x2": 620, "y2": 120 },
+    { "x1": 380, "y1": 120, "x2": 380, "y2": 170 },
+    { "x1": 500, "y1": 120, "x2": 500, "y2": 152 },
+    
+    { "x1": 100, "y1": 260, "x2": 620, "y2": 260 },
+    { "x1": 380, "y1": 210, "x2": 380, "y2": 260 },
+    { "x1": 500, "y1": 228, "x2": 500, "y2": 260 },
+    
+    { "x1": 280, "y1": 120, "x2": 310, "y2": 120, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 310, "y1": 120, "x2": 302, "y2": 116, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 310, "y1": 120, "x2": 302, "y2": 124, "stroke": "#dc2626", "strokeWidth": 2 }
+  ],
+  "junctions": [
+    { "x": 100, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 100, "y": 260, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 620, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 620, "y": 260, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 380, "y": 120, "r": 3.5, "fill": "#334155" },
+    { "x": 500, "y": 120, "r": 3.5, "fill": "#334155" },
+    { "x": 380, "y": 260, "r": 3.5, "fill": "#334155" },
+    { "x": 500, "y": 260, "r": 3.5, "fill": "#334155" }
+  ],
+  "labels": [
+    { "text": "Unregulated Voltage (Vin)", "x": 80, "y": 95, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "start" },
+    { "text": "Regulated Voltage (Vz)", "x": 635, "y": 195, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "Load RL", "x": 525, "y": 195, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    { "text": "IL", "x": 295, "y": 142, "fontSize": 11, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "middle" }
+  ],
+  "theory": "A Zener diode voltage regulator maintains a constant output voltage despite variations in input voltage or load current. The series resistor Rs limits current. The Zener diode operates in its reverse breakdown region at voltage VZ. If Vin exceeds VZ, excess current flows through Rs and the Zener, keeping Vout = VZ. When load current changes, the Zener absorbs the difference, maintaining regulation. This is the simplest form of voltage regulation and is widely used in low-power circuits, reference voltage generation, and protection circuits.",
+  "keyPoints": [
+    "Zener operates in reverse breakdown region — this is normal and intentional",
+    "Output voltage equals Zener breakdown voltage VZ (e.g. 5.1V, 6.2V, 12V)",
+    "Series resistor Rs limits current to protect the Zener: Rs = (Vin - VZ) / IZ",
+    "Regulation works as long as Zener current stays between IZ(min) and IZ(max)",
+    "Power dissipated by Zener: PZ = VZ × IZ — must be within rated wattage"
+  ],
+  "useCases": [
+    "Fixed voltage reference in power supplies",
+    "Overvoltage protection circuits",
+    "Low-power voltage regulation for ICs and sensors"
+  ]
+}

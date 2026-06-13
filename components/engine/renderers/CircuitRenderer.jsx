@@ -30,10 +30,28 @@ export default function CircuitRenderer({ schema }) {
     wires = [],
     junctions = [],
     labels = [],
+    boxes = [],
   } = schema
 
   return (
     <g>
+      {/* ─── 0. Render Custom Boxes ─── */}
+      {boxes.map((box, index) => (
+        <rect
+          key={`box-${index}`}
+          x={box.x}
+          y={box.y}
+          width={box.width}
+          height={box.height}
+          fill={box.fill || 'none'}
+          stroke={box.stroke || '#334155'}
+          strokeWidth={box.strokeWidth || 1}
+          strokeDasharray={box.strokeDasharray}
+          rx={box.rx || 0}
+          ry={box.ry || 0}
+        />
+      ))}
+
       {/* ─── 1. Render Wires ─── */}
       {wires.map((wire, index) => (
         <line
@@ -44,6 +62,7 @@ export default function CircuitRenderer({ schema }) {
           y2={wire.y2}
           stroke={wire.stroke || '#334155'}
           strokeWidth={wire.strokeWidth || 2}
+          strokeDasharray={wire.strokeDasharray}
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -57,6 +76,7 @@ export default function CircuitRenderer({ schema }) {
           x={comp.x}
           y={comp.y}
           rotation={comp.rotation || 0}
+          mirrorY={comp.mirrorY || false}
           label={comp.label}
           fill={comp.fill || '#F8FAFC'}
           borderColor={comp.borderColor || '#334155'}
@@ -64,14 +84,16 @@ export default function CircuitRenderer({ schema }) {
         />
       ))}
 
-      {/* ─── 3. Render Junctions ─── */}
+      {/* ─── 3. Render Junctions / Nodes ─── */}
       {junctions.map((j, index) => (
         <circle
           key={`junc-${index}`}
           cx={j.x}
           cy={j.y}
-          r={4}
+          r={j.r || 4}
           fill={j.fill || '#334155'}
+          stroke={j.stroke || 'none'}
+          strokeWidth={j.strokeWidth || 0}
         />
       ))}
 
@@ -94,3 +116,4 @@ export default function CircuitRenderer({ schema }) {
     </g>
   )
 }
+

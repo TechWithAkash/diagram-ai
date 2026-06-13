@@ -1,0 +1,102 @@
+{
+  "id": "rc-phase-shift-oscillator",
+  "title": "RC Phase Shift Oscillator Circuit",
+  "description": "A transistor-based RC phase shift oscillator schematic featuring a common-emitter amplifier stage and a three-section RC ladder feedback network introducing a 180° phase shift.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "rc phase shift oscillator circuit schematic",
+    "rc phase shift oscillator",
+    "rc phase shift oscillator circuit",
+    "transistor rc phase shift oscillator"
+  ],
+  "theory": "The RC phase shift oscillator is a sinusoidal oscillator circuit that utilizes a simple resistor-capacitor network to create the required feedback phase shift. It consists of an amplifying stage (usually a BJT in common-emitter configuration) and a feedback network consisting of three cascaded RC sections. The common-emitter BJT stage provides a phase shift of 180° between its base input and collector output. The feedback loop must introduce an additional 180° phase shift to satisfy the Barkhausen criterion for sustained oscillations (total phase shift = 360° or 0°). Each of the three RC sections is designed to contribute a 60° phase shift at the desired frequency of oscillation, resulting in a total feedback phase shift of 3 * 60° = 180°. The frequency of oscillation is given by fr = 1 / (2 * pi * R * C * sqrt(6)), assuming all sections use identical R and C values (and R3 is adjusted to account for the BJT's input resistance). To overcome the attenuation of the 3-stage RC network (which is exactly 1/29 at fr), the BJT amplifier stage must be designed with a voltage gain (Av) of at least 29. Resistors R1 and R2 establish the base bias, RC is the collector load, RE stabilizes the emitter current, and CE is the bypass capacitor.",
+  "keyPoints": [
+    "Uses a three-section RC ladder feedback network; each section shifts the phase by 60°.",
+    "BJT stage shifts phase by 180°; RC network shifts it by another 180°.",
+    "Total phase shift around loop is 360° (or 0°), satisfying Barkhausen criteria.",
+    "Oscillation frequency: fr = 1 / (2 * pi * R * C * sqrt(6)).",
+    "Requires an amplifier gain of Av >= 29 to compensate for RC ladder attenuation."
+  ],
+  "useCases": [
+    "Audio frequency sine wave generators and testing equipment.",
+    "Low-frequency oscillation sources in instrumentation.",
+    "Simple tone generators in analog electronics."
+  ],
+  "examTip": "RC Phase Shift Oscillator: Uses 3 RC stages (each shifting 60° -> total 180°). BJT CE amplifier provides the other 180°. Frequency of oscillation fr = 1/(2πRC√6). To sustain oscillations, amplifier gain must be Av >= 29.",
+  "grid": {
+    "columns": 7,
+    "rows": 5,
+    "colSpacing": 120,
+    "rowSpacing": 110,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 540
+    }
+  },
+  "components": [
+    { "id": "Vcc", "symbol": "vcc-rail", "grid": [1.2, 0.4], "label": "Vcc" },
+    { "id": "R1", "symbol": "resistor", "grid": [1.2, 1.2], "rotation": 90, "label": "R1" },
+    { "id": "R2", "symbol": "resistor", "grid": [1.2, 2.8], "rotation": 90, "label": "R2" },
+    { "id": "J_base", "symbol": "wire-junction", "grid": [1.2, 2.0] },
+    { "id": "Gnd1", "symbol": "ground", "grid": [1.2, 3.5] },
+    { "id": "Q1", "symbol": "bjt-npn", "grid": [2.0, 2.0], "label": "Q1" },
+    { "id": "RC", "symbol": "resistor", "grid": [2.0, 1.0], "rotation": 90, "label": "Rc" },
+    { "id": "RE", "symbol": "resistor", "grid": [2.0, 2.8], "rotation": 90, "label": "RE" },
+    { "id": "CE", "symbol": "capacitor", "grid": [2.6, 2.8], "rotation": 90, "label": "CE" },
+    { "id": "J_vcc", "symbol": "wire-junction", "grid": [2.0, 0.4] },
+    { "id": "J_coll", "symbol": "wire-junction", "grid": [2.0, 1.5] },
+    { "id": "J_emit", "symbol": "wire-junction", "grid": [2.0, 2.4] },
+    { "id": "J_emit_gnd", "symbol": "wire-junction", "grid": [2.0, 3.2] },
+    { "id": "Gnd2", "symbol": "ground", "grid": [2.0, 3.5] },
+    { "id": "C1", "symbol": "capacitor", "grid": [3.0, 1.5], "label": "C" },
+    { "id": "J_stage1", "symbol": "wire-junction", "grid": [3.6, 1.5] },
+    { "id": "R_c1", "symbol": "resistor", "grid": [3.6, 2.4], "rotation": 90, "label": "R" },
+    { "id": "Gnd_r1", "symbol": "ground", "grid": [3.6, 3.0] },
+    { "id": "C2", "symbol": "capacitor", "grid": [4.3, 1.5], "label": "C" },
+    { "id": "J_stage2", "symbol": "wire-junction", "grid": [4.9, 1.5] },
+    { "id": "R_c2", "symbol": "resistor", "grid": [4.9, 2.4], "rotation": 90, "label": "R" },
+    { "id": "Gnd_r2", "symbol": "ground", "grid": [4.9, 3.0] },
+    { "id": "C3", "symbol": "capacitor", "grid": [5.6, 1.5], "label": "C" },
+    { "id": "J_stage3", "symbol": "wire-junction", "grid": [6.2, 1.5] },
+    { "id": "R_c3", "symbol": "resistor", "grid": [6.2, 2.4], "rotation": 90, "label": "R" },
+    { "id": "Gnd_r3", "symbol": "ground", "grid": [6.2, 3.0] },
+    { "id": "J_fb", "symbol": "wire-junction", "grid": [0.6, 2.0] }
+  ],
+  "netlist": [
+    { "from": "Vcc.1", "to": "R1.top" },
+    { "from": "Vcc.1", "to": "J_vcc.1" },
+    { "from": "J_vcc.1", "to": "RC.top" },
+    { "from": "R1.bottom", "to": "J_base.1" },
+    { "from": "J_base.1", "to": "R2.top" },
+    { "from": "J_base.1", "to": "Q1.base" },
+    { "from": "R2.bottom", "to": "Gnd1.top" },
+    { "from": "RC.bottom", "to": "J_coll.1" },
+    { "from": "J_coll.1", "to": "Q1.collector" },
+    { "from": "J_coll.1", "to": "C1.left" },
+    { "from": "Q1.emitter", "to": "J_emit.1" },
+    { "from": "J_emit.1", "to": "RE.top" },
+    { "from": "J_emit.1", "to": "CE.top" },
+    { "from": "RE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "CE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "J_emit_gnd.1", "to": "Gnd2.top" },
+    { "from": "C1.right", "to": "J_stage1.1" },
+    { "from": "J_stage1.1", "to": "R_c1.top" },
+    { "from": "R_c1.bottom", "to": "Gnd_r1.top" },
+    { "from": "J_stage1.1", "to": "C2.left" },
+    { "from": "C2.right", "to": "J_stage2.1" },
+    { "from": "J_stage2.1", "to": "R_c2.top" },
+    { "from": "R_c2.bottom", "to": "Gnd_r2.top" },
+    { "from": "J_stage2.1", "to": "C3.left" },
+    { "from": "C3.right", "to": "J_stage3.1" },
+    { "from": "J_stage3.1", "to": "R_c3.top" },
+    { "from": "R_c3.bottom", "to": "Gnd_r3.top" },
+    { "from": "J_stage3.1", "to": "J_fb.1" },
+    { "from": "J_fb.1", "to": "J_base.1" }
+  ]
+}

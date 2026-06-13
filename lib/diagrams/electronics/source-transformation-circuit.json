@@ -1,0 +1,77 @@
+{
+  "id": "source-transformation-circuit",
+  "title": "Source Transformation Circuit",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Intermediate",
+  "tags": ["source transformation", "voltage source", "current source", "BEE", "NEP2020", "FE", "circuit analysis"],
+  "keywords": ["source transformation", "voltage to current source", "source transformation circuit", "bee source transformation", "current source voltage source conversion"],
+  "viewBox": { "width": 720, "height": 340 },
+  "components": [
+    { "id": "V_A",  "symbol": "dc-source", "x": 100, "y": 180, "rotation": 0, "label": "V", "labelSize": 12 },
+    { "id": "RV_A", "symbol": "resistor",  "x": 200, "y": 120, "rotation": 0, "label": "rv", "labelSize": 12 },
+    
+    { "id": "I_B",  "symbol": "current-source", "x": 450, "y": 180, "rotation": 0, "label": "I", "labelSize": 12 },
+    { "id": "RI_B", "symbol": "resistor",       "x": 530, "y": 180, "rotation": 90,"label": "ri", "labelSize": 12 }
+  ],
+  "wires": [
+    { "x1": 100, "y1": 154, "x2": 100, "y2": 120 },
+    { "x1": 100, "y1": 120, "x2": 172, "y2": 120 },
+    { "x1": 228, "y1": 120, "x2": 280, "y2": 120 },
+    { "x1": 100, "y1": 206, "x2": 100, "y2": 240 },
+    { "x1": 100, "y1": 240, "x2": 280, "y2": 240 },
+    
+    { "x1": 240, "y1": 120, "x2": 260, "y2": 120, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 260, "y1": 120, "x2": 252, "y2": 116, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 260, "y1": 120, "x2": 252, "y2": 124, "stroke": "#dc2626", "strokeWidth": 2 },
+    
+    { "x1": 330, "y1": 180, "x2": 390, "y2": 180, "stroke": "#ea580c", "strokeWidth": 6 },
+    { "x1": 390, "y1": 180, "x2": 376, "y2": 168, "stroke": "#ea580c", "strokeWidth": 5 },
+    { "x1": 390, "y1": 180, "x2": 376, "y2": 192, "stroke": "#ea580c", "strokeWidth": 5 },
+    
+    { "x1": 450, "y1": 154, "x2": 450, "y2": 120 },
+    { "x1": 450, "y1": 120, "x2": 610, "y2": 120 },
+    { "x1": 530, "y1": 120, "x2": 530, "y2": 152 },
+    { "x1": 450, "y1": 206, "x2": 450, "y2": 240 },
+    { "x1": 450, "y1": 240, "x2": 610, "y2": 240 },
+    { "x1": 530, "y1": 240, "x2": 530, "y2": 208 },
+    
+    { "x1": 570, "y1": 120, "x2": 590, "y2": 120, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 590, "y1": 120, "x2": 582, "y2": 116, "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x1": 590, "y1": 120, "x2": 582, "y2": 124, "stroke": "#dc2626", "strokeWidth": 2 }
+  ],
+  "junctions": [
+    { "x": 280, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 280, "y": 240, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 610, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 610, "y": 240, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 530, "y": 120, "r": 3.5, "fill": "#334155" },
+    { "x": 530, "y": 240, "r": 3.5, "fill": "#334155" }
+  ],
+  "labels": [
+    { "text": "x", "x": 295, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#16a34a", "textAnchor": "start" },
+    { "text": "y", "x": 295, "y": 244, "fontSize": 12, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "start" },
+    { "text": "iLv", "x": 250, "y": 108, "fontSize": 11, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Figure A", "x": 180, "y": 290, "fontSize": 13, "fontWeight": "700", "fill": "#16a34a", "textAnchor": "middle" },
+    
+    { "text": "x", "x": 625, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#16a34a", "textAnchor": "start" },
+    { "text": "y", "x": 625, "y": 244, "fontSize": 12, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "start" },
+    { "text": "iLi", "x": 580, "y": 108, "fontSize": 11, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "middle" },
+    { "text": "Figure B", "x": 530, "y": 290, "fontSize": 13, "fontWeight": "700", "fill": "#16a34a", "textAnchor": "middle" },
+    
+    { "text": "Equivalence: I = V / rv  and  ri = rv", "x": 360, "y": 320, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" }
+  ],
+  "theory": "Source transformation is a circuit simplification technique that converts a voltage source (VS) in series with a resistance R into an equivalent current source (IS = VS/R) in parallel with the same resistance R, and vice versa. The technique preserves the terminal characteristics of the circuit. It is particularly useful when the circuit has mixed voltage and current sources, making node voltage or mesh current analysis simpler.",
+  "keyPoints": [
+    "Voltage source VS + series R → Current source IS = VS/R in parallel with same R",
+    "Current source IS + parallel R → Voltage source VS = IS×R in series with same R",
+    "Terminal voltage and current remain identical after transformation",
+    "Source transformation only works if the source has a series/parallel resistance",
+    "Simplifies mixed-source circuits for easier nodal or mesh analysis"
+  ],
+  "useCases": [
+    "Simplifying circuits with multiple independent sources",
+    "Converting between Norton and Thevenin equivalents",
+    "Reducing complex networks before applying superposition"
+  ]
+}

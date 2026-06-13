@@ -15,6 +15,7 @@ import LogicDiagramRenderer    from './renderers/LogicDiagramRenderer'
 import CircuitRenderer         from './renderers/CircuitRenderer'
 import UMLDiagramRenderer      from './renderers/UMLDiagramRenderer'
 import DFDFlowRenderer         from './renderers/DFDFlowRenderer'
+import { compileGridSchematic } from '@/lib/gridSchematicCompiler'
 
 /** Map schema type string → renderer component */
 const RENDERERS = {
@@ -48,16 +49,28 @@ export default function SVGEngine({ schema, className = '' }) {
     )
   }
 
-  const Renderer = RENDERERS[schema.type]
+  let resolvedSchema = schema
+  if (schema.grid || schema.type === 'grid-schematic' || schema.type === 'circuit-schematic' || schema.diagram_type === 'circuit-schematic') {
+    try {
+      // Only compile if it actually uses the grid netlist representation
+      if (schema.grid || schema.components?.some(c => c.grid)) {
+        resolvedSchema = compileGridSchematic(schema)
+      }
+    } catch (err) {
+      console.error('Failed to compile grid-schematic:', err)
+    }
+  }
+
+  const Renderer = RENDERERS[resolvedSchema.type]
   if (!Renderer) {
     return (
       <div className={`flex items-center justify-center min-h-[280px] text-sm text-amber-500 ${className}`}>
-        Unknown diagram type: {schema.type}
+        Unknown diagram type: {resolvedSchema.type}
       </div>
     )
   }
 
-  const { width = 780, height = 560 } = schema.viewBox || {}
+  const { width = 780, height = 560 } = resolvedSchema.viewBox || {}
 
   return (
     <div className={`w-full flex items-center justify-center p-4 bg-gray-50 rounded-b-xl overflow-x-auto ${className}`}>
@@ -89,7 +102,7 @@ export default function SVGEngine({ schema, className = '' }) {
         <rect width={width} height={height} fill="#FAFBFC" rx={0} />
 
         {/* The actual diagram */}
-        <Renderer schema={schema} />
+        <Renderer schema={resolvedSchema} />
       </svg>
     </div>
   )

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   RefreshCw, AlertCircle, Sparkles, BookOpen,
   Layers, GitFork, Terminal, Database, HelpCircle,
-  ArrowRight, Activity
+  ArrowRight, Activity, ShieldCheck, AlertTriangle
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
@@ -698,15 +698,94 @@ function MermaidRenderer({ code, fallbackJson, className = '' }) {
  * Routes to SVGEngine (library) or MermaidRenderer (AI) based on `source` prop
  *
  * Props:
- *   source: 'library' | 'ai' — where the diagram came from
+ *   source: 'library' | 'ai' | 'library-stub' — where the diagram came from
  *   schema: object            — for library diagrams (passed to SVGEngine)
  *   code:   string            — for AI diagrams (Mermaid code string)
  *   useFallback: boolean      — forces rendering the HTML/CSS fallback layout
  *   fallbackJson: object      — structured nodes/edges representation
  */
-export default function DiagramRenderer({ source, schema, code, useFallback, fallbackJson, className = '' }) {
-  // Library diagram → precision SVGEngine or Mermaid (if schema contains mermaid_code)
-  if (source === 'library' && schema) {
+export default function DiagramRenderer({
+  source,
+  schema,
+  code,
+  useFallback,
+  fallbackJson,
+  isParameterized = false,
+  verificationFailed = false,
+  lintErrors = [],
+  className = ''
+}) {
+  const isLibrary = source === 'library';
+  const isStub = source === 'library-stub';
+
+  // 1. Red Badge (Verification Failed)
+  if (verificationFailed) {
+    return (
+      <div className={`p-6 bg-red-50 border border-red-200 rounded-b-xl ${className}`}>
+        <div className="flex items-center gap-2 mb-3 text-red-600">
+          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+          <span className="text-sm font-bold uppercase tracking-wider">
+            🔴 Verification Failed
+          </span>
+        </div>
+        <div className="space-y-3">
+          <p className="text-sm font-semibold text-red-800 leading-relaxed">
+            Verification Failed: This diagram could not be topologically validated to textbook standards. Do not study from this diagram.
+          </p>
+          {lintErrors && lintErrors.length > 0 && (
+            <div className="bg-white rounded-lg p-3 border border-red-200/50 space-y-1.5">
+              <span className="text-[10px] font-bold text-red-800 uppercase tracking-wider">
+                Reason / Linter Errors:
+              </span>
+              <ul className="space-y-1">
+                {lintErrors.map((err, idx) => (
+                  <li key={idx} className="text-xs text-red-700 flex items-start gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5 shrink-0" />
+                    <span>{err}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Determine standard trust badge header banner
+  let badgeEl = null;
+
+  if (isParameterized) {
+    badgeEl = (
+      <div className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 border-b border-blue-100">
+        <ShieldCheck className="w-4 h-4 text-blue-600 flex-shrink-0" />
+        <span className="text-xs font-semibold text-blue-700">
+          🔵 Parameterized Exam Diagram — Verified template with custom values
+        </span>
+      </div>
+    );
+  } else if (isLibrary || isStub) {
+    badgeEl = (
+      <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border-b border-emerald-100">
+        <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+        <span className="text-xs font-semibold text-emerald-700">
+          🟢 Exam Ready — Verified textbook diagram
+        </span>
+      </div>
+    );
+  } else if (source === 'ai') {
+    badgeEl = (
+      <div className="flex items-center gap-1.5 px-4 py-2 bg-amber-50 border-b border-amber-100">
+        <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+        <span className="text-xs font-semibold text-amber-700">
+          🟡 AI Verified — Dynamic diagram passed linter validation
+        </span>
+      </div>
+    );
+  }
+
+  // Library/Stub diagram → precision SVGEngine or Mermaid (if schema contains mermaid_code)
+  if ((isLibrary || isStub) && schema) {
     const isMermaid = schema.mermaid_code && (
       schema.type === 'flowchart' ||
       schema.type === 'sequenceDiagram' ||
@@ -717,12 +796,7 @@ export default function DiagramRenderer({ source, schema, code, useFallback, fal
 
     return (
       <div className="w-full">
-        <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 border-b border-emerald-100">
-          <BookOpen className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-          <span className="text-xs font-semibold text-emerald-700">
-            Precision Library Diagram — 100% accurate for exams
-          </span>
-        </div>
+        {badgeEl}
         {isMermaid ? (
           <MermaidRenderer code={schema.mermaid_code} className={className} />
         ) : (
@@ -733,30 +807,27 @@ export default function DiagramRenderer({ source, schema, code, useFallback, fal
   }
 
   // AI-generated JSON schema -> precision SVGEngine
-  if (source === 'ai' && schema) {
-    return (
-      <div className="w-full">
-        <div className="flex items-center gap-1.5 px-4 py-2 bg-violet-50 border-b border-violet-100">
-          <Sparkles className="w-3.5 h-3.5 text-violet-600 flex-shrink-0" />
-          <span className="text-xs font-semibold text-violet-700">
-            AI-Generated Diagram (Dynamic SVGEngine) — verify key details
-          </span>
+  // Handles: circuit-schematic, uml-diagram, dfd-flow, and any future custom schema types
+  if (source === 'ai' && schema && schema.type) {
+    const CUSTOM_SCHEMA_TYPES = ['circuit-schematic', 'uml-diagram', 'dfd-flow',
+      'block-diagram', 'layered-stack', 'sequential-flow', 'state-machine',
+      'sequence', 'tree', 'graph', 'table', '8086-custom', '8085-custom',
+      'logic-diagram', 'chip-diagram']
+    if (CUSTOM_SCHEMA_TYPES.includes(schema.type)) {
+      return (
+        <div className="w-full">
+          {badgeEl}
+          <SVGEngine schema={schema} className={className} />
         </div>
-        <SVGEngine schema={schema} className={className} />
-      </div>
-    )
+      )
+    }
   }
 
   // AI diagram → Mermaid.js renderer
   if (source === 'ai' && code) {
     return (
       <div className="w-full">
-        <div className="flex items-center gap-1.5 px-4 py-2 bg-violet-50 border-b border-violet-100">
-          <Sparkles className="w-3.5 h-3.5 text-violet-600 flex-shrink-0" />
-          <span className="text-xs font-semibold text-violet-700">
-            AI-Generated Diagram — verify key details
-          </span>
-        </div>
+        {badgeEl}
         {useFallback ? (
           <MermaidFallbackRenderer code={code} fallbackJson={fallbackJson} className={className} />
         ) : (
@@ -768,12 +839,17 @@ export default function DiagramRenderer({ source, schema, code, useFallback, fal
 
   // Fallback: legacy Mermaid-only usage
   if (code) {
-    return useFallback ? (
-      <MermaidFallbackRenderer code={code} fallbackJson={fallbackJson} className={className} />
-    ) : (
-      <MermaidRenderer code={code} fallbackJson={fallbackJson} className={className} />
+    return (
+      <div className="w-full">
+        {badgeEl}
+        {useFallback ? (
+          <MermaidFallbackRenderer code={code} fallbackJson={fallbackJson} className={className} />
+        ) : (
+          <MermaidRenderer code={code} fallbackJson={fallbackJson} className={className} />
+        )}
+      </div>
     )
   }
 
-  return null
+  return null;
 }

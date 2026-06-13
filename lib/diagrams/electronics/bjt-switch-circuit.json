@@ -1,0 +1,131 @@
+{
+  "id": "bjt-switch-circuit",
+  "title": "BJT as a Switch Circuit",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Intermediate",
+  "aliases": [
+    "bjt as a switch",
+    "transistor switch",
+    "bjt switch circuit",
+    "npn transistor switch",
+    "BEE",
+    "bjt switch"
+  ],
+  "tags": ["BJT", "transistor", "switch", "NPN", "electronics", "BEE", "NEP2020", "FE"],
+  "keywords": ["bjt as switch", "transistor switch", "bjt switch circuit", "npn transistor switch", "bee bjt switch", "bjt switching"],
+  "viewBox": { "width": 680, "height": 340 },
+  "components": [
+    { "id": "RC1", "symbol": "resistor", "x": 140, "y": 100, "rotation": 90, "label": "Rc", "labelSize": 11 },
+    { "id": "Q1",  "symbol": "bjt-npn",  "x": 140, "y": 180, "rotation": 0 },
+    { "id": "RB1", "symbol": "resistor", "x": 75,  "y": 180, "rotation": 0,  "label": "RB", "labelSize": 11 },
+    { "id": "G1",  "symbol": "ground",   "x": 140, "y": 240 },
+    
+    { "id": "RC2", "symbol": "resistor", "x": 220, "y": 100, "rotation": 90, "label": "Rc", "labelSize": 11 },
+    { "id": "G2",  "symbol": "ground",   "x": 220, "y": 240 },
+    
+    { "id": "RC3", "symbol": "resistor", "x": 480, "y": 100, "rotation": 90, "label": "Rc", "labelSize": 11 },
+    { "id": "Q2",  "symbol": "bjt-npn",  "x": 480, "y": 180, "rotation": 0 },
+    { "id": "RB2", "symbol": "resistor", "x": 415, "y": 180, "rotation": 0,  "label": "RB", "labelSize": 11 },
+    { "id": "G3",  "symbol": "ground",   "x": 480, "y": 240 },
+    
+    { "id": "RC4", "symbol": "resistor", "x": 560, "y": 100, "rotation": 90, "label": "Rc", "labelSize": 11 },
+    { "id": "G4",  "symbol": "ground",   "x": 560, "y": 240 }
+  ],
+  "wires": [
+    { "x1": 140, "y1": 50,  "x2": 140, "y2": 72 },
+    { "x1": 140, "y1": 128, "x2": 140, "y2": 148 },
+    { "x1": 140, "y1": 212, "x2": 140, "y2": 240 },
+    { "x1": 103, "y1": 180, "x2": 120, "y2": 180 },
+    { "x1": 20,  "y1": 180, "x2": 47,  "y2": 180 },
+    
+    { "x1": 220, "y1": 50,  "x2": 220, "y2": 72 },
+    { "x1": 220, "y1": 128, "x2": 220, "y2": 140 },
+    { "x1": 220, "y1": 190, "x2": 220, "y2": 240 },
+    { "x1": 220, "y1": 190, "x2": 235, "y2": 150, "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 195, "y1": 170, "x2": 165, "y2": 170, "stroke": "#334155", "strokeWidth": 2.5 },
+    { "x1": 165, "y1": 170, "x2": 173, "y2": 165, "stroke": "#334155", "strokeWidth": 2.5 },
+    { "x1": 165, "y1": 170, "x2": 173, "y2": 175, "stroke": "#334155", "strokeWidth": 2.5 },
+    
+    { "x1": 480, "y1": 50,  "x2": 480, "y2": 72 },
+    { "x1": 480, "y1": 128, "x2": 480, "y2": 148 },
+    { "x1": 480, "y1": 212, "x2": 480, "y2": 240 },
+    { "x1": 443, "y1": 180, "x2": 460, "y2": 180 },
+    { "x1": 360, "y1": 180, "x2": 387, "y2": 180 },
+    
+    { "x1": 560, "y1": 50,  "x2": 560, "y2": 72 },
+    { "x1": 560, "y1": 128, "x2": 560, "y2": 240 },
+    
+    { "x1": 385, "y1": 195, "x2": 365, "y2": 195, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 365, "y1": 195, "x2": 370, "y2": 191, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 365, "y1": 195, "x2": 370, "y2": 199, "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 505, "y1": 120, "x2": 505, "y2": 80,  "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 505, "y1": 80,  "x2": 501, "y2": 86,  "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 505, "y1": 80,  "x2": 509, "y2": 86,  "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 585, "y1": 120, "x2": 585, "y2": 80,  "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 585, "y1": 80,  "x2": 581, "y2": 86,  "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 585, "y1": 80,  "x2": 589, "y2": 86,  "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 560, "y1": 140, "x2": 556, "y2": 148, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 560, "y1": 140, "x2": 564, "y2": 148, "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 260, "y1": 45,  "x2": 420, "y2": 45,  "stroke": "#334155", "strokeWidth": 2.5 }
+  ],
+  "junctions": [
+    { "x": 20,  "y": 180, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 220, "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 220, "y": 190, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 140, "y": 50,  "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 220, "y": 50,  "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x": 360, "y": 180, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 560, "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 560, "y": 190, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 480, "y": 50,  "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 560, "y": 50,  "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 }
+  ],
+  "boxes": [
+    { "x": 210, "y": 130, "width": 25, "height": 70, "fill": "#f1f5f9", "stroke": "none", "rx": 2 },
+    { "x": 550, "y": 130, "width": 25, "height": 70, "fill": "#f1f5f9", "stroke": "none", "rx": 2 }
+  ],
+  "labels": [
+    { "text": "BJT as a Switch", "x": 340, "y": 35, "fontSize": 20, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    
+    { "text": "+Vcc", "x": 140, "y": 38, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "0V", "x": 10, "y": 184, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "end" },
+    { "text": "C", "x": 232, "y": 144, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    { "text": "E", "x": 232, "y": 194, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    { "text": "+Vcc", "x": 220, "y": 38, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "Cutoff-open Switch", "x": 180, "y": 300, "fontSize": 14, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "Ic", "x": 160, "y": 105, "fontSize": 11, "fontWeight": "700", "fill": "#334155", "textAnchor": "start" },
+    { "text": "Ic", "x": 240, "y": 105, "fontSize": 11, "fontWeight": "700", "fill": "#334155", "textAnchor": "start" },
+    
+    { "text": "+Vcc", "x": 480, "y": 38, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "+ VBB", "x": 345, "y": 184, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "end" },
+    { "text": "C", "x": 572, "y": 144, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    { "text": "E", "x": 572, "y": 194, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    { "text": "+Vcc", "x": 560, "y": 38, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "Saturation - closed switch", "x": 520, "y": 300, "fontSize": 14, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "Ic", "x": 518, "y": 100, "fontSize": 11, "fontWeight": "700", "fill": "#334155", "textAnchor": "start" },
+    { "text": "Ic", "x": 598, "y": 100, "fontSize": 11, "fontWeight": "700", "fill": "#334155", "textAnchor": "start" },
+    { "text": "Ib", "x": 375, "y": 212, "fontSize": 11, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "+", "x": 456, "y": 175, "fontSize": 14, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "-", "x": 492, "y": 225, "fontSize": 16, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" }
+  ],
+  "theory": "A BJT (Bipolar Junction Transistor) acts as a switch by operating in two regions: Saturation (ON) and Cut-off (OFF). In the Common Emitter configuration, when the base input voltage Vin is HIGH (logic 1), sufficient base current IB flows through RB, causing the transistor to saturate — collector current IC flows and output Vout ≈ 0V (like a closed switch). When Vin is LOW (logic 0), no base current flows, transistor enters cut-off — IC = 0 and Vout = VCC (open switch). BJTs are widely used in digital logic circuits, relay drivers, and motor control.",
+  "keyPoints": [
+    "Saturation region: VBE ≈ 0.7V (Si), VCE(sat) ≈ 0.2V → switch is ON",
+    "Cut-off region: IB = 0, IC ≈ 0, VCE ≈ VCC → switch is OFF",
+    "Base resistor RB limits base current: IB = (Vin − VBE) / RB",
+    "For saturation: IB must exceed IC(sat) / β (β = hFE = current gain)",
+    "NPN: current flows from Collector to Emitter when switched ON"
+  ],
+  "useCases": [
+    "Relay and solenoid drivers in industrial control",
+    "LED and lamp switching circuits",
+    "Digital-to-analog interface in microcontroller outputs"
+  ]
+}

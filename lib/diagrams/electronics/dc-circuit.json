@@ -1,0 +1,72 @@
+{
+  "id": "dc-circuit",
+  "title": "Direct Current (DC) Circuit",
+  "description": "A standard DC electrical circuit diagram featuring a battery source, a control switch, an ammeter in series, and a parallel combination of a load (lamp) and a voltmeter.",
+  "complexity": "Basic",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "dc circuit diagram",
+    "direct current circuit",
+    "basic dc circuit",
+    "dc circuit schematic",
+    "dc circuit"
+  ],
+  "theory": "A Direct Current (DC) circuit is an electrical circuit in which the electric current flows in only one direction. The electric charge flows from the positive terminal of the voltage source (such as a battery) through the load to the negative terminal. A basic DC circuit contains a power source (battery), a control element (switch), protection/measurement devices (ammeter and voltmeter), and a load (lamp or resistor). The ammeter is connected in series with the load to measure the current flowing through it, and must have a very low internal resistance to avoid affecting the circuit. The voltmeter is connected in parallel with the load to measure the potential difference across it, and must have a very high internal resistance so it draws negligible current. The switch is used to open or close the circuit, starting or stopping the flow of charge. Ohm's Law (V = I * R) governs the relationship between voltage, current, and resistance in the circuit.",
+  "keyPoints": [
+    "Electric current flows in a single, constant direction in a DC circuit.",
+    "A battery provides a constant DC voltage source.",
+    "The switch controls the circuit state (open = no current, closed = current flows).",
+    "An ammeter is connected in series to measure current (low internal resistance).",
+    "A voltmeter is connected in parallel to measure voltage (high internal resistance)."
+  ],
+  "useCases": [
+    "Battery-powered electronics like flashlights and portable devices.",
+    "Automotive electrical systems (typically 12V DC).",
+    "Solar photovoltaic power generation systems."
+  ],
+  "examTip": "DC Circuit: Always remember that an ammeter must be connected in series with the load, and a voltmeter must be connected in parallel. Current flows from the positive terminal of the battery (long line) to the negative terminal (short line) in the conventional current model.",
+  "grid": {
+    "columns": 5,
+    "rows": 3,
+    "colSpacing": 140,
+    "rowSpacing": 120,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 720,
+      "height": 360
+    }
+  },
+  "components": [
+    { "id": "V1", "symbol": "dc-source", "grid": [0.5, 1.0], "label": "Battery", "rotation": 0 },
+    { "id": "SW1", "symbol": "switch", "grid": [1.8, 0.0], "label": "Switch", "rotation": 0 },
+    { "id": "Load1", "symbol": "lamp", "grid": [3.0, 1.0], "label": "Load", "rotation": 90 },
+    { "id": "VM1", "symbol": "voltmeter", "grid": [4.2, 1.0], "label": "Voltmeter", "rotation": 90 },
+    { "id": "AM1", "symbol": "ammeter", "grid": [2.2, 2.0], "label": "Ammeter", "rotation": 0 },
+    { "id": "J_top_left", "symbol": "wire-junction", "grid": [0.5, 0.0] },
+    { "id": "J_top_mid", "symbol": "wire-junction", "grid": [3.0, 0.0] },
+    { "id": "J_top_right", "symbol": "wire-junction", "grid": [4.2, 0.0] },
+    { "id": "J_bot_left", "symbol": "wire-junction", "grid": [0.5, 2.0] },
+    { "id": "J_bot_mid", "symbol": "wire-junction", "grid": [3.0, 2.0] },
+    { "id": "J_bot_right", "symbol": "wire-junction", "grid": [4.2, 2.0] },
+    { "id": "Gnd1", "symbol": "ground", "grid": [0.5, 2.2] }
+  ],
+  "netlist": [
+    { "from": "V1.top", "to": "J_top_left.1" },
+    { "from": "J_top_left.1", "to": "SW1.left" },
+    { "from": "SW1.right", "to": "J_top_mid.1" },
+    { "from": "J_top_mid.1", "to": "J_top_right.1" },
+    { "from": "J_top_mid.1", "to": "Load1.top" },
+    { "from": "J_top_right.1", "to": "VM1.top" },
+    { "from": "VM1.bottom", "to": "J_bot_right.1" },
+    { "from": "J_bot_right.1", "to": "J_bot_mid.1" },
+    { "from": "Load1.bottom", "to": "J_bot_mid.1" },
+    { "from": "J_bot_mid.1", "to": "AM1.right" },
+    { "from": "AM1.left", "to": "J_bot_left.1" },
+    { "from": "J_bot_left.1", "to": "V1.bottom" },
+    { "from": "J_bot_left.1", "to": "Gnd1.top" }
+  ]
+}

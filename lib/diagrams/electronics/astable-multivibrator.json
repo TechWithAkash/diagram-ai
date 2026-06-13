@@ -1,0 +1,81 @@
+{
+  "id": "astable-multivibrator",
+  "title": "Astable Multivibrator Circuit",
+  "description": "A classic BJT-based astable multivibrator circuit schematic demonstrating cross-coupled collector-to-base feedback for self-sustained square-wave oscillation.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "astable multivibrator circuit using bjt",
+    "astable multivibrator",
+    "astable multivibrator circuit",
+    "bjt astable multivibrator"
+  ],
+  "theory": "An astable multivibrator is a free-running oscillator that alternates between two unstable states (quasi-stable states) without requiring an external trigger. The circuit consists of two cross-coupled common-emitter transistor amplifier stages Q1 and Q2. The collector of Q1 is coupled to the base of Q2 via capacitor C1, and the collector of Q2 is coupled to the base of Q1 via capacitor C2. When Q1 turns ON, its collector voltage drops to near 0V, which drives the base of Q2 negative through C1, turning Q2 OFF. Capacitor C1 then slowly charges through resistor R2. When the base voltage of Q2 rises to approximately 0.7V, Q2 turns ON, dropping its collector voltage and turning Q1 OFF through C2. The off-time of each transistor is determined by the RC time constants: t1 = 0.693 * R2 * C1 (for Q2 OFF) and t2 = 0.693 * R1 * C2 (for Q1 OFF). The total time period is T = t1 + t2, and the frequency of oscillation is fr = 1 / T = 1.44 / (R2*C1 + R1*C2). Symmetrical components yield a 50% duty cycle square wave.",
+  "keyPoints": [
+    "A free-running oscillator with two quasi-stable states; requires no external trigger.",
+    "Cross-coupled capacitors (C1 and C2) alternate conduction between Q1 and Q2.",
+    "Time constants: t1 ≈ 0.7 * R2 * C1, t2 ≈ 0.7 * R1 * C2.",
+    "Total period: T = t1 + t2 = 1.386 * R * C (if symmetrical: R2=R1=R, C1=C2=C).",
+    "Outputs taken from either collector represent complementary square waves."
+  ],
+  "useCases": [
+    "Square wave generators and pulse generators.",
+    "LED blinkers, flashers, and simple warning indicators.",
+    "Clock source generation for digital circuits and timing networks."
+  ],
+  "examTip": "Astable Multivibrator: Symmetrical cross-coupling of Q1 collector to Q2 base via C1, and Q2 collector to Q1 base via C2. No stable state (free-running). Frequency fr = 1.44 / (R2·C1 + R1·C2). Symmetrical formula: T = 1.386·RC.",
+  "grid": {
+    "columns": 7,
+    "rows": 5,
+    "colSpacing": 120,
+    "rowSpacing": 110,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 540
+    }
+  },
+  "components": [
+    { "id": "Vcc", "symbol": "vcc-rail", "grid": [3.0, 0.4], "label": "Vcc" },
+    { "id": "RC1", "symbol": "resistor", "grid": [1.5, 1.2], "rotation": 90, "label": "Rc1" },
+    { "id": "R1", "symbol": "resistor", "grid": [2.5, 1.2], "rotation": 90, "label": "R1" },
+    { "id": "R2", "symbol": "resistor", "grid": [3.5, 1.2], "rotation": 90, "label": "R2" },
+    { "id": "RC2", "symbol": "resistor", "grid": [4.5, 1.2], "rotation": 90, "label": "Rc2" },
+    { "id": "J_vcc", "symbol": "wire-junction", "grid": [3.0, 0.4] },
+    { "id": "Q1", "symbol": "bjt-npn", "grid": [1.5, 2.8], "label": "Q1" },
+    { "id": "Q2", "symbol": "bjt-npn", "grid": [4.5, 2.8], "label": "Q2" },
+    { "id": "J_c1", "symbol": "wire-junction", "grid": [2.2, 2.0] },
+    { "id": "C1", "symbol": "capacitor", "grid": [3.0, 2.0], "label": "C1" },
+    { "id": "J_c2", "symbol": "wire-junction", "grid": [3.8, 2.8] },
+    { "id": "C2", "symbol": "capacitor", "grid": [3.0, 2.8], "label": "C2" },
+    { "id": "Gnd1", "symbol": "ground", "grid": [2.2, 3.6] },
+    { "id": "Gnd2", "symbol": "ground", "grid": [5.2, 3.6] },
+    { "id": "Vout1", "symbol": "node-label", "grid": [1.0, 2.0], "label": "Vo1" },
+    { "id": "Vout2", "symbol": "node-label", "grid": [5.0, 2.0], "label": "Vo2" }
+  ],
+  "netlist": [
+    { "from": "Vcc.1", "to": "J_vcc.1" },
+    { "from": "J_vcc.1", "to": "RC1.top" },
+    { "from": "J_vcc.1", "to": "R1.top" },
+    { "from": "J_vcc.1", "to": "R2.top" },
+    { "from": "J_vcc.1", "to": "RC2.top" },
+    { "from": "RC1.bottom", "to": "J_c1.1" },
+    { "from": "J_c1.1", "to": "Q1.collector" },
+    { "from": "J_c1.1", "to": "C1.left" },
+    { "from": "C1.right", "to": "Q2.base" },
+    { "from": "R2.bottom", "to": "Q2.base" },
+    { "from": "RC2.bottom", "to": "J_c2.1" },
+    { "from": "J_c2.1", "to": "Q2.collector" },
+    { "from": "J_c2.1", "to": "C2.right" },
+    { "from": "C2.left", "to": "Q1.base" },
+    { "from": "R1.bottom", "to": "Q1.base" },
+    { "from": "Q1.emitter", "to": "Gnd1.top" },
+    { "from": "Q2.emitter", "to": "Gnd2.top" },
+    { "from": "J_c1.1", "to": "Vout1.1" },
+    { "from": "J_c2.1", "to": "Vout2.1" }
+  ]
+}

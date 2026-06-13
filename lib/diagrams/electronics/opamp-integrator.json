@@ -1,0 +1,62 @@
+{
+  "id": "opamp-integrator",
+  "title": "Op-Amp Integrator Circuit",
+  "description": "An operational amplifier-based integrator circuit schematic featuring an inverting configuration with a resistor input and a capacitor feedback path.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "opamp integrator circuit schematic",
+    "opamp integrator",
+    "opamp integrator circuit",
+    "integrator circuit"
+  ],
+  "theory": "An operational amplifier integrator is an electronic integration circuit. In this configuration, the output voltage is proportional to the time integral of the input voltage. The circuit is based on the inverting amplifier topology. The input voltage Vin is applied to the inverting (-) input terminal through resistor R1, while the non-inverting (+) input terminal is connected directly to ground. The feedback loop is completed by a capacitor Cf connecting the output Vo to the inverting input node. Due to the high open-loop gain and virtual ground concept, the potential at the inverting input is held at virtual ground (0V). The current entering the inverting input node is Vin / R1. Since the ideal op-amp draws no current, this entire current flows into the feedback capacitor Cf, charging it. The voltage across the capacitor is given by Vc = (1/Cf) * integral(i(t) dt). Since Vo = -Vc, the output voltage is Vo = - (1 / (R1 * Cf)) * integral(Vin(t) dt) from 0 to t, plus the initial capacitor voltage. This circuit acts as an active low-pass filter, attenuating high-frequency noise and integrating signals like square waves into triangle waves.",
+  "keyPoints": [
+    "Input resistor R1 is in series with the inverting (-) input.",
+    "Feedback capacitor Cf connects the op-amp output to the inverting input.",
+    "Output voltage is the negative time integral of the input voltage, scaled by 1/R1*Cf.",
+    "Virtual ground holds the inverting node at ~0V potential.",
+    "Acts as an active low-pass filter, commonly used for signal wave shaping."
+  ],
+  "useCases": [
+    "Converting square waves into triangular waveforms in signal generators.",
+    "Analog computers and analog PID controllers (integral action).",
+    "Integrator stages in dual-slope analog-to-digital converters (ADCs)."
+  ],
+  "examTip": "Op-Amp Integrator: Capacitor Cf is in the feedback path, Resistor R1 is in the input path. Output Vo = -1/(R1·Cf) ∫ Vin dt. Active low-pass filter. Frequency response roll-off rate is -20 dB/decade.",
+  "grid": {
+    "columns": 5,
+    "rows": 3,
+    "colSpacing": 130,
+    "rowSpacing": 110,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 640,
+      "height": 340
+    }
+  },
+  "components": [
+    { "id": "Vin", "symbol": "node-label", "grid": [0.6, 1.2], "label": "Vin" },
+    { "id": "R1", "symbol": "resistor", "grid": [1.5, 1.2], "label": "R1" },
+    { "id": "J_node", "symbol": "wire-junction", "grid": [2.3, 1.2] },
+    { "id": "Cf", "symbol": "capacitor", "grid": [3.0, 0.5], "label": "Cf" },
+    { "id": "U1", "symbol": "op-amp", "grid": [3.2, 1.4], "label": "U1" },
+    { "id": "Gnd", "symbol": "ground", "grid": [2.6, 2.2] },
+    { "id": "J_out", "symbol": "wire-junction", "grid": [4.0, 1.4] },
+    { "id": "Vout", "symbol": "node-label", "grid": [4.5, 1.4], "label": "Vo" }
+  ],
+  "netlist": [
+    { "from": "Vin.1", "to": "R1.left" },
+    { "from": "R1.right", "to": "J_node.1" },
+    { "from": "J_node.1", "to": "U1.in-" },
+    { "from": "J_node.1", "to": "Cf.left" },
+    { "from": "U1.in+", "to": "Gnd.top" },
+    { "from": "Cf.right", "to": "J_out.1" },
+    { "from": "U1.out", "to": "J_out.1" },
+    { "from": "J_out.1", "to": "Vout.1" }
+  ]
+}

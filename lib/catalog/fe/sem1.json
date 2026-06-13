@@ -850,5 +850,537 @@
         }
       ]
     }
+  },
+  {
+    "id": "star-delta-conversion",
+    "title": "Star to Delta Conversion",
+    "type": "block-diagram",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits (Star-Delta Transformation)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 130",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "A star network has resistances 2 ohm, 4 ohm, and 6 ohm. Determine the equivalent delta network resistances (May 2025)."
+      ]
+    },
+    "theory": "Star-to-Delta (Y-Δ) transformation allows us to convert a three-terminal star (Y) network into an equivalent delta (Δ) network. In a star circuit, three impedances meet at a common neutral point N. In the equivalent delta circuit, three impedances connect directly between the three terminals A, B, C. The conversion formulas are: R12 = (R1·R2 + R2·R3 + R3·R1)/R3, R23 = (R1·R2 + R2·R3 + R3·R1)/R1, R31 = (R1·R2 + R2·R3 + R3·R1)/R2. This transformation is used to simplify complex networks that cannot be reduced by series-parallel combinations alone.",
+    "key_points": [
+      "Star (Y): three impedances connected to a common neutral point N",
+      "Delta (Δ): three impedances connected between three terminals (no neutral)",
+      "Each delta resistance = sum of products of adjacent star resistors / opposite star resistor",
+      "Inverse: Delta-to-Star: R1 = R12·R31/(R12+R23+R31)",
+      "Used to simplify bridge circuits and three-phase network analysis"
+    ],
+    "use_cases": [
+      "Three-phase power system analysis (Δ↔Y load conversion)",
+      "Simplifying bridge circuit networks (Wheatstone bridge)",
+      "AC circuit analysis where series-parallel rules don't apply"
+    ]
+  },
+  {
+    "id": "nortons-theorem-bee",
+    "title": "Norton's Theorem BEE Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits (Norton's Theorem)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 128",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Determine the current flowing through RL (3 ohm) using Norton's Theorem for the network with 15V and 5V sources (May 2025)."
+      ]
+    },
+    "theory": "Norton's Theorem states that any linear circuit with voltage/current sources can be replaced by an equivalent circuit consisting of a current source IN in parallel with a resistance RN. Steps: (1) Remove load RL across terminals A-B. (2) Short-circuit A-B and find short-circuit current IN. (3) Deactivate all sources (short voltage sources, open current sources) and find Norton resistance RN = Thevenin resistance. (4) Reconnect RL and find load current IL = IN × RN/(RN + RL). This greatly simplifies analysis of complex resistive networks.",
+    "key_points": [
+      "Remove RL, short terminals A-B → calculate short-circuit current IN",
+      "Deactivate sources, find RN (same as Thevenin RTh) seen from A-B",
+      "Norton equivalent: IN (current source) in parallel with RN",
+      "Load current IL = IN × RN / (RN + RL)",
+      "Thevenin VTh = IN × RN (relationship between Norton and Thevenin)"
+    ],
+    "use_cases": [
+      "Simplifying power supply circuits with multiple sources",
+      "Analyzing maximum power transfer conditions",
+      "Quick analysis of different load values in a complex network"
+    ]
+  },
+  {
+    "id": "source-transformation-circuit",
+    "title": "Source Transformation Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits (Source Transformation)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 110",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Find the current in the 8 ohm resistor using source transformation for the network with 18V source, 6 ohm resistors, and 2A current source (May 2025)."
+      ]
+    },
+    "theory": "Source transformation is a circuit simplification technique that converts a voltage source (VS) in series with a resistance R into an equivalent current source (IS = VS/R) in parallel with the same resistance R, and vice versa. The technique preserves the terminal characteristics of the circuit. It is particularly useful when the circuit has mixed voltage and current sources, making node voltage or mesh current analysis simpler.",
+    "key_points": [
+      "Voltage source VS + series R → Current source IS = VS/R in parallel with same R",
+      "Current source IS + parallel R → Voltage source VS = IS×R in series with same R",
+      "Terminal voltage and current remain identical after transformation",
+      "Source transformation only works if the source has a series/parallel resistance",
+      "Simplifies mixed-source circuits for easier nodal or mesh analysis"
+    ],
+    "use_cases": [
+      "Simplifying circuits with multiple independent sources",
+      "Converting between Norton and Thevenin equivalents",
+      "Reducing complex networks before applying superposition"
+    ]
+  },
+  {
+    "id": "zener-voltage-regulator",
+    "title": "Zener Diode Voltage Regulator",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Zener Diode)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 450",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of a Zener diode voltage regulator with a neat circuit diagram (May 2025)."
+      ]
+    },
+    "theory": "A Zener diode voltage regulator maintains a constant output voltage despite variations in input voltage or load current. The series resistor Rs limits current. The Zener diode operates in its reverse breakdown region at voltage VZ. If Vin exceeds VZ, excess current flows through Rs and the Zener, keeping Vout = VZ. When load current changes, the Zener absorbs the difference, maintaining regulation.",
+    "key_points": [
+      "Zener operates in reverse breakdown region — this is normal and intentional",
+      "Output voltage equals Zener breakdown voltage VZ (e.g. 5.1V, 6.2V, 12V)",
+      "Series resistor Rs limits current to protect the Zener: Rs = (Vin - VZ) / IZ",
+      "Regulation works as long as Zener current stays between IZ(min) and IZ(max)",
+      "Power dissipated by Zener: PZ = VZ × IZ — must be within rated wattage"
+    ],
+    "use_cases": [
+      "Fixed voltage reference in power supplies",
+      "Overvoltage protection circuits",
+      "Low-power voltage regulation for ICs and sensors"
+    ]
+  },
+  {
+    "id": "bjt-switch-circuit",
+    "title": "BJT as a Switch Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Bipolar Junction Transistor)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 475",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 6,
+      "recent_questions": [
+        "Explain the operation of BJT as a switch in CE configuration with neat diagrams (May 2025)."
+      ]
+    },
+    "theory": "A BJT (Bipolar Junction Transistor) acts as a switch by operating in two regions: Saturation (ON) and Cut-off (OFF). In the Common Emitter configuration, when the base input voltage Vin is HIGH (logic 1), sufficient base current IB flows through RB, causing the transistor to saturate — collector current IC flows and output Vout ≈ 0V (like a closed switch). When Vin is LOW (logic 0), no base current flows, transistor enters cut-off — IC = 0 and Vout = VCC (open switch).",
+    "key_points": [
+      "Saturation region: VBE ≈ 0.7V (Si), VCE(sat) ≈ 0.2V → switch is ON",
+      "Cut-off region: IB = 0, IC ≈ 0, VCE ≈ VCC → switch is OFF",
+      "Base resistor RB limits base current: IB = (Vin − VBE) / RB",
+      "For saturation: IB must exceed IC(sat) / β (β = hFE = current gain)",
+      "NPN: current flows from Collector to Emitter when switched ON"
+    ],
+    "use_cases": [
+      "Relay and solenoid drivers in industrial control",
+      "LED and lamp switching circuits",
+      "Digital-to-analog interface in microcontroller outputs"
+    ]
+  },
+  {
+    "id": "classb-pushpull-amplifier",
+    "title": "Class B Push-Pull Power Amplifier",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Power Amplifiers)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 480",
+    "exam_relevance": {
+      "frequency": "Medium",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of a Class B push-pull amplifier with a neat circuit diagram. State its advantages and disadvantages (May 2025)."
+      ]
+    },
+    "theory": "A Class B push-pull power amplifier is an electronic circuit designed to deliver high power to a load, commonly used in audio output stages. It utilizes two complementary or identical transistors (typically NPN BJTs in a transformer-coupled configuration) operating in a push-pull arrangement. The input AC signal is split into two out-of-phase half-cycles by a center-tapped input transformer (Tr1). Transistor T1 conducts during the positive half-cycle of the input, while T2 is cut off. Conversely, during the negative half-cycle, T2 conducts while T1 is cut off. This active-alternating conduction is why it is called 'push-pull'. The individual half-cycle currents are combined in the center-tapped primary winding of the output transformer (Tr2) to reconstruct the full sinusoidal waveform across the load resistor (RL, representing a speaker). Class B amplifiers are highly efficient, with a maximum theoretical efficiency of 78.5%, because each transistor only conducts for 180 degrees (half) of the input signal cycle and draws zero current when no input signal is present. However, they suffer from crossover distortion near the zero-crossing points, where both transistors are briefly off due to the 0.7V base-emitter conduction threshold.",
+    "key_points": [
+      "Uses two NPN transistors operating 180 degrees out of phase.",
+      "Input transformer (Tr1) performs phase splitting to drive T1 and T2 bases.",
+      "Output transformer (Tr2) combines the push and pull currents into a complete wave.",
+      "Draws negligible quiescent current, achieving a maximum theoretical efficiency of 78.5%.",
+      "Prone to crossover distortion, which can be mitigated by biased Class AB operation."
+    ],
+    "use_cases": [
+      "Audio power output stages in public address (PA) systems and radio receivers.",
+      "Driver stages for RF transmitters and analog control systems.",
+      "High-power speaker driving networks in legacy communications equipment."
+    ]
+  },
+  {
+    "id": "series-rl-circuit",
+    "title": "Series RL Circuit (Two Coils)",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: AC Circuits (Series RL Circuits)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 295",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Two coils are connected in series across a 230V, 50Hz supply. One coil has resistance 25 ohm and inductance 0.04H, the other has resistance 15 ohm and inductance 0.2H. Calculate the circuit current, impedance, power factor, and power consumed (May 2025)."
+      ]
+    },
+    "theory": "When two inductive coils are connected in series across an AC supply, the total resistance is R = R1 + R2 and total inductance is L = L1 + L2 (assuming no mutual inductance). The inductive reactance XL = ω(L1+L2) = 2πf(L1+L2). Total impedance Z = √(R² + XL²). Current I = V/Z. Power dissipated in coil 1: P1 = I²R1, in coil 2: P2 = I²R2. Total power factor = R/Z = cos φ.",
+    "key_points": [
+      "Series RL: Rtotal = R1 + R2, Ltotal = L1 + L2",
+      "XL = 2πf×Ltotal (inductive reactance, in Ω)",
+      "Z = √(R² + XL²) — total impedance",
+      "I = Vrms / Z — current is same throughout series circuit",
+      "Power factor cos φ = R/Z — lagging (current lags voltage in RL)"
+    ],
+    "use_cases": [
+      "AC motor windings and transformer analysis",
+      "Power system impedance calculations",
+      "Filter design using RL networks"
+    ]
+  },
+  {
+    "id": "series-rlc-resonance",
+    "title": "Series RLC Resonance Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 2: AC Circuits (Resonance)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 320",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the phenomenon of series resonance in RLC circuit and derive the expression for resonant frequency (May 2025)."
+      ]
+    },
+    "theory": "In a series RLC circuit, resonance occurs when the inductive reactance XL equals the capacitive reactance XC. At resonance frequency fr = 1/(2π√LC), the impedance Z is minimum and purely resistive (Z = R). Current is maximum at resonance. VL and VC are equal and opposite, and may be much larger than the source voltage (voltage magnification). Quality factor Q = (1/R)√(L/C) represents the sharpness of resonance.",
+    "key_points": [
+      "Resonance condition: XL = XC → ωL = 1/(ωC) → fr = 1/(2π√LC)",
+      "At resonance: Z = R (minimum), I = V/R (maximum), power factor = 1",
+      "VL = VC = Q × Vsource (voltage magnification, Q can be >> 1)",
+      "Quality factor Q = ωrL/R = 1/(ωrCR) = (1/R)√(L/C)",
+      "Bandwidth BW = fr/Q = R/L (Hz) — determines selectivity"
+    ],
+    "use_cases": [
+      "AM radio receiver tuning circuits",
+      "Bandpass and bandstop filters",
+      "Power factor correction in AC circuits"
+    ]
+  },
+  {
+    "id": "single-phase-transformer",
+    "title": "Single-Phase Transformer",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 4: Single-Phase Transformer",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 2, Page 530",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Derive the EMF equation of a single-phase transformer. List the various losses in a transformer (May 2025)."
+      ]
+    },
+    "theory": "A single-phase transformer transfers AC electrical energy between two circuits through electromagnetic induction. It consists of a primary winding (N1 turns), secondary winding (N2 turns), and an iron core. When AC voltage V1 is applied to the primary, it sets up an alternating flux Φ in the core. This flux links with the secondary winding and induces EMF. EMF equation: E1 = 4.44 × f × N1 × Φm (primary) and E2 = 4.44 × f × N2 × Φm (secondary).",
+    "key_points": [
+      "EMF equation: E = 4.44 × f × N × Φmax (RMS value)",
+      "Turns ratio: a = N1/N2 = V1/V2 = I2/I1",
+      "Core losses: Hysteresis loss (∝ f × Bm^1.6) + Eddy current loss (∝ f² × Bm²)",
+      "Copper losses: PCu = I1²R1 + I2²R2 (resistance losses in windings)",
+      "Efficiency η = V2I2cosφ2 / (V2I2cosφ2 + core losses + copper losses)"
+    ],
+    "use_cases": [
+      "Step-up/step-down voltage in power distribution systems",
+      "Electrical isolation between circuits for safety",
+      "Impedance matching in audio and communication circuits"
+    ]
+  },
+  {
+    "id": "star-connection",
+    "title": "Star Connection Circuit (Y and T)",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits (Star Connection)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 130",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 4,
+      "recent_questions": [
+        "Explain the Star connection configuration with Y and T representations (May 2025)."
+      ]
+    },
+    "theory": "A Star connection (also known as Y or T connection) is a type of electrical connection where one terminal of each of the three resistors is connected to a common neutral point N. The remaining terminals A, B, and C are connected to the line terminals of the source or load. The neutral point is often grounded. This connection is widely used in low and medium voltage power distribution systems because it provides a neutral wire, allowing for both single-phase and three-phase loads on the same system.",
+    "key_points": [
+      "Star (Y) has a common neutral point N, which is often grounded.",
+      "T-connection is electrically identical to Y-connection, just drawn orthogonally.",
+      "Line current equals phase current in a star-connected balanced load.",
+      "Line voltage VL = √3 × Phase voltage Vph (for AC systems).",
+      "Allows two different voltages: line-to-line (VL) and line-to-neutral (Vph)."
+    ],
+    "use_cases": [
+      "Three-phase AC motor stator winding connections",
+      "Distribution transformers (Delta-Star config to provide neutral)",
+      "AC power transmission systems requiring a solid neutral ground"
+    ]
+  },
+  {
+    "id": "delta-connection",
+    "title": "Delta Connection Circuit (Triangle and Pi)",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits (Delta Connection)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 135",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 4,
+      "recent_questions": [
+        "Explain the Delta connection configuration with Triangle and Pi representations (May 2025)."
+      ]
+    },
+    "theory": "A Delta connection (also known as Δ or Pi connection) is a type of electrical connection where three resistors are connected end-to-end to form a closed loop. The three nodes A, B, and C serve as the line terminals. Unlike the star connection, there is no common neutral point. Delta connections are widely used in high voltage transmission systems because they require only three wires instead of four, reducing conductor costs, and are robust against unbalanced loads.",
+    "key_points": [
+      "Delta connection has no neutral point; it forms a closed loop.",
+      "Pi-connection is electrically identical to Delta, commonly used in filter networks.",
+      "Line current is √3 times the phase current (for balanced AC loads): IL = √3 × Iph.",
+      "Line voltage equals phase voltage: VL = Vph.",
+      "Commonly used in delta-star transformers to eliminate third harmonic currents."
+    ],
+    "use_cases": [
+      "High-power AC motors running at full speed",
+      "Transformer primary windings in electrical substations",
+      "Three-phase delta-connected transmission lines"
+    ]
+  },
+  {
+    "id": "hartley-oscillator",
+    "title": "Hartley Oscillator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Oscillators)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 490",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of a BJT Hartley oscillator with a neat circuit diagram. State its frequency of oscillation (May 2025)."
+      ]
+    },
+    "theory": "The Hartley oscillator is an electronic oscillator circuit in which the oscillation frequency is determined by a tuned circuit consisting of capacitors and inductors (an LC tank circuit). The feedback signal required for oscillation is taken from a tapped connection on the inductor coil. The circuit consists of an active amplifying stage (usually a BJT in common-emitter configuration) that provides a 180° phase shift, and a feedback tank network consisting of two series-connected inductors L1 and L2 in parallel with a tuning capacitor C. The junction between the two inductors is grounded, creating a center tap. This center tap provides phase splitting, introducing an additional 180° phase shift between the collector and base terminals. The total phase shift around the loop is therefore 360° (or 0°), satisfying the Barkhausen criterion for sustained oscillations. The frequency of oscillation is given by fr = 1 / (2 * pi * sqrt(LT * C)), where LT = L1 + L2 + 2M is the total equivalent inductance (M being mutual inductance, usually neglected). Resistors R1 and R2 form the voltage divider bias for the BJT, RE provides emitter stabilization, CE is the bypass capacitor to maintain high AC gain, and Cb and Cc are coupling capacitors to block DC biasing currents.",
+    "key_points": [
+      "Uses a center-tapped inductor combination (L1 and L2) in parallel with capacitor C.",
+      "Active BJT stage provides 180° phase shift; tank center-tap provides the remaining 180°.",
+      "Meets the Barkhausen criterion of 360° total phase shift and loop gain >= 1.",
+      "Oscillation frequency: fr = 1 / (2 * pi * sqrt(LT * C)) where LT = L1 + L2.",
+      "RFC (Radio Frequency Choke) prevents high-frequency AC signals from leaking into the DC power supply."
+    ],
+    "use_cases": [
+      "Radio frequency (RF) signal generators and local oscillators in radio receivers.",
+      "High-frequency sine wave generators up to 100 MHz.",
+      "RF transmitters and communication circuits."
+    ]
+  },
+  {
+    "id": "colpitts-oscillator",
+    "title": "Colpitts Oscillator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Oscillators)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 495",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of a Colpitts oscillator using BJT with a neat circuit diagram. Derive its resonant frequency (May 2025)."
+      ]
+    },
+    "theory": "The Colpitts oscillator is a type of LC oscillator that uses a capacitive voltage divider in its feedback loop. The tuned tank circuit consists of a single inductor L in parallel with two series-connected capacitors C1 and C2. The junction between C1 and C2 is grounded, acting as a center tap that splits the feedback phase. When an AC signal appears at the collector, it drives the tank circuit. The capacitive center tap creates a 180° phase inversion between the collector output and the feedback signal sent to the base. Combined with the 180° phase shift of the common-emitter BJT amplifier stage, the total loop phase shift is 360° (or 0°), satisfying the Barkhausen criterion. The oscillation frequency is given by fr = 1 / (2 * pi * sqrt(L * CT)), where CT = (C1 * C2) / (C1 + C2) is the equivalent series capacitance of the tank. The RFC (Radio Frequency Choke) coil acts as a low-resistance path for DC bias but an extremely high-reactance block for high-frequency AC signals, preventing them from leaking into the DC power rail. Resistors R1 and R2 establish the base bias, RE stabilizes the emitter current, CE is the emitter bypass capacitor, and Cb and Cc are input/output coupling capacitors.",
+    "key_points": [
+      "Uses a center-tapped capacitor combination (C1 and C2) in parallel with inductor L.",
+      "BJT stage provides 180° phase shift; the capacitive tap provides the other 180°.",
+      "Loop gain must be >= 1 ( Barkhausen criteria ) for sustained oscillation.",
+      "Oscillation frequency: fr = 1 / (2 * pi * sqrt(L * CT)) where CT = C1 * C2 / (C1 + C2).",
+      "Better frequency stability at high frequencies compared to the Hartley oscillator."
+    ],
+    "use_cases": [
+      "High-frequency sine wave generators in radio transmitters and receivers.",
+      "Local oscillators in superheterodyne receivers.",
+      "Stable RF signal generators in research and communication networks."
+    ]
+  },
+  {
+    "id": "wien-bridge-oscillator",
+    "title": "Wien Bridge Oscillator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Oscillators)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 502",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Draw the circuit diagram of a Wien Bridge oscillator. Derive the expression for frequency of oscillation and gain (Dec 2024)."
+      ]
+    },
+    "theory": "The Wien bridge oscillator is a type of electronic oscillator that generates sine waves without any input signal. It operates over a wide range of audio and low radio frequencies. The active component is an operational amplifier configured as a non-inverting amplifier. The feedback network consists of a bridge circuit with two main branches: a positive feedback lead-lag network (consisting of a series resistor Rs and capacitor Cs, and a parallel resistor Rp and capacitor Cp) connected to the non-inverting (+) input, and a negative feedback voltage divider (resistors R3 and R4) connected to the inverting (-) input. The lead-lag network acts as a bandpass filter; at the resonant frequency fr = 1 / (2 * pi * R * C) (where Rs = Rp = R and Cs = Cp = C), the phase shift through the network is exactly 0° and the transmission factor (attenuation) is 1/3. To satisfy the Barkhausen criterion for sustained oscillations (overall loop gain = 1 and phase shift = 360° or 0°), the non-inverting amplifier must have a voltage gain of exactly 3, which requires the negative feedback resistors to satisfy R3 = 2 * R4. If the gain is slightly less than 3, oscillations die out; if greater than 3, the output clips and distorts, which is often controlled by automatic gain control (AGC) or non-linear elements.",
+    "key_points": [
+      "Uses a lead-lag feedback network (series R-C and parallel R-C) for positive feedback.",
+      "Resonant frequency: fr = 1 / (2 * pi * R * C) (when components are matched).",
+      "The lead-lag attenuation at fr is exactly 1/3 with a phase shift of 0°.",
+      "Non-inverting amplifier gain must be exactly 3 (meaning R3 / R4 = 2) to sustain oscillation.",
+      "Provides highly stable, low-distortion sinusoidal outputs at audio frequencies."
+    ],
+    "use_cases": [
+      "Audio signal generators and distortion meters.",
+      "Low-frequency sine wave sources for testing audio equipment.",
+      "Laboratory signal testing and calibration circuits."
+    ]
+  },
+  {
+    "id": "rc-phase-shift-oscillator",
+    "title": "RC Phase Shift Oscillator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Oscillators)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 505",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the working of an RC Phase Shift oscillator with a neat diagram. Derive the frequency of oscillation (May 2024)."
+      ]
+    },
+    "theory": "The RC phase shift oscillator is a sinusoidal oscillator circuit that utilizes a simple resistor-capacitor network to create the required feedback phase shift. It consists of an amplifying stage (usually a BJT in common-emitter configuration) and a feedback network consisting of three cascaded RC sections. The common-emitter BJT stage provides a phase shift of 180° between its base input and collector output. The feedback loop must introduce an additional 180° phase shift to satisfy the Barkhausen criterion for sustained oscillations (total phase shift = 360° or 0°). Each of the three RC sections is designed to contribute a 60° phase shift at the desired frequency of oscillation, resulting in a total feedback phase shift of 3 * 60° = 180°. The frequency of oscillation is given by fr = 1 / (2 * pi * R * C * sqrt(6)), assuming all sections use identical R and C values (and R3 is adjusted to account for the BJT's input resistance). To overcome the attenuation of the 3-stage RC network (which is exactly 1/29 at fr), the BJT amplifier stage must be designed with a voltage gain (Av) of at least 29. Resistors R1 and R2 establish the base bias, RC is the collector load, RE stabilizes the emitter current, and CE is the bypass capacitor.",
+    "key_points": [
+      "Uses a three-section RC ladder feedback network; each section shifts the phase by 60°.",
+      "BJT stage shifts phase by 180°; RC network shifts it by another 180°.",
+      "Total phase shift around loop is 360° (or 0°), satisfying Barkhausen criteria.",
+      "Oscillation frequency: fr = 1 / (2 * pi * R * C * sqrt(6)).",
+      "Requires an amplifier gain of Av >= 29 to compensate for RC ladder attenuation."
+    ],
+    "use_cases": [
+      "Audio frequency sine wave generators and testing equipment.",
+      "Low-frequency oscillation sources in instrumentation.",
+      "Simple tone generators in analog electronics."
+    ]
+  },
+  {
+    "id": "astable-multivibrator",
+    "title": "Astable Multivibrator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Multivibrators)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 510",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of BJT Astable multivibrator with a neat circuit diagram and waveforms (May 2025)."
+      ]
+    },
+    "theory": "An astable multivibrator is a free-running oscillator that alternates between two unstable states (quasi-stable states) without requiring an external trigger. The circuit consists of two cross-coupled common-emitter transistor amplifier stages Q1 and Q2. The collector of Q1 is coupled to the base of Q2 via capacitor C1, and the collector of Q2 is coupled to the base of Q1 via capacitor C2. When Q1 turns ON, its collector voltage drops to near 0V, which drives the base of Q2 negative through C1, turning Q2 OFF. Capacitor C1 then slowly charges through resistor R2. When the base voltage of Q2 rises to approximately 0.7V, Q2 turns ON, dropping its collector voltage and turning Q1 OFF through C2. The off-time of each transistor is determined by the RC time constants: t1 = 0.693 * R2 * C1 (for Q2 OFF) and t2 = 0.693 * R1 * C2 (for Q1 OFF). The total time period is T = t1 + t2, and the frequency of oscillation is fr = 1 / T = 1.44 / (R2*C1 + R1*C2). Symmetrical components yield a 50% duty cycle square wave.",
+    "key_points": [
+      "A free-running oscillator with two quasi-stable states; requires no external trigger.",
+      "Cross-coupled capacitors (C1 and C2) alternate conduction between Q1 and Q2.",
+      "Time constants: t1 ≈ 0.7 * R2 * C1, t2 ≈ 0.7 * R1 * C2.",
+      "Total period: T = t1 + t2 = 1.386 * R * C (if symmetrical: R2=R1=R, C1=C2=C).",
+      "Outputs taken from either collector represent complementary square waves."
+    ],
+    "use_cases": [
+      "Square wave generators and pulse generators.",
+      "LED blinkers, flashers, and simple warning indicators.",
+      "Clock source generation for digital circuits and timing networks."
+    ]
+  },
+  {
+    "id": "bjt-differential-amplifier",
+    "title": "BJT Differential Amplifier Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 6: Semiconductor Devices (Differential Amplifiers)",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 515",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain BJT differential amplifier in detail. Derive its differential voltage gain (May 2025)."
+      ]
+    },
+    "theory": "A differential amplifier is a type of electronic amplifier that amplifies the difference between two input voltages (V1 and V2) while rejecting any common-mode signals (signals identical on both inputs). The circuit consists of two identical NPN transistors Q1 and Q2 in a common-emitter configuration, with their emitters coupled together and connected to a common emitter resistance RE (or an active current source) to establish a bias current. The collectors are connected to VCC through matched collector resistors RC1 = RC2 = RC. The input signals are applied to the base terminals of Q1 and Q2. When a differential input voltage (V2 - V1) is applied, one transistor conducts more while the other conducts less, causing a differential output voltage (Vo2 - Vo1) across the collectors. The differential gain is Ad = Vo / (V2 - V1) ≈ gm * RC, where gm is the transconductance of the transistors. Common-mode signals, such as ambient noise, affect both transistors equally, keeping the total emitter current constant and yielding near-zero collector current changes. The Common Mode Rejection Ratio (CMRR = Ad / Acm) measures the amplifier's ability to reject common-mode noise, with higher RE values or active constant current sources yielding exceptionally high CMRR. Output can be taken differentially (balanced / double-ended) or single-ended (unbalanced).",
+    "key_points": [
+      "Consists of a matched pair of emitter-coupled NPN transistors (Q1 and Q2).",
+      "Amplifies the differential input voltage (V2 - V1) with high gain.",
+      "Rejects common-mode signals (signals identical on both inputs).",
+      "Differential voltage gain Ad ≈ gm * RC; Common-mode voltage gain Acm is very low.",
+      "Common Mode Rejection Ratio (CMRR) is a key performance figure of merit (CMRR = Ad / Acm)."
+    ],
+    "use_cases": [
+      "Input stage of operational amplifiers (op-amps) and comparator ICs.",
+      "Balanced line receivers and instrumentation front-ends.",
+      "Analog multiplier and mixer circuits."
+    ]
+  },
+  {
+    "id": "dc-circuit",
+    "title": "Direct Current (DC) Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 1: DC Circuits",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 12",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Draw a neat circuit diagram of a basic DC circuit showing the connections of an ammeter, voltmeter, load, battery, and switch. Explain the functions of each component (May 2025)."
+      ]
+    },
+    "theory": "A Direct Current (DC) circuit is an electrical circuit in which the electric current flows in only one direction. The electric charge flows from the positive terminal of the voltage source (such as a battery) through the load to the negative terminal. A basic DC circuit contains a power source (battery), a control element (switch), protection/measurement devices (ammeter and voltmeter), and a load (lamp or resistor). The ammeter is connected in series with the load to measure the current flowing through it, and must have a very low internal resistance to avoid affecting the circuit. The voltmeter is connected in parallel with the load to measure the potential difference across it, and must have a very high internal resistance so it draws negligible current. The switch is used to open or close the circuit, starting or stopping the flow of charge. Ohm's Law (V = I * R) governs the relationship between voltage, current, and resistance in the circuit.",
+    "key_points": [
+      "Electric current flows in a single, constant direction in a DC circuit.",
+      "A battery provides a constant DC voltage source.",
+      "The switch controls the circuit state (open = no current, closed = current flows).",
+      "An ammeter is connected in series to measure current (low internal resistance).",
+      "A voltmeter is connected in parallel to measure voltage (high internal resistance)."
+    ],
+    "use_cases": [
+      "Battery-powered electronics like flashlights and portable devices.",
+      "Automotive electrical systems (typically 12V DC).",
+      "Solar photovoltaic power generation systems."
+    ]
+  },
+  {
+    "id": "ac-circuit",
+    "title": "Alternating Current (AC) Circuit",
+    "type": "circuit-schematic",
+    "subject": "Basic Electrical Engineering (BEE)",
+    "syllabus_reference": "Module 3: AC Circuits",
+    "textbook_reference": "B.L. Theraja, A Textbook of Electrical Technology, Vol 1, Page 120",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 5,
+      "recent_questions": [
+        "Draw the circuit diagram of an AC Series RLC circuit. Explain the meaning of resonance and state the expression for resonant frequency (May 2025)."
+      ]
+    },
+    "theory": "An Alternating Current (AC) circuit is an electrical circuit in which the voltage and current vary sinusoidally over time. In a series RLC circuit, a resistor (R), inductor (L), and capacitor (C) are connected in series across an AC source. The same alternating current i(t) flows through all components. The voltage drops across the components are: V_R = I * R (in phase with current), V_L = I * X_L (leads current by 90°), and V_C = I * X_C (lags current by 90°). The impedance of the circuit is Z = sqrt(R^2 + (X_L - X_C)^2), where X_L = ωL and X_C = 1/(ωC) are the inductive and capacitive reactances respectively. At the resonant frequency ω_r = 1/sqrt(L*C), the reactances cancel each other out, making the circuit purely resistive and impedance is minimum (Z = R).",
+    "key_points": [
+      "AC voltage and current vary periodically in magnitude and direction.",
+      "A series RLC configuration has identical current passing through all components.",
+      "Resistor voltage V_R is in phase with current; V_L leads by 90°; V_C lags by 90°.",
+      "The total impedance Z depends on the frequency of the AC source.",
+      "Resonance occurs when inductive and capacitive reactances cancel out."
+    ],
+    "use_cases": [
+      "Radio receivers and television tuning circuits.",
+      "Frequency filters (low-pass, high-pass, band-pass, band-stop).",
+      "AC power transmission and distribution systems."
+    ]
   }
 ]

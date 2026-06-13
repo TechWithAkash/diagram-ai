@@ -1,197 +1,155 @@
 import Groq from 'groq-sdk'
-import { matchDiagram } from '@/lib/diagramLibrary'
+import { matchDiagram, ALL_DIAGRAMS } from '@/lib/diagramLibrary'
+import { validateSchematicTopology } from '@/lib/gridSchematicCompiler'
+
+import dcCircuitTemplate from '@/lib/diagrams/electronics/dc-circuit.json'
+import acCircuitTemplate from '@/lib/diagrams/electronics/ac-circuit.json'
+import zenerRegulatorTemplate from '@/lib/diagrams/electronics/zener-voltage-regulator.json'
+import opampInvertingTemplate from '@/lib/diagrams/electronics/opamp-inverting.json'
+import opampNoninvertingTemplate from '@/lib/diagrams/electronics/opamp-noninverting.json'
+import starDeltaConversionTemplate from '@/lib/diagrams/electronics/star-delta-conversion.json'
+import nortonsTheoremBeeTemplate from '@/lib/diagrams/electronics/nortons-theorem-bee.json'
+import sourceTransformationTemplate from '@/lib/diagrams/electronics/source-transformation-circuit.json'
+import seriesRlTemplate from '@/lib/diagrams/electronics/series-rl-circuit.json'
+import seriesRlcResonanceTemplate from '@/lib/diagrams/electronics/series-rlc-resonance.json'
+import superpositionTemplate from '@/lib/diagrams/electronics/superposition-theorem-circuit.json'
+import theveninsTheoremTemplate from '@/lib/diagrams/electronics/thevenins-theorem-circuit.json'
+
+import {
+  solveDcCircuit,
+  solveAcRlcCircuit,
+  solveZenerRegulator,
+  solveOpampInverting,
+  solveOpampNoninverting,
+  solveStarDelta,
+  solveNortonsTheorem,
+  solveSourceTransformation,
+  solveSeriesRlCircuit,
+  solveSeriesRlcResonance,
+  solveSuperposition,
+  solveThevenin
+} from '@/lib/deterministicSolver'
+
+
+function removeComponentAndMergeWires(schema, compId) {
+  if (!schema || !schema.components) return;
+
+  const compIndex = schema.components.findIndex(c => c.id === compId);
+  if (compIndex === -1) return;
+
+  const comp = schema.components[compIndex];
+  const compGridX = comp.grid ? comp.grid[0] : null;
+
+  // Remove associated labels if they align horizontally (same column)
+  if (compGridX !== null && schema.labels) {
+    schema.labels = schema.labels.filter(label => {
+      if (label.grid && Math.abs(label.grid[0] - compGridX) < 0.2) {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  // Find all connections in netlist involving this component
+  const connectedWires = [];
+  const otherWires = [];
+
+  if (schema.netlist) {
+    for (const wire of schema.netlist) {
+      const fromParts = wire.from.split('.');
+      const toParts = wire.to.split('.');
+      if (fromParts[0] === compId || toParts[0] === compId) {
+        connectedWires.push(wire);
+      } else {
+        otherWires.push(wire);
+      }
+    }
+  }
+
+  if (connectedWires.length === 2) {
+    const wire1 = connectedWires[0];
+    const wire2 = connectedWires[1];
+
+    const ext1 = wire1.from.split('.')[0] === compId ? wire1.to : wire1.from;
+    const ext2 = wire2.from.split('.')[0] === compId ? wire2.to : wire2.from;
+
+    otherWires.push({ from: ext1, to: ext2 });
+  }
+
+  schema.netlist = otherWires;
+  schema.components.splice(compIndex, 1);
+}
+
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
-const SYSTEM_PROMPT = `You are a highly accurate technical education expert and diagram specialist. Your diagrams are used by final-year engineering students to study for exams and understand real systems.
+const SYSTEM_PROMPT = `You are a technical education expert and diagram specialist. Return ONLY a valid JSON object. No markdown, no backticks, no text outside JSON.
 
-YOUR #1 RESPONSIBILITY IS ACCURACY.
-Every component, every connection, every label must be technically correct and complete. A student must be able to read your diagram and fully understand the real system — as it exists in textbooks, academic reference manuals, and Mumbai University syllabus guidelines.
+YOUR #1 RESPONSIBILITY IS TECHNICAL ACCURACY.
+Include standard textbook components and correct relationships:
+- Intel 8085: Accumulator, Temp Reg, ALU, Flags, IR, Dec, Timing/Control, Reg Array (W,Z,B,C,D,E,H,L,SP,PC), Buffers, buses.
+- Intel 8086: BIU (Segment Regs CS/DS/SS/ES, IP, Queue) and EU (AX/BX/CX/DX, SP/BP/SI/DI, ALU, Flags).
+- 8255 PPI: Data Buffer, R/W Logic, Group A/B Control, Ports A, B, C.
+- 8259 PIC: IRR, ISR, IMR, Priority Resolver, Control Logic.
+- 8257 DMA: Channels 0-3, Mode Set & Status, R/W Control.
+- Waterfall: 6 linear phases in order. Spiral: 4 quadrants clockwise. Prototype: Iterative loop. V-Model: Left Verification, Right Validation. Agile: Product/Sprint Backlog, Daily Standup, Increment.
+- DBMS: Query Processor, Storage Manager, Disk Storage, 3-Schema Architecture (External, Conceptual, Internal).
+- OSI/TCP-IP: All standard layers (7 or 4/5) and protocols. GSM: MS, BSS (BTS, BSC), NSS (MSC, HLR, VLR, AuC, EIR, GMSC).
+- OS Process: 5 or 7 states with correct events. Memory: Registers -> Cache -> RAM -> SSD/HDD -> Tape.
+- Compiler: Lexer -> Parser -> Semantic -> ICG -> Optimizer -> CodeGen (all linked to Symbol Table & Error Handler).
 
-Given a subject or topic, return ONLY a valid JSON object. No markdown, no backticks, no explanation outside JSON.
+DIAGRAM TYPES:
+- circuit-schematic: Return coordinate-free Grid Netlist in 'schema' object.
+- uml-diagram, dfd-flow: Return custom nodes/connections in 'schema' object.
+- flowchart TD/LR, graph TD/LR, erDiagram, sequenceDiagram, stateDiagram-v2: Return Mermaid syntax in 'mermaid_code' string.
+* BANNED: classDiagram, block-beta, single quotes inside labels, truncated subgraphs.
 
-════════════════════════════════════════════
-ACCURACY REQUIREMENTS — NON-NEGOTIABLE CHECKLISTS:
-════════════════════════════════════════════
+CIRCUIT-SCHEMATIC SCHEMA:
+Define components on a grid (colSpacing=180, rowSpacing=140). Connect them by terminal names in 'netlist' using { "from": "c1.term", "to": "c2.term" }.
+- Symbols: resistor, capacitor, inductor, diode, zener-diode, led, dc-source, ac-source, current-source, op-amp, bjt-npn, bjt-pnp, transformer, switch, ground, vcc-rail, node-label, wire-junction.
+- Terminals: left, right, top, bottom, 1, 2, base, collector, emitter, inverting (in-), non-inverting (in+), output.
+- Rules: Vcc on top (row 0), Ground on bottom. Vertical branches must have rotation=90. Do not run wires through component bodies. Op-amp in+ must not float. Transistors: connect base, collector, emitter.
+- Example: { "type": "circuit-schematic", "grid": { "columns": 3, "rows": 2 }, "components": [{ "id": "V1", "symbol": "dc-source", "grid": [0, 0.5] }, { "id": "R1", "symbol": "resistor", "grid": [1, 0] }, { "id": "R2", "symbol": "resistor", "grid": [2, 0.5], "rotation": 90 }], "netlist": [{ "from": "V1.top", "to": "R1.left" }, { "from": "R1.right", "to": "R2.top" }, { "from": "V1.bottom", "to": "R2.bottom" }] }
 
-For every system architecture, you MUST include the standard textbook components and correct relationships:
-
-1. MICROPROCESSORS:
-   - Intel 8085: Must include Accumulator, Temp Register, 8-bit ALU, Flag Register, Instruction Register, Instruction Decoder, Timing & Control, Register Array (W, Z, B, C, D, E, H, L, SP, PC, Incrementer/Decrementer Latch), Address Buffer, Data/Address Buffer, and bottom buses (A8-A15, AD0-AD7, Control Bus).
-   - Intel 8086: Must divide into BIU (Bus Interface Unit containing: Segment Registers CS/DS/SS/ES, IP, 16-bit Adder, 6-byte Instruction Queue) and EU (Execution Unit containing: GP Registers AX/BX/CX/DX, SP/BP/SI/DI, 16-bit ALU, Flags, Temporary Registers).
-   - 8255 PPI: Must include Data Bus Buffer, Read/Write Control Logic, Group A Control, Group B Control, Port A (8-bit), Port B (8-bit), Port C Upper (4-bit), and Port C Lower (4-bit).
-   - 8259 PIC: Must include IRR (Interrupt Request Register), ISR (In-Service Register), IMR (Interrupt Mask Register), Priority Resolver, Cascade Buffer/Comparator, Read/Write Logic, Control Logic, and Data Bus Buffer.
-   - 8257 DMA: Must include Data Bus Buffer, Read/Write Logic, Control Logic, Priority Resolver, Mode Set & Status Register, and four DMA channels (0-3) each with starting Address Register and Terminal Count Register.
-
-2. SOFTWARE ENGINEERING / SDLC:
-   - Waterfall Model: Must contain 6 linear phases in order: Requirements Analysis → System Design → Implementation (Coding) → Testing & Integration → Deployment → Maintenance. No backward loops.
-   - Spiral Model: Must divide into 4 quadrants clockwise: 1. Determine Objectives & Constraints, 2. Identify & Resolve Risks (Prototyping), 3. Develop & Test, 4. Plan Next Iterations.
-   - Prototype Model: Must establish the iterative loop: Requirements Gathering → Quick Design → Build Prototype → Customer Evaluation → Refine Prototype (loops back to Quick Design) → Code & Implement (exit on approval) → Final Product & Maintenance.
-   - V-Model: Must match left-side Verification (Requirements, HLD, LLD, Code) and right-side Validation (Unit test, Integration test, System test, UAT) with horizontal validation mapping lines.
-   - Agile Scrum: Product Vision → Product Backlog → Sprint Planning → Sprint Backlog → Sprint Execution (with Daily Standup) → Sprint Review & Demo → Sprint Retrospective → Potentially Shippable Increment.
-
-3. DATABASES / DBMS:
-   - DBMS Architecture: Must include Users/Interfaces, Query Processor (DDL Interpreter, DML Compiler, Query Optimizer, Evaluation Engine), Storage Manager (Auth & Integrity, Transaction Manager, File Manager, Buffer Manager), and Disk Storage (Data Files, Data Dictionary, Indices).
-   - Three-Schema Architecture: External Level (User Views) → Conceptual Level (Logical Schema) → Internal Level (Physical Schema) → Physical Database.
-
-4. COMPUTER NETWORKS:
-   - OSI Model: Must contain 7 layers (Physical, Data Link, Network, Transport, Session, Presentation, Application) with associated protocols and physical devices/PDUs.
-   - TCP/IP Model: Must contain 4 or 5 layers (Application, Transport, Network/Internet, Link/Network Interface) and map protocols (HTTP/FTP, TCP/UDP, IP/ICMP, Ethernet).
-   - GSM Architecture: Mobile Station (ME, SIM) → BSS (BTS, BSC) → NSS (MSC, HLR, VLR, AuC, EIR, GMSC) → External Networks (PSTN/ISDN).
-
-5. OPERATING SYSTEMS:
-   - Process State Transition: 5 or 7 states (New, Ready, Running, Waiting/Blocked, Terminated, Suspend Ready, Suspend Blocked) with transition events (admitted, scheduler dispatch, interrupt, I/O wait, I/O completion, suspend, resume).
-   - Memory Hierarchy: Stack/Registers (Fastest, Smallest) → Cache (L1, L2, L3) → Main Memory (RAM) → Secondary Storage (SSD/HDD) → Tertiary Storage (Magnetic tape/Optical - Slowest, Largest).
-
-6. COMPILERS:
-   - Compiler Phases: Front End (Lexical Analyzer/Lexer → Syntax Analyzer/Parser → Semantic Analyzer) and Back End (Intermediate Code Generator → Code Optimizer → Target Code Generator) with Symbol Table and Error Handler linked to all.
-
-════════════════════════════════════════
-DIAGRAM TYPE SELECTION (choose ONE):
-════════════════════════════════════════
-- uml-diagram    → UML Class, Use Case, or Sequence diagrams. Must return the custom 'schema' object in JSON.
-- dfd-flow       → Data Flow Diagrams (Level 0, 1, 2 DFDs). Must return the custom 'schema' object in JSON.
-- flowchart TD  → architecture, systems, block diagrams, workflows, algorithms, MCC, SPCC, DBMS, OS, control systems, compilers
-- flowchart LR  → pipelines, left-to-right data flows, horizontal architectures
-- graph TD      → hierarchical trees, classification diagrams
-- graph LR      → network layers (OSI, GSM subsystems), horizontal hierarchy
-- erDiagram     → ONLY for SQL database schemas with tables and foreign keys
-- sequenceDiagram → ONLY for step-by-step protocols: TCP handshake, HTTP, JWT, API flows
-- stateDiagram-v2 → ONLY for state machines and finite automata with named states
-
-⛔ BANNED — NEVER USE THESE:
-- classDiagram (causes render errors, banned entirely)
-- block-beta (not supported in this renderer)
-- Single quotes inside ANY label (causes literal quote characters to appear)
-- Truncated subgraph names
-
-════════════════════════════════════════
 RETURN THIS EXACT JSON:
-════════════════════════════════════════
 {
-  "title": "Descriptive title max 5 words",
-  "diagram_type": "uml-diagram|dfd-flow|flowchart|erDiagram|sequenceDiagram|stateDiagram|graph",
+  "title": "Title max 5 words",
+  "diagram_type": "circuit-schematic|flowchart|erDiagram|sequenceDiagram|stateDiagram|graph|uml-diagram|dfd-flow",
   "schema": {
-    "type": "uml-diagram|dfd-flow",
-    "nodes": [
-      // For uml-diagram class: { "id": "customer_c", "type": "class", "label": "Customer", "x": 100, "y": 120, "width": 140, "height": 90, "attributes": ["+ id: int", "+ name: string"], "operations": ["+ register(): bool"], "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" }
-      // For uml-diagram actor: { "id": "student_a", "type": "actor", "label": "Student", "x": 80, "y": 180 } (centered at x,y)
-      // For uml-diagram use-case: { "id": "borrow_u", "type": "use-case", "label": "Borrow Book", "x": 300, "y": 180, "width": 110, "height": 60, "color": "#F0FDF4", "borderColor": "#22C55E", "textColor": "#14532D" }
-      // For dfd-flow process: { "id": "p1", "type": "process", "shape": "circle|rectangle", "processId": "1.0", "label": "Issue Book", "x": 300, "y": 200, "width": 90, "height": 90, "color": "#EFF6FF", "borderColor": "#2563EB", "textColor": "#1E3A5F" }
-      // For dfd-flow data-store: { "id": "ds1", "type": "data-store", "processId": "D1", "label": "Books DB", "x": 520, "y": 180, "width": 140, "height": 55, "color": "#FAF5FF", "borderColor": "#A855F7", "textColor": "#581C87" }
-      // For dfd-flow external: { "id": "user", "type": "external", "label": "Library User", "x": 80, "y": 180, "width": 110, "height": 60, "color": "#FEF2F2", "borderColor": "#EF4444", "textColor": "#7F1D1D" }
-    ],
-    "connections": [
-      // For uml-diagram: { "from": "customer_c", "to": "order_c", "label": "places", "type": "association|inheritance|dependency|composition|aggregation", "style": "solid|dashed" }
-      // For dfd-flow: { "from": "p1", "to": "ds1", "label": "update catalog" }
-    ]
+    "type": "circuit-schematic|uml-diagram|dfd-flow",
+    "viewBox": { "width": 620, "height": 380 },
+    "grid": { "columns": 4, "rows": 3 },
+    "components": [], "netlist": [], "labels": [], "nodes": [], "connections": []
   },
-  "mermaid_code": "complete valid mermaid.js code here (empty/blank if using schema)",
-  "theory": "Minimum 180 words. Technically accurate explanation covering: (1) what the system is, (2) each major component and its specific role, (3) how data/signals flow through the system end-to-end, (4) real protocols or standards used, (5) practical application. Write as if explaining to a student preparing for a university exam.",
-  "key_points": ["accurate technical point 1", "accurate technical point 2", "accurate technical point 3", "accurate technical point 4", "accurate technical point 5"],
-  "use_cases": ["real-world use case 1", "real-world use case 2", "real-world use case 3"],
+  "mermaid_code": "Mermaid string",
+  "theory": "Minimum 180 words technical textbook-style explanation.",
+  "key_points": ["point 1", "point 2", "point 3", "point 4", "point 5"],
+  "use_cases": ["case 1", "case 2", "case 3"],
   "complexity": "Beginner|Intermediate|Advanced",
   "subject_category": "Electronics|Networks|Database|Software|Control Systems|Other",
   "fallback_json": {
-    "nodes": [
-      { "id": "node_id", "label": "Full Component Name", "type": "rectangle|process|decision|terminal|input_output" }
-    ],
-    "edges": [
-      { "from": "source_id", "to": "target_id", "label": "connection/signal label" }
-    ]
+    "nodes": [{ "id": "n1", "label": "Label", "type": "rectangle" }],
+    "edges": [{ "from": "n1", "to": "n2", "label": "signal" }]
   }
 }
 
-════════════════════════════════════════
-MERMAID SYNTAX RULES (follow exactly):
-════════════════════════════════════════
-
-RULE 1 — NODE IDs: short alphanumeric only, no spaces, no special chars
-  GOOD: MS, BTS, BSC, MSC, HLR
-  BAD:  Mobile_Station, 'BTS', base-station
-
-RULE 2 — NODE LABELS: double quotes only for multi-word labels, NEVER single quotes, NO parentheses
-  GOOD: MS["Mobile Station"]
-  BAD:  MS['Mobile Station']        ← NEVER single quotes
-  BAD:  MS["Mobile Station (MS)"]   ← parentheses break the Mermaid parser
-  BAD:  MS[Mobile Station]          ← NEVER unquoted multi-word
-
-RULE 3 — SUBGRAPH titles: always use quoted format, never truncate, NO parentheses inside labels
-  GOOD: subgraph BSS["Base Station Subsystem"]
-  BAD:  subgraph BSS["Base Station Subsystem (BSS)"]  ← parentheses break parser
-  BAD:  subgraph Base   ← truncated
-
-RULE 4 — ARROW LABELS: 2-4 words max, double quotes
-  GOOD: MS -->|"radio signal"| BTS
-  BAD:  MS -->|'radio'| BTS   ← single quotes banned
-
-RULE 5 — SHAPES: vary shapes to distinguish component types
-  [rectangle]       → main components and subsystems
-  (rounded)         → processes and functions
-  {diamond}         → decision points
-  ((circle))        → start/end/terminal nodes
-  [/parallelogram/] → input/output data
-
-RULE 6 — SUBGRAPH syntax:
-  subgraph ID["Full Title"]
-    A["Node A"]
-    B["Node B"]
-  end
-
-RULE 7 — NODE COUNT: minimum 10 nodes, maximum 18 nodes
-
-RULE 8 — FULL NAMES: never use abbreviations as the visible label
-  GOOD: HLR["Home Location Register"]
-  BAD:  HLR["HLR"]
-
-RULE 9 — erDiagram (Entity-Relationship):
-  - Entity names MUST be in ALL_CAPS_WITH_UNDERSCORES (e.g., CUSTOMER_ORDER).
-  - Relationships MUST use exactly double-hyphens '--' (solid line) or double-dots '..' (dashed line). Single hyphens '-' or single dots '.' are strictly banned.
-  - Cardinality markers MUST be exactly '||', '|o', 'o|', '|{', '}|', 'o{', or '}o'.
-  - Always separate entities, relationship line, colon, and labels with spaces.
-  - Labels MUST be enclosed in double quotes.
-  - Correct Format: CUSTOMER ||--o{ ORDER : "places"
-
-RULE 10 — sequenceDiagram: single-word participant names, use activate/deactivate
-  participant Client
-  participant Server
-  activate Server
-  Client->>Server: "GET /resource"
-
-════════════════════════════════════════════
-REFERENCE: CORRECT GSM ARCHITECTURE EXAMPLE
-(use this level of completeness for all diagrams)
-════════════════════════════════════════════
+MERMAID RULES:
+1. Node IDs: short alphanumeric, no spaces/special characters.
+2. Node labels: Double quotes only. NEVER single quotes. No parentheses inside labels.
+3. Subgraphs: Must be quoted. No parentheses.
+4. Arrow labels: Double quotes (e.g. -->|\"label\"|).
+5. Shapes: [rect], (round), {diamond}, ((circle)), [/parallelogram/].
+6. erDiagram: Entity ALL_CAPS. Line exactly '--' or '..'. Cardinality: ||, |o, o|, |{, }|, o{, }o. Label: : \"label\".
+7. sequenceDiagram: Single-word participants, use activate/deactivate.
+8. GSM Example Flowchart:
 flowchart TD
-  subgraph MS_SUB["Mobile Station"]
-    ME["Mobile Equipment"]
-    SIM["SIM Card"]
-  end
-  subgraph BSS["Base Station Subsystem"]
-    BTS["Base Transceiver Station"]
-    BSC["Base Station Controller"]
-  end
-  subgraph NSS["Network Switching Subsystem"]
-    MSC["Mobile Switching Center"]
-    HLR["Home Location Register"]
-    VLR["Visitor Location Register"]
-    AUC["Authentication Center"]
-    EIR["Equipment Identity Register"]
-    GMSC["Gateway MSC"]
-  end
-  PSTN["PSTN - External Network"]
-  ME -->|"radio Um interface"| BTS
-  BTS -->|"Abis interface"| BSC
-  BSC -->|"A interface"| MSC
-  MSC -->|"queries subscriber"| HLR
-  MSC -->|"roaming info"| VLR
-  MSC -->|"authenticates"| AUC
-  MSC -->|"checks IMEI"| EIR
-  MSC -->|"external calls"| GMSC
-  GMSC -->|"connects to"| PSTN`
+  MS["Mobile Station"] -->|"Um"| BTS["Base Transceiver Station"]
+  BTS -->|"Abis"| BSC["Base Station Controller"]
+  BSC -->|"A"| MSC["Mobile Switching Center"]`
 
-// OpenRouter fallback
-async function callOpenRouter(prompt) {
+// OpenRouter fallback with model rotation support
+async function callOpenRouter(prompt, modelName = 'meta-llama/llama-3.3-70b-instruct:free', customPrompt = null) {
+  const promptToUse = customPrompt || `Generate a technically accurate, complete, student-friendly diagram for: ${prompt.trim()}`
   const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -201,17 +159,20 @@ async function callOpenRouter(prompt) {
       'X-Title': 'DiagramAI',
     },
     body: JSON.stringify({
-      model: 'meta-llama/llama-3.3-70b-instruct:free',
+      model: modelName,
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: `Generate a technically accurate, complete, student-friendly diagram for: ${prompt}` },
+        { role: 'user', content: promptToUse },
       ],
-      max_tokens: 3000,
+      max_tokens: 2000,
       temperature: 0.1,
     }),
   })
-  if (!res.ok) throw new Error(`OpenRouter error: ${res.status}`)
+  if (!res.ok) throw new Error(`OpenRouter (${modelName}) error: ${res.status}`)
   const data = await res.json()
+  if (!data.choices || data.choices.length === 0) {
+    throw new Error(`OpenRouter (${modelName}) returned no choices`)
+  }
   return data.choices[0].message.content
 }
 
@@ -628,13 +589,40 @@ function validateMermaidSyntax(code) {
 
 // ─── Validate result ──────────────────────────────────────────────────────────
 function validateResult(parsed) {
-  const isCustomSchema = parsed.diagram_type === 'uml-diagram' || parsed.diagram_type === 'dfd-flow'
+  // Custom SVG schema types — bypass Mermaid pipeline entirely
+  const CUSTOM_SCHEMA_TYPES = ['uml-diagram', 'dfd-flow', 'circuit-schematic']
+  const isCustomSchema = CUSTOM_SCHEMA_TYPES.includes(parsed.diagram_type) ||
+    (parsed.schema && CUSTOM_SCHEMA_TYPES.includes(parsed.schema?.type))
 
   if (isCustomSchema) {
-    if (!parsed.schema || !Array.isArray(parsed.schema.nodes)) {
-      throw new Error('Custom diagram schema is missing or invalid')
+    if (!parsed.schema) {
+      throw new Error('Custom diagram schema object is missing')
     }
-    parsed.mermaid_code = '' // clear mermaid code
+    // circuit-schematic: must have components array
+    if (parsed.diagram_type === 'circuit-schematic' || parsed.schema?.type === 'circuit-schematic') {
+      if (!Array.isArray(parsed.schema.components)) {
+        parsed.schema.components = []
+      }
+      if (!Array.isArray(parsed.schema.wires))     parsed.schema.wires = []
+      if (!Array.isArray(parsed.schema.junctions))  parsed.schema.junctions = []
+      if (!Array.isArray(parsed.schema.labels))     parsed.schema.labels = []
+      parsed.schema.type = 'circuit-schematic'
+      parsed.diagram_type = 'circuit-schematic'
+      if (parsed.schema.components.length === 0) {
+        throw new Error('Circuit schema has no components — cannot render empty circuit')
+      }
+      // Run Schematic Linter checks
+      const lint = validateSchematicTopology(parsed.schema)
+      if (!lint.valid) {
+        throw new Error(`SCHEMATIC_LINT_ERROR: ${lint.errors.join('; ')}`)
+      }
+    }
+    // uml-diagram / dfd-flow: must have nodes array
+    if ((parsed.diagram_type === 'uml-diagram' || parsed.diagram_type === 'dfd-flow') &&
+        !Array.isArray(parsed.schema.nodes)) {
+      throw new Error('Custom diagram schema is missing nodes array')
+    }
+    parsed.mermaid_code = '' // clear mermaid code for all custom schemas
   } else {
     if (!parsed.mermaid_code || parsed.mermaid_code.trim().length < 30) {
       throw new Error('Generated diagram code is too short or empty')
@@ -673,6 +661,294 @@ export async function POST(req) {
     }
 
     let stubMetadata = null
+
+    // ── CLASSIFIER & INTERCEPTOR ───────────────────────────────────────────
+    let classificationResult = null
+    if (!forceAI) {
+      try {
+        const classifierPrompt = `You are a technical diagram classifier and parameter extractor for engineering students.
+Analyze this user query: "${prompt.trim()}"
+
+Classify it into one of these three categories:
+1. "theory_request": A request for a standard theory concept, architecture, SDLC, flowchart, or diagram WITHOUT specific numerical parameter calculations (e.g., "draw a colpitts oscillator", "8085 architecture block diagram", "explain waterfall model").
+2. "numerical_problem": A circuit analysis/design question containing specific custom component values or source parameters that fits one of our templates.
+3. "unsupported_custom_circuit": A request for a custom, arbitrary, or complex circuit layout (e.g. "three-phase motor controller", "rectifier with 6 diodes", "circuit with 5 relays") that does not match the basic topology of our templates.
+
+Our verified templates are:
+   - "dc-circuit" (for simple DC circuit with voltage source, switch, ammeter, resistor/lamp/load, voltmeter)
+   - "ac-circuit" (for AC series circuits containing any combination of Resistor, Inductor, Capacitor: R, L, C, RC, RL, LC, RLC)
+   - "zener-voltage-regulator" (for Zener diode regulator circuit)
+   - "opamp-inverting" (for inverting operational amplifier)
+   - "opamp-noninverting" (for non-inverting operational amplifier)
+   - "star-delta-conversion" (for star-to-delta or delta-to-star conversion)
+   - "nortons-theorem-bee" (for Norton's theorem circuit problems)
+   - "source-transformation-circuit" (for source transformation equivalence)
+   - "series-rl-circuit" (for series RL circuit questions)
+   - "series-rlc-resonance" (for RLC resonance questions)
+   - "superposition-theorem-circuit" (for Superposition theorem questions)
+   - "thevenins-theorem-circuit" (for Thevenin's theorem equivalent circuit questions)
+   - "bjt-switch-circuit" (for BJT switch questions)
+   - "classb-pushpull-amplifier" (for class B push-pull amplifiers)
+   - "hartley-oscillator" (for Hartley oscillators)
+   - "colpitts-oscillator" (for Colpitts oscillators)
+   - "wien-bridge-oscillator" (for Wien bridge oscillators)
+   - "rc-phase-shift-oscillator" (for RC phase shift oscillators)
+   - "astable-multivibrator" (for astable multivibrators)
+   - "opamp-integrator" (for op-amp integrator circuits)
+   - "opamp-differentiator" (for op-amp differentiator circuits)
+   - "bjt-differential-amplifier" (for BJT differential amplifiers)
+   - "single-phase-transformer" (for single-phase transformers)
+   - "star-connection" (for Star connection Y and T representations)
+   - "delta-connection" (for Delta connection Triangle and Pi representations)
+
+If it is "numerical_problem", you MUST match it to one of these templates and extract the numerical parameters:
+- For "dc-circuit": V, R
+- For "ac-circuit": V, f, R, L, C
+- For "zener-voltage-regulator": Vin, Rs, Vz, Rl
+- For "opamp-inverting": Vin, R1, Rf
+- For "opamp-noninverting": Vin, R1, Rf
+- For "star-delta-conversion": Star resistances R1, R2, R3 (or RA, RB, RC) OR Delta resistances RAB, RBC, RCA
+- For "nortons-theorem-bee": V1, R1, V2, R2, R3, R4, R5, RL
+- For "source-transformation-circuit": V, rv, I, ri
+- For "series-rl-circuit": V, f, R, L
+- For "series-rlc-resonance": V, R, L, C
+- For "superposition-theorem-circuit": V1, R1, R2, R3, V2
+- For "thevenins-theorem-circuit": Vth, Rth, RL
+
+Return ONLY a valid JSON object of this format:
+{
+  "classification": "theory_request" | "numerical_problem" | "unsupported_custom_circuit",
+  "matched_template": "dc-circuit" | "ac-circuit" | "zener-voltage-regulator" | "opamp-inverting" | "opamp-noninverting" | "star-delta-conversion" | "nortons-theorem-bee" | "source-transformation-circuit" | "series-rl-circuit" | "series-rlc-resonance" | "superposition-theorem-circuit" | "thevenins-theorem-circuit" | "bjt-switch-circuit" | "classb-pushpull-amplifier" | "hartley-oscillator" | "colpitts-oscillator" | "wien-bridge-oscillator" | "rc-phase-shift-oscillator" | "astable-multivibrator" | "opamp-integrator" | "opamp-differentiator" | "bjt-differential-amplifier" | "single-phase-transformer" | "star-connection" | "delta-connection" | null,
+  "parameters": { ... },
+  "unsupported_reason": "Explanation of why the circuit is unsupported, if applicable"
+}
+
+Ensure you normalize numerical values (e.g. 100uF -> 0.0001, 10k -> 10000).`;
+
+        const classifierModel = (useProModel || /circuit|oscillator|op.?amp|zener/i.test(prompt))
+          ? 'llama-3.3-70b-versatile'
+          : 'llama-3.1-8b-instant';
+
+        const classifierResponse = await groq.chat.completions.create({
+          model: classifierModel,
+          messages: [{ role: 'user', content: classifierPrompt }],
+          max_tokens: 500,
+          temperature: 0.0,
+          response_format: { type: 'json_object' }
+        });
+
+        classificationResult = JSON.parse(classifierResponse.choices[0].message.content);
+        console.log('[Classifier] Result:', classificationResult);
+      } catch (classErr) {
+        console.error('[Classifier] Error running classifier:', classErr.message);
+      }
+    }
+
+    if (classificationResult && classificationResult.classification === 'unsupported_custom_circuit') {
+      return Response.json({
+        error: `Unsupported Custom Circuit: ${classificationResult.unsupported_reason || 'This circuit layout differs fundamentally from our base templates and cannot be constructed on a grid.'}`
+      }, { status: 400 })
+    }
+
+    if (classificationResult && classificationResult.matched_template) {
+      const templateName = classificationResult.matched_template
+      const templateObj = ALL_DIAGRAMS.find(d => d.id === templateName)
+
+      if (templateObj) {
+        let baseTemplate = JSON.parse(JSON.stringify(templateObj))
+
+        const SOLVERS = {
+          'dc-circuit': solveDcCircuit,
+          'ac-circuit': solveAcRlcCircuit,
+          'zener-voltage-regulator': solveZenerRegulator,
+          'opamp-inverting': solveOpampInverting,
+          'opamp-noninverting': solveOpampNoninverting,
+          'star-delta-conversion': solveStarDelta,
+          'nortons-theorem-bee': solveNortonsTheorem,
+          'source-transformation-circuit': solveSourceTransformation,
+          'series-rl-circuit': solveSeriesRlCircuit,
+          'series-rlc-resonance': solveSeriesRlcResonance,
+          'superposition-theorem-circuit': solveSuperposition,
+          'thevenins-theorem-circuit': solveThevenin
+        }
+
+        const solverFn = SOLVERS[templateName]
+
+        if (classificationResult.classification === 'numerical_problem' && solverFn) {
+          const solverResult = solverFn(classificationResult.parameters)
+          if (solverResult && solverResult.success) {
+            // 1. Handle component bypassing
+            if (solverResult.omittedComponents) {
+              for (const [compId, isOmitted] of Object.entries(solverResult.omittedComponents)) {
+                if (isOmitted) {
+                  console.log(`[Bypass] Bypassing omitted component ${compId}`);
+                  removeComponentAndMergeWires(baseTemplate, compId)
+                }
+              }
+            }
+
+            // 2. Overlay parameters on base template components
+            if (solverResult.mappings) {
+              for (const mapping of solverResult.mappings) {
+                const comp = baseTemplate.components.find(c => c.id === mapping.id)
+                if (comp) {
+                  comp.value = mapping.value;
+                  if (comp.label) {
+                    if (comp.label.includes('Ω') || comp.label.includes('V') || comp.label.includes('A') || comp.label.includes('F') || comp.label.includes('H') || comp.label.includes('Hz')) {
+                      comp.label = mapping.value;
+                    } else {
+                      comp.label = `${comp.label} = ${mapping.value}`;
+                    }
+                  } else {
+                    comp.label = mapping.value;
+                  }
+                }
+              }
+            }
+
+            // 3. Special handling for zener-voltage-regulator labels overlay
+            if (templateName === 'zener-voltage-regulator') {
+              const rsComp = baseTemplate.components.find(c => c.id === 'RS')
+              if (rsComp) {
+                const val = solverResult.mappings.find(m => m.id === 'Rs')?.value
+                if (val) rsComp.label = `Rs = ${val}`
+              }
+              const rlComp = baseTemplate.components.find(c => c.id === 'RL')
+              if (rlComp) {
+                const val = solverResult.mappings.find(m => m.id === 'Rl')?.value
+                if (val) rlComp.label = `RL = ${val}`
+              }
+              const zdComp = baseTemplate.components.find(c => c.id === 'ZD')
+              if (zdComp) {
+                const val = solverResult.mappings.find(m => m.id === 'Dz')?.value
+                if (val) zdComp.label = `Vz = ${val}`
+              }
+              const vinLabel = baseTemplate.labels.find(l => l.text.includes('Vin') || l.text.includes('Unregulated'))
+              if (vinLabel) {
+                const val = solverResult.mappings.find(m => m.id === 'Vin')?.value
+                if (val) vinLabel.text = `Vin = ${val}`
+              }
+              const voutLabel = baseTemplate.labels.find(l => l.text.includes('Vz') || l.text.includes('Regulated'))
+              if (voutLabel) {
+                const val = solverResult.mappings.find(m => m.id === 'Dz')?.value
+                if (val) voutLabel.text = `Vout = ${val}`
+              }
+            }
+
+            let theoryText = ''
+            let examTip = ''
+            let keyPoints = []
+            let useCases = []
+
+            try {
+              const explanationPrompt = `You are a textbook writer. Write a detailed, exam-ready textbook-style explanation for this circuit problem:
+Query: "${prompt.trim()}"
+Solved parameters:
+${JSON.stringify(solverResult.results, null, 2)}
+Given parameters:
+${JSON.stringify(solverResult.given, null, 2)}
+Mathematical steps used by the solver:
+${JSON.stringify(solverResult.calculations, null, 2)}
+
+Ensure your explanation uses the EXACT same formulas, values, and calculations shown in the mathematical steps above. DO NOT invent other formulas or perform any other arithmetic that contradicts the solver's steps.
+
+Provide your response in JSON format matching these fields:
+{
+  "theory": "A detailed 180+ words engineering explanation of the circuit operation, explaining the given parameters, how the calculations are performed, and what the results mean physically.",
+  "exam_tips": "Practical tips for scoring full marks when drawing or solving this circuit in a university exam.",
+  "key_points": ["point 1", "point 2", "point 3", "point 4", "point 5"],
+  "use_cases": ["case 1", "case 2", "case 3"]
+}`;
+
+              const explanationResponse = await groq.chat.completions.create({
+                model: 'llama-3.1-8b-instant',
+                messages: [{ role: 'user', content: explanationPrompt }],
+                max_tokens: 1000,
+                temperature: 0.1,
+                response_format: { type: 'json_object' }
+              });
+
+              const expResult = JSON.parse(explanationResponse.choices[0].message.content)
+              theoryText = expResult.theory
+              examTip = expResult.exam_tips
+              keyPoints = expResult.key_points || []
+              useCases = expResult.use_cases || []
+            } catch (llmErr) {
+              console.error('[Solver LLM] Error fetching explanations:', llmErr.message)
+              theoryText = baseTemplate.theory || ''
+              examTip = baseTemplate.examTip || ''
+              keyPoints = baseTemplate.keyPoints || []
+              useCases = baseTemplate.useCases || []
+            }
+
+            let theoryTabContent = `### Given Data:\n`
+            for (const [key, val] of Object.entries(solverResult.given)) {
+              theoryTabContent += `* **${key}**: ${val}\n`
+            }
+
+            theoryTabContent += `\n### Step-by-Step Mathematical Solution:\n`
+            for (const calc of solverResult.calculations) {
+              theoryTabContent += `#### ${calc.step}\n`
+              theoryTabContent += `* **Formula**: $${calc.formula}$\n`
+              theoryTabContent += `* **Substitution**: $${calc.substitution}$\n`
+              theoryTabContent += `* **Result**: **${calc.result}**\n\n`
+            }
+
+            theoryTabContent += `### textbook Theory Explanation:\n${theoryText}`
+
+            return Response.json({
+              success: true,
+              data: {
+                schema: baseTemplate,
+                title: `${baseTemplate.title} (Solved)`,
+                theory: theoryTabContent,
+                key_points: keyPoints,
+                use_cases: useCases,
+                examTip: examTip,
+                complexity: baseTemplate.complexity || 'Intermediate',
+                subject_category: baseTemplate.category || 'Electronics',
+                diagram_type: baseTemplate.type || 'circuit-schematic',
+                source: 'library',
+                isParameterized: true
+              },
+              meta: {
+                model: 'deterministic-solver',
+                usedFallback: false,
+                fromLibrary: true,
+                isStub: false,
+                timestamp: new Date().toISOString()
+              }
+            })
+          }
+        }
+
+        // If it is a theory request or the solver failed/doesn't exist, serve the template directly
+        console.log(`[Library] Servicing matched template: ${baseTemplate.id} for prompt: "${prompt.trim()}"`)
+        return Response.json({
+          success: true,
+          data: {
+            schema: baseTemplate,
+            title: baseTemplate.title,
+            theory: baseTemplate.theory || '',
+            key_points: baseTemplate.keyPoints || baseTemplate.key_points || [],
+            use_cases: baseTemplate.useCases || baseTemplate.use_cases || [],
+            examTip: baseTemplate.examTip || '',
+            complexity: baseTemplate.complexity || 'Intermediate',
+            subject_category: baseTemplate.category || 'Other',
+            diagram_type: baseTemplate.type,
+            source: 'library',
+            mermaid_code: baseTemplate.mermaid_code || '',
+          },
+          meta: {
+            model: 'static-library',
+            usedFallback: false,
+            fromLibrary: true,
+            timestamp: new Date().toISOString(),
+          },
+        })
+      }
+    }
+
 
     // ── TIER 1: Static Library Lookup (free, instant, 100% accurate) ──────────
     if (!forceAI) {
@@ -713,13 +989,28 @@ export async function POST(req) {
       }
     }
 
-    // ── TIER 2: AI Generation (existing Groq / OpenRouter pipeline) ───────────
-    const isComplexTopic = /block|architect|dbms|database|system|circuit|mcc|spcc|control|network|osi|gsm|compiler|processor|memory|cache|pipeline/i.test(prompt)
-    let model = (useProModel || isComplexTopic)
+    // ── TIER 2: AI Generation (Groq & OpenRouter rotation pipelines) ───────────
+    const isComplexTopic = /block|architect|dbms|database|system|circuit|rectifier|op.?amp|thevenin|norton|amplifier|filter|oscillator|mcc|spcc|control|network|osi|gsm|compiler|processor|memory|cache|pipeline|flip.?flop|latch|adder/i.test(prompt)
+    let primaryModel = (useProModel || isComplexTopic)
       ? (process.env.GROQ_MODEL_PRO || 'llama-3.3-70b-versatile')
       : (process.env.GROQ_MODEL || 'llama-3.1-8b-instant')
 
-    let rawText, usedFallback = false, retried = false
+    // Define Groq model rotation order
+    const groqModelRotation = [
+      primaryModel,
+      primaryModel === 'llama-3.3-70b-versatile' ? 'llama-3.1-8b-instant' : 'llama-3.3-70b-versatile',
+      'mixtral-8x7b-32768'
+    ].filter((m, i, arr) => arr.indexOf(m) === i) // unique list
+
+    // Define OpenRouter model rotation order
+    const openRouterModelRotation = [
+      'meta-llama/llama-3.3-70b-instruct:free',
+      'meta-llama/llama-3.1-8b-instruct:free',
+      'qwen/qwen-2.5-72b-instruct:free',
+      'google/gemma-2-9b-it:free'
+    ]
+
+    let rawText, usedFallback = false, retried = false, activeModelUsed = primaryModel
 
     const tryGroq = async (m, customPrompt = null) => {
       const promptToUse = customPrompt || `Generate a technically accurate, complete, student-friendly diagram for: ${prompt.trim()}`
@@ -729,22 +1020,52 @@ export async function POST(req) {
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: promptToUse },
         ],
-        max_tokens: 3000,
+        max_tokens: 2000,
         temperature: 0.1,
         response_format: { type: 'json_object' },
       })
       return completion.choices[0].message.content
     }
 
-    try {
-      rawText = await tryGroq(model)
-    } catch (groqErr) {
-      console.warn('Groq failed, trying OpenRouter:', groqErr.message)
+    // Attempt Groq models in rotation
+    let groqSuccess = false
+    let lastGroqError = null
+    for (const m of groqModelRotation) {
       try {
-        rawText = await callOpenRouter(prompt)
-        usedFallback = true
-      } catch (fallbackErr) {
-        return Response.json({ error: 'AI providers temporarily unavailable. Please try again.' }, { status: 503 })
+        console.log(`[API] Attempting Groq with model: ${m}`)
+        rawText = await tryGroq(m)
+        activeModelUsed = m
+        groqSuccess = true
+        break
+      } catch (err) {
+        lastGroqError = err
+        console.warn(`[API] Groq model ${m} failed: ${err.message}`)
+      }
+    }
+
+    // If Groq fails entirely, attempt OpenRouter models in rotation
+    if (!groqSuccess) {
+      console.warn('[API] All Groq models failed. Falling back to OpenRouter rotation. Last Groq error:', lastGroqError?.message)
+      let openRouterSuccess = false
+      let lastOpenRouterError = null
+      for (const m of openRouterModelRotation) {
+        try {
+          console.log(`[API] Attempting OpenRouter with model: ${m}`)
+          rawText = await callOpenRouter(prompt, m)
+          activeModelUsed = m
+          usedFallback = true
+          openRouterSuccess = true
+          break
+        } catch (err) {
+          lastOpenRouterError = err
+          console.warn(`[API] OpenRouter model ${m} failed: ${err.message}`)
+        }
+      }
+      if (!openRouterSuccess) {
+        console.error('[API] All AI providers failed. Last OpenRouter error:', lastOpenRouterError?.message)
+        return Response.json({ 
+          error: 'AI providers are currently unavailable or rate-limited. Please try again in a few minutes.' 
+        }, { status: 503 })
       }
     }
 
@@ -768,17 +1089,20 @@ export async function POST(req) {
             subject_category: stubMetadata.category || validated.subject_category,
             source: 'library-stub',
           },
-          meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
+          meta: { model: activeModelUsed, usedFallback, retried, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
         })
       }
 
       return Response.json({
         success: true,
         data: { ...validated, source: 'ai', useFallback: false },
-        meta: { model: usedFallback ? 'openrouter-fallback' : model, usedFallback, retried, fromLibrary: false, timestamp: new Date().toISOString() },
+        meta: { model: activeModelUsed, usedFallback, retried, fromLibrary: false, timestamp: new Date().toISOString() },
       })
     } catch (validateErr) {
-      const isSyntaxOrInvalid = validateErr.message.startsWith('SYNTAX_ERROR') || validateErr.message === 'INVALID_DIAGRAM_TYPE' || validateErr.message.includes('JSON')
+      const isSyntaxOrInvalid = validateErr.message.startsWith('SYNTAX_ERROR') || 
+                                validateErr.message === 'INVALID_DIAGRAM_TYPE' || 
+                                validateErr.message.includes('JSON') ||
+                                validateErr.message.startsWith('SCHEMATIC_LINT_ERROR')
       
       if (isSyntaxOrInvalid && !retried) {
         retried = true
@@ -788,6 +1112,15 @@ export async function POST(req) {
         let correctionPrompt
         if (errDetails.includes('JSON')) {
           correctionPrompt = `You previously generated a response for "${prompt.trim()}" but it was not valid JSON. Please generate a valid JSON object matching the requested schema exactly. Include the required fallback_json structure.`
+        } else if (errDetails.startsWith('SCHEMATIC_LINT_ERROR')) {
+          const cleanErrors = errDetails.slice('SCHEMATIC_LINT_ERROR: '.length);
+          correctionPrompt = `You previously generated a circuit schematic for "${prompt.trim()}" but it failed our topological linter checks with the following errors:
+${cleanErrors.split('; ').map(e => `* ${e}`).join('\n')}
+
+Please regenerate the circuit diagram JSON. Ensure you fix these errors:
+- If a terminal is unconnected/floating, connect it to a valid terminal (e.g. Q1.base or GND.top) in the netlist.
+- If there is a Vcc-to-GND short circuit, insert a resistor/component between them instead of a direct wire.
+- Keep all other fields (title, theory, key_points, use_cases, fallback_json) complete and accurate. Return ONLY valid JSON.`
         } else {
           correctionPrompt = `You previously generated a diagram for "${prompt.trim()}" but it failed validation with error: "${errDetails}".
 Here is the invalid Mermaid code you generated:
@@ -798,9 +1131,39 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
         }
 
         try {
-          rawText = await tryGroq('llama-3.3-70b-versatile', correctionPrompt)
+          console.log(`[API] Retrying correction with model: ${activeModelUsed}`)
+          if (usedFallback) {
+            rawText = await callOpenRouter(prompt, activeModelUsed, correctionPrompt)
+          } else {
+            rawText = await tryGroq(activeModelUsed, correctionPrompt)
+          }
           parsed = parseResponse(rawText)
-          const validated = validateResult(parsed)
+          
+          let validated;
+          try {
+            validated = validateResult(parsed)
+          } catch (retryValErr) {
+            console.warn('[API] Retry validation failed:', retryValErr.message)
+            if (retryValErr.message.startsWith('SCHEMATIC_LINT_ERROR:')) {
+              const cleanErrors = retryValErr.message.slice('SCHEMATIC_LINT_ERROR: '.length).split('; ')
+              return Response.json({
+                success: true,
+                data: {
+                  verificationFailed: true,
+                  source: 'failed',
+                  lintErrors: cleanErrors,
+                  title: parsed?.title || 'Diagram Verification Failed',
+                  theory: 'Verification Failed: This diagram could not be topologically validated to textbook standards. Do not study from this diagram.',
+                  key_points: parsed?.key_points || [],
+                  use_cases: parsed?.use_cases || [],
+                  complexity: parsed?.complexity || 'Intermediate',
+                  subject_category: parsed?.subject_category || 'Electronics'
+                },
+                meta: { model: activeModelUsed, usedFallback, retried: true, fromLibrary: false, timestamp: new Date().toISOString() }
+              })
+            }
+            throw retryValErr;
+          }
 
           if (stubMetadata) {
             return Response.json({
@@ -816,14 +1179,14 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
                 subject_category: stubMetadata.category || validated.subject_category,
                 source: 'library-stub',
               },
-              meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
+              meta: { model: activeModelUsed, usedFallback, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString() },
             })
           }
 
           return Response.json({
             success: true,
             data: { ...validated, source: 'ai', useFallback: false },
-            meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: false, timestamp: new Date().toISOString() },
+            meta: { model: activeModelUsed, usedFallback, retried: true, fromLibrary: false, timestamp: new Date().toISOString() },
           })
         } catch (retryErr) {
           console.error('Retry failed:', retryErr.message)
@@ -840,13 +1203,13 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
                   key_points: stubMetadata.key_points || stubMetadata.keyPoints || parsed.key_points,
                   use_cases: stubMetadata.use_cases || stubMetadata.useCases || parsed.use_cases,
                   examTip: stubMetadata.examTip || '',
-                  complexity: stubMetadata.complexity || parsed.complexity,
+                  complexity: parsed.complexity,
                   subject_category: stubMetadata.category || parsed.subject_category,
                   source: 'library-stub',
                   useFallback: true,
                   mermaid_code: parsed.mermaid_code || ''
                 },
-                meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString(), fallbackActive: true },
+                meta: { model: activeModelUsed, usedFallback, retried: true, fromLibrary: true, isStub: true, timestamp: new Date().toISOString(), fallbackActive: true },
               })
             }
 
@@ -858,7 +1221,7 @@ Please regenerate the JSON, correcting the specific syntax error. Ensure the Mer
                 useFallback: true,
                 mermaid_code: parsed.mermaid_code || ''
               },
-              meta: { model: 'llama-3.3-70b-versatile', usedFallback: false, retried: true, fromLibrary: false, timestamp: new Date().toISOString(), fallbackActive: true },
+              meta: { model: activeModelUsed, usedFallback, retried: true, fromLibrary: false, timestamp: new Date().toISOString(), fallbackActive: true },
             })
           }
           throw retryErr

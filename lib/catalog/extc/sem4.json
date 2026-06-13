@@ -99,5 +99,92 @@
         { "x": 340, "y": 150 }
       ]
     }
+  },
+  {
+    "id": "opamp-instrumentation",
+    "title": "Three Op-Amp Instrumentation Amplifier",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 3: Special Purpose Op-Amp Circuits",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 4, Page 178",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 10,
+      "recent_questions": [
+        "Explain the operation of a three op-amp instrumentation amplifier. Derive the expression for its output voltage (May 2024).",
+        "Design a three op-amp instrumentation amplifier for a variable differential gain from 10 to 1000 (Dec 2023)."
+      ]
+    },
+    "theory": "An instrumentation amplifier is a high-gain, high-precision differential amplifier designed to amplify very weak signals while rejecting common-mode noise. It consists of two stages: a front-end input stage and a back-end output stage. The input stage consists of two op-amps (A1 and A2) configured as non-inverting buffers. These buffers present an extremely high input impedance to the input signals V1 and V2, preventing loading on delicate sensors. The feedback paths of A1 and A2 are connected together through a gain-setting resistor RG and two feedback resistors Rf1 and Rf2. This stage amplifies the differential voltage (V2 - V1) while passing common-mode signals with unity gain. The second stage consists of a difference amplifier (A3) with four matched resistors R1 and R2. This difference stage rejects the common-mode voltage and amplifies the differential output of the first stage. The overall voltage gain of the circuit is given by Av = Vo / (V2 - V1) = (1 + 2*Rf/RG) * (R2/R1), where Rf1 = Rf2 = Rf. The key advantages include adjustable gain via a single resistor RG, high input impedance, and excellent Common Mode Rejection Ratio (CMRR), making it ideal for bridge measurements, strain gauges, and medical instrumentation like ECG machines.",
+    "key_points": [
+      "Input signal is applied to the non-inverting (+) terminals of buffers A1 and A2.",
+      "Dual non-inverting input buffers provide extremely high input impedance.",
+      "Gain can be adjusted using a single external resistor RG without disturbing CMRR.",
+      "A difference amplifier stage (A3) removes common-mode noise and provides differential gain.",
+      "Overall closed-loop voltage gain Av = (1 + 2*Rf / RG) * (R2 / R1)."
+    ],
+    "use_cases": [
+      "Bridge measurement systems (strain gauges, thermocouples, load cells).",
+      "Medical electronics (ECG, EEG, and EMG monitoring equipment).",
+      "Data acquisition and industrial sensor signal conditioning."
+    ]
+  },
+  {
+    "id": "opamp-integrator",
+    "title": "Op-Amp Integrator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 4, Page 162",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of an Op-Amp Integrator with a neat circuit diagram. Derive the output voltage equation (May 2024).",
+        "Design an active integrator circuit using IC 741 to integrate a square wave of 1kHz (Dec 2023)."
+      ]
+    },
+    "theory": "An operational amplifier integrator is an electronic integration circuit. In this configuration, the output voltage is proportional to the time integral of the input voltage. The circuit is based on the inverting amplifier topology. The input voltage Vin is applied to the inverting (-) input terminal through resistor R1, while the non-inverting (+) input terminal is connected directly to ground. The feedback loop is completed by a capacitor Cf connecting the output Vo to the inverting input node. Due to the high open-loop gain and virtual ground concept, the potential at the inverting input is held at virtual ground (0V). The current entering the inverting input node is Vin / R1. Since the ideal op-amp draws no current, this entire current flows into the feedback capacitor Cf, charging it. The voltage across the capacitor is given by Vc = (1/Cf) * integral(i(t) dt). Since Vo = -Vc, the output voltage is Vo = - (1 / (R1 * Cf)) * integral(Vin(t) dt) from 0 to t, plus the initial capacitor voltage. This circuit acts as an active low-pass filter, attenuating high-frequency noise and integrating signals like square waves into triangle waves.",
+    "key_points": [
+      "Input resistor R1 is in series with the inverting (-) input.",
+      "Feedback capacitor Cf connects the op-amp output to the inverting input.",
+      "Output voltage is the negative time integral of the input voltage, scaled by 1/R1*Cf.",
+      "Virtual ground holds the inverting node at ~0V potential.",
+      "Acts as an active low-pass filter, commonly used for signal wave shaping."
+    ],
+    "use_cases": [
+      "Converting square waves into triangular waveforms in signal generators.",
+      "Analog computers and analog PID controllers (integral action).",
+      "Integrator stages in dual-slope analog-to-digital converters (ADCs)."
+    ]
+  },
+  {
+    "id": "opamp-differentiator",
+    "title": "Op-Amp Differentiator Circuit",
+    "type": "circuit-schematic",
+    "subject": "Linear Integrated Circuits (LIC)",
+    "syllabus_reference": "Module 2: Operational Amplifier Applications",
+    "textbook_reference": "Ramakant A. Gayakwad, Op-Amps and Linear Integrated Circuits, Chapter 4, Page 168",
+    "exam_relevance": {
+      "frequency": "High",
+      "typical_marks": 8,
+      "recent_questions": [
+        "Explain the operation of an Op-Amp Differentiator with a neat circuit diagram. Derive the output voltage equation (May 2024).",
+        "Explain the limitations of an ideal op-amp differentiator and how they are overcome in a practical differentiator (Dec 2023)."
+      ]
+    },
+    "theory": "An operational amplifier differentiator is an electronic circuit in which the output voltage is proportional to the rate of change (time derivative) of the input voltage. The circuit is based on the inverting amplifier topology. The input voltage Vin is applied to the inverting (-) input terminal through capacitor C1, while the non-inverting (+) input terminal is connected directly to ground. The feedback loop is completed by a resistor Rf connecting the output Vo back to the inverting input node. Due to virtual ground, the potential at the inverting input node is held at 0V. The current entering the inverting input is determined by the capacitor's current-voltage relationship: i(t) = C1 * (dVin/dt). Since no current flows into the ideal op-amp terminal, this entire current flows through the feedback resistor Rf. The output voltage Vo is Vo = - i(t) * Rf = - Rf * C1 * (dVin(t)/dt). This circuit acts as an active high-pass filter, making it highly sensitive to high-frequency noise and commonly used for edge detection and rate-of-change measurements.",
+    "key_points": [
+      "Input capacitor C1 is in series with the inverting (-) input.",
+      "Feedback resistor Rf connects the op-amp output to the inverting input.",
+      "Output voltage is the negative time derivative of the input voltage, scaled by Rf*C1.",
+      "Virtual ground holds the inverting node at ~0V potential.",
+      "Acts as an active high-pass filter, sensitive to high-frequency noise."
+    ],
+    "use_cases": [
+      "Converting triangle waves into square waves in wave-shaping networks.",
+      "Edge detection in analog image processing and signal conditioning.",
+      "PID controllers (derivative action) in control loops."
+    ]
   }
 ]

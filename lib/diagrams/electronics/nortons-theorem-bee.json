@@ -1,0 +1,100 @@
+{
+  "id": "nortons-theorem-bee",
+  "title": "Norton's Theorem BEE Circuit",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Intermediate",
+  "tags": ["Norton", "theorem", "resistive network", "two sources", "BEE", "NEP2020", "FE", "circuit analysis"],
+  "keywords": ["norton theorem circuit", "norton equivalent", "norton bee circuit", "norton theorem resistor", "nortons theorem example", "bee norton theorem"],
+  "viewBox": { "width": 1220, "height": 380 },
+  "components": [
+    { "id": "V1",  "symbol": "dc-source", "x": 100, "y": 220, "rotation": 0, "label": "15V", "labelSize": 11 },
+    { "id": "R1",  "symbol": "resistor",  "x": 240, "y": 140, "rotation": 0, "label": "8Ω",  "labelSize": 11 },
+    { "id": "V2",  "symbol": "dc-source", "x": 350, "y": 200, "rotation": 90,"label": "5V",  "labelSize": 11 },
+    { "id": "R2",  "symbol": "resistor",  "x": 460, "y": 140, "rotation": 0, "label": "2Ω",  "labelSize": 11 },
+    { "id": "R3",  "symbol": "resistor",  "x": 110, "y": 290, "rotation": 90,"label": "2Ω",  "labelSize": 11 },
+    { "id": "R4",  "symbol": "resistor",  "x": 280, "y": 290, "rotation": 90,"label": "16Ω", "labelSize": 11 },
+    { "id": "R5",  "symbol": "resistor",  "x": 390, "y": 290, "rotation": 90,"label": "10Ω", "labelSize": 11 },
+    { "id": "RL",  "symbol": "resistor",  "x": 570, "y": 220, "rotation": 90,"label": "3Ω",  "labelSize": 11 },
+    { "id": "GND", "symbol": "ground",    "x": 100, "y": 360, "rotation": 0 },
+
+    { "id": "IN_eq", "symbol": "current-source", "x": 780, "y": 200, "rotation": 0, "label": "IN", "labelSize": 11 },
+    { "id": "RN_eq", "symbol": "resistor",  "x": 920, "y": 200, "rotation": 90,"label": "RN", "labelSize": 11 },
+    { "id": "RL_eq", "symbol": "resistor",  "x": 1100, "y": 200, "rotation": 90,"label": "RL", "labelSize": 11 }
+  ],
+  "wires": [
+    { "x1": 100, "y1": 194, "x2": 100, "y2": 140 },
+    { "x1": 100, "y1": 140, "x2": 212, "y2": 140 },
+    { "x1": 268, "y1": 140, "x2": 350, "y2": 140 },
+    { "x1": 350, "y1": 140, "x2": 432, "y2": 140 },
+    { "x1": 488, "y1": 140, "x2": 570, "y2": 140 },
+    { "x1": 570, "y1": 140, "x2": 570, "y2": 194 },
+    { "x1": 570, "y1": 246, "x2": 570, "y2": 350 },
+    { "x1": 100, "y1": 246, "x2": 100, "y2": 264 },
+    { "x1": 100, "y1": 316, "x2": 100, "y2": 350 },
+    { "x1": 100, "y1": 350, "x2": 570, "y2": 350 },
+    { "x1": 100, "y1": 350, "x2": 100, "y2": 360 },
+    { "x1": 350, "y1": 174, "x2": 350, "y2": 140 },
+    { "x1": 350, "y1": 226, "x2": 350, "y2": 264 },
+    { "x1": 350, "y1": 316, "x2": 350, "y2": 350 },
+    { "x1": 280, "y1": 264, "x2": 280, "y2": 350 },
+    { "x1": 280, "y1": 316, "x2": 280, "y2": 350 },
+    { "x1": 390, "y1": 264, "x2": 390, "y2": 350 },
+    { "x1": 390, "y1": 316, "x2": 390, "y2": 350 },
+
+    { "x1": 780, "y1": 174, "x2": 780, "y2": 120 },
+    { "x1": 780, "y1": 120, "x2": 1100, "y2": 120 },
+    { "x1": 920, "y1": 120, "x2": 920, "y2": 172 },
+    { "x1": 920, "y1": 228, "x2": 920, "y2": 280 },
+    { "x1": 1100, "y1": 120, "x2": 1100, "y2": 172 },
+    { "x1": 1100, "y1": 228, "x2": 1100, "y2": 280 },
+    { "x1": 780, "y1": 226, "x2": 780, "y2": 280 },
+    { "x1": 780, "y1": 280, "x2": 1100, "y2": 280 },
+
+    { "x1": 610, "y1": 180, "x2": 670, "y2": 180, "stroke": "#ea580c", "strokeWidth": 4 },
+    { "x1": 670, "y1": 180, "x2": 658, "y2": 172, "stroke": "#ea580c", "strokeWidth": 3 },
+    { "x1": 670, "y1": 180, "x2": 658, "y2": 188, "stroke": "#ea580c", "strokeWidth": 3 }
+  ],
+  "junctions": [
+    { "x": 100, "y": 140 },
+    { "x": 350, "y": 140 },
+    { "x": 100, "y": 350 },
+    { "x": 350, "y": 350 },
+
+    { "x": 920, "y": 120, "r": 3.5, "fill": "#334155" },
+    { "x": 920, "y": 280, "r": 3.5, "fill": "#334155" },
+    { "x": 1020, "y": 120, "r": 5, "fill": "#FFFFFF", "stroke": "#dc2626", "strokeWidth": 2 },
+    { "x": 1020, "y": 280, "r": 5, "fill": "#FFFFFF", "stroke": "#dc2626", "strokeWidth": 2 }
+  ],
+  "boxes": [
+    { "x": 720, "y": 80, "width": 260, "height": 230, "stroke": "#dc2626", "strokeWidth": 1.5, "strokeDasharray": "6,4", "fill": "none", "rx": 4 }
+  ],
+  "labels": [
+    { "text": "Original Active Network", "x": 330, "y": 50, "fontSize": 14, "fontWeight": "700", "fill": "#1e3a5f", "textAnchor": "middle" },
+    { "text": "Norton Equivalent Circuit", "x": 920, "y": 50, "fontSize": 14, "fontWeight": "700", "fill": "#b91c1c", "textAnchor": "middle" },
+    { "text": "Norton", "x": 640, "y": 165, "fontSize": 11, "fontWeight": "700", "fill": "#ea580c", "textAnchor": "middle" },
+    { "text": "Equivalence", "x": 640, "y": 205, "fontSize": 11, "fontWeight": "700", "fill": "#ea580c", "textAnchor": "middle" },
+
+    { "text": "A", "x": 584, "y": 144, "fontSize": 13, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "B", "x": 584, "y": 354, "fontSize": 13, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "start" },
+    { "text": "Load RL=3Ω", "x": 590, "y": 224, "fontSize": 9, "fontWeight": "600", "fill": "#7c3aed", "textAnchor": "start" },
+
+    { "text": "A", "x": 1020, "y": 105, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "B", "x": 1020, "y": 305, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "Norton Box", "x": 735, "y": 102, "fontSize": 11, "fontWeight": "700", "fill": "#b91c1c", "textAnchor": "start" }
+  ],
+  "theory": "Norton's Theorem states that any linear circuit with voltage/current sources can be replaced by an equivalent circuit consisting of a current source IN in parallel with a resistance RN. Steps: (1) Remove load RL across terminals A-B. (2) Short-circuit A-B and find short-circuit current IN. (3) Deactivate all sources (short voltage sources, open current sources) and find Norton resistance RN = Thevenin resistance. (4) Reconnect RL and find load current IL = IN × RN/(RN + RL). This greatly simplifies analysis of complex resistive networks.",
+  "keyPoints": [
+    "Remove RL, short terminals A-B → calculate short-circuit current IN",
+    "Deactivate sources, find RN (same as Thevenin RTh) seen from A-B",
+    "Norton equivalent: IN (current source) in parallel with RN",
+    "Load current IL = IN × RN / (RN + RL)",
+    "Thevenin VTh = IN × RN (relationship between Norton and Thevenin)"
+  ],
+  "useCases": [
+    "Simplifying power supply circuits with multiple sources",
+    "Analyzing maximum power transfer conditions",
+    "Quick analysis of different load values in a complex network"
+  ],
+  "examTip": "Q2(a) type: Use superposition for IN (15V alone, then 5V alone). Short A-B, find ISC by mesh/node analysis. Find RN by deactivating all sources."
+}

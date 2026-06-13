@@ -19,6 +19,7 @@ export default function CircuitSymbol({
   fill = '#F8FAFC',
   borderColor = '#334155',
   labelSize = 10,
+  mirrorY = false,
 }) {
   const symType = type.toLowerCase()
 
@@ -78,8 +79,15 @@ export default function CircuitSymbol({
     case 'resistor': {
       const body = (
         <>
-          {/* IEC rectangle body */}
-          <rect x={-20} y={-8} width={40} height={16} fill={fill} stroke={borderColor} strokeWidth={2} rx={1} />
+          {/* Zig-zag resistor body (ANSI standard) */}
+          <path
+            d="M -20 0 L -16 -8 L -12 8 L -8 -8 L -4 8 L 0 -8 L 4 8 L 8 -8 L 12 8 L 16 -8 L 20 0"
+            fill="none"
+            stroke={borderColor}
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
           {/* Lead lines */}
           <line x1={-28} y1={0} x2={-20} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
           <line x1={20} y1={0} x2={28} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
@@ -88,7 +96,14 @@ export default function CircuitSymbol({
       symbol = body
       shadowSymbol = (
         <g transform="translate(1.5, 1.5)" opacity={0.06}>
-          <rect x={-20} y={-8} width={40} height={16} fill="black" />
+          <path
+            d="M -20 0 L -16 -8 L -12 8 L -8 -8 L -4 8 L 0 -8 L 4 8 L 8 -8 L 12 8 L 16 -8 L 20 0"
+            fill="none"
+            stroke="black"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </g>
       )
       const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
@@ -108,6 +123,7 @@ export default function CircuitSymbol({
       )
       break
     }
+
 
     // ─────────────────────────── CAPACITOR ───────────────────────────
     case 'capacitor': {
@@ -297,6 +313,96 @@ export default function CircuitSymbol({
       break
     }
 
+    // ─────────────────────────── AMMETER ───────────────────────────
+    case 'ammeter': {
+      const body = (
+        <>
+          {/* Circle */}
+          <circle cx={0} cy={0} r={18} fill={fill} stroke={borderColor} strokeWidth={2} />
+          {/* 'A' text */}
+          <text x={0} y={4} textAnchor="middle" fontSize={12} fontWeight="700" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+            A
+          </text>
+          {/* Lead lines — left and right */}
+          <line x1={-18} y1={0} x2={-26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={18} y1={0} x2={26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = (
+        <g transform="translate(1.5, 1.5)" opacity={0.06}>
+          <circle cx={0} cy={0} r={18} fill="black" />
+        </g>
+      )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
+    // ─────────────────────────── VOLTMETER ───────────────────────────
+    case 'voltmeter': {
+      const body = (
+        <>
+          {/* Circle */}
+          <circle cx={0} cy={0} r={18} fill={fill} stroke={borderColor} strokeWidth={2} />
+          {/* 'V' text */}
+          <text x={0} y={4} textAnchor="middle" fontSize={12} fontWeight="700" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+            V
+          </text>
+          {/* Lead lines — left and right */}
+          <line x1={-18} y1={0} x2={-26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={18} y1={0} x2={26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = (
+        <g transform="translate(1.5, 1.5)" opacity={0.06}>
+          <circle cx={0} cy={0} r={18} fill="black" />
+        </g>
+      )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
+    // ─────────────────────────── LAMP / LOAD ───────────────────────────
+    case 'lamp':
+    case 'load': {
+      const body = (
+        <>
+          {/* Circle */}
+          <circle cx={0} cy={0} r={18} fill={fill} stroke={borderColor} strokeWidth={2} />
+          {/* Cross lines inside */}
+          <line x1={-12} y1={-12} x2={12} y2={12} stroke={borderColor} strokeWidth={1.5} />
+          <line x1={12} y1={-12} x2={-12} y2={12} stroke={borderColor} strokeWidth={1.5} />
+          {/* Lead lines — left and right */}
+          <line x1={-18} y1={0} x2={-26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={18} y1={0} x2={26} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = (
+        <g transform="translate(1.5, 1.5)" opacity={0.06}>
+          <circle cx={0} cy={0} r={18} fill="black" />
+        </g>
+      )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
     // ─────────────────────────── OP-AMP ───────────────────────────
     case 'op-amp': {
       const body = (
@@ -389,6 +495,193 @@ export default function CircuitSymbol({
       break
     }
 
+    // ─────────────────────────── ZENER DIODE ───────────────────────────
+    case 'zener-diode': {
+      const body = (
+        <>
+          {/* Triangle pointing right */}
+          <polygon points="-15,-12 15,0 -15,12" fill={fill} stroke={borderColor} strokeWidth={2} strokeLinejoin="round" />
+          {/* Zener cathode bar with bent ends (Z shape) */}
+          <line x1={15} y1={-12} x2={15} y2={12} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={15} y1={-12} x2={21} y2={-18} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={15} y1={12}  x2={9}  y2={18}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Lead lines */}
+          <line x1={-20} y1={0} x2={-15} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={15}  y1={0} x2={20}  y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = (
+        <g transform="translate(1.5, 1.5)" opacity={0.06}>
+          <polygon points="-15,-12 15,0 -15,12" fill="black" />
+        </g>
+      )
+      const isRotated = rotation === 90 || rotation === 270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26}
+          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
+          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
+    // ─────────────────────────── LED ───────────────────────────
+    case 'led': {
+      const body = (
+        <>
+          <polygon points="-15,-12 15,0 -15,12" fill={fill} stroke={borderColor} strokeWidth={2} strokeLinejoin="round" />
+          <line x1={15} y1={-12} x2={15} y2={12} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Emission arrows */}
+          <line x1={18} y1={-8}  x2={26} y2={-16} stroke={borderColor} strokeWidth={1.5} strokeLinecap="round" />
+          <polygon points="26,-16 20,-16 26,-10" fill={borderColor} />
+          <line x1={22} y1={-4}  x2={30} y2={-12} stroke={borderColor} strokeWidth={1.5} strokeLinecap="round" />
+          <polygon points="30,-12 24,-12 30,-6" fill={borderColor} />
+          {/* Lead lines */}
+          <line x1={-20} y1={0} x2={-15} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={15}  y1={0} x2={20}  y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = (<g transform="translate(1.5,1.5)" opacity={0.06}><polygon points="-15,-12 15,0 -15,12" fill="black"/></g>)
+      const isRotated = rotation === 90 || rotation === 270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26}
+          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
+          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
+    // ─────────────────────────── BJT NPN ───────────────────────────
+    case 'bjt-npn': {
+      const body = (
+        <>
+          {/* Vertical base line */}
+          <line x1={-8} y1={-22} x2={-8} y2={22} stroke={borderColor} strokeWidth={3} strokeLinecap="round" />
+          {/* Collector line (up-right, arrow out) */}
+          <line x1={-8} y1={-12} x2={16} y2={-28} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Emitter line (down-right, arrow) */}
+          <line x1={-8} y1={12}  x2={16} y2={28}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Emitter arrow (pointing outward / down-right) */}
+          <polygon points="12,24 18,32 20,22" fill={borderColor} />
+          {/* Base lead */}
+          <line x1={-20} y1={0} x2={-8} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Collector terminal stub */}
+          <line x1={16} y1={-28} x2={20} y2={-32} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* Emitter terminal stub */}
+          <line x1={16} y1={28}  x2={20} y2={32}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      symbol = body
+      shadowSymbol = null
+      labelElement = label && (
+        <text x={0} y={-36} textAnchor="middle" fontSize={labelSize} fontWeight="600"
+          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+      )
+      // Pin labels
+      symbol = (
+        <>
+          {body}
+          <text x={-24} y={4}  textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">B</text>
+          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">C</text>
+          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">E</text>
+        </>
+      )
+      break
+    }
+
+    // ─────────────────────────── BJT PNP ───────────────────────────
+    case 'bjt-pnp': {
+      symbol = (
+        <>
+          <line x1={-8} y1={-22} x2={-8} y2={22} stroke={borderColor} strokeWidth={3} strokeLinecap="round" />
+          <line x1={-8} y1={-12} x2={16} y2={-28} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={-8} y1={12}  x2={16} y2={28}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          {/* PNP emitter arrow points INTO base (inward on collector line) */}
+          <polygon points="-4,-14 4,-8 -2,-20" fill={borderColor} />
+          <line x1={-20} y1={0} x2={-8} y2={0}   stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={16}  y1={-28} x2={20} y2={-32} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={16}  y1={28}  x2={20} y2={32}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <text x={-24} y={4}   textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">B</text>
+          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">C</text>
+          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">E</text>
+        </>
+      )
+      shadowSymbol = null
+      labelElement = label && (
+        <text x={0} y={-36} textAnchor="middle" fontSize={labelSize} fontWeight="600"
+          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+      )
+      break
+    }
+
+
+    // ─────────────────────────── TRANSFORMER ───────────────────────────
+    case 'transformer': {
+      symbol = (
+        <>
+          {/* Vertical core lines in the middle */}
+          <line x1={-3} y1={-30} x2={-3} y2={30} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={3}  y1={-30} x2={3}  y2={30} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          
+          {/* Primary winding on the left (x = -20, bumps pointing left to x = -30) */}
+          <path d="M -20 -30 C -30 -30, -30 -20, -20 -20 C -30 -20, -30 -10, -20 -10 C -30 -10, -30 0, -20 0 C -30 0, -30 10, -20 10 C -30 10, -30 20, -20 20 C -30 20, -30 30, -20 30"
+            fill="none" stroke={borderColor} strokeWidth={2.5} strokeLinecap="round" />
+          
+          {/* Secondary winding on the right (x = 20, bumps pointing right to x = 30) */}
+          <path d="M 20 -30 C 30 -30, 30 -20, 20 -20 C 30 -20, 30 -10, 20 -10 C 30 -10, 30 0, 20 0 C 30 0, 30 10, 20 10 C 30 10, 30 20, 20 20 C 30 20, 30 30, 20 30"
+            fill="none" stroke={borderColor} strokeWidth={2.5} strokeLinecap="round" />
+            
+          {/* Primary lead lines (top, bottom) */}
+          <line x1={-20} y1={-30} x2={-20} y2={-40} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={-20} y1={30}  x2={-20} y2={40}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          
+          {/* Secondary lead lines (top, bottom) */}
+          <line x1={20} y1={-30} x2={20} y2={-40} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <line x1={20} y1={30}  x2={20} y2={40}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          
+          {/* Primary center-tap lead line (optional, extends to x = -35) */}
+          <line x1={-20} y1={0} x2={-35} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          
+          {/* Secondary center-tap lead line (optional, extends to x = 35) */}
+          <line x1={20} y1={0} x2={35} y2={0} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      shadowSymbol = null
+      labelElement = label && (
+        <text x={0} y={48} transform={`rotate(${-rotation})`} textAnchor="middle" fontSize={labelSize} fontWeight="600"
+          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+      )
+      break
+    }
+
+    // ─────────────────────────── SWITCH ───────────────────────────
+    case 'switch': {
+      symbol = (
+        <>
+          <line x1={-20} y1={0} x2={-10} y2={0}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <circle cx={-10} cy={0} r={3} fill={borderColor} />
+          <line x1={-10} y1={0} x2={10} y2={-12} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+          <circle cx={10}  cy={0} r={3} fill={borderColor} />
+          <line x1={10}  y1={0} x2={20}  y2={0}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
+        </>
+      )
+      shadowSymbol = null
+      const isRotated = rotation === 90 || rotation === 270
+      labelElement = label && (
+        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 18}
+          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
+          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+          {label}
+        </text>
+      )
+      break
+    }
+
     // ─────────────────────────── FALLBACK ───────────────────────────
     default: {
       symbol = (
@@ -413,8 +706,9 @@ export default function CircuitSymbol({
     }
   }
 
+
   return (
-    <g transform={`translate(${x}, ${y}) rotate(${rotation})`}>
+    <g transform={`translate(${x}, ${y}) rotate(${rotation}) scale(1, ${mirrorY ? -1 : 1})`}>
       {/* Drop shadow for structural components */}
       {!isWireType && shadowSymbol}
 

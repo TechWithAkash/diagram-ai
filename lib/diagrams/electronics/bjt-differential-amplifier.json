@@ -1,0 +1,77 @@
+{
+  "id": "bjt-differential-amplifier",
+  "title": "BJT Differential Amplifier Circuit",
+  "description": "An emitter-coupled BJT differential amplifier circuit schematic featuring matched NPN transistors, dual inputs, collector load resistors, and emitter current biasing.",
+  "complexity": "Advanced",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "bjt differential amplifier circuit",
+    "bjt differential amplifier",
+    "differential amplifier",
+    "differential amp",
+    "transistor differential amplifier"
+  ],
+  "theory": "A differential amplifier is a type of electronic amplifier that amplifies the difference between two input voltages (V1 and V2) while rejecting any common-mode signals (signals identical on both inputs). The circuit consists of two identical NPN transistors Q1 and Q2 in a common-emitter configuration, with their emitters coupled together and connected to a common emitter resistance RE (or an active current source) to establish a bias current. The collectors are connected to VCC through matched collector resistors RC1 = RC2 = RC. The input signals are applied to the base terminals of Q1 and Q2. When a differential input voltage (V2 - V1) is applied, one transistor conducts more while the other conducts less, causing a differential output voltage (Vo2 - Vo1) across the collectors. The differential gain is Ad = Vo / (V2 - V1) ≈ gm * RC, where gm is the transconductance of the transistors. Common-mode signals, such as ambient noise, affect both transistors equally, keeping the total emitter current constant and yielding near-zero collector current changes. The Common Mode Rejection Ratio (CMRR = Ad / Acm) measures the amplifier's ability to reject common-mode noise, with higher RE values or active constant current sources yielding exceptionally high CMRR. Output can be taken differentially (balanced / double-ended) or single-ended (unbalanced).",
+  "keyPoints": [
+    "Consists of a matched pair of emitter-coupled NPN transistors (Q1 and Q2).",
+    "Amplifies the differential input voltage (V2 - V1) with high gain.",
+    "Rejects common-mode signals (signals identical on both inputs).",
+    "Differential voltage gain Ad ≈ gm * RC; Common-mode voltage gain Acm is very low.",
+    "Common Mode Rejection Ratio (CMRR) is a key performance figure of merit (CMRR = Ad / Acm)."
+  ],
+  "useCases": [
+    "Input stage of operational amplifiers (op-amps) and comparator ICs.",
+    "Balanced line receivers and instrumentation front-ends.",
+    "Analog multiplier and mixer circuits."
+  ],
+  "examTip": "BJT Differential Amplifier: Emitters are tied together to RE. Balanced output taken between Q1 and Q2 collectors. Unbalanced output taken from one collector to ground. Symmetrical design. Derivations ask for Ad, Acm, and CMRR.",
+  "grid": {
+    "columns": 7,
+    "rows": 5,
+    "colSpacing": 130,
+    "rowSpacing": 110,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 540
+    }
+  },
+  "components": [
+    { "id": "Vcc", "symbol": "vcc-rail", "grid": [3.0, 0.4], "label": "Vcc" },
+    { "id": "J_vcc", "symbol": "wire-junction", "grid": [3.0, 0.4] },
+    { "id": "RC1", "symbol": "resistor", "grid": [2.2, 1.0], "rotation": 90, "label": "Rc" },
+    { "id": "RC2", "symbol": "resistor", "grid": [3.8, 1.0], "rotation": 90, "label": "Rc" },
+    { "id": "Q1", "symbol": "bjt-npn", "grid": [2.0, 2.0], "label": "Q1" },
+    { "id": "Q2", "symbol": "bjt-npn", "grid": [4.0, 2.0], "label": "Q2", "rotation": 180, "mirrorY": true },
+    { "id": "V1", "symbol": "node-label", "grid": [0.8, 2.0], "label": "V1" },
+    { "id": "V2", "symbol": "node-label", "grid": [5.2, 2.0], "label": "V2" },
+    { "id": "J_c1", "symbol": "wire-junction", "grid": [2.2, 1.5] },
+    { "id": "J_c2", "symbol": "wire-junction", "grid": [3.8, 1.5] },
+    { "id": "Vo1", "symbol": "node-label", "grid": [1.4, 1.5], "label": "Vo1" },
+    { "id": "Vo2", "symbol": "node-label", "grid": [4.6, 1.5], "label": "Vo2" },
+    { "id": "J_emit", "symbol": "wire-junction", "grid": [3.0, 2.8] },
+    { "id": "RE", "symbol": "resistor", "grid": [3.0, 3.5], "rotation": 90, "label": "RE" },
+    { "id": "Gnd", "symbol": "ground", "grid": [3.0, 4.1] }
+  ],
+  "netlist": [
+    { "from": "Vcc.1", "to": "J_vcc.1" },
+    { "from": "J_vcc.1", "to": "RC1.top" },
+    { "from": "J_vcc.1", "to": "RC2.top" },
+    { "from": "RC1.bottom", "to": "J_c1.1" },
+    { "from": "J_c1.1", "to": "Q1.collector" },
+    { "from": "J_c1.1", "to": "Vo1.1" },
+    { "from": "RC2.bottom", "to": "J_c2.1" },
+    { "from": "J_c2.1", "to": "Q2.collector" },
+    { "from": "J_c2.1", "to": "Vo2.1" },
+    { "from": "V1.1", "to": "Q1.base" },
+    { "from": "V2.1", "to": "Q2.base" },
+    { "from": "Q1.emitter", "to": "J_emit.1" },
+    { "from": "Q2.emitter", "to": "J_emit.1" },
+    { "from": "J_emit.1", "to": "RE.top" },
+    { "from": "RE.bottom", "to": "Gnd.top" }
+  ]
+}

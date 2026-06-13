@@ -1,0 +1,71 @@
+{
+  "id": "star-connection",
+  "title": "Star Connection Circuit (Y and T)",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Beginner",
+  "tags": ["star", "Y-connection", "T-connection", "BEE", "NEP2020", "FE", "circuit schematic"],
+  "keywords": ["star connection circuit", "Y connection", "T connection", "bee star connection", "three phase star"],
+  "viewBox": { "width": 660, "height": 340 },
+  "components": [
+    { "id": "RA_Y", "symbol": "resistor", "x": 120, "y": 170, "rotation": -143, "label": "RA", "labelSize": 10 },
+    { "id": "RB_Y", "symbol": "resistor", "x": 200, "y": 170, "rotation": -37,  "label": "RB", "labelSize": 10 },
+    { "id": "RC_Y", "symbol": "resistor", "x": 160, "y": 240, "rotation": 90,  "label": "RC", "labelSize": 10 },
+    
+    { "id": "RA_T", "symbol": "resistor", "x": 430, "y": 160, "rotation": 0,   "label": "RA", "labelSize": 10 },
+    { "id": "RB_T", "symbol": "resistor", "x": 530, "y": 160, "rotation": 0,   "label": "RB", "labelSize": 10 },
+    { "id": "RC_T", "symbol": "resistor", "x": 480, "y": 220, "rotation": 90,  "label": "RC", "labelSize": 10 }
+  ],
+  "wires": [
+    { "x1": 80,  "y1": 140, "x2": 98,  "y2": 153 },
+    { "x1": 142, "y1": 187, "x2": 160, "y2": 200 },
+    { "x1": 240, "y1": 140, "x2": 222, "y2": 153 },
+    { "x1": 178, "y1": 187, "x2": 160, "y2": 200 },
+    { "x1": 160, "y1": 280, "x2": 160, "y2": 268 },
+    { "x1": 160, "y1": 212, "x2": 160, "y2": 200 },
+    
+    { "x1": 380, "y1": 160, "x2": 402, "y2": 160 },
+    { "x1": 458, "y1": 160, "x2": 480, "y2": 160 },
+    { "x1": 480, "y1": 160, "x2": 502, "y2": 160 },
+    { "x1": 558, "y1": 160, "x2": 580, "y2": 160 },
+    { "x1": 480, "y1": 160, "x2": 480, "y2": 192 },
+    { "x1": 480, "y1": 248, "x2": 480, "y2": 280 }
+  ],
+  "junctions": [
+    { "x": 80,  "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 240, "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 160, "y": 280, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 160, "y": 200, "r": 3.5, "fill": "#334155" },
+    
+    { "x": 380, "y": 160, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 580, "y": 160, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 480, "y": 280, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 480, "y": 160, "r": 3.5, "fill": "#334155" }
+  ],
+  "labels": [
+    { "text": "A", "x": 68, "y": 144, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 252, "y": 144, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 160, "y": 298, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "N", "x": 172, "y": 196, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    
+    { "text": "\"Y\" Connection", "x": 160, "y": 320, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "\"T\" Connection", "x": 480, "y": 320, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    
+    { "text": "A", "x": 368, "y": 164, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 592, "y": 164, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 480, "y": 298, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" }
+  ],
+  "theory": "A Star connection (also known as Y or T connection) is a type of electrical connection where one terminal of each of the three resistors is connected to a common neutral point N. The remaining terminals A, B, and C are connected to the line terminals of the source or load. The neutral point is often grounded. This connection is widely used in low and medium voltage power distribution systems because it provides a neutral wire, allowing for both single-phase and three-phase loads on the same system.",
+  "keyPoints": [
+    "Star (Y) has a common neutral point N, which is often grounded.",
+    "T-connection is electrically identical to Y-connection, just drawn orthogonally.",
+    "Line current equals phase current in a star-connected balanced load.",
+    "Line voltage VL = √3 × Phase voltage Vph (for AC systems).",
+    "Allows two different voltages: line-to-line (VL) and line-to-neutral (Vph)."
+  ],
+  "useCases": [
+    "Three-phase AC motor stator winding connections",
+    "Distribution transformers (Delta-Star config to provide neutral)",
+    "AC power transmission systems requiring a solid neutral ground"
+  ]
+}

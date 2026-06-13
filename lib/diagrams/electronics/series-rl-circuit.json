@@ -1,0 +1,48 @@
+{
+  "id": "series-rl-circuit",
+  "title": "Series RL Circuit",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Beginner",
+  "tags": ["RL circuit", "series circuit", "inductor", "AC circuit", "BEE", "NEP2020", "FE", "inductive coil"],
+  "keywords": ["series rl circuit", "rl circuit single coil", "inductive coil series", "rl series ac", "bee rl circuit"],
+  "viewBox": { "width": 600, "height": 320 },
+  "components": [
+    { "id": "VS",  "symbol": "ac-source", "x": 100, "y": 180, "rotation": 0, "label": "V(t)", "labelSize": 12, "borderColor": "#334155" },
+    { "id": "R",   "symbol": "resistor",  "x": 300, "y": 100, "rotation": 0, "label": "R", "labelSize": 12, "borderColor": "#334155" },
+    { "id": "L",   "symbol": "inductor",  "x": 500, "y": 180, "rotation": 90, "label": "L", "labelSize": 12, "borderColor": "#334155" }
+  ],
+  "wires": [
+    { "x1": 100, "y1": 154, "x2": 100, "y2": 100, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 100, "y1": 100, "x2": 272, "y2": 100, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 328, "y1": 100, "x2": 500, "y2": 100, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 500, "y1": 100, "x2": 500, "y2": 152, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 100, "y1": 206, "x2": 100, "y2": 260, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 100, "y1": 260, "x2": 500, "y2": 260, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 500, "y1": 208, "x2": 500, "y2": 260, "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x1": 115, "y1": 115, "x2": 135, "y2": 115, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 135, "y1": 115, "x2": 129, "y2": 111, "stroke": "#334155", "strokeWidth": 2 },
+    { "x1": 135, "y1": 115, "x2": 129, "y2": 119, "stroke": "#334155", "strokeWidth": 2 }
+  ],
+  "junctions": [],
+  "boxes": [],
+  "labels": [
+    { "text": "i(t)", "x": 108, "y": 127, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "end" },
+    { "text": "VR", "x": 300, "y": 135, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "middle" },
+    { "text": "VL", "x": 465, "y": 185, "fontSize": 12, "fontWeight": "700", "fill": "#334155", "textAnchor": "end" }
+  ],
+  "theory": "When an inductive coil is connected in series with a resistor across an AC supply, it forms a series RL circuit. The total impedance is Z = √(R² + XL²), where XL = ωL = 2πfL is the inductive reactance. The current i(t) lags behind the applied voltage v(t) by a phase angle φ = arctan(XL/R). The voltage drop across the resistor is VR = I×R and is in phase with the current, while the voltage drop across the inductor is VL = I×XL and leads the current by 90 degrees.",
+  "keyPoints": [
+    "Resistor voltage VR is in phase with circuit current i(t).",
+    "Inductor voltage VL leads circuit current i(t) by 90 degrees.",
+    "Circuit current lags source voltage V(t) by angle φ.",
+    "Impedance Z = √(R² + XL²) — total opposition to current.",
+    "Power factor cos φ = R/Z (always lagging)."
+  ],
+  "useCases": [
+    "Analyzing AC motors, chokes, and solenoid coils",
+    "High-frequency choke filters in power supplies",
+    "Phase-shifting networks in instrumentation"
+  ]
+}

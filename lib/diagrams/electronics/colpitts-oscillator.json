@@ -1,0 +1,95 @@
+{
+  "id": "colpitts-oscillator",
+  "title": "Colpitts Oscillator Circuit",
+  "description": "A transistor-based Colpitts oscillator circuit schematic featuring a common-emitter amplifier and an LC tank circuit with tapped capacitors (C1 and C2) for capacitive feedback.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "colpitts oscillator circuit schematic",
+    "colpitts oscillator",
+    "colpitts oscillator circuit",
+    "transistor colpitts oscillator"
+  ],
+  "theory": "The Colpitts oscillator is a type of LC oscillator that uses a capacitive voltage divider in its feedback loop. The tuned tank circuit consists of a single inductor L in parallel with two series-connected capacitors C1 and C2. The junction between C1 and C2 is grounded, acting as a center tap that splits the feedback phase. When an AC signal appears at the collector, it drives the tank circuit. The capacitive center tap creates a 180° phase inversion between the collector output and the feedback signal sent to the base. Combined with the 180° phase shift of the common-emitter BJT amplifier stage, the total loop phase shift is 360° (or 0°), satisfying the Barkhausen criterion. The oscillation frequency is given by fr = 1 / (2 * pi * sqrt(L * CT)), where CT = (C1 * C2) / (C1 + C2) is the equivalent series capacitance of the tank. The RFC (Radio Frequency Choke) coil acts as a low-resistance path for DC bias but an extremely high-reactance block for high-frequency AC signals, preventing them from leaking into the DC power rail. Resistors R1 and R2 establish the base bias, RE stabilizes the emitter current, CE is the emitter bypass capacitor, and Cb and Cc are input/output coupling capacitors.",
+  "keyPoints": [
+    "Uses a center-tapped capacitor combination (C1 and C2) in parallel with inductor L.",
+    "BJT stage provides 180° phase shift; the capacitive tap provides the other 180°.",
+    "Loop gain must be >= 1 ( Barkhausen criteria ) for sustained oscillation.",
+    "Oscillation frequency: fr = 1 / (2 * pi * sqrt(L * CT)) where CT = C1 * C2 / (C1 + C2).",
+    "Better frequency stability at high frequencies compared to the Hartley oscillator."
+  ],
+  "useCases": [
+    "High-frequency sine wave generators in radio transmitters and receivers.",
+    "Local oscillators in superheterodyne receivers.",
+    "Stable RF signal generators in research and communication networks."
+  ],
+  "examTip": "Colpitts Oscillator: Identifiable by the tapped capacitor (two capacitors C1, C2 in series with a center tap). Oscillation frequency fr = 1/(2π√[L·CT]) where CT = C1·C2/(C1+C2). Capacitive center tap gives the 180° phase shift, and transistor CE amplifier gives the other 180°.",
+  "grid": {
+    "columns": 7,
+    "rows": 6,
+    "colSpacing": 130,
+    "rowSpacing": 100,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 620
+    }
+  },
+  "components": [
+    { "id": "Vcc", "symbol": "vcc-rail", "grid": [1.8, 0.4], "label": "Vcc" },
+    { "id": "R1", "symbol": "resistor", "grid": [1.8, 1.2], "rotation": 90, "label": "R1" },
+    { "id": "R2", "symbol": "resistor", "grid": [1.8, 2.6], "rotation": 90, "label": "R2" },
+    { "id": "J_base_bias", "symbol": "wire-junction", "grid": [1.8, 2.0] },
+    { "id": "Gnd1", "symbol": "ground", "grid": [1.8, 3.4] },
+    { "id": "Cb", "symbol": "capacitor", "grid": [1.0, 2.0], "label": "Cb" },
+    { "id": "Q1", "symbol": "bjt-npn", "grid": [3.0, 2.0], "label": "Q1" },
+    { "id": "RFC", "symbol": "inductor", "grid": [3.0, 1.0], "rotation": 90, "label": "RFC" },
+    { "id": "J_vcc_coll", "symbol": "wire-junction", "grid": [3.0, 0.4] },
+    { "id": "J_coll_node", "symbol": "wire-junction", "grid": [3.0, 1.5] },
+    { "id": "Cc", "symbol": "capacitor", "grid": [4.5, 2.0], "label": "Cc" },
+    { "id": "RE", "symbol": "resistor", "grid": [3.0, 2.8], "rotation": 90, "label": "RE" },
+    { "id": "CE", "symbol": "capacitor", "grid": [3.6, 2.8], "rotation": 90, "label": "CE" },
+    { "id": "J_emit_node", "symbol": "wire-junction", "grid": [3.0, 2.4] },
+    { "id": "J_emit_gnd", "symbol": "wire-junction", "grid": [3.0, 3.2] },
+    { "id": "Gnd2", "symbol": "ground", "grid": [3.0, 3.4] },
+    { "id": "J_tank_l", "symbol": "wire-junction", "grid": [0.5, 4.2] },
+    { "id": "C1", "symbol": "capacitor", "grid": [1.8, 4.2], "label": "C1" },
+    { "id": "J_tank_ct", "symbol": "wire-junction", "grid": [3.0, 4.2] },
+    { "id": "Gnd3", "symbol": "ground", "grid": [3.0, 4.6] },
+    { "id": "C2", "symbol": "capacitor", "grid": [4.2, 4.2], "label": "C2" },
+    { "id": "J_tank_r", "symbol": "wire-junction", "grid": [5.5, 4.2] },
+    { "id": "L", "symbol": "inductor", "grid": [3.0, 4.9], "label": "L" }
+  ],
+  "netlist": [
+    { "from": "Vcc.1", "to": "R1.top" },
+    { "from": "Vcc.1", "to": "J_vcc_coll.1" },
+    { "from": "J_vcc_coll.1", "to": "RFC.top" },
+    { "from": "R1.bottom", "to": "J_base_bias.1" },
+    { "from": "J_base_bias.1", "to": "R2.top" },
+    { "from": "J_base_bias.1", "to": "Cb.right" },
+    { "from": "J_base_bias.1", "to": "Q1.base" },
+    { "from": "R2.bottom", "to": "Gnd1.top" },
+    { "from": "RFC.bottom", "to": "J_coll_node.1" },
+    { "from": "J_coll_node.1", "to": "Q1.collector" },
+    { "from": "J_coll_node.1", "to": "Cc.left" },
+    { "from": "Q1.emitter", "to": "J_emit_node.1" },
+    { "from": "J_emit_node.1", "to": "RE.top" },
+    { "from": "J_emit_node.1", "to": "CE.top" },
+    { "from": "RE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "CE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "J_emit_gnd.1", "to": "Gnd2.top" },
+    { "from": "Cb.left", "to": "J_tank_l.1" },
+    { "from": "J_tank_l.1", "to": "C1.left" },
+    { "from": "C1.right", "to": "J_tank_ct.1" },
+    { "from": "J_tank_ct.1", "to": "Gnd3.top" },
+    { "from": "J_tank_ct.1", "to": "C2.left" },
+    { "from": "C2.right", "to": "J_tank_r.1" },
+    { "from": "Cc.right", "to": "J_tank_r.1" },
+    { "from": "J_tank_l.1", "to": "L.left" },
+    { "from": "J_tank_r.1", "to": "L.right" }
+  ]
+}

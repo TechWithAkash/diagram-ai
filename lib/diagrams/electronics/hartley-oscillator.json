@@ -1,0 +1,95 @@
+{
+  "id": "hartley-oscillator",
+  "title": "Hartley Oscillator Circuit",
+  "description": "A transistor-based Hartley oscillator circuit schematic featuring a common-emitter amplifier and an LC tank circuit with tapped inductors (L1 and L2) for inductive feedback.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "hartley oscillator circuit schematic",
+    "hartley oscillator",
+    "hartley oscillator circuit",
+    "transistor hartley oscillator"
+  ],
+  "theory": "The Hartley oscillator is an electronic oscillator circuit in which the oscillation frequency is determined by a tuned circuit consisting of capacitors and inductors (an LC tank circuit). The feedback signal required for oscillation is taken from a tapped connection on the inductor coil. The circuit consists of an active amplifying stage (usually a BJT in common-emitter configuration) that provides a 180° phase shift, and a feedback tank network consisting of two series-connected inductors L1 and L2 in parallel with a tuning capacitor C. The junction between the two inductors is grounded, creating a center tap. This center tap provides phase splitting, introducing an additional 180° phase shift between the collector and base terminals. The total phase shift around the loop is therefore 360° (or 0°), satisfying the Barkhausen criterion for sustained oscillations. The frequency of oscillation is given by fr = 1 / (2 * pi * sqrt(LT * C)), where LT = L1 + L2 + 2M is the total equivalent inductance (M being mutual inductance, usually neglected). Resistors R1 and R2 form the voltage divider bias for the BJT, RE provides emitter stabilization, CE is the bypass capacitor to maintain high AC gain, and Cb and Cc are coupling capacitors to block DC biasing currents.",
+  "keyPoints": [
+    "Uses a center-tapped inductor combination (L1 and L2) in parallel with capacitor C.",
+    "Active BJT stage provides 180° phase shift; tank center-tap provides the remaining 180°.",
+    "Meets the Barkhausen criterion of 360° total phase shift and loop gain >= 1.",
+    "Oscillation frequency: fr = 1 / (2 * pi * sqrt(LT * C)) where LT = L1 + L2.",
+    "RFC (Radio Frequency Choke) prevents high-frequency AC signals from leaking into the DC power supply."
+  ],
+  "useCases": [
+    "Radio frequency (RF) signal generators and local oscillators in radio receivers.",
+    "High-frequency sine wave generators up to 100 MHz.",
+    "RF transmitters and communication circuits."
+  ],
+  "examTip": "Hartley Oscillator: Identifiable by the tapped inductor (two inductors L1, L2 in series with a center tap). Oscillation frequency fr = 1/(2π√[LT·C]) where LT = L1 + L2. Transistor CE amplifier gives 180° phase shift, and tapped inductors give the other 180° phase shift.",
+  "grid": {
+    "columns": 7,
+    "rows": 6,
+    "colSpacing": 130,
+    "rowSpacing": 100,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 620
+    }
+  },
+  "components": [
+    { "id": "Vcc", "symbol": "vcc-rail", "grid": [1.8, 0.4], "label": "Vcc" },
+    { "id": "R1", "symbol": "resistor", "grid": [1.8, 1.2], "rotation": 90, "label": "R1" },
+    { "id": "R2", "symbol": "resistor", "grid": [1.8, 2.6], "rotation": 90, "label": "R2" },
+    { "id": "J_base_bias", "symbol": "wire-junction", "grid": [1.8, 2.0] },
+    { "id": "Gnd1", "symbol": "ground", "grid": [1.8, 3.4] },
+    { "id": "Cb", "symbol": "capacitor", "grid": [1.0, 2.0], "label": "Cb" },
+    { "id": "Q1", "symbol": "bjt-npn", "grid": [3.0, 2.0], "label": "Q1" },
+    { "id": "RFC", "symbol": "inductor", "grid": [3.0, 1.0], "rotation": 90, "label": "RFC" },
+    { "id": "J_vcc_coll", "symbol": "wire-junction", "grid": [3.0, 0.4] },
+    { "id": "J_coll_node", "symbol": "wire-junction", "grid": [3.0, 1.5] },
+    { "id": "Cc", "symbol": "capacitor", "grid": [4.5, 2.0], "label": "Cc" },
+    { "id": "RE", "symbol": "resistor", "grid": [3.0, 2.8], "rotation": 90, "label": "RE" },
+    { "id": "CE", "symbol": "capacitor", "grid": [3.6, 2.8], "rotation": 90, "label": "CE" },
+    { "id": "J_emit_node", "symbol": "wire-junction", "grid": [3.0, 2.4] },
+    { "id": "J_emit_gnd", "symbol": "wire-junction", "grid": [3.0, 3.2] },
+    { "id": "Gnd2", "symbol": "ground", "grid": [3.0, 3.4] },
+    { "id": "J_tank_l", "symbol": "wire-junction", "grid": [0.5, 4.2] },
+    { "id": "L1", "symbol": "inductor", "grid": [1.8, 4.2], "label": "L1" },
+    { "id": "J_tank_ct", "symbol": "wire-junction", "grid": [3.0, 4.2] },
+    { "id": "Gnd3", "symbol": "ground", "grid": [3.0, 4.6] },
+    { "id": "L2", "symbol": "inductor", "grid": [4.2, 4.2], "label": "L2" },
+    { "id": "J_tank_r", "symbol": "wire-junction", "grid": [5.5, 4.2] },
+    { "id": "C", "symbol": "capacitor", "grid": [3.0, 4.9], "label": "C" }
+  ],
+  "netlist": [
+    { "from": "Vcc.1", "to": "R1.top" },
+    { "from": "Vcc.1", "to": "J_vcc_coll.1" },
+    { "from": "J_vcc_coll.1", "to": "RFC.top" },
+    { "from": "R1.bottom", "to": "J_base_bias.1" },
+    { "from": "J_base_bias.1", "to": "R2.top" },
+    { "from": "J_base_bias.1", "to": "Cb.right" },
+    { "from": "J_base_bias.1", "to": "Q1.base" },
+    { "from": "R2.bottom", "to": "Gnd1.top" },
+    { "from": "RFC.bottom", "to": "J_coll_node.1" },
+    { "from": "J_coll_node.1", "to": "Q1.collector" },
+    { "from": "J_coll_node.1", "to": "Cc.left" },
+    { "from": "Q1.emitter", "to": "J_emit_node.1" },
+    { "from": "J_emit_node.1", "to": "RE.top" },
+    { "from": "J_emit_node.1", "to": "CE.top" },
+    { "from": "RE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "CE.bottom", "to": "J_emit_gnd.1" },
+    { "from": "J_emit_gnd.1", "to": "Gnd2.top" },
+    { "from": "Cb.left", "to": "J_tank_l.1" },
+    { "from": "J_tank_l.1", "to": "L1.left" },
+    { "from": "L1.right", "to": "J_tank_ct.1" },
+    { "from": "J_tank_ct.1", "to": "Gnd3.top" },
+    { "from": "J_tank_ct.1", "to": "L2.left" },
+    { "from": "L2.right", "to": "J_tank_r.1" },
+    { "from": "Cc.right", "to": "J_tank_r.1" },
+    { "from": "J_tank_l.1", "to": "C.left" },
+    { "from": "J_tank_r.1", "to": "C.right" }
+  ]
+}

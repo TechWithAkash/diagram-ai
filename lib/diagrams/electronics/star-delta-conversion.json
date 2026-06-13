@@ -1,0 +1,95 @@
+{
+  "id": "star-delta-conversion",
+  "title": "Star to Delta Conversion",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Intermediate",
+  "aliases": [
+    "star delta conversion",
+    "star to delta conversion",
+    "star delta transformation",
+    "Y-delta conversion",
+    "star to delta",
+    "delta to star",
+    "BEE"
+  ],
+  "tags": ["star", "delta", "Y-delta", "conversion", "three phase", "BEE", "NEP2020", "FE", "network"],
+  "keywords": ["star delta conversion", "star to delta", "delta to star", "Y delta transformation", "bee star delta", "network conversion", "star circuit delta circuit"],
+  "viewBox": { "width": 780, "height": 380 },
+  "components": [
+    { "id": "RA_S", "symbol": "resistor", "x": 140, "y": 150, "rotation": -143, "label": "RA", "labelSize": 10 },
+    { "id": "RB_S", "symbol": "resistor", "x": 220, "y": 150, "rotation": -37,  "label": "RB", "labelSize": 10 },
+    { "id": "RC_S", "symbol": "resistor", "x": 180, "y": 220, "rotation": 90,  "label": "RC", "labelSize": 10 },
+    
+    { "id": "RAB_D", "symbol": "resistor", "x": 580, "y": 120, "rotation": 0,    "label": "RAB", "labelSize": 10 },
+    { "id": "RBC_D", "symbol": "resistor", "x": 620, "y": 190, "rotation": 56,   "label": "RBC", "labelSize": 10 },
+    { "id": "RCA_D", "symbol": "resistor", "x": 540, "y": 190, "rotation": -56,  "label": "RCA", "labelSize": 10 }
+  ],
+  "wires": [
+    { "x1": 100, "y1": 120, "x2": 118, "y2": 133 },
+    { "x1": 162, "y1": 167, "x2": 180, "y2": 180 },
+    { "x1": 260, "y1": 120, "x2": 242, "y2": 133 },
+    { "x1": 198, "y1": 167, "x2": 180, "y2": 180 },
+    { "x1": 180, "y1": 260, "x2": 180, "y2": 248 },
+    { "x1": 180, "y1": 192, "x2": 180, "y2": 180 },
+    
+    { "x1": 500, "y1": 120, "x2": 552, "y2": 120 },
+    { "x1": 608, "y1": 120, "x2": 660, "y2": 120 },
+    { "x1": 660, "y1": 120, "x2": 635, "y2": 167 },
+    { "x1": 605, "y1": 213, "x2": 580, "y2": 260 },
+    { "x1": 580, "y1": 260, "x2": 555, "y2": 213 },
+    { "x1": 525, "y1": 167, "x2": 500, "y2": 120 },
+    
+    { "x1": 330, "y1": 180, "x2": 430, "y2": 180, "stroke": "#2563EB", "strokeWidth": 3 },
+    { "x1": 430, "y1": 180, "x2": 418, "y2": 172, "stroke": "#2563EB", "strokeWidth": 3 },
+    { "x1": 430, "y1": 180, "x2": 418, "y2": 188, "stroke": "#2563EB", "strokeWidth": 3 },
+    { "x1": 330, "y1": 180, "x2": 342, "y2": 172, "stroke": "#2563EB", "strokeWidth": 3 },
+    { "x1": 330, "y1": 180, "x2": 342, "y2": 188, "stroke": "#2563EB", "strokeWidth": 3 }
+  ],
+  "junctions": [
+    { "x": 100, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 260, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 180, "y": 260, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 180, "y": 180, "r": 3.5, "fill": "#334155" },
+    
+    { "x": 500, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 660, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 580, "y": 260, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 }
+  ],
+  "boxes": [
+    { "x": 210, "y": 295, "width": 360, "height": 70, "fill": "#FFFBEB", "stroke": "#F59E0B", "strokeWidth": 1.5, "rx": 6 }
+  ],
+  "labels": [
+    { "text": "STAR (Y) Circuit", "x": 180, "y": 50, "fontSize": 13, "fontWeight": "700", "fill": "#1e3a5f", "textAnchor": "middle" },
+    { "text": "DELTA (Δ) Circuit", "x": 580, "y": 50, "fontSize": 13, "fontWeight": "700", "fill": "#14532D", "textAnchor": "middle" },
+    
+    { "text": "A", "x": 88, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 272, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 180, "y": 278, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "N", "x": 192, "y": 176, "fontSize": 11, "fontWeight": "700", "fill": "#475569", "textAnchor": "start" },
+    
+    { "text": "A", "x": 488, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 672, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 580, "y": 278, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    
+    { "text": "Equivalent", "x": 380, "y": 162, "fontSize": 11, "fontWeight": "700", "fill": "#2563EB", "textAnchor": "middle" },
+    
+    { "text": "CONVERSION FORMULAE", "x": 390, "y": 311, "fontSize": 10, "fontWeight": "700", "fill": "#78350F", "textAnchor": "middle" },
+    { "text": "RAB = (RA·RB + RB·RC + RC·RA) / RC", "x": 390, "y": 328, "fontSize": 10, "fontWeight": "600", "fill": "#92400E", "textAnchor": "middle" },
+    { "text": "RBC = (RA·RB + RB·RC + RC·RA) / RA", "x": 390, "y": 342, "fontSize": 10, "fontWeight": "600", "fill": "#92400E", "textAnchor": "middle" },
+    { "text": "RCA = (RA·RB + RB·RC + RC·RA) / RB", "x": 390, "y": 356, "fontSize": 10, "fontWeight": "600", "fill": "#92400E", "textAnchor": "middle" }
+  ],
+  "theory": "Star-to-Delta (Y-Δ) transformation allows us to convert a three-terminal star (Y) network into an equivalent delta (Δ) network. In a star circuit, three impedances meet at a common neutral point N. In the equivalent delta circuit, three impedances connect directly between the three terminals A, B, C. The conversion formulas are: RAB = (RA·RB + RB·RC + RC·RA)/RC, RBC = (RA·RB + RB·RC + RC·RA)/RA, RCA = (RA·RB + RB·RC + RC·RA)/RB. This transformation is used to simplify complex networks that cannot be reduced by series-parallel combinations alone.",
+  "keyPoints": [
+    "Star (Y): three impedances connected to a common neutral point N",
+    "Delta (Δ): three impedances connected between three terminals (no neutral)",
+    "Each delta resistance = sum of products of adjacent star resistors / opposite star resistor",
+    "Inverse: Delta-to-Star: RA = RAB·RCA/(RAB+RBC+RCA)",
+    "Used to simplify bridge circuits and three-phase network analysis"
+  ],
+  "useCases": [
+    "Three-phase power system analysis (Δ↔Y load conversion)",
+    "Simplifying bridge circuit networks (Wheatstone bridge)",
+    "AC circuit analysis where series-parallel rules don't apply"
+  ]
+}

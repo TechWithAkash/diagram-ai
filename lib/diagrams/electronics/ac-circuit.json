@@ -1,0 +1,73 @@
+{
+  "id": "ac-circuit",
+  "title": "Alternating Current (AC) Circuit",
+  "description": "A standard AC Series RLC circuit diagram featuring a resistor, an inductor, a capacitor connected in series, and a sinusoidal AC voltage source.",
+  "complexity": "Basic",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "ac circuit diagram",
+    "alternating current circuit",
+    "basic ac circuit",
+    "ac circuit schematic",
+    "ac circuit",
+    "series rlc circuit",
+    "ac series rlc circuit"
+  ],
+  "theory": "An Alternating Current (AC) circuit is an electrical circuit in which the voltage and current vary sinusoidally over time. In a series RLC circuit, a resistor (R), inductor (L), and capacitor (C) are connected in series across an AC source. The same alternating current i(t) flows through all components. The voltage drops across the components are: V_R = I * R (in phase with current), V_L = I * X_L (leads current by 90°), and V_C = I * X_C (lags current by 90°). The impedance of the circuit is Z = sqrt(R^2 + (X_L - X_C)^2), where X_L = ωL and X_C = 1/(ωC) are the inductive and capacitive reactances respectively. At the resonant frequency ω_r = 1/sqrt(L*C), the reactances cancel each other out, making the circuit purely resistive and impedance is minimum (Z = R).",
+  "keyPoints": [
+    "AC voltage and current vary periodically in magnitude and direction.",
+    "A series RLC configuration has identical current passing through all components.",
+    "Resistor voltage V_R is in phase with current; V_L leads by 90°; V_C lags by 90°.",
+    "The total impedance Z depends on the frequency of the AC source.",
+    "Resonance occurs when inductive and capacitive reactances cancel out."
+  ],
+  "useCases": [
+    "Radio receivers and television tuning circuits.",
+    "Frequency filters (low-pass, high-pass, band-pass, band-stop).",
+    "AC power transmission and distribution systems."
+  ],
+  "examTip": "AC Series RLC Circuit: Current is same throughout. Resonance condition: X_L = X_C, Z = R (minimum), current is maximum, power factor is unity. Resonant frequency: f_r = 1 / (2π√LC).",
+  "grid": {
+    "columns": 6,
+    "rows": 3,
+    "colSpacing": 130,
+    "rowSpacing": 120,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 780,
+      "height": 360
+    }
+  },
+  "components": [
+    { "id": "R1", "symbol": "resistor", "grid": [1.0, 0.0], "label": "R", "rotation": 0 },
+    { "id": "L1", "symbol": "inductor", "grid": [2.5, 0.0], "label": "L", "rotation": 0 },
+    { "id": "C1", "symbol": "capacitor", "grid": [4.0, 0.0], "label": "C", "rotation": 0 },
+    { "id": "VS1", "symbol": "ac-source", "grid": [2.5, 2.0], "label": "Vs", "rotation": 90 },
+    { "id": "J_top_left", "symbol": "wire-junction", "grid": [0.0, 0.0] },
+    { "id": "J_top_right", "symbol": "wire-junction", "grid": [5.0, 0.0] },
+    { "id": "J_bot_left", "symbol": "wire-junction", "grid": [0.0, 2.0] },
+    { "id": "J_bot_right", "symbol": "wire-junction", "grid": [5.0, 2.0] },
+    { "id": "Gnd1", "symbol": "ground", "grid": [0.0, 2.2] }
+  ],
+  "netlist": [
+    { "from": "J_top_left.1", "to": "R1.left" },
+    { "from": "R1.right", "to": "L1.left" },
+    { "from": "L1.right", "to": "C1.left" },
+    { "from": "C1.right", "to": "J_top_right.1" },
+    { "from": "J_top_left.1", "to": "J_bot_left.1" },
+    { "from": "J_top_right.1", "to": "J_bot_right.1" },
+    { "from": "J_bot_left.1", "to": "VS1.top" },
+    { "from": "VS1.bottom", "to": "J_bot_right.1" },
+    { "from": "J_bot_left.1", "to": "Gnd1.top" }
+  ],
+  "labels": [
+    { "text": "Vr", "grid": [1.0, 0.4], "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "Vl", "grid": [2.5, 0.4], "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "Vc", "grid": [4.0, 0.4], "fontSize": 10, "fontWeight": "600", "fill": "#475569", "textAnchor": "middle" },
+    { "text": "i(t) = Im sin(wt) ←", "grid": [1.2, 2.0], "offset": [0, -12], "fontSize": 11, "fontWeight": "700", "fill": "#dc2626", "textAnchor": "middle" }
+  ]
+}

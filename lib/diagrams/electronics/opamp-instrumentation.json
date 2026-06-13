@@ -1,0 +1,94 @@
+{
+  "id": "opamp-instrumentation",
+  "title": "Three Op-Amp Instrumentation Amplifier",
+  "description": "A high-precision differential amplifier circuit using three operational amplifiers to provide high input impedance, high CMRR, and adjustable gain.",
+  "complexity": "Intermediate",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "aliases": [
+    "opamp instrumentation amplifier circuit",
+    "instrumentation amplifier",
+    "instrumentation amp",
+    "three opamp instrumentation amplifier",
+    "three op-amp instrumentation amplifier",
+    "op-amp instrumentation amplifier",
+    "op amp instrumentation"
+  ],
+  "theory": "An instrumentation amplifier is a high-gain, high-precision differential amplifier designed to amplify very weak signals while rejecting common-mode noise. It consists of two stages: a front-end input stage and a back-end output stage. The input stage consists of two op-amps (A1 and A2) configured as non-inverting buffers. These buffers present an extremely high input impedance to the input signals V1 and V2, preventing loading on delicate sensors. The feedback paths of A1 and A2 are connected together through a gain-setting resistor RG and two feedback resistors Rf1 and Rf2. This stage amplifies the differential voltage (V2 - V1) while passing common-mode signals with unity gain. The second stage consists of a difference amplifier (A3) with four matched resistors R1 and R2. This difference stage rejects the common-mode voltage and amplifies the differential output of the first stage. The overall voltage gain of the circuit is given by Av = Vo / (V2 - V1) = (1 + 2*Rf/RG) * (R2/R1), where Rf1 = Rf2 = Rf. The key advantages include adjustable gain via a single resistor RG, high input impedance, and excellent Common Mode Rejection Ratio (CMRR), making it ideal for bridge measurements, strain gauges, and medical instrumentation like ECG machines.",
+  "keyPoints": [
+    "High input impedance on both terminals prevents source loading.",
+    "Adjustable voltage gain using a single external resistor RG.",
+    "High Common Mode Rejection Ratio (CMRR) to filter out ambient noise.",
+    "Consists of a dual-op-amp input buffer stage followed by a difference amplifier stage.",
+    "Gain equation: Av = Vo / (V2 - V1) = (1 + 2*Rf / RG) * (R2 / R1)."
+  ],
+  "useCases": [
+    "Bridge measurement systems (strain gauges, thermocouples, load cells).",
+    "Medical electronics (ECG, EEG, and EMG monitoring equipment).",
+    "Data acquisition and industrial sensor signal conditioning."
+  ],
+  "examTip": "Instrumentation Amplifier: Overall Gain Av = (1 + 2*Rf/RG) * (R2/R1). CMRR is exceptionally high. Input impedance is theoretically infinite. Resistor RG controls the gain. Standard exam questions ask to derive the gain expression by writing KCL at the virtual nodes of A1 and A2.",
+  "grid": {
+    "columns": 7,
+    "rows": 5,
+    "colSpacing": 130,
+    "rowSpacing": 110,
+    "padding": {
+      "left": 80,
+      "top": 60
+    },
+    "viewBox": {
+      "width": 900,
+      "height": 540
+    }
+  },
+  "components": [
+    { "id": "V1", "symbol": "node-label", "grid": [0.5, 0.6], "label": "V1" },
+    { "id": "V2", "symbol": "node-label", "grid": [0.5, 3.4], "label": "V2" },
+    { "id": "A1", "symbol": "op-amp", "grid": [1.8, 0.8], "label": "A1" },
+    { "id": "A2", "symbol": "op-amp", "grid": [1.8, 3.2], "label": "A2", "mirrorY": true },
+    { "id": "J_out1", "symbol": "wire-junction", "grid": [2.8, 0.8] },
+    { "id": "J_out2", "symbol": "wire-junction", "grid": [2.8, 3.2] },
+    { "id": "Rf1", "symbol": "resistor", "grid": [2.8, 1.2], "rotation": 90, "label": "Rf" },
+    { "id": "J_g1", "symbol": "wire-junction", "grid": [2.8, 1.6] },
+    { "id": "Rg", "symbol": "resistor", "grid": [2.8, 2.0], "rotation": 90, "label": "RG" },
+    { "id": "J_g2", "symbol": "wire-junction", "grid": [2.8, 2.4] },
+    { "id": "Rf2", "symbol": "resistor", "grid": [2.8, 2.8], "rotation": 90, "label": "Rf" },
+    { "id": "R1_top", "symbol": "resistor", "grid": [3.7, 0.8], "label": "R1" },
+    { "id": "R1_bot", "symbol": "resistor", "grid": [3.7, 3.2], "label": "R1" },
+    { "id": "J_in3_inv", "symbol": "wire-junction", "grid": [4.3, 0.8] },
+    { "id": "J_in3_noninv", "symbol": "wire-junction", "grid": [4.5, 3.2] },
+    { "id": "Rf3", "symbol": "resistor", "grid": [4.8, 1.0], "label": "R2" },
+    { "id": "A3", "symbol": "op-amp", "grid": [4.8, 2.0], "label": "A3", "mirrorY": true },
+    { "id": "R2_gnd", "symbol": "resistor", "grid": [4.5, 2.8], "rotation": 90, "label": "R2" },
+    { "id": "Gnd1", "symbol": "ground", "grid": [4.5, 3.5] },
+    { "id": "J_out3", "symbol": "wire-junction", "grid": [5.4, 2.0] },
+    { "id": "Vout", "symbol": "node-label", "grid": [5.8, 2.0], "label": "Vo" }
+  ],
+  "netlist": [
+    { "from": "V1.1", "to": "A1.in+" },
+    { "from": "V2.1", "to": "A2.in+" },
+    { "from": "A1.out", "to": "J_out1.1" },
+    { "from": "J_out1.1", "to": "R1_top.left" },
+    { "from": "J_out1.1", "to": "Rf1.top" },
+    { "from": "A2.out", "to": "J_out2.1" },
+    { "from": "J_out2.1", "to": "R1_bot.left" },
+    { "from": "J_out2.1", "to": "Rf2.bottom" },
+    { "from": "Rf1.bottom", "to": "J_g1.1" },
+    { "from": "J_g1.1", "to": "Rg.top" },
+    { "from": "J_g1.1", "to": "A1.in-" },
+    { "from": "Rg.bottom", "to": "J_g2.1" },
+    { "from": "J_g2.1", "to": "Rf2.top" },
+    { "from": "J_g2.1", "to": "A2.in-" },
+    { "from": "R1_top.right", "to": "J_in3_inv.1" },
+    { "from": "J_in3_inv.1", "to": "A3.in-" },
+    { "from": "J_in3_inv.1", "to": "Rf3.left" },
+    { "from": "R1_bot.right", "to": "J_in3_noninv.1" },
+    { "from": "J_in3_noninv.1", "to": "A3.in+" },
+    { "from": "J_in3_noninv.1", "to": "R2_gnd.top" },
+    { "from": "R2_gnd.bottom", "to": "Gnd1.top" },
+    { "from": "A3.out", "to": "J_out3.1" },
+    { "from": "J_out3.1", "to": "Vout.1" },
+    { "from": "J_out3.1", "to": "Rf3.right" }
+  ]
+}

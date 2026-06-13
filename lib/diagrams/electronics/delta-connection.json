@@ -1,0 +1,76 @@
+{
+  "id": "delta-connection",
+  "title": "Delta Connection Circuit (Triangle and Pi)",
+  "type": "circuit-schematic",
+  "category": "Electronics",
+  "complexity": "Beginner",
+  "tags": ["delta", "triangle-connection", "pi-connection", "BEE", "NEP2020", "FE", "circuit schematic"],
+  "keywords": ["delta connection circuit", "triangle connection", "pi connection", "bee delta connection", "three phase delta"],
+  "viewBox": { "width": 660, "height": 340 },
+  "components": [
+    { "id": "RAB_D", "symbol": "resistor", "x": 160, "y": 120, "rotation": 0,    "label": "RAB", "labelSize": 10 },
+    { "id": "RBC_D", "symbol": "resistor", "x": 200, "y": 180, "rotation": 56,   "label": "RBC", "labelSize": 10 },
+    { "id": "RCA_D", "symbol": "resistor", "x": 120, "y": 180, "rotation": -56,  "label": "RCA", "labelSize": 10 },
+    
+    { "id": "RAB_P", "symbol": "resistor", "x": 480, "y": 140, "rotation": 0,    "label": "RAB", "labelSize": 10 },
+    { "id": "RCA_P", "symbol": "resistor", "x": 380, "y": 200, "rotation": 90,   "label": "RCA", "labelSize": 10 },
+    { "id": "RBC_P", "symbol": "resistor", "x": 580, "y": 200, "rotation": 90,   "label": "RBC", "labelSize": 10 },
+    { "id": "GND_P", "symbol": "ground",   "x": 480, "y": 272, "rotation": 0 }
+  ],
+  "wires": [
+    { "x1": 80,  "y1": 120, "x2": 132, "y2": 120 },
+    { "x1": 188, "y1": 120, "x2": 240, "y2": 120 },
+    { "x1": 240, "y1": 120, "x2": 215, "y2": 157 },
+    { "x1": 185, "y1": 203, "x2": 160, "y2": 240 },
+    { "x1": 160, "y1": 240, "x2": 136, "y2": 203 },
+    { "x1": 105, "y1": 157, "x2": 80,  "y2": 120 },
+    
+    { "x1": 350, "y1": 140, "x2": 380, "y2": 140 },
+    { "x1": 380, "y1": 140, "x2": 380, "y2": 172 },
+    { "x1": 380, "y1": 140, "x2": 452, "y2": 140 },
+    { "x1": 508, "y1": 140, "x2": 580, "y2": 140 },
+    { "x1": 580, "y1": 140, "x2": 580, "y2": 172 },
+    { "x1": 580, "y1": 140, "x2": 610, "y2": 140 },
+    { "x1": 380, "y1": 228, "x2": 380, "y2": 260 },
+    { "x1": 580, "y1": 228, "x2": 580, "y2": 260 },
+    { "x1": 380, "y1": 260, "x2": 580, "y2": 260 },
+    { "x1": 480, "y1": 260, "x2": 480, "y2": 272 }
+  ],
+  "junctions": [
+    { "x": 80,  "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 240, "y": 120, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 160, "y": 240, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    
+    { "x": 350, "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 610, "y": 140, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 480, "y": 260, "r": 4, "fill": "#FFFFFF", "stroke": "#334155", "strokeWidth": 2 },
+    { "x": 380, "y": 140, "r": 3.5, "fill": "#334155" },
+    { "x": 580, "y": 140, "r": 3.5, "fill": "#334155" },
+    { "x": 480, "y": 260, "r": 3.5, "fill": "#334155" }
+  ],
+  "labels": [
+    { "text": "A", "x": 68, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 252, "y": 124, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 160, "y": 258, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    
+    { "text": "Triangle (Δ) Delta", "x": 160, "y": 310, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    { "text": "Pi (π) Delta Equivalent", "x": 480, "y": 310, "fontSize": 12, "fontWeight": "700", "fill": "#1e40af", "textAnchor": "middle" },
+    
+    { "text": "A", "x": 338, "y": 144, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "B", "x": 622, "y": 144, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" },
+    { "text": "C", "x": 480, "y": 248, "fontSize": 12, "fontWeight": "700", "fill": "#0f172a", "textAnchor": "middle" }
+  ],
+  "theory": "A Delta connection (also known as Δ or Pi connection) is a type of electrical connection where three resistors are connected end-to-end to form a closed loop. The three nodes A, B, and C serve as the line terminals. Unlike the star connection, there is no common neutral point. Delta connections are widely used in high voltage transmission systems because they require only three wires instead of four, reducing conductor costs, and are robust against unbalanced loads.",
+  "keyPoints": [
+    "Delta connection has no neutral point; it forms a closed loop.",
+    "Pi-connection is electrically identical to Delta, commonly used in filter networks.",
+    "Line current is √3 times the phase current (for balanced AC loads): IL = √3 × Iph.",
+    "Line voltage equals phase voltage: VL = Vph.",
+    "Commonly used in delta-star transformers to eliminate third harmonic currents."
+  ],
+  "useCases": [
+    "High-power AC motors running at full speed",
+    "Transformer primary windings in electrical substations",
+    "Three-phase delta-connected transmission lines"
+  ]
+}
