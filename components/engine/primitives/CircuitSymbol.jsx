@@ -29,6 +29,7 @@ export default function CircuitSymbol({
   let symbol = null
   let shadowSymbol = null
   let labelElement = null
+  let labelOffset = 22 // Default vertical offset for horizontal components
 
   switch (symType) {
     // ─────────────────────────── DIODE ───────────────────────────
@@ -57,21 +58,7 @@ export default function CircuitSymbol({
           <line x1={15} y1={-12} x2={15} y2={12} stroke="black" strokeWidth={2} />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text
-          x={isRotated ? 26 : 0}
-          y={isRotated ? 4 : 24}
-          transform={`rotate(${-rotation})`}
-          textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize}
-          fontWeight="600"
-          fill={borderColor}
-          fontFamily="Poppins, Inter, sans-serif"
-        >
-          {label}
-        </text>
-      )
+      labelOffset = 24
       break
     }
 
@@ -106,21 +93,7 @@ export default function CircuitSymbol({
           />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text
-          x={isRotated ? 26 : 0}
-          y={isRotated ? 4 : 22}
-          transform={`rotate(${-rotation})`}
-          textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize}
-          fontWeight="600"
-          fill={borderColor}
-          fontFamily="Poppins, Inter, sans-serif"
-        >
-          {label}
-        </text>
-      )
+      labelOffset = 22
       break
     }
 
@@ -139,23 +112,8 @@ export default function CircuitSymbol({
         </>
       )
       symbol = body
-      // No structural shadow needed for lines, use a light glow rect
       shadowSymbol = null
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text
-          x={isRotated ? 20 : 0}
-          y={isRotated ? 4 : 24}
-          transform={`rotate(${-rotation})`}
-          textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize}
-          fontWeight="600"
-          fill={borderColor}
-          fontFamily="Poppins, Inter, sans-serif"
-        >
-          {label}
-        </text>
-      )
+      labelOffset = 24
       break
     }
 
@@ -188,21 +146,7 @@ export default function CircuitSymbol({
           />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text
-          x={isRotated ? 22 : 0}
-          y={isRotated ? 4 : 20}
-          transform={`rotate(${-rotation})`}
-          textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize}
-          fontWeight="600"
-          fill={borderColor}
-          fontFamily="Poppins, Inter, sans-serif"
-        >
-          {label}
-        </text>
-      )
+      labelOffset = 20
       break
     }
 
@@ -244,8 +188,23 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
       labelElement = label && (
-        <text x={-28} y={4} transform={`rotate(${-rotation})`} textAnchor="end" fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+        <text
+          x={isRotated ? 0 : -28}
+          y={isRotated ? -26 : 4}
+          transform={`rotate(${-rotation})`}
+          textAnchor={isRotated ? "middle" : "end"}
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
           {label}
         </text>
       )
@@ -277,8 +236,23 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
       labelElement = label && (
-        <text x={-28} y={4} transform={`rotate(${-rotation})`} textAnchor="end" fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+        <text
+          x={isRotated ? 0 : -28}
+          y={isRotated ? -26 : 4}
+          transform={`rotate(${-rotation})`}
+          textAnchor={isRotated ? "middle" : "end"}
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
           {label}
         </text>
       )
@@ -305,8 +279,23 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
+      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
       labelElement = label && (
-        <text x={-28} y={4} transform={`rotate(${-rotation})`} textAnchor="end" fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+        <text
+          x={isRotated ? 0 : -28}
+          y={isRotated ? -26 : 4}
+          transform={`rotate(${-rotation})`}
+          textAnchor={isRotated ? "middle" : "end"}
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
           {label}
         </text>
       )
@@ -334,12 +323,7 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 26
       break
     }
 
@@ -364,12 +348,7 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 26
       break
     }
 
@@ -394,12 +373,7 @@ export default function CircuitSymbol({
           <circle cx={0} cy={0} r={18} fill="black" />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26} transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"} fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 26
       break
     }
 
@@ -437,7 +411,21 @@ export default function CircuitSymbol({
         </g>
       )
       labelElement = label && (
-        <text x={0} y={-44} transform={`rotate(${-rotation})`} textAnchor="middle" fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+        <text
+          x={0}
+          y={-44}
+          transform={`rotate(${-rotation})`}
+          textAnchor="middle"
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
           {label}
         </text>
       )
@@ -466,6 +454,11 @@ export default function CircuitSymbol({
           fontWeight="600"
           fill={borderColor}
           fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
         >
           {label}
         </text>
@@ -488,7 +481,21 @@ export default function CircuitSymbol({
       symbol = body
       shadowSymbol = null
       labelElement = label && (
-        <text x={0} y={-34} transform={`rotate(${-rotation})`} textAnchor="middle" fontSize={labelSize} fontWeight="700" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
+        <text
+          x={0}
+          y={-34}
+          transform={`rotate(${-rotation})`}
+          textAnchor="middle"
+          fontSize={labelSize}
+          fontWeight="700"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
           {label}
         </text>
       )
@@ -516,14 +523,7 @@ export default function CircuitSymbol({
           <polygon points="-15,-12 15,0 -15,12" fill="black" />
         </g>
       )
-      const isRotated = rotation === 90 || rotation === 270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26}
-          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 26
       break
     }
 
@@ -545,14 +545,7 @@ export default function CircuitSymbol({
       )
       symbol = body
       shadowSymbol = (<g transform="translate(1.5,1.5)" opacity={0.06}><polygon points="-15,-12 15,0 -15,12" fill="black"/></g>)
-      const isRotated = rotation === 90 || rotation === 270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 26}
-          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 26
       break
     }
 
@@ -576,19 +569,32 @@ export default function CircuitSymbol({
           <line x1={16} y1={28}  x2={20} y2={32}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
         </>
       )
-      symbol = body
       shadowSymbol = null
       labelElement = label && (
-        <text x={0} y={-36} textAnchor="middle" fontSize={labelSize} fontWeight="600"
-          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+        <text
+          x={0}
+          y={-36}
+          textAnchor="middle"
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
+          {label}
+        </text>
       )
-      // Pin labels
+      // Pin labels with white halo
       symbol = (
         <>
           {body}
-          <text x={-24} y={4}  textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">B</text>
-          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">C</text>
-          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">E</text>
+          <text x={-24} y={4}  textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>B</text>
+          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>C</text>
+          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>E</text>
         </>
       )
       break
@@ -596,7 +602,7 @@ export default function CircuitSymbol({
 
     // ─────────────────────────── BJT PNP ───────────────────────────
     case 'bjt-pnp': {
-      symbol = (
+      const body = (
         <>
           <line x1={-8} y1={-22} x2={-8} y2={22} stroke={borderColor} strokeWidth={3} strokeLinecap="round" />
           <line x1={-8} y1={-12} x2={16} y2={-28} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
@@ -606,15 +612,34 @@ export default function CircuitSymbol({
           <line x1={-20} y1={0} x2={-8} y2={0}   stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
           <line x1={16}  y1={-28} x2={20} y2={-32} stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
           <line x1={16}  y1={28}  x2={20} y2={32}  stroke={borderColor} strokeWidth={2} strokeLinecap="round" />
-          <text x={-24} y={4}   textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">B</text>
-          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">C</text>
-          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif">E</text>
         </>
       )
       shadowSymbol = null
       labelElement = label && (
-        <text x={0} y={-36} textAnchor="middle" fontSize={labelSize} fontWeight="600"
-          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+        <text
+          x={0}
+          y={-36}
+          textAnchor="middle"
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
+          {label}
+        </text>
+      )
+      symbol = (
+        <>
+          {body}
+          <text x={-24} y={4}   textAnchor="end"   fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>B</text>
+          <text x={24}  y={-28} textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>C</text>
+          <text x={24}  y={32}  textAnchor="start" fontSize={8} fill="#64748B" fontFamily="Poppins, Inter, sans-serif" stroke="#FAFBFC" strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" style={{ paintOrder: 'stroke fill' }}>E</text>
+        </>
       )
       break
     }
@@ -653,8 +678,23 @@ export default function CircuitSymbol({
       )
       shadowSymbol = null
       labelElement = label && (
-        <text x={0} y={48} transform={`rotate(${-rotation})`} textAnchor="middle" fontSize={labelSize} fontWeight="600"
-          fill={borderColor} fontFamily="Poppins, Inter, sans-serif">{label}</text>
+        <text
+          x={0}
+          y={48}
+          transform={`rotate(${-rotation})`}
+          textAnchor="middle"
+          fontSize={labelSize}
+          fontWeight="600"
+          fill={borderColor}
+          fontFamily="Poppins, Inter, sans-serif"
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
+        >
+          {label}
+        </text>
       )
       break
     }
@@ -671,14 +711,7 @@ export default function CircuitSymbol({
         </>
       )
       shadowSymbol = null
-      const isRotated = rotation === 90 || rotation === 270
-      labelElement = label && (
-        <text x={isRotated ? 26 : 0} y={isRotated ? 4 : 18}
-          transform={`rotate(${-rotation})`} textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize} fontWeight="600" fill={borderColor} fontFamily="Poppins, Inter, sans-serif">
-          {label}
-        </text>
-      )
+      labelOffset = 18
       break
     }
 
@@ -688,24 +721,34 @@ export default function CircuitSymbol({
         <rect x={-20} y={-10} width={40} height={20} fill={fill} stroke={borderColor} strokeWidth={2} rx={3} />
       )
       shadowSymbol = null
-      const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
-      labelElement = label && (
-        <text
-          x={isRotated ? 26 : 0}
-          y={isRotated ? 4 : 20}
-          transform={`rotate(${-rotation})`}
-          textAnchor={isRotated ? "start" : "middle"}
-          fontSize={labelSize}
-          fontWeight="600"
-          fill={borderColor}
-          fontFamily="Poppins, Inter, sans-serif"
-        >
-          {label}
-        </text>
-      )
+      labelOffset = 20
+      break
     }
   }
 
+  const isRotated = rotation === 90 || rotation === 270 || rotation === -90 || rotation === -270
+
+  if (!labelElement && label && symType !== 'ground' && symType !== 'gnd-rail' && symType !== 'node-label') {
+    labelElement = (
+      <text
+        x={0}
+        y={isRotated ? -(labelOffset + 2) : labelOffset}
+        transform={`rotate(${-rotation})`}
+        textAnchor="middle"
+        fontSize={labelSize}
+        fontWeight="600"
+        fill={borderColor}
+        fontFamily="Poppins, Inter, sans-serif"
+        stroke="#FAFBFC"
+        strokeWidth={3}
+        strokeLinejoin="round"
+        strokeLinecap="round"
+        style={{ paintOrder: 'stroke fill' }}
+      >
+        {label}
+      </text>
+    )
+  }
 
   return (
     <g transform={`translate(${x}, ${y}) rotate(${rotation}) scale(1, ${mirrorY ? -1 : 1})`}>

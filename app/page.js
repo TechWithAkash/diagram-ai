@@ -18,7 +18,6 @@ import {
 import Button from '@/components/ui/Button'
 import Badge from '@/components/ui/Badge'
 import { Tabs } from '@/components/ui/Tabs'
-import SyllabusBrowser from '@/components/ui/SyllabusBrowser'
 
 // Dynamically import DiagramRenderer (uses browser APIs)
 const DiagramRenderer = dynamic(
@@ -714,15 +713,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── Syllabus Browser ─────────────────────────────────────────────────── */}
-        {status !== 'loading' && (
-          <SyllabusBrowser
-            onSelectDiagram={(title) => {
-              setPrompt(title)
-              handleGenerate(title)
-            }}
-          />
-        )}
       </main>
     </div>
   )

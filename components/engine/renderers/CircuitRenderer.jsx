@@ -109,6 +109,11 @@ export default function CircuitRenderer({ schema }) {
           fill={lbl.fill || '#334155'}
           fontFamily={lbl.fontFamily || 'Poppins, Inter, sans-serif'}
           fontStyle={lbl.fontStyle || 'normal'}
+          stroke="#FAFBFC"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          style={{ paintOrder: 'stroke fill' }}
         >
           {lbl.text}
         </text>
