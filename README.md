@@ -11,9 +11,9 @@
   <img src="https://img.shields.io/badge/Mermaid.js-10.9.0-FF69B4?style=for-the-badge&logo=mermaid" alt="Mermaid" />
 </p>
 
-An industry-grade, AI-powered technical diagram generator designed for engineering students, educators, and software professionals. Convert any text, architectural concept, or codebase outline into clean, professional diagrams accompanied by technical theories instantly.
+DiagramAI is a production-grade, AI-powered interactive diagram generator and numerical solver tailored for engineering students, educators, and software professionals. 
 
-Built with **Next.js 14**, **Groq AI (Llama 3.1/3.3)**, **OpenRouter (as an automatic fallback)**, and **Mermaid.js** / **SVGEngine** for client-side SVG rendering.
+It combines **static syllabus matching (89 pre-verified textbook diagrams)**, **real-time linear circuit mathematical solvers (MNA Matrix Solver)**, **interactive client-side sandboxing**, and **AI-driven layout generation** into a seamless, high-fidelity browser experience.
 
 🔗 **Live Deployment:** [diagram-ai-gamma.vercel.app](https://diagram-ai-gamma.vercel.app/)
 
@@ -25,98 +25,36 @@ https://github.com/user-attachments/assets/79ef7a57-297c-4fb4-98ea-5a7d0205e09c
 
 ---
 
-## 🌟 Key Features
+## 🚀 Key Highlights & Visual Polish
 
-- ⚡ **Ultra-Fast Generation:** Generates diagrams in under 2 seconds using Groq's high-speed inference engine.
-- 🎯 **Automated Diagram Typing:** The AI dynamically determines the best diagram type (Flowcharts, ERDs, Sequence Diagrams, State Diagrams, or Graphs) for your prompt.
-- 🎨 **Adaptive Color Theming:** DiagramRenderer parses output SVGs and injects tailor-made color palettes suited to the diagram subject.
-- 📖 **Comprehensive Educational Theory:** Each diagram is accompanied by a ~150-word synthesis, highlighting key points and real-world use cases.
-- 💾 **Session History:** Keeps track of your last 8 generations in memory so you can hop back and forth instantly.
-- 📦 **Export-Ready Output:** Copy raw Mermaid syntax or download production-ready SVGs with a single click.
-- 📚 **Static Syllabus Library:** Matches queries against 28 syllabus-aligned engineering diagrams compiled at build-time. Statically matches verified templates with 100% textbook accuracy.
-- 🛠️ **Custom SVGEngine:** A premium SVG rendering layer supporting custom types (logic gates, circuit schematics, block diagrams, tree layouts, etc.) with pixel-perfect coordinates.
-- 🔗 **Standalone Embed Mode:** Fullscreen embed support for integrating diagrams into external systems (e.g. `/?id=spiral-model&embed=true` is completely chrome-free).
+### 1. Zero-Hallucination Numerical Circuit Engine
+Rather than relying on LLMs to perform arithmetic or draw coordinates from scratch (which frequently leads to overlapping parts, wrong values, and floating pins), DiagramAI utilizes a **deterministic hybrid solver pipeline**:
+* **Parameter Normalization:** Automatically resolves unit formats (e.g. `uF`, `μF`, `mH`, `k ohm` to float values) in [parameterResolver.js](file:///Users/akashvishwakarma/Downloads/diagramai/lib/parameterResolver.js).
+* **Modified Nodal Analysis (MNA) Matrix Solver:** Solves impedances, phasor angles, branch currents, node voltages, and power factors locally in [deterministicSolver.js](file:///Users/akashvishwakarma/Downloads/diagramai/lib/deterministicSolver.js) using Gaussian elimination.
+* **Programmatic Grid Builders:** Automatically lays out circuits horizontally or vertically using a dynamic orthogonal netlist compiler in [programmaticSchematicBuilder.js](file:///Users/akashvishwakarma/Downloads/diagramai/lib/programmaticSchematicBuilder.js).
 
----
+### 2. Premium SVG Typography & Layout (No Messy Overlaps)
+We implemented strict visual quality controls to make diagrams publication-ready:
+* **White Text Halos:** All free labels, calculated overlays, and component pins marker characters are wrapped in a 3px white outline (`stroke="#FAFBFC" style={{ paintOrder: "stroke fill" }}`). Wires and lines pass cleanly behind the text, preventing intersections.
+* **Perpendicular Label Offsets:** Vertical components center their labels horizontally to the side `x = 0, y = -(labelOffset + 2)`, while horizontal components place theirs below or above the body, completely eliminating overlaps with terminal lead wires.
 
-## 📚 Mumbai University Syllabus Diagram Catalog
+### 3. Interactive Client Sandbox
+If a diagram has warning flags, students can launch the **Interactive Sandbox Editor**. Students can:
+* Drag and drop components to rewrites or adjust coordinate spacing.
+* Edit component parameters (such as resistance, capacitance, and source voltages) in the sidebar.
+* Recompute and visualize node voltages and branch currents in real-time.
 
-To support the Mumbai University engineering curriculum with 100% textbook-accurate diagrams, DiagramAI includes a compiled index of syllabus-aligned diagrams. These are matched instantly using [Fuse.js](https://fusejs.io) based on aliases, course keywords, and textbook names.
-
-The following **28 pre-verified diagrams** are loaded statically from the [lib/catalog/](file:///Users/akashvishwakarma/Downloads/diagramai/lib/catalog) database:
-
-### 🎒 First Year Engineering (FE)
-*   **Semester I:**
-    *   **Basic Electrical Engineering (BEE):**
-        *   [Superposition Theorem Verification Circuit](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/superposition-theorem-circuit.json) (`superposition-theorem-circuit`)
-        *   [Thevenin's Equivalent Circuit](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/thevenins-theorem-circuit.json) (`thevenins-theorem-circuit`)
-        *   [Transformer Equivalent Circuit Model](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/transformer-equivalent-circuit.json) (`transformer-equivalent-circuit`)
-    *   **Engineering Mechanics (EM):**
-        *   [Cantilever Truss Force Resolution](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/truss-cantilever-forces.json) (`truss-cantilever-forces`)
-*   **Semester II:**
-    *   **Engineering Physics-II:**
-        *   [Total Internal Reflection in Optical Fiber](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/optical-fiber-tir.json) (`optical-fiber-tir`)
-    *   **Engineering Chemistry-II:**
-        *   [Zeolite Water Softening Process](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/compiler/zeolite-process-flow.json) (`zeolite-process-flow`)
-
-### 💻 Computer Engineering (CMPN)
-*   **Semester III:**
-    *   **Data Structures (DS):**
-        *   [Binary Search Tree (BST) Structure](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/algorithms/binary-search-tree.json) (`binary-search-tree`)
-    *   **Discrete Structures & Graph Theory (DSGT):**
-        *   Hasse Diagram of Poset (`hasse-diagram-poset` - Stub)
-*   **Semester IV:**
-    *   **Database Management Systems (DBMS):**
-        *   [Three-Schema Database Architecture](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/dbms/three-schema.json) (`three-schema`)
-    *   **Operating Systems (OS):**
-        *   [Process Life Cycle (5-State Model)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/os/process-life-cycle.json) (`process-life-cycle`)
-*   **Semester V:**
-    *   **Computer Networks (CN):**
-        *   [OSI Reference Model (7 Layers)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/osi-model.json) (`osi-model`)
-        *   [TCP/IP Model — 4 Layers](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/tcp-ip-model.json) (`tcp-ip-model`)
-        *   [TCP 3-Way Handshake Connection Establishment](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/tcp-handshake.json) (`tcp-handshake`)
-        *   [DNS Resolution Process](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/dns-resolution.json) (`dns-resolution`)
-        *   [ARP Protocol — Address Resolution Process](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/arp-protocol.json) (`arp-protocol`)
-        *   [CSMA/CD Flow Chart](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/csma-cd-protocol.json) (`csma-cd-protocol`)
-        *   [Ethernet Frame Structure (IEEE 802.3)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/networks/ethernet-frame.json) (`ethernet-frame`)
-    *   **Software Engineering (SE):**
-        *   [DFD Level 0 & Level 1 — Library Management System](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/se/dfd-library-l0-l1.json) (`dfd-library-l0-l1`)
-*   **Semester VI:**
-    *   **System Programming & Compiler Construction (SPCC):**
-        *   [Phases of a Compiler](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/compiler/compiler-phases.json) (`compiler-phases`) - *Features a textbook-accurate vertical phases stack flanked by Symbol Table and Error Handler.*
-
-### ⚡ Electrical Engineering (EE)
-*   **Semester III:**
-    *   **Electrical Network Analysis (ENA):**
-        *   [Two-Port Network Parameter Representation (Z-Parameters)](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/twoport-network-z.json) (`twoport-network-z`)
-*   **Semester IV:**
-    *   **Electrical Machines-I:**
-        *   [DC Shunt Motor Equivalent Circuit](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/dc-shunt-motor.json) (`dc-shunt-motor`)
-*   **Semester V:**
-    *   **Control Systems (CS):**
-        *   [Closed-Loop Feedback Control System](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/closed-loop-control.json) (`closed-loop-control`)
-
-### 📡 Electronics & EXTC
-*   **Semester III:**
-    *   **Digital System Design (DSD):**
-        *   [Half Adder Logic Gate Implementation](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/half-adder-gates.json) (`half-adder-gates`)
-        *   [Full Adder Logic Gate Implementation](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/full-adder-gates.json) (`full-adder-gates`)
-*   **Semester IV:**
-    *   **Linear Integrated Circuits (LIC):**
-        *   [Op-Amp Inverting Amplifier Circuit](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/opamp-inverting.json) (`opamp-inverting`)
-        *   [Op-Amp Non-Inverting Amplifier Circuit](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/opamp-noninverting.json) (`opamp-noninverting`)
-*   **Semester V:**
-    *   **Digital Signal Processing (DSP):**
-        *   [Decimation-in-Time (DIT) FFT Butterfly Diagram](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/electronics/fft-butterfly-dit.json) (`fft-butterfly-dit`)
-
-### ⚙️ Mechanical Engineering (MECH)
-*   **Semester III:**
-    *   **Thermodynamics:**
-        *   [Carnot Cycle P-V Indicator Diagram](file:///Users/akashvishwakarma/Downloads/diagramai/lib/diagrams/compiler/carnot-cycle.json) (`carnot-cycle`)
+### 4. 4-Tier Defense Pipeline & Topological Linter
+1. **Local Classifier Match:** Detects if the prompt matches high-frequency syllabus templates (e.g. star-delta, superposition, Norton, Thevenin).
+2. **Syllabus Overrides:** Deterministically fixes common classifier drifts (e.g., star to delta conversion prompts).
+3. **Topological Linter:** Verifies that active circuits (Op-Amps, BJTs) have Ground references, Vcc power rails, no Vcc-to-Ground short circuits, and no floating pins.
+4. **Mermaid Fallback:** Bypasses coordinate layouts and degrades gracefully to a topological graph if AI layouts fail validation.
 
 ---
 
-## ⚙️ Architecture & Data Flow
+## ⚙️ System Architecture & Data Flow
+
+The following sequence illustrates how a user prompt is classified, resolved, solved mathematically, and compiled into a styled diagram:
 
 ```mermaid
 graph TD
@@ -124,80 +62,141 @@ graph TD
   UI --> Hook[useGenerateDiagram Hook]
   Hook --> API[POST /api/generate]
   
-  subgraph T1 ["Tier 1: Library Lookup"]
-    API --> Library{Static Index Match}
-    Library -- Confident Match --> ReturnLib[Serve Checked SVG/JSON]
-    Library -- Stub Match --> AI_Coord[Retrieve Syllabus Metadata + AI Layout]
+  subgraph T0 ["Tier 0: Local Classifier & Normalization"]
+    API --> Override[Sanity Override / Noise Stripper]
+    Override --> Classify{Local Regex Classifier}
   end
 
-  subgraph T2 ["Tier 2: Inference Layer (Fallback API)"]
-    Library -- Miss / Stub --> Groq{Primary Groq Llama}
-    Groq -- Success --> Parse[JSON Parser & Sanitizer]
-    Groq -- Fail --> OpenRouter[OpenRouter Llama 3.3 Fallback]
-    OpenRouter --> Parse
+  subgraph T1 ["Tier 1: Deterministic Math Solver"]
+    Classify -- matched_template --> Resolver[Parameter Resolver: Parse Units]
+    Resolver --> Solver[MNA Matrix & Phasor Solver]
+    Solver --> Overlay[Programmatic Grid Builder / Overlayer]
   end
 
-  ReturnLib --> Hook
-  AI_Coord --> Parse
-  Parse --> Hook
+  subgraph T2 ["Tier 2: AI Generation Fallback"]
+    Classify -- custom/complex --> LLM_Inference{Primary Groq Llama}
+    LLM_Inference -- Success --> Linter{Topological Linter}
+    LLM_Inference -- Fail / Rate Limit --> OpenRouter[OpenRouter Llama 3.3]
+    OpenRouter --> Linter
+    
+    Linter -- Fails twice --> MermaidGraph[Mermaid Flowchart Fallback]
+    Linter -- Passes --> Compile[Grid Schematic Compiler]
+  end
+
+  Overlay --> Hook
+  Compile --> Hook
+  MermaidGraph --> Hook
   Hook --> Renderer[DiagramRenderer Router]
   Renderer --> SVG[SVGEngine / Mermaid.js Render]
+  SVG --> Sandbox[Interactive Sandbox Editor]
 ```
-
-### Supported Layout Formats
-
-* **`circuit-schematic`** — Analog/electrical circuit schematics (resistors, capacitors, AC/DC sources, ground, op-amps).
-* **`logic-diagram`** — Digital logic gate implementations (AND, OR, XOR, MUX, Decoders, Flip-Flops).
-* **`block-diagram`** — CPU microarchitectures (8086, 8085, 8051), DBMS engines, GSM networks, feedback control systems.
-* **`sequential-flow`** — Waterfall SDLC model, V-model layouts, compiler phases.
-* **`state-machine`** — Process state transitions, finite automata.
-* **`sequence`** — Network protocols (TCP 3-way handshake, DNS resolutions, ARP).
-* **`graph` / `tree`** — Cooley-Tukey DIT FFT butterfly diagrams, Carnot cycle PV curves, BSTs.
 
 ---
 
-## 🚀 Cost Advantage at Scale
+## 📚 Mumbai University Syllabus Diagram Catalog
+To guarantee textbook accuracy, DiagramAI includes **89 pre-verified diagrams** mapped to departments and semesters based on syllabus requirements. Below are the core categories in [lib/catalog/](file:///Users/akashvishwakarma/Downloads/diagramai/lib/catalog):
 
-Traditional diagram generators rely on server-side image generation APIs (e.g., DALL-E) costing **$0.02 to $0.04 per request**. By outsourcing rendering to the client via **Mermaid.js** and using **Groq** text inference, DiagramAI is extremely cheap to scale.
+### 🎒 First Year Engineering (FE)
+* **Basic Electrical Engineering (BEE):**
+  * Superposition Theorem Circuit (`superposition-theorem-circuit`)
+  * Thevenin's Equivalent Circuit (`thevenins-theorem-circuit`)
+  * Norton's Equivalent Circuit (`norton-equivalent`)
+  * Balanced 3-Phase Star Connection (`star-connection`)
+  * Balanced 3-Phase Delta Connection (`delta-connection`)
+  * Transformer Equivalent Circuit Model (`transformer-equivalent-circuit`)
+  * Single Phase Transformer (`single-phase-transformer`)
+  * Series RLC AC Circuit (`ac-rlc-circuit`)
+  * Series RL Circuit (`series-rl-circuit`)
+  * DC & AC Circuit Solvers (`dc-circuit` / `ac-circuit`)
+* **Engineering Physics & Chemistry:**
+  * Total Internal Reflection in Optical Fiber (`optical-fiber-tir`)
+  * Zeolite Water Softening Process Flow (`zeolite-process-flow`)
 
-| Monthly Generations | Server-Side Image Cost | DiagramAI Cost (Groq Llama 3.1 8B) | Savings |
-| ------------------- | ---------------------- | ---------------------------------- | ------- |
-| **1,000**           | ~$30.00                | **~$0.10**                         | 99.6%   |
-| **10,000**          | ~$300.00               | **~$1.00**                         | 99.6%   |
-| **100,000**         | ~$3,000.00             | **~$10.00**                        | 99.6%   |
+### 💻 Computer Engineering (CMPN) & IT
+* **Data Structures & Algorithms (DS/DSA):**
+  * Binary Search Tree (BST) Structure (`binary-search-tree`)
+  * AVL Tree Structure (`avl-tree`)
+  * Heap Structure & Array Map (`heap-structure`)
+* **Database Management Systems (DBMS):**
+  * Three-Schema Database Architecture (`three-schema`)
+  * DBMS System Architecture (`dbms-architecture`)
+  * Transaction State Transition Diagram (`dbms-transaction-state`)
+  * B+ Tree Node Structure (`bplus-tree`)
+  * Entity-Relationship (ER) Notation Table (`er-notation-table`)
+* **Operating Systems (OS):**
+  * Process Life Cycle (5-State Model) (`process-life-cycle`)
+  * Process Life Cycle (7-State Model) (`process-7state-cycle`)
+  * Memory Hierarchy Diagram (`memory-hierarchy`)
+  * Paging Hardware Architecture (`paging-hardware`)
+  * Segmentation Hardware Architecture (`segmentation-hardware`)
+  * Translation Lookaside Buffer (TLB) Hardware (`tlb-hardware`)
+  * Deadlock Resource Allocation Graph (RAG) (`deadlock-rag`)
+* **Computer Networks (CN):**
+  * OSI Reference Model (7 Layers) (`osi-model`)
+  * TCP/IP Model (4 Layers) (`tcp-ip-model`)
+  * TCP 3-Way Handshake Connection (`tcp-handshake`)
+  * DNS Resolution Process (`dns-resolution`)
+  * ARP Address Resolution Protocol (`arp-protocol`)
+  * CSMA/CD Flow Chart (`csma-cd-protocol`)
+  * Ethernet Frame Structure (IEEE 802.3) (`ethernet-frame`)
+  * DHCP DORA Handshake (`dhcp-dora`)
+  * CSMA/CA Protocol Flow (`csma-ca-flowchart`)
+  * NAT Address Translation (`nat-translation`)
+  * SMTP Mail Transfer Flow (`smtp-flow`)
+  * HTTP Request-Response lifecycle (`http-request-response`)
+  * Routing Algorithms Comparison (`routing-algorithms`)
+* **Software Engineering (SE/SDLC) & Compilers:**
+  * Software Development Lifecycle Models (`waterfall-model`, `v-model`, `agile-scrum`, `spiral-model`, `prototype-model`)
+  * DFD Level 0 & Level 1 (Library, Hospital, Hotel Systems)
+  * UML Diagrams (ATM Sequence, ATM Use Case, Library Class, Shopping Class)
+  * Phases of a Compiler (`compiler-phases`)
+  * Parse Tree for Arithmetic (`parse-tree`)
+  * Finite Automata DFA (`dfa-automata`)
+
+### 📡 Electronics & Telecommunication (EXTC)
+* **Digital System Design (DSD) & Circuits:**
+  * Half Adder & Full Adder Logic Implementations
+  * 2-to-1 & 4-to-1 Multiplexers
+  * SR Latch, D Flip-Flop, JK Flip-Flop (Gate & Block levels)
+  * Flip-Flop Conversions (JK to D, D to JK)
+  * 4-bit SISO Shift Register (`shift-register`)
+  * 4-bit Ring Counter (`ring-counter`)
+  * Decimation-in-Frequency (DIF) FFT Butterfly (`fft-butterfly-dif`)
+  * Decimation-in-Time (DIT) FFT Butterfly (`fft-butterfly-dit`)
+  * Signal Flow Graph & Mason's Gain (`signal-flow-graph`)
+* **Linear Integrated Circuits (LIC):**
+  * Op-Amp Inverting / Non-Inverting Amplifiers
+  * Op-Amp Instrumentation Amplifier (`opamp-instrumentation`)
+  * Op-Amp Integrator & Differentiator Circuits
+  * Zener Voltage Regulator (`zener-voltage-regulator`)
+  * BJT Switch Circuit (`bjt-switch-circuit`)
 
 ---
 
 ## 🛠️ Getting Started
 
 ### Prerequisites
-
-- Node.js 18.x or later
-- npm or yarn
+* Node.js 18.x or later
+* npm or yarn
 
 ### 1. Clone the Repository
-
 ```bash
 git clone https://github.com/TechWithAkash/diagram-ai.git
 cd diagram-ai
 ```
 
 ### 2. Install Dependencies
-
 ```bash
 npm install
 ```
 
 ### 3. Setup Environment Variables
-
 Create a `.env.local` file in the root directory:
-
 ```bash
 cp .env.example .env.local
 ```
 
 Populate the following variables inside `.env.local`:
-
 ```env
 # Groq Keys (Primary Engine)
 GROQ_API_KEY=your_groq_api_key_here
@@ -212,23 +211,17 @@ NEXT_PUBLIC_APP_NAME=DiagramAI
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-> [!NOTE]
-> You can acquire a free Groq API key from [Groq Console](https://console.groq.com) and an OpenRouter key from [OpenRouter Console](https://openrouter.ai).
+*Acquire a free Groq API key from the [Groq Console](https://console.groq.com) and an OpenRouter key from the [OpenRouter Console](https://openrouter.ai).*
 
 ### 4. Run Locally
-
-Start the development server:
-
+Start the Next.js development server:
 ```bash
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### 5. Production Build
-
-To create an optimized production build (which automatically compiles the background diagram catalog):
-
+To build and optimize Next.js (which compiles the background diagram catalog):
 ```bash
 npm run build
 npm run start
@@ -237,57 +230,48 @@ npm run start
 ---
 
 ## 📁 Repository Structure
-
 ```
 diagram-ai/
 ├── app/
 │   ├── api/
-│   │   └── generate/
-│   │       └── route.js        # Groq API controller + retry fallback
-│   ├── globals.css             # Scrollbar overrides, Next fonts & styling
-│   ├── layout.js               # Page wrapper with Poppins fonts & head meta
-│   └── page.js                 # Dashboard layout & state orchestrator (supports embeds)
+│   │   ├── generate/
+│   │   │   └── route.js        # Groq controller, MNA solver integration, linter correction loop
+│   │   └── verify-request/     # Vercel-compatible file writes buffer
+│   ├── globals.css             # Core styling, fonts & scrollbars
+│   ├── layout.js               # Page wrapper with Poppins fonts
+│   └── page.js                 # Dashboard & layout orchestrator (with standalone embed handler)
 ├── components/
 │   ├── diagram/
-│   │   └── DiagramRenderer.js  # Routing switcher (SVGEngine vs Mermaid)
-│   ├── engine/
-│   │   ├── SVGEngine.jsx       # Custom SVG wrapper & master layout router
-│   │   ├── primitives/         # SVG components (Block, Arrow, CircuitSymbol, BusLine)
-│   │   └── renderers/          # Specific SVGEngine layouts (Circuit, Logic, Graph, Table)
-│   └── ui/
-│       ├── Badge.js            # Status tags & labels
-│       ├── Button.js           # Reusable click target with state loaders
-│       └── Tabs.js             # Client tab selector
+│   │   ├── CircuitSandbox.jsx  # Interactive client-side circuit editor
+│   │   └── DiagramRenderer.js  # SVGEngine vs Mermaid routing switcher & error boundary
+│   └── engine/
+│       ├── SVGEngine.jsx       # Custom SVG wrapper & master layout router
+│       ├── primitives/         # SVG components (Block, Arrow, CircuitSymbol, BusLine)
+│       └── renderers/          # Specific layout drawing (CircuitRenderer, LogicGate, Graph, Table)
 ├── lib/
-│   ├── catalog/                # Folder-structured syllabus database (CMPN, EE, FE, ME)
-│   ├── diagrams/               # 65+ custom statically registered coordinate JSONs
+│   ├── catalog/                # Syllabus database files categorized by department & semester
+│   ├── diagrams/               # 89 verified syllabus diagram JSON schemas
+│   ├── deterministicSolver.js  # MNA matrix solver & phasor calculations
 │   ├── diagramLibrary.js       # Fuse.js library search index & matching engine
-│   ├── useGenerateDiagram.js   # Diagram generation fetching hook
-│   ├── useHistory.js           # In-memory history cache
-│   └── utils.js                # SVG export handlers, copy helpers, config
-├── scripts/
-│   └── compile-catalog.js      # Compiles lib/catalog into compiled-index.json at build-time
-├── public/                     # Static assets
-├── tailwind.config.js          # Design system, themes & animations
-├── package.json                # Project dependencies
-└── README.md                   # Developer documentation
+│   ├── gridSchematicCompiler.js# Compiles symbolic grid schematic to SVG coordinates & runs linter
+│   ├── parameterResolver.js    # Normalizes units & extracts parameters from user prompts
+│   ├── programmaticSchematicBuilder.js # Builds custom series, parallel, bridge, BJT, op-amp grids
+│   └── utils.js                # SVG export handlers & copy helpers
+└── scripts/
+    └── compile-catalog.js      # Catalog compiler generating compiled-index.json at build-time
 ```
 
 ---
 
 ## 🔒 License
-
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
 ## 🤝 Contributing & Contact
-
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/TechWithAkash/diagram-ai/issues).
 
-- **GitHub Repository:** [TechWithAkash/diagram-ai](https://github.com/TechWithAkash/diagram-ai)
-- **Author:** [Akash Vishwakarma](https://github.com/TechWithAkash)
-
----
+* **GitHub Repository:** [TechWithAkash/diagram-ai](https://github.com/TechWithAkash/diagram-ai)
+* **Author:** [Akash Vishwakarma](https://github.com/TechWithAkash)
 
 <p align="center">Made with ❤️ for engineering developers and students</p>
